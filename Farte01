@@ -12,6 +12,8 @@ _G.AutoSteal = false
 _G.AutoCollect = false 
 _G.AutoTrain = false 
 _G.GodMode = false 
+_G.Hitbox = false 
+_G.HitboxSize = 40 -- ✨ แก้ขนาดตรงนี้ครับ (ปรับใหญ่ขึ้นเป็น 40)
 _G.SavedPos = nil
 _G.StealRange = 100 
 _G.SelectedBlocks = {
@@ -38,7 +40,8 @@ toggleBtn.Text = "FZ"; toggleBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0); t
 toggleBtn.Draggable = true; Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
 
 local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0, 250, 0, 460); main.Position = UDim2.new(0.5, -125, 0.3, 0)
+main.Size = UDim2.new(0, 250, 0, 500); 
+main.Position = UDim2.new(0.5, -125, 0.3, 0)
 main.BackgroundColor3 = Color3.fromRGB(20, 20, 20); main.Visible = false; main.Active = true; main.Draggable = true
 Instance.new("UICorner", main)
 
@@ -59,9 +62,10 @@ local btnSteal = createBtn("STEAL", UDim2.new(0.5, 5, 0, 45), 0.5)
 local btnCollect = createBtn("COLLECT", UDim2.new(0, 5, 0, 90), 0.5)
 local btnTrain = createBtn("TRAIN", UDim2.new(0.5, 5, 0, 90), 0.5)
 local btnGod = createBtn("GOD MODE (NO DMG/FLING)", UDim2.new(0, 5, 0, 135), 1)
+local btnHitbox = createBtn("HITBOX (PLAYER)", UDim2.new(0, 5, 0, 180), 1)
 
 local scroll = Instance.new("ScrollingFrame", main)
-scroll.Size = UDim2.new(1, -20, 1, -190); scroll.Position = UDim2.new(0, 10, 0, 185)
+scroll.Size = UDim2.new(1, -20, 1, -235); scroll.Position = UDim2.new(0, 10, 0, 230) 
 scroll.CanvasSize = UDim2.new(0, 0, 0, 600); scroll.BackgroundTransparency = 1; scroll.ScrollBarThickness = 5
 Instance.new("UIListLayout", scroll).Padding = UDim.new(0, 5)
 
@@ -84,6 +88,39 @@ btnSteal.MouseButton1Click:Connect(function() _G.AutoSteal = not _G.AutoSteal; b
 btnCollect.MouseButton1Click:Connect(function() _G.AutoCollect = not _G.AutoCollect; btnCollect.BackgroundColor3 = _G.AutoCollect and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
 btnTrain.MouseButton1Click:Connect(function() _G.AutoTrain = not _G.AutoTrain; btnTrain.BackgroundColor3 = _G.AutoTrain and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
 btnGod.MouseButton1Click:Connect(function() _G.GodMode = not _G.GodMode; btnGod.BackgroundColor3 = _G.GodMode and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
+
+btnHitbox.MouseButton1Click:Connect(function() 
+    _G.Hitbox = not _G.Hitbox
+    btnHitbox.BackgroundColor3 = _G.Hitbox and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
+    if not _G.Hitbox then
+        for _, v in pairs(game.Players:GetPlayers()) do
+            if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                v.Character.HumanoidRootPart.Size = Vector3.new(2, 2, 1)
+                v.Character.HumanoidRootPart.Transparency = 1
+            end
+        end
+    end
+end)
+
+-- [[ LOOP: HITBOX ]] --
+task.spawn(function()
+    while task.wait(0.5) do
+        if _G.Hitbox then
+            pcall(function()
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                        local hrp = v.Character.HumanoidRootPart
+                        hrp.Size = Vector3.new(_G.HitboxSize, _G.HitboxSize, _G.HitboxSize)
+                        hrp.Transparency = 0.8
+                        hrp.BrickColor = BrickColor.new("Bright red")
+                        hrp.Material = Enum.Material.Neon
+                        hrp.CanCollide = false
+                    end
+                end
+            end)
+        end
+    end
+end)
 
 -- [[ LOOP: STEAL & COLLECT (Combined & Optimized) ]] --
 task.spawn(function()
