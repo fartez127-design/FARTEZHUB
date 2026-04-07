@@ -18,6 +18,7 @@ _G.AutoSteal = false
 _G.StealEvent = false
 _G.AutoCollect = false 
 _G.AutoCollectCoin = false 
+_G.AutoUpgrade = false -- ✨ เพิ่มตัวแปรสำหรับ Auto Upgrade
 _G.AutoTrain = false 
 _G.GodMode = false 
 _G.Hitbox = false 
@@ -39,12 +40,12 @@ _G.SelectedBlocks = {
 -- รายชื่อบล็อกสำหรับปุ่ม Steal Event (Main Tab)
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter"}
 
--- บัญชีดำ (ป้องกันจุดวาร์ปเสียเงิน)
+-- บัญชีดำ (ป้องกันจุดวาร์ปเสียเงิน และป้องกันการไปเหยียบปุ่ม Upgrade)
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
     "only", "x2", "auto collect", "[op]", "cheap", "floor", "new",
     "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande",
-    "strawberry", "elephant", "sell", "easter spinner"
+    "strawberry", "elephant", "sell", "easter spinner", "upgrade" -- ✨ เพิ่ม "upgrade" ในแบล็คลิสต์
 }
 
 local Theme = {
@@ -145,6 +146,7 @@ for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
 CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
+CreateToggle(CollectTab, "AUTO UPGRADE", "AutoUpgrade", false) -- ✨ เพิ่มปุ่มเปิด/ปิด Auto Upgrade
 
 CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false, function(v)
     if not v then 
@@ -195,7 +197,7 @@ end)
 -- STEAL & COLLECT LOOPS
 task.spawn(function()
     while task.wait(0.1) do
-        if (_G.AutoSteal or _G.StealEvent or _G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+        if (_G.AutoSteal or _G.StealEvent or _G.AutoCollect or _G.AutoCollectCoin or _G.AutoUpgrade) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local char = plr.Character
                 local rootPos = char.HumanoidRootPart.Position
@@ -218,53 +220,54 @@ task.spawn(function()
                         end
                     end
                     
-                    -- 2. COLLECT MONEY & COINS
+                    -- COLLECT SYSTEM (Money, Coins, Upgrades)
                     if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
                         local part = v.Parent
                         if part and part:IsA("BasePart") then
                             
-                            -- ✨ ระบบเก็บเงิน (สแกนหา $ ที่แม่นยำขึ้น)
-                            if _G.AutoCollect then
-                                local hasMoney = false
-                                local isBlacklisted = false
+                            local hasMoney = false
+                            local hasUpgrade = false
+                            local isBlacklisted = false
+                            local hasText = false
 
-                                for _, desc in pairs(part:GetDescendants()) do
-                                    if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
-                                        local textLower = desc.Text:lower()
-                                        -- ถ้ามี $ หรือ + ให้ตั้งเป็น true ไว้ก่อน
-                                        if textLower:find("%$") or textLower:find("%+") then 
-                                            hasMoney = true 
-                                        end
-                                        -- ถ้าเจอคำต้องห้ามในป้าย ให้แบนจุดนี้ทันที
-                                        for _, b in pairs(Blacklist) do 
-                                            if textLower:find(b, 1, true) then 
-                                                isBlacklisted = true 
-                                                break 
-                                            end 
-                                        end
+                            for _, desc in pairs(part:GetDescendants()) do
+                                if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
+                                    hasText = true
+                                    local textLower = desc.Text:lower()
+                                    
+                                    -- ตรวจสอบหา $ และคำว่า [upgrade]
+                                    if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
+                                    if textLower:find("%[upgrade%]") or textLower:find("upgrade") then hasUpgrade = true end
+
+                                    -- ตรวจสอบ Blacklist
+                                    for _, b in pairs(Blacklist) do 
+                                        if textLower:find(b, 1, true) then 
+                                            isBlacklisted = true 
+                                            break 
+                                        end 
                                     end
-                                end
-
-                                -- ถ้ามีเงินและไม่ติดแบน ให้เก็บเลย
-                                if hasMoney and not isBlacklisted then 
-                                    firetouchinterest(char.HumanoidRootPart, part, 0)
-                                    firetouchinterest(char.HumanoidRootPart, part, 1) 
                                 end
                             end
 
-                            -- ระบบเก็บเหรียญสีชมพู (ไม่เกี่ยวข้องกัน)
-                            if _G.AutoCollectCoin then
-                                local hasText = false
-                                for _, desc in pairs(part:GetDescendants()) do
-                                    if desc:IsA("TextLabel") then hasText = true break end
-                                end
-                                if not hasText then
-                                    local pColor = part.Color
-                                    local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
-                                    if r > 150 and b > 150 and g < 200 then
-                                        firetouchinterest(char.HumanoidRootPart, part, 0)
-                                        firetouchinterest(char.HumanoidRootPart, part, 1)
-                                    end
+                            -- ✨ 2. COLLECT MONEY (ต้องไม่มีคำว่า Upgrade ปนอยู่ และไม่ติด Blacklist)
+                            if _G.AutoCollect and hasMoney and not hasUpgrade and not isBlacklisted then 
+                                firetouchinterest(char.HumanoidRootPart, part, 0)
+                                firetouchinterest(char.HumanoidRootPart, part, 1) 
+                            end
+
+                            -- ✨ 3. AUTO UPGRADE (ต้องมีคำว่า Upgrade ปรากฏอยู่บนป้าย)
+                            if _G.AutoUpgrade and hasUpgrade then
+                                firetouchinterest(char.HumanoidRootPart, part, 0)
+                                firetouchinterest(char.HumanoidRootPart, part, 1)
+                            end
+
+                            -- 4. COLLECT COINS (PINK) (จุดนั้นต้องไม่มีป้าย TextLabel ใดๆ)
+                            if _G.AutoCollectCoin and not hasText then
+                                local pColor = part.Color
+                                local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
+                                if r > 150 and b > 150 and g < 200 then
+                                    firetouchinterest(char.HumanoidRootPart, part, 0)
+                                    firetouchinterest(char.HumanoidRootPart, part, 1)
                                 end
                             end
 
