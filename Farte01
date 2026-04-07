@@ -13,7 +13,7 @@ if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then
     SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
 end
 
--- [[ SETTINGS (ดึงมาจากสคริปต์ที่คุณต้องการ) ]] --
+-- [[ SETTINGS ]] --
 _G.AutoTP = false
 _G.AutoSteal = false
 _G.AutoCollect = false 
@@ -69,7 +69,7 @@ btnStroke.Color = Color3.new(0, 0, 0)
 
 -- [ หน้าต่างหลัก ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 480)
+Main.Size = UDim2.new(0, 340, 0, 380)
 Main.Position = UDim2.new(0.5, -170, 0.5, -240)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
@@ -142,14 +142,25 @@ local function CreateTab(name)
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
 
     local Page = Instance.new("ScrollingFrame", Content)
+    Page.Name = name .. "Page"
     Page.Size = UDim2.new(1, 0, 1, 0)
     Page.BackgroundTransparency = 1
     Page.ScrollBarThickness = 2
     Page.ScrollBarImageColor3 = Theme.Accent
     Page.Visible = false
     Page.ZIndex = 11
-    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10)
-    Instance.new("UIPadding", Page).PaddingTop = UDim.new(0, 12)
+    
+    -- ✨ [วิธีที่ 1] ตั้งค่าให้ยืดความยาว Canvas อัตโนมัติตามจำนวนปุ่ม
+    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y 
+    Page.CanvasSize = UDim2.new(0, 0, 0, 0) 
+
+    local PL = Instance.new("UIListLayout", Page)
+    PL.Padding = UDim.new(0, 10)
+    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    
+    local PP = Instance.new("UIPadding", Page)
+    PP.PaddingTop = UDim.new(0, 12)
+    PP.PaddingBottom = UDim.new(0, 12)
 
     table.insert(Tabs, {Btn = Btn, Page = Page})
     Btn.MouseButton1Click:Connect(function()
@@ -226,9 +237,8 @@ BtnPlus.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.Hitbo
 
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
 
--- [[ 3. LOOPS & FUNCTIONS (ค่าที่คุณส่งมา 100%) ]] --
+-- [[ 3. LOOPS & FUNCTIONS ]] --
 
--- [[ LOOP: HITBOX ]] --
 task.spawn(function()
     while task.wait(0.5) do
         if _G.Hitbox then
@@ -237,10 +247,7 @@ task.spawn(function()
                     if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                         local hrp = v.Character.HumanoidRootPart
                         hrp.Size = Vector3.new(_G.HitboxSize, _G.HitboxSize, _G.HitboxSize)
-                        hrp.Transparency = 0.8
-                        hrp.BrickColor = BrickColor.new("Bright red")
-                        hrp.Material = Enum.Material.Neon
-                        hrp.CanCollide = false
+                        hrp.Transparency = 0.8; hrp.BrickColor = BrickColor.new("Bright red"); hrp.Material = Enum.Material.Neon; hrp.CanCollide = false
                     end
                 end
             end)
@@ -248,31 +255,23 @@ task.spawn(function()
     end
 end)
 
--- [[ LOOP: STEAL & COLLECT ]] --
 task.spawn(function()
     while task.wait(0.1) do
         pcall(function()
             local char = plr.Character
             if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-            local rootPos = char.HumanoidRootPart.Position
-
             for _, v in pairs(workspace:GetDescendants()) do
-                -- 1. STEAL LUCKY BLOCKS (Logic เดิมของคุณ)
                 if _G.AutoSteal and (v:IsA("ClickDetector") or v:IsA("ProximityPrompt")) then
                     local model = v:FindFirstAncestorOfClass("Model") or v.Parent
-                    if model then
-                        for name, sel in pairs(_G.SelectedBlocks) do
-                            if sel and model.Name:find(name) then
-                                local target = model:FindFirstChildWhichIsA("BasePart") or model
-                                if (rootPos - target.Position).Magnitude < _G.StealRange then
-                                    if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
-                                end
+                    for name, sel in pairs(_G.SelectedBlocks) do
+                        if sel and model.Name:find(name) then
+                            local t = model:FindFirstChildWhichIsA("BasePart") or model
+                            if (char.HumanoidRootPart.Position - t.Position).Magnitude < _G.StealRange then
+                                if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
                             end
                         end
                     end
                 end
-
-                -- 2. COLLECT MONEY PADS (Logic เดิมของคุณ)
                 if _G.AutoCollect and (v:IsA("TouchTransmitter") or v.Name == "TouchInterest") then
                     local part = v.Parent
                     if part and part:IsA("BasePart") then
@@ -291,17 +290,12 @@ task.spawn(function()
     end
 end)
 
--- [[ LOOP: TRAIN ]] --
 task.spawn(function()
     while task.wait(0.1) do
         if _G.AutoTrain and plr.Character then
             pcall(function()
                 local tool = plr.Character:FindFirstChildOfClass("Tool")
-                if not tool then
-                    for _, t in pairs(plr.Backpack:GetChildren()) do
-                        if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end
-                    end
-                end
+                if not tool then for _, t in pairs(plr.Backpack:GetChildren()) do if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end end end
                 if tool then
                     tool:Activate()
                     local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
@@ -312,7 +306,6 @@ task.spawn(function()
     end
 end)
 
--- [[ LOOP: GOD MODE (Logic เดิมของคุณ) ]] --
 RunService.Stepped:Connect(function()
     if _G.GodMode and plr.Character then
         pcall(function()
@@ -326,7 +319,6 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- [[ LOOP: AUTO TP (Logic เดิมของคุณ) ]] --
 task.spawn(function()
     while task.wait(0.5) do
         if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
