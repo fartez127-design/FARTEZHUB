@@ -1,19 +1,26 @@
--- [[ 1. SETUP & UI SAFE PARENT ]] --
-local SafeParent = pcall(function() return gethui() end) and gethui() or game.CoreGui
-if SafeParent:FindFirstChild("fartezxgemini_Select") then SafeParent.fartezxgemini_Select:Destroy() end
+ -- [[ 1. SETUP & CORE VARIABLES ]] --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 
-local plr = game.Players.LocalPlayer
-local vim = game:GetService("VirtualInputManager")
-local runService = game:GetService("RunService")
+local plr = Players.LocalPlayer
+local PlayerGui = plr:WaitForChild("PlayerGui")
+local SafeParent = (pcall(function() return gethui() end) and gethui()) or PlayerGui
 
--- [[ SETTINGS ]] --
+-- ลบ UI เก่าทิ้ง
+if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then 
+    SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
+end
+
+-- [[ SETTINGS (ดึงมาจากสคริปต์ที่คุณต้องการ) ]] --
 _G.AutoTP = false
 _G.AutoSteal = false
 _G.AutoCollect = false 
 _G.AutoTrain = false 
 _G.GodMode = false 
 _G.Hitbox = false 
-_G.HitboxSize = 40 -- ✨ แก้ขนาดตรงนี้ครับ (ปรับใหญ่ขึ้นเป็น 40)
+_G.HitboxSize = 40 
 _G.SavedPos = nil
 _G.StealRange = 100 
 _G.SelectedBlocks = {
@@ -22,7 +29,6 @@ _G.SelectedBlocks = {
     ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, ["67"] = false
 }
 
--- 🚫 บัญชีดำ (Block ทุกอย่างที่เสีย Robux/เงินซื้อโซน)
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
     "only", "x2", "auto collect", "[op]", "cheap", "easter", "floor", "new",
@@ -30,77 +36,197 @@ local Blacklist = {
     "strawberry", "elephant", "sell"
 }
 
--- [[ 2. UI DESIGN ]] --
-local gui = Instance.new("ScreenGui", SafeParent)
-gui.Name = "fartezxgemini_Select"
+local Theme = {
+    Background = Color3.fromRGB(5, 5, 8),
+    Surface = Color3.fromRGB(15, 15, 20),
+    SurfaceLight = Color3.fromRGB(25, 25, 35),
+    Accent = Color3.fromRGB(4, 203, 41), -- เขียว #04cb29
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDim = Color3.fromRGB(150, 150, 150)
+}
 
-local toggleBtn = Instance.new("TextButton", gui)
-toggleBtn.Size = UDim2.new(0, 50, 0, 50); toggleBtn.Position = UDim2.new(0, 20, 0, 150)
-toggleBtn.Text = "FZ"; toggleBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0); toggleBtn.TextColor3 = Color3.new(1, 1, 1)
-toggleBtn.Draggable = true; Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
+-- [[ 2. UI CREATION ]] --
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FARTEZ_LUCKY_HUB"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 9999
+ScreenGui.Parent = SafeParent
 
-local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0, 250, 0, 500); 
-main.Position = UDim2.new(0.5, -125, 0.3, 0)
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 20); main.Visible = false; main.Active = true; main.Draggable = true
-Instance.new("UICorner", main)
+-- [ ปุ่ม FZ เปิด/ปิด ]
+local toggleBtn = Instance.new("TextButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.Text = "FZ"
+toggleBtn.BackgroundColor3 = Theme.Accent
+toggleBtn.TextColor3 = Color3.new(1, 1, 1)
+toggleBtn.TextSize = 24
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.Draggable = true
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
+local btnStroke = Instance.new("UIStroke", toggleBtn)
+btnStroke.Thickness = 2
+btnStroke.Color = Color3.new(0, 0, 0)
 
-local title = Instance.new("TextLabel", main)
-title.Size = UDim2.new(1, 0, 0, 35); title.Text = "FARTEZ HUB (pull lucky blocks)"; title.BackgroundColor3 = Color3.fromRGB(80, 0, 0); title.TextColor3 = Color3.new(1, 1, 1)
-Instance.new("UICorner", title)
+-- [ หน้าต่างหลัก ]
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 340, 0, 480)
+Main.Position = UDim2.new(0.5, -170, 0.5, -240)
+Main.BackgroundColor3 = Theme.Background
+Main.BorderSizePixel = 0
+Main.ClipsDescendants = true
+Main.Active = true
+Main.Draggable = true
+Main.ZIndex = 5
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
-local function createBtn(text, pos, sizeX)
-    local btn = Instance.new("TextButton", main)
-    btn.Size = UDim2.new(sizeX, -10, 0, 40); btn.Position = pos
-    btn.Text = text; btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60); btn.TextColor3 = Color3.new(1, 1, 1); btn.TextScaled = true
-    Instance.new("UICorner", btn)
-    return btn
-end
+-- [ หัวตาราง ]
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 50)
+TopBar.BackgroundColor3 = Theme.Surface
+TopBar.ZIndex = 10
 
-local btnTP = createBtn("AUTO TP", UDim2.new(0, 5, 0, 45), 0.5)
-local btnSteal = createBtn("STEAL", UDim2.new(0.5, 5, 0, 45), 0.5)
-local btnCollect = createBtn("COLLECT", UDim2.new(0, 5, 0, 90), 0.5)
-local btnTrain = createBtn("TRAIN", UDim2.new(0.5, 5, 0, 90), 0.5)
-local btnGod = createBtn("GOD MODE (NO DMG/FLING)", UDim2.new(0, 5, 0, 135), 1)
-local btnHitbox = createBtn("HITBOX (PLAYER)", UDim2.new(0, 5, 0, 180), 1)
+local Title = Instance.new("TextLabel", TopBar) 
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 15, 0, 5) 
+Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB" 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 18 
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left 
+Title.ZIndex = 11 
 
-local scroll = Instance.new("ScrollingFrame", main)
-scroll.Size = UDim2.new(1, -20, 1, -235); scroll.Position = UDim2.new(0, 10, 0, 230) 
-scroll.CanvasSize = UDim2.new(0, 0, 0, 600); scroll.BackgroundTransparency = 1; scroll.ScrollBarThickness = 5
-Instance.new("UIListLayout", scroll).Padding = UDim.new(0, 5)
+local Subtitle = Instance.new("TextLabel", TopBar) 
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 15, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Pull a Lucky Block" 
+Subtitle.TextColor3 = Theme.Accent
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
+Subtitle.ZIndex = 11 
 
-for _, blockName in pairs({"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67"}) do
-    local bBtn = Instance.new("TextButton", scroll)
-    bBtn.Size = UDim2.new(1, -10, 0, 35); bBtn.Text = blockName
-    bBtn.BackgroundColor3 = _G.SelectedBlocks[blockName] and Color3.fromRGB(0, 120, 0) or Color3.fromRGB(40, 40, 40)
-    bBtn.TextColor3 = Color3.new(1, 1, 1)
-    Instance.new("UICorner", bBtn)
-    bBtn.MouseButton1Click:Connect(function()
-        _G.SelectedBlocks[blockName] = not _G.SelectedBlocks[blockName]
-        bBtn.BackgroundColor3 = _G.SelectedBlocks[blockName] and Color3.fromRGB(0, 120, 0) or Color3.fromRGB(40, 40, 40)
+-- [ Tabs Container ]
+local TabContainer = Instance.new("Frame", Main)
+TabContainer.Size = UDim2.new(1, -16, 0, 36)
+TabContainer.Position = UDim2.new(0, 8, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+TabContainer.ZIndex = 10
+Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
+
+local TabLayout = Instance.new("UIListLayout", TabContainer)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+TabLayout.Padding = UDim.new(0, 4) 
+
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -16, 1, -110)
+Content.Position = UDim2.new(0, 8, 0, 98)
+Content.BackgroundColor3 = Theme.Surface
+Content.ClipsDescendants = true
+Content.ZIndex = 10
+Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
+
+local Tabs = {}
+local function CreateTab(name)
+    local Btn = Instance.new("TextButton", TabContainer)
+    Btn.Size = UDim2.new(0, 75, 0, 28) 
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = name
+    Btn.TextColor3 = Theme.TextDim
+    Btn.TextSize = 10 
+    Btn.Font = Enum.Font.GothamBold
+    Btn.ZIndex = 11
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+
+    local Page = Instance.new("ScrollingFrame", Content)
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Theme.Accent
+    Page.Visible = false
+    Page.ZIndex = 11
+    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10)
+    Instance.new("UIPadding", Page).PaddingTop = UDim.new(0, 12)
+
+    table.insert(Tabs, {Btn = Btn, Page = Page})
+    Btn.MouseButton1Click:Connect(function()
+        for _, t in pairs(Tabs) do t.Page.Visible = false; TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play() end
+        Page.Visible = true; TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
     end)
+    return Page
 end
 
--- [[ 3. LOGIC CONTROLS ]] --
-toggleBtn.MouseButton1Click:Connect(function() main.Visible = not main.Visible end)
-btnTP.MouseButton1Click:Connect(function() _G.AutoTP = not _G.AutoTP; btnTP.BackgroundColor3 = _G.AutoTP and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60); if _G.AutoTP then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end end)
-btnSteal.MouseButton1Click:Connect(function() _G.AutoSteal = not _G.AutoSteal; btnSteal.BackgroundColor3 = _G.AutoSteal and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
-btnCollect.MouseButton1Click:Connect(function() _G.AutoCollect = not _G.AutoCollect; btnCollect.BackgroundColor3 = _G.AutoCollect and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
-btnTrain.MouseButton1Click:Connect(function() _G.AutoTrain = not _G.AutoTrain; btnTrain.BackgroundColor3 = _G.AutoTrain and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
-btnGod.MouseButton1Click:Connect(function() _G.GodMode = not _G.GodMode; btnGod.BackgroundColor3 = _G.GodMode and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60) end)
+local MainTab = CreateTab("Main")
+local LuckyTab = CreateTab("Lucky Blocks")
+local CollectTab = CreateTab("Collect")
+local CombatTab = CreateTab("Combat")
 
-btnHitbox.MouseButton1Click:Connect(function() 
-    _G.Hitbox = not _G.Hitbox
-    btnHitbox.BackgroundColor3 = _G.Hitbox and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
-    if not _G.Hitbox then
-        for _, v in pairs(game.Players:GetPlayers()) do
-            if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-                v.Character.HumanoidRootPart.Size = Vector3.new(2, 2, 1)
-                v.Character.HumanoidRootPart.Transparency = 1
-            end
-        end
-    end
-end)
+Tabs[1].Page.Visible = true
+Tabs[1].Btn.BackgroundColor3 = Theme.Accent
+Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+
+-- [ Toggle Function ]
+local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
+    local Btn = Instance.new("TextButton", parent)
+    Btn.Size = UDim2.new(0, 300, 0, 45)
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = "  " .. text
+    Btn.TextXAlignment = Enum.TextXAlignment.Left
+    Btn.TextColor3 = Theme.Text
+    Btn.TextSize = 12
+    Btn.Font = Enum.Font.GothamBold
+    Btn.ZIndex = 12
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
+
+    local Status = Instance.new("Frame", Btn)
+    Status.Size = UDim2.new(0, 10, 0, 10)
+    Status.Position = UDim2.new(1, -20, 0.5, -5)
+    Status.BackgroundColor3 = Theme.TextDim
+    Status.ZIndex = 13
+    Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
+
+    Btn.MouseButton1Click:Connect(function()
+        local isActive
+        if isBlockFilter then _G.SelectedBlocks[stateVar] = not _G.SelectedBlocks[stateVar]; isActive = _G.SelectedBlocks[stateVar]
+        else _G[stateVar] = not _G[stateVar]; isActive = _G[stateVar] end
+        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.SurfaceLight}):Play()
+        TweenService:Create(Btn, TweenInfo.new(0.2), {TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text}):Play()
+        TweenService:Create(Status, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim}):Play()
+        if callback then callback(isActive) end
+    end)
+    return Btn
+end
+
+-- [[ TABS CONTENT ]] --
+CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end end)
+CreateToggle(MainTab, "STEAL", "AutoSteal", false)
+CreateToggle(MainTab, "TRAIN", "AutoTrain", false)
+CreateToggle(MainTab, "GOD MODE", "GodMode", false)
+
+for _, b in pairs({"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67"}) do
+    CreateToggle(LuckyTab, b, b, true)
+end
+
+CreateToggle(CollectTab, "COLLECT MONEY", "AutoCollect", false)
+
+CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false)
+
+-- Hitbox Size UI
+local HbFrame = Instance.new("Frame", CombatTab); HbFrame.Size = UDim2.new(0, 300, 0, 45); HbFrame.BackgroundColor3 = Theme.SurfaceLight; HbFrame.ZIndex = 12
+Instance.new("UICorner", HbFrame).CornerRadius = UDim.new(0, 8)
+local HbLabel = Instance.new("TextLabel", HbFrame); HbLabel.Size = UDim2.new(0.5, 0, 1, 0); HbLabel.Position = UDim2.new(0, 10, 0, 0); HbLabel.BackgroundTransparency = 1; HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize; HbLabel.TextColor3 = Theme.Text; HbLabel.Font = Enum.Font.GothamBold; HbLabel.TextXAlignment = Enum.TextXAlignment.Left; HbLabel.ZIndex = 13
+local BtnMinus = Instance.new("TextButton", HbFrame); BtnMinus.Size = UDim2.new(0, 35, 0, 30); BtnMinus.Position = UDim2.new(1, -90, 0.5, -15); BtnMinus.Text = "-"; BtnMinus.BackgroundColor3 = Theme.Background; BtnMinus.TextColor3 = Theme.Accent; BtnMinus.ZIndex = 13
+local BtnPlus = Instance.new("TextButton", HbFrame); BtnPlus.Size = UDim2.new(0, 35, 0, 30); BtnPlus.Position = UDim2.new(1, -45, 0.5, -15); BtnPlus.Text = "+"; BtnPlus.BackgroundColor3 = Theme.Background; BtnPlus.TextColor3 = Theme.Accent; BtnPlus.ZIndex = 13
+
+BtnMinus.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize - 5, 1, 100); HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize end)
+BtnPlus.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize + 5, 1, 100); HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize end)
+
+toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
+
+-- [[ 3. LOOPS & FUNCTIONS (ค่าที่คุณส่งมา 100%) ]] --
 
 -- [[ LOOP: HITBOX ]] --
 task.spawn(function()
@@ -122,7 +248,7 @@ task.spawn(function()
     end
 end)
 
--- [[ LOOP: STEAL & COLLECT (Combined & Optimized) ]] --
+-- [[ LOOP: STEAL & COLLECT ]] --
 task.spawn(function()
     while task.wait(0.1) do
         pcall(function()
@@ -131,7 +257,7 @@ task.spawn(function()
             local rootPos = char.HumanoidRootPart.Position
 
             for _, v in pairs(workspace:GetDescendants()) do
-                -- 1. STEAL LUCKY BLOCKS (Priority)
+                -- 1. STEAL LUCKY BLOCKS (Logic เดิมของคุณ)
                 if _G.AutoSteal and (v:IsA("ClickDetector") or v:IsA("ProximityPrompt")) then
                     local model = v:FindFirstAncestorOfClass("Model") or v.Parent
                     if model then
@@ -146,7 +272,7 @@ task.spawn(function()
                     end
                 end
 
-                -- 2. COLLECT MONEY PADS
+                -- 2. COLLECT MONEY PADS (Logic เดิมของคุณ)
                 if _G.AutoCollect and (v:IsA("TouchTransmitter") or v.Name == "TouchInterest") then
                     local part = v.Parent
                     if part and part:IsA("BasePart") then
@@ -165,7 +291,7 @@ task.spawn(function()
     end
 end)
 
--- [[ LOOP: TRAIN (Auto Equip & Use) ]] --
+-- [[ LOOP: TRAIN ]] --
 task.spawn(function()
     while task.wait(0.1) do
         if _G.AutoTrain and plr.Character then
@@ -179,15 +305,15 @@ task.spawn(function()
                 if tool then
                     tool:Activate()
                     local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
-                    vim:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 1); task.wait(0.01); vim:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 1)
+                    VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 1); task.wait(0.01); VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 1)
                 end
             end)
         end
     end
 end)
 
--- [[ LOOP: GOD MODE (Anti-Damage & Anti-Fling) ]] --
-runService.Stepped:Connect(function()
+-- [[ LOOP: GOD MODE (Logic เดิมของคุณ) ]] --
+RunService.Stepped:Connect(function()
     if _G.GodMode and plr.Character then
         pcall(function()
             local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
@@ -195,6 +321,32 @@ runService.Stepped:Connect(function()
                 for _, v in pairs(plr.Character:GetDescendants()) do if v:IsA("TouchTransmitter") then v:Destroy() end end
                 hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
                 hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+            end
+        end)
+    end
+end)
+
+-- [[ LOOP: AUTO TP (Logic เดิมของคุณ) ]] --
+task.spawn(function()
+    while task.wait(0.5) do
+        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("Model") then
+                        for name, sel in pairs(_G.SelectedBlocks) do
+                            if sel and v.Name:find(name) then
+                                local p = v:FindFirstChildWhichIsA("BasePart")
+                                if p then plr.Character.HumanoidRootPart.CFrame = p.CFrame * CFrame.new(0, 4, 0) return end
+                            end
+                        end
+                    end
+                end
+                if _G.SavedPos then plr.Character.HumanoidRootPart.CFrame = _G.SavedPos end
+            end)
+        end
+    end
+end)
+ hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
             end
         end)
     end
