@@ -8,7 +8,6 @@ local plr = Players.LocalPlayer
 local PlayerGui = plr:WaitForChild("PlayerGui")
 local SafeParent = (pcall(function() return gethui() end) and gethui()) or PlayerGui
 
--- ลบ UI เก่าทิ้ง
 if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then 
     SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
 end
@@ -16,24 +15,36 @@ end
 -- [[ SETTINGS ]] --
 _G.AutoTP = false
 _G.AutoSteal = false
+_G.StealEvent = false
 _G.AutoCollect = false 
+_G.AutoCollectCoin = false 
 _G.AutoTrain = false 
 _G.GodMode = false 
 _G.Hitbox = false 
 _G.HitboxSize = 40 
+_G.WalkSpeedToggle = false 
+_G.WalkSpeedValue = 16     
 _G.SavedPos = nil
 _G.StealRange = 100 
+
+-- รายชื่อบล็อกสำหรับระบบติ๊กเอง (Lucky Blocks Tab)
 _G.SelectedBlocks = {
     ["Common"] = false, ["Rare"] = false, ["Epic"] = false, ["Legendary"] = false, 
-    ["Mythic"] = false, ["Secret"] = false, ["Brainrot"] = false, ["Exclusive"] = false, 
-    ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, ["67"] = false
+    ["Mythic"] = false, ["Secret"] = false, ["Brainrot"] = false, ["Brainrot God"] = false,
+    ["Exclusive"] = false, ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, 
+    ["67"] = false, ["Rainbow"] = false, ["Toxic"] = false, ["Cosmic"] = false, ["Easter"] = false,
+    ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false
 }
 
+-- รายชื่อบล็อกสำหรับปุ่ม Steal Event (Main Tab)
+local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter"}
+
+-- บัญชีดำ (ป้องกันจุดวาร์ปเสียเงิน)
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
-    "only", "x2", "auto collect", "[op]", "cheap", "easter", "floor", "new",
+    "only", "x2", "auto collect", "[op]", "cheap", "floor", "new",
     "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande",
-    "strawberry", "elephant", "sell"
+    "strawberry", "elephant", "sell", "easter spinner"
 }
 
 local Theme = {
@@ -52,116 +63,42 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
--- [ ปุ่ม FZ เปิด/ปิด ]
 local toggleBtn = Instance.new("TextButton", ScreenGui)
-toggleBtn.Size = UDim2.new(0, 50, 0, 50)
-toggleBtn.Position = UDim2.new(0, 15, 0, 150)
-toggleBtn.Text = "FZ"
-toggleBtn.BackgroundColor3 = Theme.Accent
-toggleBtn.TextColor3 = Color3.new(1, 1, 1)
-toggleBtn.TextSize = 24
-toggleBtn.Font = Enum.Font.GothamBold
-toggleBtn.Draggable = true
+toggleBtn.Size = UDim2.new(0, 50, 0, 50); toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.Text = "FZ"; toggleBtn.BackgroundColor3 = Theme.Accent; toggleBtn.TextColor3 = Color3.new(1, 1, 1)
+toggleBtn.TextSize = 24; toggleBtn.Font = Enum.Font.GothamBold; toggleBtn.Draggable = true
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
-local btnStroke = Instance.new("UIStroke", toggleBtn)
-btnStroke.Thickness = 2
-btnStroke.Color = Color3.new(0, 0, 0)
+Instance.new("UIStroke", toggleBtn).Thickness = 2
 
--- [ หน้าต่างหลัก ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 380)
-Main.Position = UDim2.new(0.5, -170, 0.5, -240)
-Main.BackgroundColor3 = Theme.Background
-Main.BorderSizePixel = 0
-Main.ClipsDescendants = true
-Main.Active = true
-Main.Draggable = true
-Main.ZIndex = 5
+Main.Size = UDim2.new(0, 340, 0, 380); Main.Position = UDim2.new(0.5, -170, 0.5, -190)
+Main.BackgroundColor3 = Theme.Background; Main.ClipsDescendants = true; Main.Active = true; Main.Draggable = true; Main.ZIndex = 5
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
--- [ หัวตาราง ]
 local TopBar = Instance.new("Frame", Main)
-TopBar.Size = UDim2.new(1, 0, 0, 50)
-TopBar.BackgroundColor3 = Theme.Surface
-TopBar.ZIndex = 10
+TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
+local Title = Instance.new("TextLabel", TopBar)
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+local Subtitle = Instance.new("TextLabel", TopBar)
+Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 15, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
-local Title = Instance.new("TextLabel", TopBar) 
-Title.Size = UDim2.new(0, 160, 0, 22) 
-Title.Position = UDim2.new(0, 15, 0, 5) 
-Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB" 
-Title.TextColor3 = Theme.Text 
-Title.TextSize = 18 
-Title.Font = Enum.Font.GothamBold 
-Title.TextXAlignment = Enum.TextXAlignment.Left 
-Title.ZIndex = 11 
-
-local Subtitle = Instance.new("TextLabel", TopBar) 
-Subtitle.Size = UDim2.new(0, 160, 0, 16) 
-Subtitle.Position = UDim2.new(0, 15, 0, 26) 
-Subtitle.BackgroundTransparency = 1 
-Subtitle.Text = "Pull a Lucky Block" 
-Subtitle.TextColor3 = Theme.Accent
-Subtitle.TextSize = 10 
-Subtitle.Font = Enum.Font.GothamSemibold 
-Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
-Subtitle.ZIndex = 11 
-
--- [ Tabs Container ]
 local TabContainer = Instance.new("Frame", Main)
-TabContainer.Size = UDim2.new(1, -16, 0, 36)
-TabContainer.Position = UDim2.new(0, 8, 0, 56)
-TabContainer.BackgroundColor3 = Theme.Surface
-TabContainer.ZIndex = 10
-Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
-
-local TabLayout = Instance.new("UIListLayout", TabContainer)
-TabLayout.FillDirection = Enum.FillDirection.Horizontal
-TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-TabLayout.Padding = UDim.new(0, 4) 
+TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56); TabContainer.BackgroundColor3 = Theme.Surface; TabContainer.ZIndex = 10
+Instance.new("UICorner", TabContainer)
+local TabLayout = Instance.new("UIListLayout", TabContainer); TabLayout.FillDirection = 0; TabLayout.HorizontalAlignment = 1; TabLayout.VerticalAlignment = 1; TabLayout.Padding = UDim.new(0, 4)
 
 local Content = Instance.new("Frame", Main)
-Content.Size = UDim2.new(1, -16, 1, -110)
-Content.Position = UDim2.new(0, 8, 0, 98)
-Content.BackgroundColor3 = Theme.Surface
-Content.ClipsDescendants = true
-Content.ZIndex = 10
+Content.Size = UDim2.new(1, -16, 1, -110); Content.Position = UDim2.new(0, 8, 0, 98); Content.BackgroundColor3 = Theme.Surface; Content.ZIndex = 10
 Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 75, 0, 28) 
-    Btn.BackgroundColor3 = Theme.SurfaceLight
-    Btn.Text = name
-    Btn.TextColor3 = Theme.TextDim
-    Btn.TextSize = 10 
-    Btn.Font = Enum.Font.GothamBold
-    Btn.ZIndex = 11
+    Btn.Size = UDim2.new(0, 75, 0, 28); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = name; Btn.TextColor3 = Theme.TextDim; Btn.ZIndex = 11
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
-
     local Page = Instance.new("ScrollingFrame", Content)
-    Page.Name = name .. "Page"
-    Page.Size = UDim2.new(1, 0, 1, 0)
-    Page.BackgroundTransparency = 1
-    Page.ScrollBarThickness = 2
-    Page.ScrollBarImageColor3 = Theme.Accent
-    Page.Visible = false
-    Page.ZIndex = 11
-    
-    -- ✨ [วิธีที่ 1] ตั้งค่าให้ยืดความยาว Canvas อัตโนมัติตามจำนวนปุ่ม
-    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y 
-    Page.CanvasSize = UDim2.new(0, 0, 0, 0) 
-
-    local PL = Instance.new("UIListLayout", Page)
-    PL.Padding = UDim.new(0, 10)
-    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    
-    local PP = Instance.new("UIPadding", Page)
-    PP.PaddingTop = UDim.new(0, 12)
-    PP.PaddingBottom = UDim.new(0, 12)
-
+    Page.Size = UDim2.new(1, 0, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 11; Page.ScrollBarThickness = 2; Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10); Instance.new("UIPadding", Page).PaddingTop = UDim.new(0, 12)
     table.insert(Tabs, {Btn = Btn, Page = Page})
     Btn.MouseButton1Click:Connect(function()
         for _, t in pairs(Tabs) do t.Page.Visible = false; TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play() end
@@ -175,30 +112,15 @@ local LuckyTab = CreateTab("Lucky Blocks")
 local CollectTab = CreateTab("Collect")
 local CombatTab = CreateTab("Combat")
 
-Tabs[1].Page.Visible = true
-Tabs[1].Btn.BackgroundColor3 = Theme.Accent
-Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 
--- [ Toggle Function ]
 local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     local Btn = Instance.new("TextButton", parent)
-    Btn.Size = UDim2.new(0, 300, 0, 45)
-    Btn.BackgroundColor3 = Theme.SurfaceLight
-    Btn.Text = "  " .. text
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
-    Btn.TextColor3 = Theme.Text
-    Btn.TextSize = 12
-    Btn.Font = Enum.Font.GothamBold
-    Btn.ZIndex = 12
+    Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Text; Btn.ZIndex = 12; Btn.TextXAlignment = 0
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
-
     local Status = Instance.new("Frame", Btn)
-    Status.Size = UDim2.new(0, 10, 0, 10)
-    Status.Position = UDim2.new(1, -20, 0.5, -5)
-    Status.BackgroundColor3 = Theme.TextDim
-    Status.ZIndex = 13
+    Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim; Status.ZIndex = 13
     Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
-
     Btn.MouseButton1Click:Connect(function()
         local isActive
         if isBlockFilter then _G.SelectedBlocks[stateVar] = not _G.SelectedBlocks[stateVar]; isActive = _G.SelectedBlocks[stateVar]
@@ -212,42 +134,65 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
 end
 
 -- [[ TABS CONTENT ]] --
-CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end end)
+CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) if v and plr.Character then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end end)
 CreateToggle(MainTab, "STEAL", "AutoSteal", false)
-CreateToggle(MainTab, "TRAIN", "AutoTrain", false)
+CreateToggle(MainTab, "STEAL EVENT", "StealEvent", false)
+CreateToggle(MainTab, "TRAIN!", "AutoTrain", false)
 CreateToggle(MainTab, "GOD MODE", "GodMode", false)
 
-for _, b in pairs({"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67"}) do
-    CreateToggle(LuckyTab, b, b, true)
-end
+local allBlocks = {"Common", "Rare", "Epic", "67", "Ghost", "Lava", "Legendary", "Mythic", "Secret", "Exclusive", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Brainrot", "Brainrot God"}
+for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
 CreateToggle(CollectTab, "COLLECT MONEY", "AutoCollect", false)
+CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
 
-CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false)
+CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false, function(v)
+    if not v then 
+        -- ฟังก์ชันตอนปิด: คืนค่าผู้เล่นคนอื่นให้กลับเป็นปกติ
+        for _, p in pairs(Players:GetPlayers()) do 
+            if p ~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then 
+                local hrp = p.Character.HumanoidRootPart
+                hrp.Size = Vector3.new(2,2,1)
+                hrp.Transparency = 1 
+                hrp.CanCollide = false
+                hrp.Massless = false
+            end 
+        end 
+    end
+end)
+local HbFrame = Instance.new("Frame", CombatTab); HbFrame.Size = UDim2.new(0, 300, 0, 45); HbFrame.BackgroundColor3 = Theme.SurfaceLight; HbFrame.ZIndex = 12; Instance.new("UICorner", HbFrame).CornerRadius = UDim.new(0, 8)
+local HbLabel = Instance.new("TextLabel", HbFrame); HbLabel.Size = UDim2.new(0.5, 0, 1, 0); HbLabel.Position = UDim2.new(0, 10, 0, 0); HbLabel.Text = "Hitbox Size: ".._G.HitboxSize; HbLabel.TextColor3 = Theme.Text; HbLabel.ZIndex = 13; HbLabel.BackgroundTransparency = 1; HbLabel.TextXAlignment = 0
+local btnM = Instance.new("TextButton", HbFrame); btnM.Size = UDim2.new(0, 35, 0, 30); btnM.Position = UDim2.new(1, -90, 0.5, -15); btnM.Text = "-"; btnM.ZIndex = 13; btnM.BackgroundColor3 = Theme.Background; btnM.TextColor3 = Theme.Accent
+local btnP = Instance.new("TextButton", HbFrame); btnP.Size = UDim2.new(0, 35, 0, 30); btnP.Position = UDim2.new(1, -45, 0.5, -15); btnP.Text = "+"; btnP.ZIndex = 13; btnP.BackgroundColor3 = Theme.Background; btnP.TextColor3 = Theme.Accent
+btnM.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize-5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
+btnP.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize+5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
 
--- Hitbox Size UI
-local HbFrame = Instance.new("Frame", CombatTab); HbFrame.Size = UDim2.new(0, 300, 0, 45); HbFrame.BackgroundColor3 = Theme.SurfaceLight; HbFrame.ZIndex = 12
-Instance.new("UICorner", HbFrame).CornerRadius = UDim.new(0, 8)
-local HbLabel = Instance.new("TextLabel", HbFrame); HbLabel.Size = UDim2.new(0.5, 0, 1, 0); HbLabel.Position = UDim2.new(0, 10, 0, 0); HbLabel.BackgroundTransparency = 1; HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize; HbLabel.TextColor3 = Theme.Text; HbLabel.Font = Enum.Font.GothamBold; HbLabel.TextXAlignment = Enum.TextXAlignment.Left; HbLabel.ZIndex = 13
-local BtnMinus = Instance.new("TextButton", HbFrame); BtnMinus.Size = UDim2.new(0, 35, 0, 30); BtnMinus.Position = UDim2.new(1, -90, 0.5, -15); BtnMinus.Text = "-"; BtnMinus.BackgroundColor3 = Theme.Background; BtnMinus.TextColor3 = Theme.Accent; BtnMinus.ZIndex = 13
-local BtnPlus = Instance.new("TextButton", HbFrame); BtnPlus.Size = UDim2.new(0, 35, 0, 30); BtnPlus.Position = UDim2.new(1, -45, 0.5, -15); BtnPlus.Text = "+"; BtnPlus.BackgroundColor3 = Theme.Background; BtnPlus.TextColor3 = Theme.Accent; BtnPlus.ZIndex = 13
-
-BtnMinus.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize - 5, 1, 100); HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize end)
-BtnPlus.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize + 5, 1, 100); HbLabel.Text = "Hitbox Size: " .. _G.HitboxSize end)
+CreateToggle(CombatTab, "WALK SPEED", "WalkSpeedToggle", false)
+local WsFrame = Instance.new("Frame", CombatTab); WsFrame.Size = UDim2.new(0, 300, 0, 45); WsFrame.BackgroundColor3 = Theme.SurfaceLight; WsFrame.ZIndex = 12; Instance.new("UICorner", WsFrame).CornerRadius = UDim.new(0, 8)
+local WsLabel = Instance.new("TextLabel", WsFrame); WsLabel.Size = UDim2.new(0.5, 0, 1, 0); WsLabel.Position = UDim2.new(0, 10, 0, 0); WsLabel.BackgroundTransparency = 1; WsLabel.Text = "Speed: " .. _G.WalkSpeedValue; WsLabel.TextColor3 = Theme.Text; WsLabel.Font = Enum.Font.GothamBold; WsLabel.TextXAlignment = Enum.TextXAlignment.Left; WsLabel.ZIndex = 13
+local WsBtnM = Instance.new("TextButton", WsFrame); WsBtnM.Size = UDim2.new(0, 35, 0, 30); WsBtnM.Position = UDim2.new(1, -90, 0.5, -15); WsBtnM.Text = "-"; WsBtnM.BackgroundColor3 = Theme.Background; WsBtnM.TextColor3 = Theme.Accent; WsBtnM.ZIndex = 13; Instance.new("UICorner", WsBtnM).CornerRadius = UDim.new(0, 6)
+local WsBtnP = Instance.new("TextButton", WsFrame); WsBtnP.Size = UDim2.new(0, 35, 0, 30); WsBtnP.Position = UDim2.new(1, -45, 0.5, -15); WsBtnP.Text = "+"; WsBtnP.BackgroundColor3 = Theme.Background; WsBtnP.TextColor3 = Theme.Accent; WsBtnP.ZIndex = 13; Instance.new("UICorner", WsBtnP).CornerRadius = UDim.new(0, 6)
+WsBtnM.MouseButton1Click:Connect(function() _G.WalkSpeedValue = math.clamp(_G.WalkSpeedValue - 5, 1, 100); WsLabel.Text = "Speed: " .. _G.WalkSpeedValue end)
+WsBtnP.MouseButton1Click:Connect(function() _G.WalkSpeedValue = math.clamp(_G.WalkSpeedValue + 5, 1, 100); WsLabel.Text = "Speed: " .. _G.WalkSpeedValue end)
 
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
 
--- [[ 3. LOOPS & FUNCTIONS ]] --
+-- [[ 3. LOOPS ]] --
 
+-- ✨ HITBOX LOOP (แก้ไขบัคใส่ Material และการชน)
 task.spawn(function()
     while task.wait(0.5) do
         if _G.Hitbox then
             pcall(function()
-                for _, v in pairs(game.Players:GetPlayers()) do
+                for _, v in pairs(Players:GetPlayers()) do
                     if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                         local hrp = v.Character.HumanoidRootPart
                         hrp.Size = Vector3.new(_G.HitboxSize, _G.HitboxSize, _G.HitboxSize)
-                        hrp.Transparency = 0.8; hrp.BrickColor = BrickColor.new("Bright red"); hrp.Material = Enum.Material.Neon; hrp.CanCollide = false
+                        hrp.Transparency = 0.8
+                        hrp.BrickColor = BrickColor.new("Bright red")
+                        hrp.Material = Enum.Material.Neon
+                        hrp.CanCollide = false
+                        hrp.Massless = true
                     end
                 end
             end)
@@ -257,45 +202,85 @@ end)
 
 task.spawn(function()
     while task.wait(0.1) do
-        pcall(function()
-            local char = plr.Character
-            if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-            for _, v in pairs(workspace:GetDescendants()) do
-                if _G.AutoSteal and (v:IsA("ClickDetector") or v:IsA("ProximityPrompt")) then
-                    local model = v:FindFirstAncestorOfClass("Model") or v.Parent
-                    for name, sel in pairs(_G.SelectedBlocks) do
-                        if sel and model.Name:find(name) then
-                            local t = model:FindFirstChildWhichIsA("BasePart") or model
-                            if (char.HumanoidRootPart.Position - t.Position).Magnitude < _G.StealRange then
+        if (_G.AutoSteal or _G.StealEvent or _G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local char = plr.Character
+                local rootPos = char.HumanoidRootPart.Position
+
+                for _, v in pairs(workspace:GetDescendants()) do
+                    -- 1. STEAL BLOCKS
+                    if v:IsA("ClickDetector") or v:IsA("ProximityPrompt") then
+                        local model = v:FindFirstAncestorOfClass("Model") or v.Parent
+                        if model and model.Name then
+                            local match = false
+                            
+                            if _G.StealEvent then
+                                for _, name in pairs(EventBlocksList) do if model.Name:find(name) then match = true break end end
+                            end
+                            if not match and _G.AutoSteal then
+                                for name, sel in pairs(_G.SelectedBlocks) do if sel and model.Name:find(name) then match = true break end end
+                            end
+                            
+                            if match and (rootPos - (model:GetPivot().Position)).Magnitude < _G.StealRange then
                                 if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
                             end
                         end
                     end
-                end
-                if _G.AutoCollect and (v:IsA("TouchTransmitter") or v.Name == "TouchInterest") then
-                    local part = v.Parent
-                    if part and part:IsA("BasePart") then
-                        local isSafe = false
-                        for _, txt in pairs(part:GetDescendants()) do
-                            if txt:IsA("TextLabel") then
-                                if txt.Text:find("%$") or txt.Text:find("%+") then isSafe = true end
-                                for _, b in pairs(Blacklist) do if txt.Text:lower():find(b, 1, true) then isSafe = false break end end
+                    
+                    -- 2. COLLECT MONEY & COINS
+                    if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
+                        local part = v.Parent
+                        if part and part:IsA("BasePart") then
+                            
+                            local hasText = false
+                            local isSafeMoney = false
+
+                            for _, desc in pairs(part:GetDescendants()) do
+                                if desc:IsA("TextLabel") or desc:IsA("SurfaceGui") or desc:IsA("BillboardGui") then 
+                                    hasText = true
+                                    if desc:IsA("TextLabel") and (desc.Text:find("%$") or desc.Text:find("%+")) then
+                                        isSafeMoney = true
+                                        for _, b in pairs(Blacklist) do 
+                                            if desc.Text:lower():find(b, 1, true) then isSafeMoney = false break end 
+                                        end
+                                    end
+                                end
                             end
+
+                            if _G.AutoCollect and isSafeMoney then
+                                firetouchinterest(char.HumanoidRootPart, part, 0)
+                                firetouchinterest(char.HumanoidRootPart, part, 1) 
+                            end
+
+                            if _G.AutoCollectCoin and not hasText then
+                                local pColor = part.Color
+                                local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
+                                if r > 150 and b > 150 and g < 200 then
+                                    firetouchinterest(char.HumanoidRootPart, part, 0)
+                                    firetouchinterest(char.HumanoidRootPart, part, 1)
+                                end
+                            end
+
                         end
-                        if isSafe then firetouchinterest(char.HumanoidRootPart, part, 0); firetouchinterest(char.HumanoidRootPart, part, 1) end
                     end
                 end
-            end
-        end)
+            end)
+        end
     end
 end)
 
+-- TRAIN & WALK SPEED LOOP
 task.spawn(function()
+    local wasWalkSpeedOn = false
     while task.wait(0.1) do
         if _G.AutoTrain and plr.Character then
             pcall(function()
                 local tool = plr.Character:FindFirstChildOfClass("Tool")
-                if not tool then for _, t in pairs(plr.Backpack:GetChildren()) do if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end end end
+                if not tool then
+                    for _, t in pairs(plr.Backpack:GetChildren()) do
+                        if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end
+                    end
+                end
                 if tool then
                     tool:Activate()
                     local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
@@ -303,37 +288,46 @@ task.spawn(function()
                 end
             end)
         end
-    end
-end)
-
-RunService.Stepped:Connect(function()
-    if _G.GodMode and plr.Character then
+        
         pcall(function()
-            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                for _, v in pairs(plr.Character:GetDescendants()) do if v:IsA("TouchTransmitter") then v:Destroy() end end
-                hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
-                hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+            if _G.WalkSpeedToggle and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+                plr.Character.Humanoid.WalkSpeed = _G.WalkSpeedValue
+                wasWalkSpeedOn = true
+            elseif wasWalkSpeedOn and not _G.WalkSpeedToggle and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+                plr.Character.Humanoid.WalkSpeed = 16 
+                wasWalkSpeedOn = false
             end
         end)
     end
 end)
 
+-- GOD MODE
+RunService.Stepped:Connect(function()
+    if _G.GodMode and plr.Character then
+        pcall(function()
+            for _, v in pairs(plr.Character:GetDescendants()) do if v:IsA("TouchTransmitter") then v:Destroy() end end
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0); hrp.AssemblyAngularVelocity = Vector3.new(0,0,0) end
+        end)
+    end
+end)
+
+-- AUTO TP LOOP
 task.spawn(function()
     while task.wait(0.5) do
-        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+        if _G.AutoTP and plr.Character then
             pcall(function()
+                local target = nil
                 for _, v in pairs(workspace:GetDescendants()) do
                     if v:IsA("Model") then
                         for name, sel in pairs(_G.SelectedBlocks) do
-                            if sel and v.Name:find(name) then
-                                local p = v:FindFirstChildWhichIsA("BasePart")
-                                if p then plr.Character.HumanoidRootPart.CFrame = p.CFrame * CFrame.new(0, 4, 0) return end
-                            end
+                            if sel and v.Name:find(name) then target = v:FindFirstChildWhichIsA("BasePart") break end
                         end
                     end
+                    if target then break end
                 end
-                if _G.SavedPos then plr.Character.HumanoidRootPart.CFrame = _G.SavedPos end
+                if target then plr.Character.HumanoidRootPart.CFrame = target.CFrame * CFrame.new(0, 4, 0)
+                elseif _G.SavedPos then plr.Character.HumanoidRootPart.CFrame = _G.SavedPos end
             end)
         end
     end
