@@ -1,4 +1,4 @@
- -- [[ 1. SETUP & CORE VARIABLES ]] --
+-- [[ 1. SETUP & CORE VARIABLES ]] --
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -327,32 +327,6 @@ RunService.Stepped:Connect(function()
 end)
 
 -- [[ LOOP: AUTO TP (Logic เดิมของคุณ) ]] --
-task.spawn(function()
-    while task.wait(0.5) do
-        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("Model") then
-                        for name, sel in pairs(_G.SelectedBlocks) do
-                            if sel and v.Name:find(name) then
-                                local p = v:FindFirstChildWhichIsA("BasePart")
-                                if p then plr.Character.HumanoidRootPart.CFrame = p.CFrame * CFrame.new(0, 4, 0) return end
-                            end
-                        end
-                    end
-                end
-                if _G.SavedPos then plr.Character.HumanoidRootPart.CFrame = _G.SavedPos end
-            end)
-        end
-    end
-end)
- hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
-            end
-        end)
-    end
-end)
-
--- [[ LOOP: AUTO TP ]] --
 task.spawn(function()
     while task.wait(0.5) do
         if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
