@@ -143,19 +143,15 @@ CreateToggle(MainTab, "GOD MODE", "GodMode", false)
 local allBlocks = {"Common", "Rare", "Epic", "67", "Ghost", "Lava", "Legendary", "Mythic", "Secret", "Exclusive", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Brainrot", "Brainrot God"}
 for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
-CreateToggle(CollectTab, "COLLECT MONEY", "AutoCollect", false)
+CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
 CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
 
 CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false, function(v)
     if not v then 
-        -- ฟังก์ชันตอนปิด: คืนค่าผู้เล่นคนอื่นให้กลับเป็นปกติ
         for _, p in pairs(Players:GetPlayers()) do 
             if p ~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then 
                 local hrp = p.Character.HumanoidRootPart
-                hrp.Size = Vector3.new(2,2,1)
-                hrp.Transparency = 1 
-                hrp.CanCollide = false
-                hrp.Massless = false
+                hrp.Size = Vector3.new(2,2,1); hrp.Transparency = 1; hrp.CanCollide = false; hrp.Massless = false
             end 
         end 
     end
@@ -179,7 +175,7 @@ toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible e
 
 -- [[ 3. LOOPS ]] --
 
--- ✨ HITBOX LOOP (แก้ไขบัคใส่ Material และการชน)
+-- HITBOX LOOP
 task.spawn(function()
     while task.wait(0.5) do
         if _G.Hitbox then
@@ -188,11 +184,7 @@ task.spawn(function()
                     if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                         local hrp = v.Character.HumanoidRootPart
                         hrp.Size = Vector3.new(_G.HitboxSize, _G.HitboxSize, _G.HitboxSize)
-                        hrp.Transparency = 0.8
-                        hrp.BrickColor = BrickColor.new("Bright red")
-                        hrp.Material = Enum.Material.Neon
-                        hrp.CanCollide = false
-                        hrp.Massless = true
+                        hrp.Transparency = 0.8; hrp.BrickColor = BrickColor.new("Bright red"); hrp.Material = Enum.Material.Neon; hrp.CanCollide = false; hrp.Massless = true
                     end
                 end
             end)
@@ -200,6 +192,7 @@ task.spawn(function()
     end
 end)
 
+-- STEAL & COLLECT LOOPS
 task.spawn(function()
     while task.wait(0.1) do
         if (_G.AutoSteal or _G.StealEvent or _G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
@@ -213,14 +206,12 @@ task.spawn(function()
                         local model = v:FindFirstAncestorOfClass("Model") or v.Parent
                         if model and model.Name then
                             local match = false
-                            
                             if _G.StealEvent then
                                 for _, name in pairs(EventBlocksList) do if model.Name:find(name) then match = true break end end
                             end
                             if not match and _G.AutoSteal then
                                 for name, sel in pairs(_G.SelectedBlocks) do if sel and model.Name:find(name) then match = true break end end
                             end
-                            
                             if match and (rootPos - (model:GetPivot().Position)).Magnitude < _G.StealRange then
                                 if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
                             end
@@ -232,32 +223,48 @@ task.spawn(function()
                         local part = v.Parent
                         if part and part:IsA("BasePart") then
                             
-                            local hasText = false
-                            local isSafeMoney = false
+                            -- ✨ ระบบเก็บเงิน (สแกนหา $ ที่แม่นยำขึ้น)
+                            if _G.AutoCollect then
+                                local hasMoney = false
+                                local isBlacklisted = false
 
-                            for _, desc in pairs(part:GetDescendants()) do
-                                if desc:IsA("TextLabel") or desc:IsA("SurfaceGui") or desc:IsA("BillboardGui") then 
-                                    hasText = true
-                                    if desc:IsA("TextLabel") and (desc.Text:find("%$") or desc.Text:find("%+")) then
-                                        isSafeMoney = true
+                                for _, desc in pairs(part:GetDescendants()) do
+                                    if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
+                                        local textLower = desc.Text:lower()
+                                        -- ถ้ามี $ หรือ + ให้ตั้งเป็น true ไว้ก่อน
+                                        if textLower:find("%$") or textLower:find("%+") then 
+                                            hasMoney = true 
+                                        end
+                                        -- ถ้าเจอคำต้องห้ามในป้าย ให้แบนจุดนี้ทันที
                                         for _, b in pairs(Blacklist) do 
-                                            if desc.Text:lower():find(b, 1, true) then isSafeMoney = false break end 
+                                            if textLower:find(b, 1, true) then 
+                                                isBlacklisted = true 
+                                                break 
+                                            end 
                                         end
                                     end
                                 end
-                            end
 
-                            if _G.AutoCollect and isSafeMoney then
-                                firetouchinterest(char.HumanoidRootPart, part, 0)
-                                firetouchinterest(char.HumanoidRootPart, part, 1) 
-                            end
-
-                            if _G.AutoCollectCoin and not hasText then
-                                local pColor = part.Color
-                                local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
-                                if r > 150 and b > 150 and g < 200 then
+                                -- ถ้ามีเงินและไม่ติดแบน ให้เก็บเลย
+                                if hasMoney and not isBlacklisted then 
                                     firetouchinterest(char.HumanoidRootPart, part, 0)
-                                    firetouchinterest(char.HumanoidRootPart, part, 1)
+                                    firetouchinterest(char.HumanoidRootPart, part, 1) 
+                                end
+                            end
+
+                            -- ระบบเก็บเหรียญสีชมพู (ไม่เกี่ยวข้องกัน)
+                            if _G.AutoCollectCoin then
+                                local hasText = false
+                                for _, desc in pairs(part:GetDescendants()) do
+                                    if desc:IsA("TextLabel") then hasText = true break end
+                                end
+                                if not hasText then
+                                    local pColor = part.Color
+                                    local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
+                                    if r > 150 and b > 150 and g < 200 then
+                                        firetouchinterest(char.HumanoidRootPart, part, 0)
+                                        firetouchinterest(char.HumanoidRootPart, part, 1)
+                                    end
                                 end
                             end
 
