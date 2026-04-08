@@ -16,9 +16,9 @@ end
 _G.AutoTP = false
 _G.AutoSteal = false
 _G.StealEvent = false
+_G.StealLimit = 1 -- จำนวนการ Steal (1-5)
 _G.AutoCollect = false 
 _G.AutoCollectCoin = false 
-_G.AutoUpgrade = false -- ✨ เพิ่มตัวแปรสำหรับ Auto Upgrade
 _G.AutoTrain = false 
 _G.GodMode = false 
 _G.Hitbox = false 
@@ -26,7 +26,10 @@ _G.HitboxSize = 40
 _G.WalkSpeedToggle = false 
 _G.WalkSpeedValue = 16     
 _G.SavedPos = nil
-_G.StealRange = 100 
+_G.StealRange = 300 -- ✨ เพิ่มระยะขโมยให้ไกลขึ้นเป็น 300!
+
+local autoTpBtnInstance = nil 
+local autoTpStatusInstance = nil
 
 -- รายชื่อบล็อกสำหรับระบบติ๊กเอง (Lucky Blocks Tab)
 _G.SelectedBlocks = {
@@ -37,16 +40,19 @@ _G.SelectedBlocks = {
     ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false
 }
 
--- รายชื่อบล็อกสำหรับปุ่ม Steal Event (Main Tab)
+-- รายชื่อบล็อกสำหรับปุ่ม Steal Event
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter"}
 
--- บัญชีดำ (ป้องกันจุดวาร์ปเสียเงิน และป้องกันการไปเหยียบปุ่ม Upgrade)
+-- บัญชีดำ
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
     "only", "x2", "auto collect", "[op]", "cheap", "floor", "new",
     "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande",
-    "strawberry", "elephant", "sell", "easter spinner", "upgrade" -- ✨ เพิ่ม "upgrade" ในแบล็คลิสต์
+    "strawberry", "elephant", "sell", "easter spinner", "upgrade" 
 }
+
+-- รายชื่อมอนสเตอร์ที่ต้องแช่แข็งและยึดอาวุธ
+local MobsToIgnore = {"EASY", "NORMAL", "MEDIUM", "HARD", "EXPERT", "SUPER", "CRAZY"}
 
 local Theme = {
     Background = Color3.fromRGB(5, 5, 8),
@@ -122,6 +128,12 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     local Status = Instance.new("Frame", Btn)
     Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim; Status.ZIndex = 13
     Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
+    
+    if stateVar == "AutoTP" then
+        autoTpBtnInstance = Btn
+        autoTpStatusInstance = Status
+    end
+
     Btn.MouseButton1Click:Connect(function()
         local isActive
         if isBlockFilter then _G.SelectedBlocks[stateVar] = not _G.SelectedBlocks[stateVar]; isActive = _G.SelectedBlocks[stateVar]
@@ -135,7 +147,19 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
 end
 
 -- [[ TABS CONTENT ]] --
-CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) if v and plr.Character then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end end)
+CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) 
+    if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then 
+        _G.SavedPos = plr.Character.HumanoidRootPart.CFrame 
+    end 
+end)
+
+local AmtFrame = Instance.new("Frame", MainTab); AmtFrame.Size = UDim2.new(0, 300, 0, 45); AmtFrame.BackgroundColor3 = Theme.SurfaceLight; AmtFrame.ZIndex = 12; Instance.new("UICorner", AmtFrame).CornerRadius = UDim.new(0, 8)
+local AmtLabel = Instance.new("TextLabel", AmtFrame); AmtLabel.Size = UDim2.new(0.5, 0, 1, 0); AmtLabel.Position = UDim2.new(0, 10, 0, 0); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit; AmtLabel.TextColor3 = Theme.Text; AmtLabel.Font = Enum.Font.GothamBold; AmtLabel.TextXAlignment = Enum.TextXAlignment.Left; AmtLabel.ZIndex = 13; AmtLabel.BackgroundTransparency = 1
+local btnAmtM = Instance.new("TextButton", AmtFrame); btnAmtM.Size = UDim2.new(0, 35, 0, 30); btnAmtM.Position = UDim2.new(1, -90, 0.5, -15); btnAmtM.Text = "-"; btnAmtM.TextSize = 20; btnAmtM.Font = Enum.Font.GothamBold; btnAmtM.ZIndex = 13; btnAmtM.BackgroundColor3 = Theme.Background; btnAmtM.TextColor3 = Theme.Accent; Instance.new("UICorner", btnAmtM).CornerRadius = UDim.new(0, 6)
+local btnAmtP = Instance.new("TextButton", AmtFrame); btnAmtP.Size = UDim2.new(0, 35, 0, 30); btnAmtP.Position = UDim2.new(1, -45, 0.5, -15); btnAmtP.Text = "+"; btnAmtP.TextSize = 20; btnAmtP.Font = Enum.Font.GothamBold; btnAmtP.ZIndex = 13; btnAmtP.BackgroundColor3 = Theme.Background; btnAmtP.TextColor3 = Theme.Accent; Instance.new("UICorner", btnAmtP).CornerRadius = UDim.new(0, 6)
+btnAmtM.MouseButton1Click:Connect(function() _G.StealLimit = math.clamp(_G.StealLimit - 1, 1, 5); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit end)
+btnAmtP.MouseButton1Click:Connect(function() _G.StealLimit = math.clamp(_G.StealLimit + 1, 1, 5); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit end)
+
 CreateToggle(MainTab, "STEAL", "AutoSteal", false)
 CreateToggle(MainTab, "STEAL EVENT", "StealEvent", false)
 CreateToggle(MainTab, "TRAIN!", "AutoTrain", false)
@@ -146,7 +170,6 @@ for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
 CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
-CreateToggle(CollectTab, "AUTO UPGRADE", "AutoUpgrade", false) -- ✨ เพิ่มปุ่มเปิด/ปิด Auto Upgrade
 
 CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false, function(v)
     if not v then 
@@ -194,16 +217,15 @@ task.spawn(function()
     end
 end)
 
--- STEAL & COLLECT LOOPS
+-- ✨ NORMAL STEAL LOOP (ไม่มีดีเลย์ สแกนเจอแล้วดึงทันทีตามจำนวนที่ตั้ง)
 task.spawn(function()
-    while task.wait(0.1) do
-        if (_G.AutoSteal or _G.StealEvent or _G.AutoCollect or _G.AutoCollectCoin or _G.AutoUpgrade) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+    while task.wait(0.1) do 
+        if (_G.AutoSteal or _G.StealEvent) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
-                local char = plr.Character
-                local rootPos = char.HumanoidRootPart.Position
+                local rootPos = plr.Character.HumanoidRootPart.Position
+                local stoleCount = 0 
 
                 for _, v in pairs(workspace:GetDescendants()) do
-                    -- 1. STEAL BLOCKS
                     if v:IsA("ClickDetector") or v:IsA("ProximityPrompt") then
                         local model = v:FindFirstAncestorOfClass("Model") or v.Parent
                         if model and model.Name then
@@ -214,19 +236,33 @@ task.spawn(function()
                             if not match and _G.AutoSteal then
                                 for name, sel in pairs(_G.SelectedBlocks) do if sel and model.Name:find(name) then match = true break end end
                             end
+                            
+                            -- ดึงทันทีถ้าระยะถึง และยังไม่เกินโควต้า
                             if match and (rootPos - (model:GetPivot().Position)).Magnitude < _G.StealRange then
                                 if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
+                                stoleCount = stoleCount + 1 
+                                if stoleCount >= _G.StealLimit then break end 
                             end
                         end
                     end
-                    
-                    -- COLLECT SYSTEM (Money, Coins, Upgrades)
+                end
+            end)
+        end
+    end
+end)
+
+-- COLLECT SYSTEM (Money & Coins)
+task.spawn(function()
+    while task.wait(0.1) do
+        if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local char = plr.Character
+                for _, v in pairs(workspace:GetDescendants()) do
                     if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
                         local part = v.Parent
                         if part and part:IsA("BasePart") then
                             
                             local hasMoney = false
-                            local hasUpgrade = false
                             local isBlacklisted = false
                             local hasText = false
 
@@ -234,34 +270,18 @@ task.spawn(function()
                                 if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
                                     hasText = true
                                     local textLower = desc.Text:lower()
-                                    
-                                    -- ตรวจสอบหา $ และคำว่า [upgrade]
                                     if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
-                                    if textLower:find("%[upgrade%]") or textLower:find("upgrade") then hasUpgrade = true end
-
-                                    -- ตรวจสอบ Blacklist
                                     for _, b in pairs(Blacklist) do 
-                                        if textLower:find(b, 1, true) then 
-                                            isBlacklisted = true 
-                                            break 
-                                        end 
+                                        if textLower:find(b, 1, true) then isBlacklisted = true break end 
                                     end
                                 end
                             end
 
-                            -- ✨ 2. COLLECT MONEY (ต้องไม่มีคำว่า Upgrade ปนอยู่ และไม่ติด Blacklist)
-                            if _G.AutoCollect and hasMoney and not hasUpgrade and not isBlacklisted then 
+                            if _G.AutoCollect and hasMoney and not isBlacklisted then 
                                 firetouchinterest(char.HumanoidRootPart, part, 0)
                                 firetouchinterest(char.HumanoidRootPart, part, 1) 
                             end
 
-                            -- ✨ 3. AUTO UPGRADE (ต้องมีคำว่า Upgrade ปรากฏอยู่บนป้าย)
-                            if _G.AutoUpgrade and hasUpgrade then
-                                firetouchinterest(char.HumanoidRootPart, part, 0)
-                                firetouchinterest(char.HumanoidRootPart, part, 1)
-                            end
-
-                            -- 4. COLLECT COINS (PINK) (จุดนั้นต้องไม่มีป้าย TextLabel ใดๆ)
                             if _G.AutoCollectCoin and not hasText then
                                 local pColor = part.Color
                                 local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
@@ -270,7 +290,30 @@ task.spawn(function()
                                     firetouchinterest(char.HumanoidRootPart, part, 1)
                                 end
                             end
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
 
+-- MOB NEUTRALIZER
+task.spawn(function()
+    while task.wait(0.2) do
+        if _G.GodMode then
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("Model") and v ~= plr.Character and v:FindFirstChild("Humanoid") then
+                        local name = v.Name:upper()
+                        local isMob = false
+                        for _, m in ipairs(MobsToIgnore) do
+                            if name == m or name:find(m) then isMob = true; break end
+                        end
+                        if isMob then
+                            for _, child in pairs(v:GetChildren()) do if child:IsA("Tool") then child:Destroy() end end
+                            for _, desc in pairs(v:GetDescendants()) do if desc:IsA("TouchTransmitter") then desc:Destroy() end end
+                            if v:FindFirstChild("HumanoidRootPart") then v.HumanoidRootPart.Anchored = true end
                         end
                     end
                 end
@@ -282,13 +325,17 @@ end)
 -- TRAIN & WALK SPEED LOOP
 task.spawn(function()
     local wasWalkSpeedOn = false
+
     while task.wait(0.1) do
         if _G.AutoTrain and plr.Character then
             pcall(function()
                 local tool = plr.Character:FindFirstChildOfClass("Tool")
                 if not tool then
                     for _, t in pairs(plr.Backpack:GetChildren()) do
-                        if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end
+                        if t:IsA("Tool") then 
+                            local hum = plr.Character:FindFirstChildWhichIsA("Humanoid")
+                            if hum then hum:EquipTool(t); tool = t; break end
+                        end
                     end
                 end
                 if tool then
@@ -300,12 +347,15 @@ task.spawn(function()
         end
         
         pcall(function()
-            if _G.WalkSpeedToggle and plr.Character and plr.Character:FindFirstChild("Humanoid") then
-                plr.Character.Humanoid.WalkSpeed = _G.WalkSpeedValue
-                wasWalkSpeedOn = true
-            elseif wasWalkSpeedOn and not _G.WalkSpeedToggle and plr.Character and plr.Character:FindFirstChild("Humanoid") then
-                plr.Character.Humanoid.WalkSpeed = 16 
-                wasWalkSpeedOn = false
+            local hum = plr.Character and plr.Character:FindFirstChildWhichIsA("Humanoid")
+            if hum then
+                if _G.WalkSpeedToggle then
+                    hum.WalkSpeed = _G.WalkSpeedValue
+                    wasWalkSpeedOn = true
+                elseif wasWalkSpeedOn and not _G.WalkSpeedToggle then
+                    hum.WalkSpeed = 16 
+                    wasWalkSpeedOn = false
+                end
             end
         end)
     end
@@ -322,22 +372,63 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- AUTO TP LOOP
+-- ✨ AUTO TP LOOP (ไม่มีดีเลย์จดจำ สแกนเจอแล้วพุ่งไปดึงเลย)
 task.spawn(function()
-    while task.wait(0.5) do
-        if _G.AutoTP and plr.Character then
+    while task.wait(0.1) do
+        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
-                local target = nil
+                local hrp = plr.Character.HumanoidRootPart
+                local targets = {}
+                
                 for _, v in pairs(workspace:GetDescendants()) do
                     if v:IsA("Model") then
                         for name, sel in pairs(_G.SelectedBlocks) do
-                            if sel and v.Name:find(name) then target = v:FindFirstChildWhichIsA("BasePart") break end
+                            if sel and v.Name:find(name) then 
+                                local part = v:FindFirstChildWhichIsA("BasePart")
+                                if part then
+                                    local exists = false
+                                    for _, t in ipairs(targets) do if t.model == v then exists = true break end end
+                                    if not exists then 
+                                        table.insert(targets, {model = v, part = part}) 
+                                    end
+                                end
+                            end
                         end
                     end
-                    if target then break end
+                    if #targets >= _G.StealLimit then break end 
                 end
-                if target then plr.Character.HumanoidRootPart.CFrame = target.CFrame * CFrame.new(0, 4, 0)
-                elseif _G.SavedPos then plr.Character.HumanoidRootPart.CFrame = _G.SavedPos end
+
+                if #targets > 0 then 
+                    for i, targetData in ipairs(targets) do
+                        hrp.CFrame = targetData.part.CFrame * CFrame.new(0, 4, 0)
+                        task.wait(0.1) -- ลดลงสุดๆ ให้เซิร์ฟจับพิกัดเราทัน
+                        
+                        -- ยิง Steal ทันทีที่หน้าบล็อก
+                        local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true)
+                        local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
+                        if cd then fireclickdetector(cd) end
+                        if pp then fireproximityprompt(pp) end
+                    end
+                    
+                    if _G.SavedPos then
+                        hrp.Anchored = true 
+                        local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
+                        local twTime = math.clamp(dist / 200, 0.2, 2) 
+                        local twInfo = TweenInfo.new(twTime, Enum.EasingStyle.Linear)
+                        local tw = TweenService:Create(hrp, twInfo, {CFrame = _G.SavedPos})
+                        tw:Play()
+                        tw.Completed:Wait() 
+                        hrp.Anchored = false 
+                    end
+
+                    _G.AutoTP = false
+                    
+                    if autoTpBtnInstance and autoTpStatusInstance then
+                        TweenService:Create(autoTpBtnInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight}):Play()
+                        TweenService:Create(autoTpBtnInstance, TweenInfo.new(0.2), {TextColor3 = Theme.Text}):Play()
+                        TweenService:Create(autoTpStatusInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play()
+                    end
+                end
             end)
         end
     end
