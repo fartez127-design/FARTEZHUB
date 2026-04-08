@@ -85,7 +85,7 @@ Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB   (NEW Update  v2)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
 Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 15, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
