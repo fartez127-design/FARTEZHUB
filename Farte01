@@ -16,34 +16,30 @@ end
 _G.AutoTP = false
 _G.AutoSteal = false
 _G.StealEvent = false
-_G.StealLimit = 1 -- จำนวนการ Steal (1-5)
+_G.StealLimit = 1 
 _G.AutoCollect = false 
 _G.AutoCollectCoin = false 
 _G.AutoTrain = false 
 _G.GodMode = false 
 _G.Hitbox = false 
 _G.HitboxSize = 40 
-_G.WalkSpeedToggle = false 
-_G.WalkSpeedValue = 16     
 _G.SavedPos = nil
-_G.StealRange = 300 -- ✨ เพิ่มระยะขโมยให้ไกลขึ้นเป็น 300!
+_G.StealRange = 800
 
 local autoTpBtnInstance = nil 
 local autoTpStatusInstance = nil
 
--- รายชื่อบล็อกสำหรับระบบติ๊กเอง (Lucky Blocks Tab)
+-- รายชื่อบล็อก 
 _G.SelectedBlocks = {
     ["Common"] = false, ["Rare"] = false, ["Epic"] = false, ["Legendary"] = false, 
-    ["Mythic"] = false, ["Secret"] = false, ["Brainrot"] = false, ["Brainrot God"] = false,
+    ["Mythic"] = false, ["Secret"] = false, ["Brainrot God"] = false, ["Brainrot"] = false,
     ["Exclusive"] = false, ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, 
     ["67"] = false, ["Rainbow"] = false, ["Toxic"] = false, ["Cosmic"] = false, ["Easter"] = false,
     ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false
 }
 
--- รายชื่อบล็อกสำหรับปุ่ม Steal Event
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter"}
 
--- บัญชีดำ
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
     "only", "x2", "auto collect", "[op]", "cheap", "floor", "new",
@@ -51,14 +47,13 @@ local Blacklist = {
     "strawberry", "elephant", "sell", "easter spinner", "upgrade" 
 }
 
--- รายชื่อมอนสเตอร์ที่ต้องแช่แข็งและยึดอาวุธ
 local MobsToIgnore = {"EASY", "NORMAL", "MEDIUM", "HARD", "EXPERT", "SUPER", "CRAZY"}
 
 local Theme = {
     Background = Color3.fromRGB(5, 5, 8),
     Surface = Color3.fromRGB(15, 15, 20),
     SurfaceLight = Color3.fromRGB(25, 25, 35),
-    Accent = Color3.fromRGB(4, 203, 41), -- เขียว #04cb29
+    Accent = Color3.fromRGB(4, 203, 41), 
     Text = Color3.fromRGB(255, 255, 255),
     TextDim = Color3.fromRGB(150, 150, 150)
 }
@@ -123,7 +118,7 @@ Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1
 
 local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     local Btn = Instance.new("TextButton", parent)
-    Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Text; Btn.ZIndex = 12; Btn.TextXAlignment = 0
+    Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Text; Btn.ZIndex = 12; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 12
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
     local Status = Instance.new("Frame", Btn)
     Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim; Status.ZIndex = 13
@@ -146,10 +141,55 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     return Btn
 end
 
+local function CreateButton(parent, text, callback)
+    local Btn = Instance.new("TextButton", parent)
+    Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Accent; Btn.ZIndex = 12; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 12
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
+    Btn.MouseButton1Click:Connect(function()
+        TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+        task.wait(0.1)
+        TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Accent}):Play()
+        if callback then callback() end
+    end)
+    return Btn
+end
+
 -- [[ TABS CONTENT ]] --
-CreateToggle(MainTab, "AUTO TP", "AutoTP", false, function(v) 
+
+-- ลบทิ้งประตู VIP (ยังเก็บไว้ให้ใช้งานได้สะดวกๆ)
+CreateButton(MainTab, "🔓 BYPASS VIP DOOR", function()
+    pcall(function()
+        local count = 0
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("BasePart") then
+                local isVip = false
+                if v.Name:lower():find("vip") then isVip = true end
+                for _, ui in pairs(v:GetChildren()) do
+                    if ui:IsA("SurfaceGui") or ui:IsA("BillboardGui") then
+                        for _, txt in pairs(ui:GetDescendants()) do
+                            if txt:IsA("TextLabel") and (txt.Text:find("V.I.P") or txt.Text:find("VIP")) then
+                                isVip = true
+                            end
+                        end
+                    end
+                end
+                if isVip then
+                    v:Destroy()
+                    count = count + 1
+                end
+            end
+        end
+        print("ลบประตูกั้น VIP ออกแล้ว: " .. count .. " บาน")
+    end)
+end)
+
+CreateToggle(MainTab, "AUTO TP (Combo 2 Steps)", "AutoTP", false, function(v) 
     if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then 
-        _G.SavedPos = plr.Character.HumanoidRootPart.CFrame 
+        -- เซฟพิกัดยืนยันเมื่อเปิด
+        if not _G.SavedPos then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end
+    else
+        -- ล้างค่าจุดเซฟเมื่อปิด
+        _G.SavedPos = nil
     end 
 end)
 
@@ -165,7 +205,7 @@ CreateToggle(MainTab, "STEAL EVENT", "StealEvent", false)
 CreateToggle(MainTab, "TRAIN!", "AutoTrain", false)
 CreateToggle(MainTab, "GOD MODE", "GodMode", false)
 
-local allBlocks = {"Common", "Rare", "Epic", "67", "Ghost", "Lava", "Legendary", "Mythic", "Secret", "Exclusive", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Brainrot", "Brainrot God"}
+local allBlocks = {"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco"}
 for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
@@ -188,14 +228,6 @@ local btnP = Instance.new("TextButton", HbFrame); btnP.Size = UDim2.new(0, 35, 0
 btnM.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize-5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
 btnP.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize+5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
 
-CreateToggle(CombatTab, "WALK SPEED", "WalkSpeedToggle", false)
-local WsFrame = Instance.new("Frame", CombatTab); WsFrame.Size = UDim2.new(0, 300, 0, 45); WsFrame.BackgroundColor3 = Theme.SurfaceLight; WsFrame.ZIndex = 12; Instance.new("UICorner", WsFrame).CornerRadius = UDim.new(0, 8)
-local WsLabel = Instance.new("TextLabel", WsFrame); WsLabel.Size = UDim2.new(0.5, 0, 1, 0); WsLabel.Position = UDim2.new(0, 10, 0, 0); WsLabel.BackgroundTransparency = 1; WsLabel.Text = "Speed: " .. _G.WalkSpeedValue; WsLabel.TextColor3 = Theme.Text; WsLabel.Font = Enum.Font.GothamBold; WsLabel.TextXAlignment = Enum.TextXAlignment.Left; WsLabel.ZIndex = 13
-local WsBtnM = Instance.new("TextButton", WsFrame); WsBtnM.Size = UDim2.new(0, 35, 0, 30); WsBtnM.Position = UDim2.new(1, -90, 0.5, -15); WsBtnM.Text = "-"; WsBtnM.BackgroundColor3 = Theme.Background; WsBtnM.TextColor3 = Theme.Accent; WsBtnM.ZIndex = 13; Instance.new("UICorner", WsBtnM).CornerRadius = UDim.new(0, 6)
-local WsBtnP = Instance.new("TextButton", WsFrame); WsBtnP.Size = UDim2.new(0, 35, 0, 30); WsBtnP.Position = UDim2.new(1, -45, 0.5, -15); WsBtnP.Text = "+"; WsBtnP.BackgroundColor3 = Theme.Background; WsBtnP.TextColor3 = Theme.Accent; WsBtnP.ZIndex = 13; Instance.new("UICorner", WsBtnP).CornerRadius = UDim.new(0, 6)
-WsBtnM.MouseButton1Click:Connect(function() _G.WalkSpeedValue = math.clamp(_G.WalkSpeedValue - 5, 1, 100); WsLabel.Text = "Speed: " .. _G.WalkSpeedValue end)
-WsBtnP.MouseButton1Click:Connect(function() _G.WalkSpeedValue = math.clamp(_G.WalkSpeedValue + 5, 1, 100); WsLabel.Text = "Speed: " .. _G.WalkSpeedValue end)
-
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
 
 -- [[ 3. LOOPS ]] --
@@ -217,14 +249,13 @@ task.spawn(function()
     end
 end)
 
--- ✨ NORMAL STEAL LOOP (ไม่มีดีเลย์ สแกนเจอแล้วดึงทันทีตามจำนวนที่ตั้ง)
+-- NORMAL STEAL LOOP
 task.spawn(function()
     while task.wait(0.1) do 
         if (_G.AutoSteal or _G.StealEvent) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local rootPos = plr.Character.HumanoidRootPart.Position
                 local stoleCount = 0 
-
                 for _, v in pairs(workspace:GetDescendants()) do
                     if v:IsA("ClickDetector") or v:IsA("ProximityPrompt") then
                         local model = v:FindFirstAncestorOfClass("Model") or v.Parent
@@ -236,8 +267,6 @@ task.spawn(function()
                             if not match and _G.AutoSteal then
                                 for name, sel in pairs(_G.SelectedBlocks) do if sel and model.Name:find(name) then match = true break end end
                             end
-                            
-                            -- ดึงทันทีถ้าระยะถึง และยังไม่เกินโควต้า
                             if match and (rootPos - (model:GetPivot().Position)).Magnitude < _G.StealRange then
                                 if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
                                 stoleCount = stoleCount + 1 
@@ -251,7 +280,7 @@ task.spawn(function()
     end
 end)
 
--- COLLECT SYSTEM (Money & Coins)
+-- COLLECT SYSTEM 
 task.spawn(function()
     while task.wait(0.1) do
         if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
@@ -261,34 +290,23 @@ task.spawn(function()
                     if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
                         local part = v.Parent
                         if part and part:IsA("BasePart") then
-                            
                             local hasMoney = false
                             local isBlacklisted = false
                             local hasText = false
-
                             for _, desc in pairs(part:GetDescendants()) do
                                 if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
                                     hasText = true
                                     local textLower = desc.Text:lower()
                                     if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
-                                    for _, b in pairs(Blacklist) do 
-                                        if textLower:find(b, 1, true) then isBlacklisted = true break end 
-                                    end
+                                    for _, b in pairs(Blacklist) do if textLower:find(b, 1, true) then isBlacklisted = true break end end
                                 end
                             end
-
                             if _G.AutoCollect and hasMoney and not isBlacklisted then 
-                                firetouchinterest(char.HumanoidRootPart, part, 0)
-                                firetouchinterest(char.HumanoidRootPart, part, 1) 
+                                firetouchinterest(char.HumanoidRootPart, part, 0); firetouchinterest(char.HumanoidRootPart, part, 1) 
                             end
-
                             if _G.AutoCollectCoin and not hasText then
-                                local pColor = part.Color
-                                local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
-                                if r > 150 and b > 150 and g < 200 then
-                                    firetouchinterest(char.HumanoidRootPart, part, 0)
-                                    firetouchinterest(char.HumanoidRootPart, part, 1)
-                                end
+                                local pColor = part.Color; local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
+                                if r > 150 and b > 150 and g < 200 then firetouchinterest(char.HumanoidRootPart, part, 0); firetouchinterest(char.HumanoidRootPart, part, 1) end
                             end
                         end
                     end
@@ -305,11 +323,8 @@ task.spawn(function()
             pcall(function()
                 for _, v in pairs(workspace:GetDescendants()) do
                     if v:IsA("Model") and v ~= plr.Character and v:FindFirstChild("Humanoid") then
-                        local name = v.Name:upper()
-                        local isMob = false
-                        for _, m in ipairs(MobsToIgnore) do
-                            if name == m or name:find(m) then isMob = true; break end
-                        end
+                        local name = v.Name:upper(); local isMob = false
+                        for _, m in ipairs(MobsToIgnore) do if name == m or name:find(m) then isMob = true; break end end
                         if isMob then
                             for _, child in pairs(v:GetChildren()) do if child:IsA("Tool") then child:Destroy() end end
                             for _, desc in pairs(v:GetDescendants()) do if desc:IsA("TouchTransmitter") then desc:Destroy() end end
@@ -322,46 +337,25 @@ task.spawn(function()
     end
 end)
 
--- TRAIN & WALK SPEED LOOP
+-- TRAIN LOOP
 task.spawn(function()
-    local wasWalkSpeedOn = false
-
     while task.wait(0.1) do
         if _G.AutoTrain and plr.Character then
             pcall(function()
                 local tool = plr.Character:FindFirstChildOfClass("Tool")
                 if not tool then
-                    for _, t in pairs(plr.Backpack:GetChildren()) do
-                        if t:IsA("Tool") then 
-                            local hum = plr.Character:FindFirstChildWhichIsA("Humanoid")
-                            if hum then hum:EquipTool(t); tool = t; break end
-                        end
-                    end
+                    for _, t in pairs(plr.Backpack:GetChildren()) do if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end end
                 end
                 if tool then
-                    tool:Activate()
-                    local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
+                    tool:Activate(); local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
                     VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 1); task.wait(0.01); VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 1)
                 end
             end)
         end
-        
-        pcall(function()
-            local hum = plr.Character and plr.Character:FindFirstChildWhichIsA("Humanoid")
-            if hum then
-                if _G.WalkSpeedToggle then
-                    hum.WalkSpeed = _G.WalkSpeedValue
-                    wasWalkSpeedOn = true
-                elseif wasWalkSpeedOn and not _G.WalkSpeedToggle then
-                    hum.WalkSpeed = 16 
-                    wasWalkSpeedOn = false
-                end
-            end
-        end)
     end
 end)
 
--- GOD MODE
+-- GOD MODE VELOCITY
 RunService.Stepped:Connect(function()
     if _G.GodMode and plr.Character then
         pcall(function()
@@ -372,64 +366,74 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- ✨ AUTO TP LOOP (ไม่มีดีเลย์จดจำ สแกนเจอแล้วพุ่งไปดึงเลย)
+-- AUTO TP COMBO (Tween - Drop -> Keep)
 task.spawn(function()
-    while task.wait(0.1) do
-        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                local hrp = plr.Character.HumanoidRootPart
-                local targets = {}
+    local function DoStealTrip(shouldDrop)
+        local hrp = plr.Character.HumanoidRootPart; local targets = {}
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("Model") then
+                for name, sel in pairs(_G.SelectedBlocks) do
+                    if sel and v.Name:find(name) then 
+                        local part = v:FindFirstChildWhichIsA("BasePart")
+                        if part then
+                            local exists = false; for _, t in ipairs(targets) do if t.model == v then exists = true break end end
+                            if not exists then table.insert(targets, {model = v, part = part}) end
+                        end
+                    end
+                end
+            end
+            if #targets >= _G.StealLimit then break end 
+        end
+        if #targets > 0 then 
+            for i, targetData in ipairs(targets) do
+                local targetCFrame = targetData.part.CFrame * CFrame.new(0, 4, 0)
+                local dist = (hrp.Position - targetCFrame.Position).Magnitude
+                hrp.Anchored = true
+                local tw = TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 300, 0.1, 2), Enum.EasingStyle.Linear), {CFrame = targetCFrame})
+                tw:Play()
+                tw.Completed:Wait()
+                hrp.Anchored = false
+                task.wait(0.1)
                 
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("Model") then
-                        for name, sel in pairs(_G.SelectedBlocks) do
-                            if sel and v.Name:find(name) then 
-                                local part = v:FindFirstChildWhichIsA("BasePart")
-                                if part then
-                                    local exists = false
-                                    for _, t in ipairs(targets) do if t.model == v then exists = true break end end
-                                    if not exists then 
-                                        table.insert(targets, {model = v, part = part}) 
-                                    end
-                                end
+                local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true); local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
+                if cd then fireclickdetector(cd) end; if pp then fireproximityprompt(pp) end
+            end
+            
+            if _G.SavedPos then
+                task.wait(0.3); hrp.Anchored = true; local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
+                TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 200, 0.2, 2), Enum.EasingStyle.Linear), {CFrame = _G.SavedPos}):Play()
+                task.wait(math.clamp(dist / 200, 0.2, 2)); hrp.Anchored = false; task.wait(0.5) 
+                
+                if shouldDrop and PlayerGui then
+                    for _, gui in pairs(PlayerGui:GetDescendants()) do
+                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                            local tLower = gui:IsA("TextButton") and gui.Text:lower() or ""
+                            if tLower:find("drop") or gui.Name:lower():find("drop") then
+                                if getconnections then for _, conn in pairs(getconnections(gui.MouseButton1Click)) do conn:Fire() end
+                                elseif firesignal then firesignal(gui.MouseButton1Click) end
                             end
                         end
                     end
-                    if #targets >= _G.StealLimit then break end 
+                    task.wait(0.5) 
                 end
-
-                if #targets > 0 then 
-                    for i, targetData in ipairs(targets) do
-                        hrp.CFrame = targetData.part.CFrame * CFrame.new(0, 4, 0)
-                        task.wait(0.1) -- ลดลงสุดๆ ให้เซิร์ฟจับพิกัดเราทัน
-                        
-                        -- ยิง Steal ทันทีที่หน้าบล็อก
-                        local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true)
-                        local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
-                        if cd then fireclickdetector(cd) end
-                        if pp then fireproximityprompt(pp) end
-                    end
-                    
-                    if _G.SavedPos then
-                        hrp.Anchored = true 
-                        local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
-                        local twTime = math.clamp(dist / 200, 0.2, 2) 
-                        local twInfo = TweenInfo.new(twTime, Enum.EasingStyle.Linear)
-                        local tw = TweenService:Create(hrp, twInfo, {CFrame = _G.SavedPos})
-                        tw:Play()
-                        tw.Completed:Wait() 
-                        hrp.Anchored = false 
-                    end
-
-                    _G.AutoTP = false
-                    
-                    if autoTpBtnInstance and autoTpStatusInstance then
-                        TweenService:Create(autoTpBtnInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight}):Play()
-                        TweenService:Create(autoTpBtnInstance, TweenInfo.new(0.2), {TextColor3 = Theme.Text}):Play()
-                        TweenService:Create(autoTpStatusInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play()
-                    end
+            end
+            return true 
+        end
+        return false 
+    end
+    while task.wait(0.5) do
+        if _G.AutoTP and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local successFirstTrip = DoStealTrip(true)
+                if successFirstTrip and _G.AutoTP then DoStealTrip(false) end
+                _G.AutoTP = false
+                if autoTpBtnInstance then
+                    TweenService:Create(autoTpBtnInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
+                    TweenService:Create(autoTpStatusInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play()
                 end
             end)
         end
     end
 end)
+
+print("FARTEZ HUB (Cleaned Version V31) Loaded!")
