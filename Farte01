@@ -29,16 +29,18 @@ _G.StealRange = 800
 local autoTpBtnInstance = nil 
 local autoTpStatusInstance = nil
 
--- รายชื่อบล็อก 
+-- รายชื่อบล็อก (เพิ่ม Transcendent, Blackhole, Crab)
 _G.SelectedBlocks = {
     ["Common"] = false, ["Rare"] = false, ["Epic"] = false, ["Legendary"] = false, 
     ["Mythic"] = false, ["Secret"] = false, ["Brainrot God"] = false, ["Brainrot"] = false,
     ["Exclusive"] = false, ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, 
     ["67"] = false, ["Rainbow"] = false, ["Toxic"] = false, ["Cosmic"] = false, ["Easter"] = false,
-    ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false
+    ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false, ["Transcendent"] = false, ["Blackhole"] = false,
+    ["Crab"] = false
 }
 
-local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Easter"}
+-- เพิ่ม Transcendent, Blackhole, Crab และเอา Easter ออก
+local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Transcendent", "Blackhole", "Crab"}
 
 local Blacklist = {
     "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
@@ -80,7 +82,7 @@ Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB  (Update  v2)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB  (Update  v2.5)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
 Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 15, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
@@ -156,7 +158,7 @@ end
 
 -- [[ TABS CONTENT ]] --
 
--- ลบทิ้งประตู VIP (ยังเก็บไว้ให้ใช้งานได้สะดวกๆ)
+-- ลบทิ้งประตู VIP 
 CreateButton(MainTab, "🔓 BYPASS VIP DOOR", function()
     pcall(function()
         local count = 0
@@ -185,10 +187,8 @@ end)
 
 CreateToggle(MainTab, "AUTO TP (Combo 2 Steps)", "AutoTP", false, function(v) 
     if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then 
-        -- เซฟพิกัดยืนยันเมื่อเปิด
         if not _G.SavedPos then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end
     else
-        -- ล้างค่าจุดเซฟเมื่อปิด
         _G.SavedPos = nil
     end 
 end)
@@ -205,7 +205,7 @@ CreateToggle(MainTab, "STEAL EVENT", "StealEvent", false)
 CreateToggle(MainTab, "TRAIN!", "AutoTrain", false)
 CreateToggle(MainTab, "GOD MODE", "GodMode", false)
 
-local allBlocks = {"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco"}
+local allBlocks = {"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab"}
 for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
 
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
@@ -366,19 +366,37 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- AUTO TP COMBO (Tween - Drop -> Keep)
+-- AUTO TP COMBO (Tween - Drop -> Keep) / ปรับให้เช็ค Event ควบคู่
 task.spawn(function()
     local function DoStealTrip(shouldDrop)
         local hrp = plr.Character.HumanoidRootPart; local targets = {}
         for _, v in pairs(workspace:GetDescendants()) do
             if v:IsA("Model") then
+                local match = false
+                
+                -- เช็คว่าเป็นบล็อกปกติที่เปิดไว้มั้ย
                 for name, sel in pairs(_G.SelectedBlocks) do
                     if sel and v.Name:find(name) then 
-                        local part = v:FindFirstChildWhichIsA("BasePart")
-                        if part then
-                            local exists = false; for _, t in ipairs(targets) do if t.model == v then exists = true break end end
-                            if not exists then table.insert(targets, {model = v, part = part}) end
+                        match = true
+                        break
+                    end
+                end
+                
+                -- เช็คว่าเป็นบล็อก Event มั้ย (ถ้าเปิด Steal Event ไว้)
+                if not match and _G.StealEvent then
+                    for _, eventName in ipairs(EventBlocksList) do
+                        if v.Name:find(eventName) then
+                            match = true
+                            break
                         end
+                    end
+                end
+
+                if match then
+                    local part = v:FindFirstChildWhichIsA("BasePart")
+                    if part then
+                        local exists = false; for _, t in ipairs(targets) do if t.model == v then exists = true break end end
+                        if not exists then table.insert(targets, {model = v, part = part}) end
                     end
                 end
             end
@@ -436,4 +454,4 @@ task.spawn(function()
     end
 end)
 
-print("FARTEZ HUB (Cleaned Version V31) Loaded!")
+print("FARTEZ HUB (Updated Events & TP logic) Loaded!")
