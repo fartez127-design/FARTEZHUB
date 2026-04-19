@@ -26,10 +26,14 @@ _G.HitboxSize = 40
 _G.SavedPos = nil
 _G.StealRange = 800
 
+-- Upgrade Settings
+_G.UpgradeTarget = 1
+_G.AutoUpgradeSelected = false
+_G.AutoUpgradeAll = false
+
 local autoTpBtnInstance = nil 
 local autoTpStatusInstance = nil
 
--- รายชื่อบล็อก (เพิ่ม Transcendent, Blackhole, Crab)
 _G.SelectedBlocks = {
     ["Common"] = false, ["Rare"] = false, ["Epic"] = false, ["Legendary"] = false, 
     ["Mythic"] = false, ["Secret"] = false, ["Brainrot God"] = false, ["Brainrot"] = false,
@@ -39,16 +43,8 @@ _G.SelectedBlocks = {
     ["Crab"] = false
 }
 
--- เพิ่ม Transcendent, Blackhole, Crab และเอา Easter ออก
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Transcendent", "Blackhole", "Crab"}
-
-local Blacklist = {
-    "shop", "buy", "purchase", "gamepass", "robux", "product", "teleport",
-    "only", "x2", "auto collect", "[op]", "cheap", "floor", "new",
-    "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande",
-    "strawberry", "elephant", "sell", "easter spinner", "upgrade" 
-}
-
+local Blacklist = {"shop", "buy", "purchase", "gamepass", "robux", "product", "teleport", "only", "x2", "auto collect", "[op]", "cheap", "floor", "new", "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande", "strawberry", "elephant", "sell", "easter spinner", "upgrade"}
 local MobsToIgnore = {"EASY", "NORMAL", "MEDIUM", "HARD", "EXPERT", "SUPER", "CRAZY"}
 
 local Theme = {
@@ -82,7 +78,7 @@ Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB  (Update  v2.5)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB (Update v2.7)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
 Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 15, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
@@ -98,7 +94,7 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 75, 0, 28); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = name; Btn.TextColor3 = Theme.TextDim; Btn.ZIndex = 11
+    Btn.Size = UDim2.new(0, 60, 0, 28); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = name; Btn.TextColor3 = Theme.TextDim; Btn.ZIndex = 11; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 10
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
     local Page = Instance.new("ScrollingFrame", Content)
     Page.Size = UDim2.new(1, 0, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 11; Page.ScrollBarThickness = 2; Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -112,9 +108,10 @@ local function CreateTab(name)
 end
 
 local MainTab = CreateTab("Main")
-local LuckyTab = CreateTab("Lucky Blocks")
+local LuckyTab = CreateTab("Blocks")
 local CollectTab = CreateTab("Collect")
 local CombatTab = CreateTab("Combat")
+local UpgradeTab = CreateTab("Upgrade")
 
 Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 
@@ -125,12 +122,7 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     local Status = Instance.new("Frame", Btn)
     Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim; Status.ZIndex = 13
     Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
-    
-    if stateVar == "AutoTP" then
-        autoTpBtnInstance = Btn
-        autoTpStatusInstance = Status
-    end
-
+    if stateVar == "AutoTP" then autoTpBtnInstance = Btn; autoTpStatusInstance = Status end
     Btn.MouseButton1Click:Connect(function()
         local isActive
         if isBlockFilter then _G.SelectedBlocks[stateVar] = not _G.SelectedBlocks[stateVar]; isActive = _G.SelectedBlocks[stateVar]
@@ -157,91 +149,107 @@ local function CreateButton(parent, text, callback)
 end
 
 -- [[ TABS CONTENT ]] --
-
--- ลบทิ้งประตู VIP 
 CreateButton(MainTab, "🔓 BYPASS VIP DOOR", function()
     pcall(function()
-        local count = 0
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("BasePart") then
-                local isVip = false
-                if v.Name:lower():find("vip") then isVip = true end
-                for _, ui in pairs(v:GetChildren()) do
-                    if ui:IsA("SurfaceGui") or ui:IsA("BillboardGui") then
-                        for _, txt in pairs(ui:GetDescendants()) do
-                            if txt:IsA("TextLabel") and (txt.Text:find("V.I.P") or txt.Text:find("VIP")) then
-                                isVip = true
-                            end
-                        end
-                    end
-                end
-                if isVip then
-                    v:Destroy()
-                    count = count + 1
-                end
-            end
-        end
-        print("ลบประตูกั้น VIP ออกแล้ว: " .. count .. " บาน")
+        for _, v in pairs(workspace:GetDescendants()) do if v:IsA("BasePart") and v.Name:lower():find("vip") then v:Destroy() end end
     end)
 end)
 
-CreateToggle(MainTab, "AUTO TP (Combo 2 Steps)", "AutoTP", false, function(v) 
-    if v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then 
-        if not _G.SavedPos then _G.SavedPos = plr.Character.HumanoidRootPart.CFrame end
-    else
-        _G.SavedPos = nil
-    end 
-end)
-
-local AmtFrame = Instance.new("Frame", MainTab); AmtFrame.Size = UDim2.new(0, 300, 0, 45); AmtFrame.BackgroundColor3 = Theme.SurfaceLight; AmtFrame.ZIndex = 12; Instance.new("UICorner", AmtFrame).CornerRadius = UDim.new(0, 8)
-local AmtLabel = Instance.new("TextLabel", AmtFrame); AmtLabel.Size = UDim2.new(0.5, 0, 1, 0); AmtLabel.Position = UDim2.new(0, 10, 0, 0); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit; AmtLabel.TextColor3 = Theme.Text; AmtLabel.Font = Enum.Font.GothamBold; AmtLabel.TextXAlignment = Enum.TextXAlignment.Left; AmtLabel.ZIndex = 13; AmtLabel.BackgroundTransparency = 1
-local btnAmtM = Instance.new("TextButton", AmtFrame); btnAmtM.Size = UDim2.new(0, 35, 0, 30); btnAmtM.Position = UDim2.new(1, -90, 0.5, -15); btnAmtM.Text = "-"; btnAmtM.TextSize = 20; btnAmtM.Font = Enum.Font.GothamBold; btnAmtM.ZIndex = 13; btnAmtM.BackgroundColor3 = Theme.Background; btnAmtM.TextColor3 = Theme.Accent; Instance.new("UICorner", btnAmtM).CornerRadius = UDim.new(0, 6)
-local btnAmtP = Instance.new("TextButton", AmtFrame); btnAmtP.Size = UDim2.new(0, 35, 0, 30); btnAmtP.Position = UDim2.new(1, -45, 0.5, -15); btnAmtP.Text = "+"; btnAmtP.TextSize = 20; btnAmtP.Font = Enum.Font.GothamBold; btnAmtP.ZIndex = 13; btnAmtP.BackgroundColor3 = Theme.Background; btnAmtP.TextColor3 = Theme.Accent; Instance.new("UICorner", btnAmtP).CornerRadius = UDim.new(0, 6)
-btnAmtM.MouseButton1Click:Connect(function() _G.StealLimit = math.clamp(_G.StealLimit - 1, 1, 5); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit end)
-btnAmtP.MouseButton1Click:Connect(function() _G.StealLimit = math.clamp(_G.StealLimit + 1, 1, 5); AmtLabel.Text = "Steal Amount: " .. _G.StealLimit end)
-
+CreateToggle(MainTab, "AUTO TP (Combo)", "AutoTP", false, function(v) _G.SavedPos = (v and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character.HumanoidRootPart.CFrame) or nil end)
 CreateToggle(MainTab, "STEAL", "AutoSteal", false)
 CreateToggle(MainTab, "STEAL EVENT", "StealEvent", false)
 CreateToggle(MainTab, "TRAIN!", "AutoTrain", false)
 CreateToggle(MainTab, "GOD MODE", "GodMode", false)
 
-local allBlocks = {"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab"}
-for _, b in pairs(allBlocks) do CreateToggle(LuckyTab, b, b, true) end
+-- [[ UPGRADE UI ]] --
+local UpgradeFrame = Instance.new("Frame", UpgradeTab)
+UpgradeFrame.Size = UDim2.new(0, 300, 0, 45); UpgradeFrame.BackgroundColor3 = Theme.SurfaceLight; UpgradeFrame.ZIndex = 12; Instance.new("UICorner", UpgradeFrame).CornerRadius = UDim.new(0, 8)
+local UpgradeLabel = Instance.new("TextLabel", UpgradeFrame)
+UpgradeLabel.Size = UDim2.new(0.5, 0, 1, 0); UpgradeLabel.Position = UDim2.new(0, 10, 0, 0); UpgradeLabel.Text = "Select Slot (1-100):"; UpgradeLabel.TextColor3 = Theme.Text; UpgradeLabel.Font = Enum.Font.GothamBold; UpgradeLabel.BackgroundTransparency = 1; UpgradeLabel.TextXAlignment = 0; UpgradeLabel.ZIndex = 13
+local InputBox = Instance.new("TextBox", UpgradeFrame)
+InputBox.Size = UDim2.new(0, 100, 0, 30); InputBox.Position = UDim2.new(1, -110, 0.5, -15); InputBox.BackgroundColor3 = Theme.Background; InputBox.TextColor3 = Theme.Accent; InputBox.Font = Enum.Font.GothamBold; InputBox.Text = tostring(_G.UpgradeTarget); InputBox.ZIndex = 13; Instance.new("UICorner", InputBox).CornerRadius = UDim.new(0, 6)
+InputBox.FocusLost:Connect(function() _G.UpgradeTarget = tonumber(InputBox.Text) or 1; InputBox.Text = tostring(_G.UpgradeTarget) end)
 
+CreateToggle(UpgradeTab, "AUTO UPGRADE SELECTED", "AutoUpgradeSelected", false)
+CreateToggle(UpgradeTab, "AUTO UPGRADE ALL", "AutoUpgradeAll", false)
+
+for _, b in pairs({"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab"}) do CreateToggle(LuckyTab, b, b, true) end
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
 CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
-
-CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false, function(v)
-    if not v then 
-        for _, p in pairs(Players:GetPlayers()) do 
-            if p ~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then 
-                local hrp = p.Character.HumanoidRootPart
-                hrp.Size = Vector3.new(2,2,1); hrp.Transparency = 1; hrp.CanCollide = false; hrp.Massless = false
-            end 
-        end 
-    end
-end)
-local HbFrame = Instance.new("Frame", CombatTab); HbFrame.Size = UDim2.new(0, 300, 0, 45); HbFrame.BackgroundColor3 = Theme.SurfaceLight; HbFrame.ZIndex = 12; Instance.new("UICorner", HbFrame).CornerRadius = UDim.new(0, 8)
-local HbLabel = Instance.new("TextLabel", HbFrame); HbLabel.Size = UDim2.new(0.5, 0, 1, 0); HbLabel.Position = UDim2.new(0, 10, 0, 0); HbLabel.Text = "Hitbox Size: ".._G.HitboxSize; HbLabel.TextColor3 = Theme.Text; HbLabel.ZIndex = 13; HbLabel.BackgroundTransparency = 1; HbLabel.TextXAlignment = 0
-local btnM = Instance.new("TextButton", HbFrame); btnM.Size = UDim2.new(0, 35, 0, 30); btnM.Position = UDim2.new(1, -90, 0.5, -15); btnM.Text = "-"; btnM.ZIndex = 13; btnM.BackgroundColor3 = Theme.Background; btnM.TextColor3 = Theme.Accent
-local btnP = Instance.new("TextButton", HbFrame); btnP.Size = UDim2.new(0, 35, 0, 30); btnP.Position = UDim2.new(1, -45, 0.5, -15); btnP.Text = "+"; btnP.ZIndex = 13; btnP.BackgroundColor3 = Theme.Background; btnP.TextColor3 = Theme.Accent
-btnM.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize-5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
-btnP.MouseButton1Click:Connect(function() _G.HitboxSize = math.clamp(_G.HitboxSize+5,1,100); HbLabel.Text="Hitbox Size: ".._G.HitboxSize end)
+CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false)
 
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
 
--- [[ 3. LOOPS ]] --
+-- [[ LOOPS ]] --
 
--- HITBOX LOOP
+-- TRAIN LOOP
+task.spawn(function()
+    while task.wait(0.1) do
+        if _G.AutoTrain and plr.Character then
+            pcall(function()
+                game:GetService("ReplicatedStorage").SharedModules.Network.Remotes:FindFirstChild("Activate Dumbell"):FireServer()
+            end)
+        end
+    end
+end)
+
+-- UPGRADE LOOP
 task.spawn(function()
     while task.wait(0.5) do
-        if _G.Hitbox then
+        if _G.AutoUpgradeSelected then
             pcall(function()
-                for _, v in pairs(Players:GetPlayers()) do
-                    if v ~= plr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-                        local hrp = v.Character.HumanoidRootPart
-                        hrp.Size = Vector3.new(_G.HitboxSize, _G.HitboxSize, _G.HitboxSize)
-                        hrp.Transparency = 0.8; hrp.BrickColor = BrickColor.new("Bright red"); hrp.Material = Enum.Material.Neon; hrp.CanCollide = false; hrp.Massless = true
+                local args = { [1] = tostring(_G.UpgradeTarget) }
+                game:GetService("ReplicatedStorage").SharedModules.Network.Remotes:FindFirstChild("Upgrade Friend"):FireServer(unpack(args))
+            end)
+        end
+        if _G.AutoUpgradeAll then
+            pcall(function()
+                for i = 1, 100 do
+                    local args = { [1] = tostring(i) }
+                    game:GetService("ReplicatedStorage").SharedModules.Network.Remotes:FindFirstChild("Upgrade Friend"):FireServer(unpack(args))
+                    task.wait(0.01)
+                end
+            end)
+        end
+    end
+end)
+
+-- IMPROVED COLLECT SYSTEM (CFrame + FireTouch Bypass)
+task.spawn(function()
+    while task.wait(0.1) do
+        if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local hrp = plr.Character.HumanoidRootPart
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
+                        local part = v.Parent
+                        if part and part:IsA("BasePart") then
+                            local hasMoney = false
+                            local isBlacklisted = false
+                            local hasText = false
+                            for _, desc in pairs(part:GetDescendants()) do
+                                if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
+                                    hasText = true
+                                    local textLower = desc.Text:lower()
+                                    if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
+                                    for _, b in pairs(Blacklist) do if textLower:find(b, 1, true) then isBlacklisted = true break end end
+                                end
+                            end
+                            
+                            local isCoinMatch = false
+                            if not hasText then
+                                local r, g, b = part.Color.R * 255, part.Color.G * 255, part.Color.B * 255
+                                if r > 150 and b > 150 and g < 200 then isCoinMatch = true end
+                            end
+
+                            if (_G.AutoCollect and hasMoney and not isBlacklisted) or (_G.AutoCollectCoin and isCoinMatch) then 
+                                part.CFrame = hrp.CFrame
+                                if firetouchinterest then
+                                    firetouchinterest(hrp, part, 0)
+                                    firetouchinterest(hrp, part, 1) 
+                                end
+                            end
+                        end
                     end
                 end
             end)
@@ -280,81 +288,6 @@ task.spawn(function()
     end
 end)
 
--- COLLECT SYSTEM 
-task.spawn(function()
-    while task.wait(0.1) do
-        if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                local char = plr.Character
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
-                        local part = v.Parent
-                        if part and part:IsA("BasePart") then
-                            local hasMoney = false
-                            local isBlacklisted = false
-                            local hasText = false
-                            for _, desc in pairs(part:GetDescendants()) do
-                                if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
-                                    hasText = true
-                                    local textLower = desc.Text:lower()
-                                    if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
-                                    for _, b in pairs(Blacklist) do if textLower:find(b, 1, true) then isBlacklisted = true break end end
-                                end
-                            end
-                            if _G.AutoCollect and hasMoney and not isBlacklisted then 
-                                firetouchinterest(char.HumanoidRootPart, part, 0); firetouchinterest(char.HumanoidRootPart, part, 1) 
-                            end
-                            if _G.AutoCollectCoin and not hasText then
-                                local pColor = part.Color; local r, g, b = pColor.R * 255, pColor.G * 255, pColor.B * 255
-                                if r > 150 and b > 150 and g < 200 then firetouchinterest(char.HumanoidRootPart, part, 0); firetouchinterest(char.HumanoidRootPart, part, 1) end
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end
-end)
-
--- MOB NEUTRALIZER
-task.spawn(function()
-    while task.wait(0.2) do
-        if _G.GodMode then
-            pcall(function()
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("Model") and v ~= plr.Character and v:FindFirstChild("Humanoid") then
-                        local name = v.Name:upper(); local isMob = false
-                        for _, m in ipairs(MobsToIgnore) do if name == m or name:find(m) then isMob = true; break end end
-                        if isMob then
-                            for _, child in pairs(v:GetChildren()) do if child:IsA("Tool") then child:Destroy() end end
-                            for _, desc in pairs(v:GetDescendants()) do if desc:IsA("TouchTransmitter") then desc:Destroy() end end
-                            if v:FindFirstChild("HumanoidRootPart") then v.HumanoidRootPart.Anchored = true end
-                        end
-                    end
-                end
-            end)
-        end
-    end
-end)
-
--- TRAIN LOOP
-task.spawn(function()
-    while task.wait(0.1) do
-        if _G.AutoTrain and plr.Character then
-            pcall(function()
-                local tool = plr.Character:FindFirstChildOfClass("Tool")
-                if not tool then
-                    for _, t in pairs(plr.Backpack:GetChildren()) do if t:IsA("Tool") then plr.Character.Humanoid:EquipTool(t); tool = t; break end end
-                end
-                if tool then
-                    tool:Activate(); local cam = workspace.CurrentCamera; local center = Vector2.new(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
-                    VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 1); task.wait(0.01); VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 1)
-                end
-            end)
-        end
-    end
-end)
-
 -- GOD MODE VELOCITY
 RunService.Stepped:Connect(function()
     if _G.GodMode and plr.Character then
@@ -366,32 +299,17 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- AUTO TP COMBO (Tween - Drop -> Keep) / ปรับให้เช็ค Event ควบคู่
+-- AUTO TP COMBO 
 task.spawn(function()
     local function DoStealTrip(shouldDrop)
         local hrp = plr.Character.HumanoidRootPart; local targets = {}
         for _, v in pairs(workspace:GetDescendants()) do
             if v:IsA("Model") then
                 local match = false
-                
-                -- เช็คว่าเป็นบล็อกปกติที่เปิดไว้มั้ย
-                for name, sel in pairs(_G.SelectedBlocks) do
-                    if sel and v.Name:find(name) then 
-                        match = true
-                        break
-                    end
-                end
-                
-                -- เช็คว่าเป็นบล็อก Event มั้ย (ถ้าเปิด Steal Event ไว้)
+                for name, sel in pairs(_G.SelectedBlocks) do if sel and v.Name:find(name) then match = true break end end
                 if not match and _G.StealEvent then
-                    for _, eventName in ipairs(EventBlocksList) do
-                        if v.Name:find(eventName) then
-                            match = true
-                            break
-                        end
-                    end
+                    for _, eventName in ipairs(EventBlocksList) do if v.Name:find(eventName) then match = true break end end
                 end
-
                 if match then
                     local part = v:FindFirstChildWhichIsA("BasePart")
                     if part then
@@ -412,16 +330,13 @@ task.spawn(function()
                 tw.Completed:Wait()
                 hrp.Anchored = false
                 task.wait(0.1)
-                
                 local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true); local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
                 if cd then fireclickdetector(cd) end; if pp then fireproximityprompt(pp) end
             end
-            
             if _G.SavedPos then
                 task.wait(0.3); hrp.Anchored = true; local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
                 TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 200, 0.2, 2), Enum.EasingStyle.Linear), {CFrame = _G.SavedPos}):Play()
                 task.wait(math.clamp(dist / 200, 0.2, 2)); hrp.Anchored = false; task.wait(0.5) 
-                
                 if shouldDrop and PlayerGui then
                     for _, gui in pairs(PlayerGui:GetDescendants()) do
                         if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
@@ -454,4 +369,4 @@ task.spawn(function()
     end
 end)
 
-print("FARTEZ HUB (Updated Events & TP logic) Loaded!")
+print("FARTEZ HUB Loaded Successfully!")
