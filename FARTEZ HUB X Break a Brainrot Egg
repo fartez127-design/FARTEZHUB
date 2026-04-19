@@ -81,7 +81,7 @@ local Subtitle = Instance.new("TextLabel")
 Subtitle.Size = UDim2.new(0, 160, 0, 16) 
 Subtitle.Position = UDim2.new(0, 52, 0, 26) 
 Subtitle.BackgroundTransparency = 1 
-Subtitle.Text = "Ultimate God Farm" 
+Subtitle.Text = "Break a Brainrot Egg!" 
 Subtitle.TextColor3 = Theme.Accent
 Subtitle.TextSize = 10 
 Subtitle.Font = Enum.Font.GothamSemibold 
@@ -242,7 +242,7 @@ CreateButton(MainTab, "🚀 TP TO SAFE ZONE", function()
     end)
 end)
 
-CreateButton(MainTab, "🔓 UNLOCK ZONES & VAULT", function()
+CreateButton(MainTab, "🔓 UNLOCK ZONES & VAULT (Cannot be picked up)", function()
     pcall(function()
         local count = 0
         for _, v in pairs(workspace:GetDescendants()) do
