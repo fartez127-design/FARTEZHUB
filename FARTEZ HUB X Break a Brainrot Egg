@@ -28,6 +28,7 @@ _G.AutoCollect = false
 _G.AutoPickUp = false 
 _G.AutoUpgradeAll = false
 _G.AutoUpgradeSpecific = false
+_G.AutoRebirth = false -- ✨ เพิ่มตัวแปร Rebirth
 _G.TargetPlatform = 1 
 
 -- Blacklist
@@ -81,7 +82,7 @@ local Subtitle = Instance.new("TextLabel")
 Subtitle.Size = UDim2.new(0, 160, 0, 16) 
 Subtitle.Position = UDim2.new(0, 52, 0, 26) 
 Subtitle.BackgroundTransparency = 1 
-Subtitle.Text = "Break a Brainrot Egg!" 
+Subtitle.Text = "Ultimate God Farm" 
 Subtitle.TextColor3 = Theme.Accent
 Subtitle.TextSize = 10 
 Subtitle.Font = Enum.Font.GothamSemibold 
@@ -130,6 +131,7 @@ local CollectTab = CreateTab("Collect")
 Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
 
+-- [ UI Elements Function ]
 local function CreateToggle(parent, text, stateVar)
     local Btn = Instance.new("TextButton", parent)
     Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Text; Btn.ZIndex = 12; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 11
@@ -242,7 +244,7 @@ CreateButton(MainTab, "🚀 TP TO SAFE ZONE", function()
     end)
 end)
 
-CreateButton(MainTab, "🔓 UNLOCK ZONES & VAULT (Cannot be picked up)", function()
+CreateButton(MainTab, "🔓 UNLOCK ZONES & VAULT (Cannot be pick ed up. )", function()
     pcall(function()
         local count = 0
         for _, v in pairs(workspace:GetDescendants()) do
@@ -280,6 +282,8 @@ end)
 CreateToggle(CollectTab, "💰 AUTO COLLECT MONEY", "AutoCollect")
 CreateToggle(CollectTab, "⬆️ AUTO UPGRADE ALL (1-30)", "AutoUpgradeAll")
 CreateToggleWithInput(CollectTab, "🎯 AUTO UPGRADE SPECIFIC", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
+-- ✨ เพิ่มปุ่ม Auto Rebirth
+CreateToggle(CollectTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 
 -- =======================================
 -- 🔄 LOOPS
@@ -379,7 +383,25 @@ task.spawn(function()
     end
 end)
 
--- 3. AUTO PICK UP
+-- ✨ 3. AUTO REBIRTH
+task.spawn(function()
+    local RebirthRemote = nil
+    while task.wait(1) do -- เช็คทุกๆ 1 วินาที
+        if _G.AutoRebirth then
+            pcall(function()
+                if not RebirthRemote then
+                    RebirthRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.RebirthService.RF.RequestRebirth
+                end
+                
+                if RebirthRemote then
+                    RebirthRemote:InvokeServer()
+                end
+            end)
+        end
+    end
+end)
+
+-- 4. AUTO PICK UP
 task.spawn(function()
     while task.wait(0.2) do
         if _G.AutoPickUp and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -458,7 +480,7 @@ task.spawn(function()
     end
 end)
 
--- 4. AUTO COLLECT
+-- 5. AUTO COLLECT
 task.spawn(function()
     while task.wait(0.2) do
         if _G.AutoCollect and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
