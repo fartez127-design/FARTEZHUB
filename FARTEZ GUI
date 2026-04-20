@@ -44,7 +44,7 @@ btnStroke.Color = Theme.Accent -- ขอบสีเขียว
 
 -- [ หน้าต่างหลัก (Main Window) ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 480)
+Main.Size = UDim2.new(0, 340, 0, 350)
 Main.Position = UDim2.new(0.5, -170, 0.5, -240)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
