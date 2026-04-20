@@ -63,24 +63,40 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
-local toggleBtn = Instance.new("TextButton", ScreenGui)
-toggleBtn.Size = UDim2.new(0, 50, 0, 50); toggleBtn.Position = UDim2.new(0, 15, 0, 150)
-toggleBtn.Text = "FZ"; toggleBtn.BackgroundColor3 = Theme.Accent; toggleBtn.TextColor3 = Color3.new(1, 1, 1)
-toggleBtn.TextSize = 24; toggleBtn.Font = Enum.Font.GothamBold; toggleBtn.Draggable = true
+-- [ เปลี่ยนปุ่มเปิด/ปิด ให้เป็นโลโก้รูปภาพวงกลม ]
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+toggleBtn.Draggable = true
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
-Instance.new("UIStroke", toggleBtn).Thickness = 2
+local stroke = Instance.new("UIStroke", toggleBtn)
+stroke.Thickness = 2
+stroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
 Main.Size = UDim2.new(0, 340, 0, 380); Main.Position = UDim2.new(0.5, -170, 0.5, -190)
 Main.BackgroundColor3 = Theme.Background; Main.ClipsDescendants = true; Main.Active = true; Main.Draggable = true; Main.ZIndex = 5
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
+-- [[ ส่วนหัว (TOPBAR) พร้อมโลโก้ ]] --
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
+
+local Logo = Instance.new("ImageLabel", TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.ZIndex = 11
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150" 
+Logo.ScaleType = Enum.ScaleType.Fit
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
+
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 15, 0, 5); Title.Text = "FARTEZ HUB (Update v2.7)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.Text = "FARTEZ HUB (Update v2.7)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
-Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 15, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
+Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 52, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
 local TabContainer = Instance.new("Frame", Main)
 TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56); TabContainer.BackgroundColor3 = Theme.Surface; TabContainer.ZIndex = 10
@@ -369,4 +385,4 @@ task.spawn(function()
     end
 end)
 
-print("FARTEZ HUB Loaded Successfully!")
+print("FARTEZ HUB (Update v2.7 with Logo) Loaded Successfully!")
