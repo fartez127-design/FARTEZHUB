@@ -57,18 +57,18 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
-local toggleBtn = Instance.new("TextButton", ScreenGui)
-toggleBtn.Size = UDim2.new(0, 50, 0, 50); toggleBtn.Position = UDim2.new(0, 15, 0, 150)
-toggleBtn.Text = "FZ"; toggleBtn.BackgroundColor3 = Theme.Accent; toggleBtn.TextColor3 = Color3.new(1, 1, 1)
-toggleBtn.TextSize = 24; toggleBtn.Font = Enum.Font.GothamBold; toggleBtn.Draggable = true
-
-toggleBtn.TextStrokeTransparency = 0
-toggleBtn.TextStrokeColor3 = Color3.new(0, 0, 0)
+-- [ เปลี่ยนปุ่ม FZ เป็นโลโก้รูปภาพ ]
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+toggleBtn.Draggable = true
 
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
 
 local btnStroke = Instance.new("UIStroke", toggleBtn)
-btnStroke.Color = Color3.new(0, 0, 0)
+btnStroke.Color = Theme.Accent
 btnStroke.Thickness = 2.5
 
 local Main = Instance.new("Frame", ScreenGui)
@@ -79,11 +79,38 @@ Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.BorderSizePixel = 0; TopBar.ZIndex = 10
 
-local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.BackgroundTransparency = 1; Title.Text = "FARTEZ HUB         (Update v1.1)  "; Title.TextColor3 = Theme.Text; Title.TextSize = 18; Title.Font = Enum.Font.GothamBold; Title.TextXAlignment = Enum.TextXAlignment.Left
+-- [ โลโก้ตรง TopBar ]
+local Logo = Instance.new("ImageLabel", TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.ZIndex = 11
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150" 
+Logo.ScaleType = Enum.ScaleType.Fit
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
-local Subtitle = Instance.new("TextLabel", TopBar)
-Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 52, 0, 26); Subtitle.BackgroundTransparency = 1; Subtitle.Text = "Break a Brainrot Egg!"; Subtitle.TextColor3 = Theme.Accent; Subtitle.TextSize = 10; Subtitle.Font = Enum.Font.GothamSemibold; Subtitle.TextXAlignment = Enum.TextXAlignment.Left
+-- [ ส่วนของ Title และ Subtitle ที่คุณต้องการ ]
+local Title = Instance.new("TextLabel", TopBar) 
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 52, 0, 5) 
+Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB         (Update v1.1)  " 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 18 
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left 
+Title.ZIndex = 11 
+
+local Subtitle = Instance.new("TextLabel", TopBar) 
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 52, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Break a Brainrot Egg!" 
+Subtitle.TextColor3 = Theme.Accent 
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
+Subtitle.ZIndex = 11 
 
 local TabContainer = Instance.new("Frame", Main)
 TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56); TabContainer.BackgroundColor3 = Theme.Surface
