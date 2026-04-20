@@ -29,21 +29,18 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
--- [ ปุ่ม FZ เปิด/ปิด ]
-local toggleBtn = Instance.new("TextButton", ScreenGui)
+-- [ ปุ่มเปิด/ปิด - เปลี่ยนเป็นโลโก้รูปภาพ ]
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
 toggleBtn.Size = UDim2.new(0, 50, 0, 50)
 toggleBtn.Position = UDim2.new(0, 15, 0, 150)
-toggleBtn.Text = "FZ"
-toggleBtn.BackgroundColor3 = Theme.Accent
-toggleBtn.TextColor3 = Color3.new(1, 1, 1) -- สีขาว
-toggleBtn.TextSize = 24
-toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
 toggleBtn.Draggable = true
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
 
 local btnStroke = Instance.new("UIStroke", toggleBtn)
 btnStroke.Thickness = 2
-btnStroke.Color = Color3.new(0, 0, 0) -- ขอบดำ
+btnStroke.Color = Theme.Accent -- ขอบสีเขียว
 
 -- [ หน้าต่างหลัก (Main Window) ]
 local Main = Instance.new("Frame", ScreenGui)
@@ -100,11 +97,15 @@ TopBar.BackgroundColor3 = Theme.Surface
 TopBar.BorderSizePixel = 0
 TopBar.ZIndex = 10
 
-local Logo = Instance.new("Frame", TopBar)
+-- [ โลโก้ในเมนู - เปลี่ยนเป็นรูปภาพ ]
+local Logo = Instance.new("ImageLabel", TopBar)
 Logo.Size = UDim2.new(0, 36, 0, 36)
 Logo.Position = UDim2.new(0, 10, 0.5, -18)
-Logo.BackgroundColor3 = Theme.Accent
-Instance.new("UICorner", Logo).CornerRadius = UDim.new(1, 0)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+Logo.ScaleType = Enum.ScaleType.Fit
+Logo.ZIndex = 11
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
 -- [ Title & Subtitle ]
 local Title = Instance.new("TextLabel") 
@@ -202,7 +203,7 @@ Tabs[1].Page.Visible = true
 Tabs[1].Btn.BackgroundColor3 = Theme.Accent
 Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 
--- [ LOGIC: เปิด/ปิดหน้าต่างหลักด้วยปุ่ม FZ ]
+-- [ LOGIC: เปิด/ปิดหน้าต่างหลักด้วยปุ่มโลโก้ ]
 toggleBtn.MouseButton1Click:Connect(function()
     Main.Visible = not Main.Visible
 end)
