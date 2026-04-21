@@ -28,9 +28,11 @@ _G.AutoHitBigEgg = false
 _G.AutoHitZone2 = false 
 _G.AutoCollect = false
 _G.AutoPickUp = false 
+_G.AutoPickDivine = false 
 _G.AutoUpgradeAll = false
 _G.AutoUpgradeSpecific = false
 _G.AutoRebirth = false 
+_G.InstantPrompt = false -- ฟังก์ชันใหม่: ปิดดีเลย์การกด
 _G.TargetPlatform = 1 
 
 _G.FarmEggs = {
@@ -45,10 +47,15 @@ local EggOrder = {
     "OG", "Inferno", "Divine", "Emerald", "Sapphire", "Amethyst", "Skibidi", "Obsidian"
 }
 
+-- Blacklist กันกดมั่ว
 local PickUpBlacklist = {
     "buy hammers", "buy gear", "new event!", "sign up",
-    "spawn godly egg", "spawn skibidi egg", "spawn og egg", "teleport"
+    "spawn godly egg", "spawn skibidi egg", "spawn og egg", "teleport",
+    "sell", "place", "upgrade", "trade"
 }
+
+-- พิกัดฐานสำหรับนำของไปดรอป
+local dropZoneCFrame = CFrame.new(127.0415802, 3.0075314, -59.6825866)
 
 -- [[ 2. UI CREATION ]] --
 local ScreenGui = Instance.new("ScreenGui")
@@ -57,7 +64,6 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
--- [ เปลี่ยนปุ่ม FZ เป็นโลโก้รูปภาพ ]
 local toggleBtn = Instance.new("ImageButton", ScreenGui)
 toggleBtn.Size = UDim2.new(0, 50, 0, 50)
 toggleBtn.Position = UDim2.new(0, 15, 0, 150)
@@ -66,20 +72,18 @@ toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
 toggleBtn.Draggable = true
 
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
-
 local btnStroke = Instance.new("UIStroke", toggleBtn)
 btnStroke.Color = Theme.Accent
 btnStroke.Thickness = 2.5
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 420); Main.Position = UDim2.new(0.5, -170, 0.5, -210)
+Main.Size = UDim2.new(0, 340, 0, 350); Main.Position = UDim2.new(0.5, -170, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background; Main.BorderSizePixel = 0; Main.Active = true; Main.Draggable = true
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.BorderSizePixel = 0; TopBar.ZIndex = 10
 
--- [ โลโก้ตรง TopBar ]
 local Logo = Instance.new("ImageLabel", TopBar)
 Logo.Size = UDim2.new(0, 36, 0, 36)
 Logo.Position = UDim2.new(0, 10, 0.5, -18)
@@ -89,12 +93,11 @@ Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
 Logo.ScaleType = Enum.ScaleType.Fit
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
--- [ ส่วนของ Title และ Subtitle ที่คุณต้องการ ]
 local Title = Instance.new("TextLabel", TopBar) 
 Title.Size = UDim2.new(0, 160, 0, 22) 
 Title.Position = UDim2.new(0, 52, 0, 5) 
 Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB         (Update v1.1)  " 
+Title.Text = "FARTEZ HUB" 
 Title.TextColor3 = Theme.Text 
 Title.TextSize = 18 
 Title.Font = Enum.Font.GothamBold 
@@ -270,6 +273,10 @@ CreateToggle(MainTab, "💥 AUTO HIT EGG VAULT  (🔨Hit Super Speed⚡)", "Auto
 CreateToggle(MainTab, "⚔️ AUTO HIT ZONE 2    (🔨Hit Super Speed⚡)", "AutoHitZone2") 
 CreateToggle(MainTab, "🖐️ AUTO PICK UP", "AutoPickUp")
 
+-- ดึงตัวแปรปุ่มมาไว้เพื่อสั่งปิด (สีเทา) ตอนทำงานเสร็จ 1 รอบ
+local divineBtn = CreateToggle(MainTab, "💎 AUTO PICK UP (DIVINE )", "AutoPickDivine")
+CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt") -- เพิ่มปุ่มลบดีเลย์ตรงนี้ครับ
+
 CreateButton(MainTab, "🛸 TP TO SAFE ZONE", function()
     pcall(function()
         local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
@@ -319,6 +326,22 @@ CreateToggle(CollectTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 -- 🔄 LOGIC FIXES 
 -- =======================================
 
+-- ⏱️ ระบบลบดีเลย์การหยิบของ (Instant ProximityPrompt)
+task.spawn(function()
+    while task.wait(0.5) do
+        if _G.InstantPrompt then
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("ProximityPrompt") then
+                        v.HoldDuration = 0 -- ปรับดีเลย์ให้เหลือ 0 วินาที
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- Auto Hit All & Auto TP 
 task.spawn(function()
     local KnitRemote = nil
     while task.wait(0.2) do
@@ -450,7 +473,6 @@ task.spawn(function()
     end
 end)
 
--- ✨ ปรับความไว Upgrade จาก 0.8 เป็น 0.2 ให้รัวๆ ตามที่ขอครับ
 task.spawn(function()
     local UpgradeRemote = nil
     while task.wait(0.2) do
@@ -483,6 +505,7 @@ task.spawn(function()
     end
 end)
 
+-- 🖐️ LOGIC: AUTO PICK UP แบบธรรมดา (เดินไปใกล้ 15 หน่วยแล้วหยิบ)
 task.spawn(function()
     while task.wait(0.2) do
         if _G.AutoPickUp and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -514,7 +537,9 @@ task.spawn(function()
                         for _, word in ipairs(PickUpBlacklist) do
                             if text:find(word) then isBlacklisted = true; break end
                         end
-                        if not isBlacklisted and (text:find("pick") or text:find("up")) then
+                        if text:find("pickup") then isBlacklisted = true end
+
+                        if not isBlacklisted and text:find("pick up") then
                             local part = v:FindFirstAncestorWhichIsA("BasePart")
                             if part and (part.Position - hrp.Position).Magnitude <= 15 then
                                 fireproximityprompt(v)
@@ -539,6 +564,8 @@ task.spawn(function()
                         for _, word in ipairs(PickUpBlacklist) do
                             if allText:find(word) then isBlacklisted = true; break end
                         end
+                        if allText:find("pickup") then isBlacklisted = true end
+
                         if hasPickUpText and not isBlacklisted then
                             local part = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
                             if part and (part.Position - hrp.Position).Magnitude <= 15 then
@@ -560,3 +587,152 @@ task.spawn(function()
         end
     end
 end)
+
+-- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE (เดินใกล้ 15 หน่วย หยิบติดปุ๊บ วาร์ปฐาน 1 รอบ แล้วปิดฟังก์ชันตัวเอง)
+task.spawn(function()
+    while task.wait(0.3) do
+        if _G.AutoPickDivine and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local isCarrying = false
+                local hrp = player.Character.HumanoidRootPart
+                
+                if PlayerGui then
+                    for _, gui in pairs(PlayerGui:GetDescendants()) do
+                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
+                            if btnText:find("drop") or gui.Name:lower():find("drop") then
+                                isCarrying = true; break
+                            end
+                        end
+                    end
+                end
+                
+                if isCarrying then 
+                    hrp.CFrame = dropZoneCFrame
+                    _G.AutoPickDivine = false 
+                    pcall(function()
+                        TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
+                        local status = divineBtn.Status
+                        if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
+                    end)
+                    return 
+                end
+
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("ProximityPrompt") then
+                        local text = (v.ActionText .. " " .. v.ObjectText .. " " .. v.Name):lower()
+                        local isBlacklisted = false
+                        for _, word in ipairs(PickUpBlacklist) do
+                            if text:find(word) then isBlacklisted = true; break end
+                        end
+                        if text:find("pickup") then isBlacklisted = true end
+                        
+                        if not isBlacklisted and text:find("pick up") then
+                            local isDivine = false
+                            local p = v.Parent
+                            for i=1, 4 do
+                                if p and p ~= workspace then
+                                    for _, desc in pairs(p:GetDescendants()) do
+                                        if desc:IsA("TextLabel") and desc.Text:upper():find("DIVINE") then
+                                            isDivine = true; break
+                                        end
+                                    end
+                                    p = p.Parent
+                                end
+                                if isDivine then break end
+                            end
+                            
+                            if isDivine then
+                                local part = v:FindFirstAncestorWhichIsA("BasePart") or v.Parent
+                                if part and part:IsA("BasePart") and (part.Position - hrp.Position).Magnitude <= 15 then
+                                    
+                                    fireproximityprompt(v)
+                                    task.wait(0.4)
+                                    
+                                    local checkCarry = false
+                                    for _, gui in pairs(PlayerGui:GetDescendants()) do
+                                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
+                                            if btnText:find("drop") or gui.Name:lower():find("drop") then
+                                                checkCarry = true; break
+                                            end
+                                        end
+                                    end
+                                    
+                                    if checkCarry then
+                                        hrp.CFrame = dropZoneCFrame
+                                        _G.AutoPickDivine = false 
+                                        pcall(function()
+                                            TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
+                                            local status = divineBtn.Status
+                                            if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
+                                        end)
+                                    end
+                                    return 
+                                end
+                            end
+                        end
+                    end
+                    
+                    if v:IsA("BillboardGui") or v:IsA("SurfaceGui") then
+                        local allText = ""
+                        local isDivine = false
+                        for _, txt in pairs(v:GetDescendants()) do
+                            if txt:IsA("TextLabel") then
+                                local tUpper = txt.Text:upper()
+                                if tUpper:find("DIVINE") then isDivine = true end
+                                allText = allText .. " " .. txt.Text:lower()
+                            end
+                        end
+                        
+                        local isBlacklisted = false
+                        for _, word in ipairs(PickUpBlacklist) do
+                            if allText:find(word) then isBlacklisted = true; break end
+                        end
+                        if allText:find("pickup") then isBlacklisted = true end
+                        
+                        if isDivine and not isBlacklisted and allText:find("pick up") then
+                            local part = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
+                            if part and part:IsA("BasePart") and (part.Position - hrp.Position).Magnitude <= 15 then
+                                    
+                                for _, btn in pairs(v:GetDescendants()) do
+                                    if (btn:IsA("TextButton") or btn:IsA("ImageButton")) then
+                                        if getconnections then
+                                            for _, conn in pairs(getconnections(btn.MouseButton1Click)) do
+                                                conn:Fire()
+                                                task.wait(0.4)
+                                                
+                                                local checkCarry = false
+                                                for _, gui in pairs(PlayerGui:GetDescendants()) do
+                                                    if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                                                        local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
+                                                        if btnText:find("drop") or gui.Name:lower():find("drop") then
+                                                            checkCarry = true; break
+                                                        end
+                                                    end
+                                                end
+                                                
+                                                if checkCarry then
+                                                    hrp.CFrame = dropZoneCFrame
+                                                    _G.AutoPickDivine = false 
+                                                    pcall(function()
+                                                        TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
+                                                        local status = divineBtn.Status
+                                                        if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
+                                                    end)
+                                                end
+                                                return 
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+print("FARTEZ HUB: Instant Interact & Divine 1-Time Mode Loaded!")
