@@ -19,7 +19,9 @@ local Theme = {
     SurfaceLight = Color3.fromRGB(25, 25, 35),
     Accent = Color3.fromRGB(4, 203, 41), -- สีเขียว #04cb29
     Text = Color3.fromRGB(255, 255, 255),
-    TextDim = Color3.fromRGB(150, 150, 150)
+    TextDim = Color3.fromRGB(150, 150, 150),
+    Gold = Color3.fromRGB(255, 215, 0),      -- สีทองสำหรับข้อความเครดิต
+    Success = Color3.fromRGB(4, 203, 41)     -- สีเขียวสว่าง
 }
 
 -- [[ 2. UI CREATION ]] --
@@ -125,7 +127,7 @@ Subtitle.Size = UDim2.new(0, 160, 0, 16)
 Subtitle.Position = UDim2.new(0, 52, 0, 26) 
 Subtitle.BackgroundTransparency = 1 
 Subtitle.Text = "ใส่ขื่อเกม" 
-Subtitle.TextColor3 = Theme.Accent -- เปลี่ยนเป็นสีเขียว Theme.Accent
+Subtitle.TextColor3 = Theme.Accent 
 Subtitle.TextSize = 10 
 Subtitle.Font = Enum.Font.GothamSemibold 
 Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
@@ -143,7 +145,7 @@ local TabLayout = Instance.new("UIListLayout", TabContainer)
 TabLayout.FillDirection = Enum.FillDirection.Horizontal
 TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-TabLayout.Padding = UDim.new(0, 4) -- ปรับระยะห่างให้ 4 แท็บพอดี
+TabLayout.Padding = UDim.new(0, 4)
 
 local Content = Instance.new("Frame", Main)
 Content.Size = UDim2.new(1, -16, 1, -110)
@@ -155,11 +157,12 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 75, 0, 28) -- ปรับขนาดปุ่มเล็กลงเพื่อให้ใส่ได้ 4 อัน
+    -- ปรับขนาดปุ่มให้กว้างขึ้นเล็กน้อยเพราะเหลือแค่ 3 แท็บ
+    Btn.Size = UDim2.new(0, 100, 0, 28) 
     Btn.BackgroundColor3 = Theme.SurfaceLight
     Btn.Text = name
     Btn.TextColor3 = Theme.TextDim
-    Btn.TextSize = 10 -- ปรับขนาดตัวอักษรลงนิดนึง
+    Btn.TextSize = 10 
     Btn.Font = Enum.Font.GothamBold
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
 
@@ -192,11 +195,57 @@ local function CreateTab(name)
     return Page
 end
 
--- สร้าง 4 แท็บตามที่คุณต้องการ
+-- สร้าง 3 แท็บหลัก
 local MainTab = CreateTab("Main")
-local LuckyTab = CreateTab("Lucky Blocks") -- แท็บใหม่
 local CollectTab = CreateTab("Collect")
-local CombatTab = CreateTab("Combat")
+local DetailsTab = CreateTab("Details")
+
+-- ================= [ ข้อความในแท็บ DETAILS ] ================= --
+local CreditsText = Instance.new("TextLabel") 
+CreditsText.Size = UDim2.new(1, 0, 0, 30) 
+CreditsText.BackgroundTransparency = 1 
+CreditsText.Text = " ชื่อเกม" 
+CreditsText.TextColor3 = Theme.Success 
+CreditsText.TextSize = 15 
+CreditsText.Font = Enum.Font.GothamBold 
+CreditsText.Parent = DetailsTab
+
+local DevText = Instance.new("TextLabel") 
+DevText.Size = UDim2.new(1, 0, 0, 25) 
+DevText.BackgroundTransparency = 1 
+DevText.Text = "🌿 by FARTEZ " 
+DevText.TextColor3 = Theme.Success 
+DevText.TextSize = 13
+DevText.Font = Enum.Font.GothamSemibold 
+DevText.Parent = DetailsTab
+
+local ZairosText = Instance.new("TextLabel") 
+ZairosText.Size = UDim2.new(1, 0, 0, 25) 
+ZairosText.BackgroundTransparency = 1 
+ZairosText.Text = "👍 Like and follow" 
+ZairosText.TextColor3 = Theme.Success 
+ZairosText.TextSize = 13
+ZairosText.Font = Enum.Font.Gotham 
+ZairosText.Parent = DetailsTab
+
+local AlinurText = Instance.new("TextLabel") 
+AlinurText.Size = UDim2.new(1, 0, 0, 25) 
+AlinurText.BackgroundTransparency = 1 
+AlinurText.Text = "▶️ YouTube FARTEZ HUB" 
+AlinurText.TextColor3 = Theme.Success 
+AlinurText.TextSize = 13
+AlinurText.Font = Enum.Font.GothamSemibold 
+AlinurText.Parent = DetailsTab
+
+local TargetText = Instance.new("TextLabel") 
+TargetText.Size = UDim2.new(1, 0, 0, 25) 
+TargetText.BackgroundTransparency = 1 
+TargetText.Text = "🟢 It works" 
+TargetText.TextColor3 = Theme.Success 
+TargetText.TextSize = 12
+TargetText.Font = Enum.Font.GothamSemibold 
+TargetText.Parent = DetailsTab
+-- ========================================================= --
 
 -- โชว์หน้าแรกเริ่มต้น
 Tabs[1].Page.Visible = true
