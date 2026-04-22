@@ -537,7 +537,7 @@ local function StartBossFarm(zoneName)
 
                 -- 🚀 1. วาปไป spawn (เร็ว)
                 root.CFrame = SPAWN_POS
-                task.wait(0.01)
+                task.wait(0.03)
 
                 -- 🚀 2. ขยับนิดเดียวให้ spawn model
                 humanoid:MoveTo(WALK_POS)
@@ -552,7 +552,7 @@ local function StartBossFarm(zoneName)
                         end
                     end
                     if ownedModel then break end
-                    task.wait(0.02)
+                    task.wait(0.04)
                 end
 
                 -- 🚀 4. วาง model
@@ -780,10 +780,14 @@ CreateStepperToggleUI(CollectTab, "🟢 Auto Upgrade Specific 🧠", 1, 1, 30,
         AutoUpgradeSpecificBrainrot = active
         if active then
             task.spawn(function()
+                -- 🔽 แก้ตรงนี้
                 while AutoUpgradeSpecificBrainrot do
-                    FireUpgradeBrainrot(SpecificBrainrotID)
-                    task.wait(0.1)
+                    for i = 1, 5 do
+                        FireUpgradeBrainrot(SpecificBrainrotID)
+                    end
+                    task.wait(0.03)
                 end
+                -- 🔼 ถึงตรงนี้
             end)
         end
     end,
