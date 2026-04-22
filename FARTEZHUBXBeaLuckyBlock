@@ -775,24 +775,20 @@ end)
 local AutoUpgradeSpecificBrainrot = false
 local SpecificBrainrotID = 1
 
-CreateStepperToggleUI(CollectTab, "🟢 Auto Upgrade Specific 🧠", 1, 1, 30, 
-    function(active)
-        AutoUpgradeSpecificBrainrot = active
-        if active then
-            task.spawn(function()
-                -- 🔽 แก้ตรงนี้
-                while AutoUpgradeSpecificBrainrot do
-                    for i = 1, 5 do
-                        FireUpgradeBrainrot(SpecificBrainrotID)
-                    end
-                    task.wait(0.01)
-                end
-                -- 🔼 ถึงตรงนี้
-            end)
-        end
-    end,
-    function(value)
-        SpecificBrainrotID = value
+CreateStepperToggleUI(CollectTab, "🟢 Auto Upgrade Specific 🧠", 1, 1, 30,
+function(active)
+AutoUpgradeSpecificBrainrot = active
+if active then
+task.spawn(function()
+while AutoUpgradeSpecificBrainrot do
+FireUpgradeBrainrot(SpecificBrainrotID)
+task.wait(0.01)
+end
+end)
+end
+end,
+function(value)
+SpecificBrainrotID = value
     end
 )
 
