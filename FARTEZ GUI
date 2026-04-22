@@ -46,7 +46,7 @@ btnStroke.Color = Theme.Accent -- ขอบสีเขียว
 
 -- [ หน้าต่างหลัก (Main Window) ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 350)
+Main.Size = UDim2.new(0, 290, 0, 350)
 Main.Position = UDim2.new(0.5, -170, 0.5, -240)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
@@ -243,6 +243,24 @@ TargetText.BackgroundTransparency = 1
 TargetText.Text = "🟢 It works" 
 TargetText.TextColor3 = Theme.Success 
 TargetText.TextSize = 12
+TargetText.Font = Enum.Font.GothamSemibold 
+TargetText.Parent = DetailsTab
+
+local TargetText = Instance.new("TextLabel") 
+TargetText.Size = UDim2.new(1, 0, 0, 25) 
+TargetText.BackgroundTransparency = 1 
+TargetText.Text = "🟠 Waiting for update" 
+TargetText.TextColor3 = Theme.Success 
+TargetText.TextSize = 11
+TargetText.Font = Enum.Font.GothamSemibold 
+TargetText.Parent = DetailsTab
+
+local TargetText = Instance.new("TextLabel") 
+TargetText.Size = UDim2.new(1, 0, 0, 25) 
+TargetText.BackgroundTransparency = 1 
+TargetText.Text = "🔴 It's not working" 
+TargetText.TextColor3 = Theme.Success 
+TargetText.TextSize = 10
 TargetText.Font = Enum.Font.GothamSemibold 
 TargetText.Parent = DetailsTab
 -- ========================================================= --
