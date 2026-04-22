@@ -785,7 +785,7 @@ CreateStepperToggleUI(CollectTab, "🟢 Auto Upgrade Specific 🧠", 1, 1, 30,
                     for i = 1, 5 do
                         FireUpgradeBrainrot(SpecificBrainrotID)
                     end
-                    task.wait(0.03)
+                    task.wait(0.01)
                 end
                 -- 🔼 ถึงตรงนี้
             end)
