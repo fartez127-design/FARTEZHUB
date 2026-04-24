@@ -18,7 +18,8 @@ local Theme = {
     SurfaceLight = Color3.fromRGB(25, 25, 35),
     Accent = Color3.fromRGB(4, 203, 41),
     Text = Color3.fromRGB(255, 255, 255),
-    TextDim = Color3.fromRGB(150, 150, 150)
+    TextDim = Color3.fromRGB(150, 150, 150),
+    Success = Color3.fromRGB(4, 203, 41) -- เพิ่มสี Success ตามโค้ดของคุณ
 }
 
 -- [[ SETTINGS ]] --
@@ -29,10 +30,11 @@ _G.AutoHitZone2 = false
 _G.AutoCollect = false
 _G.AutoPickUp = false 
 _G.AutoPickDivine = false 
+_G.AutoTpSafeZone = false 
 _G.AutoUpgradeAll = false
 _G.AutoUpgradeSpecific = false
 _G.AutoRebirth = false 
-_G.InstantPrompt = false -- ฟังก์ชันใหม่: ปิดดีเลย์การกด
+_G.InstantPrompt = false 
 _G.TargetPlatform = 1 
 
 _G.FarmEggs = {
@@ -77,7 +79,7 @@ btnStroke.Color = Theme.Accent
 btnStroke.Thickness = 2.5
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 340, 0, 350); Main.Position = UDim2.new(0.5, -170, 0.5, -210)
+Main.Size = UDim2.new(0, 320, 0, 340); Main.Position = UDim2.new(0.5, -170, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background; Main.BorderSizePixel = 0; Main.Active = true; Main.Draggable = true
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
@@ -115,21 +117,26 @@ Subtitle.Font = Enum.Font.GothamSemibold
 Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
 Subtitle.ZIndex = 11 
 
-local TabContainer = Instance.new("Frame", Main)
-TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56); TabContainer.BackgroundColor3 = Theme.Surface
+local TabContainer = Instance.new("ScrollingFrame", Main)
+TabContainer.Size = UDim2.new(1, -16, 0, 40)
+TabContainer.Position = UDim2.new(0, 8, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+TabContainer.ScrollBarThickness = 2
+TabContainer.CanvasSize = UDim2.new(1.6, 0, 0, 0) -- ขยายให้พอดีกับแท็บใหม่
 Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
 
 local TabLayout = Instance.new("UIListLayout", TabContainer)
-TabLayout.FillDirection = Enum.FillDirection.Horizontal; TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center; TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center; TabLayout.Padding = UDim.new(0, 4)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal; TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left; TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center; TabLayout.Padding = UDim.new(0, 8)
+Instance.new("UIPadding", TabContainer).PaddingLeft = UDim.new(0, 5)
 
 local Content = Instance.new("Frame", Main)
-Content.Size = UDim2.new(1, -16, 1, -110); Content.Position = UDim2.new(0, 8, 0, 98); Content.BackgroundColor3 = Theme.Surface; Content.ClipsDescendants = true
+Content.Size = UDim2.new(1, -16, 1, -110); Content.Position = UDim2.new(0, 8, 0, 102); Content.BackgroundColor3 = Theme.Surface; Content.ClipsDescendants = true
 Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 95, 0, 28); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = name; Btn.TextColor3 = Theme.TextDim; Btn.TextSize = 12; Btn.Font = Enum.Font.GothamBold
+    Btn.Size = UDim2.new(0, 80, 0, 28); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = name; Btn.TextColor3 = Theme.TextDim; Btn.TextSize = 11; Btn.Font = Enum.Font.GothamBold
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
 
     local Page = Instance.new("ScrollingFrame", Content)
@@ -156,6 +163,8 @@ end
 local MainTab = CreateTab("Main")
 local EggTab = CreateTab("EGG")
 local CollectTab = CreateTab("Collect")
+local UpdateTab = CreateTab("Update")   -- แท็บที่เพิ่มใหม่
+local DetailsTab = CreateTab("Details") -- แท็บที่เพิ่มใหม่
 
 Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
@@ -243,6 +252,18 @@ local function CreateButton(parent, text, callback)
     return Btn
 end
 
+-- 🚀 ฟังก์ชัน Double TP (กันเกมดึงตัวกลับ)
+local function DoubleTP(targetCFrame)
+    pcall(function()
+        local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.CFrame = targetCFrame
+            task.wait(0.15) 
+            hrp.CFrame = targetCFrame
+        end
+    end)
+end
+
 local function GetSafeZoneCFrame()
     for _, v in pairs(workspace:GetDescendants()) do
         if v:IsA("BasePart") then
@@ -264,26 +285,44 @@ local function GetSafeZoneCFrame()
 end
 
 -- =======================================
--- 📌 UI PLACEMENT
+-- 📌 UI PLACEMENT - MAIN & OTHERS
 -- =======================================
 
 CreateToggle(MainTab, "⚡ AUTO Hit  (🥚Egg All♾️)", "AutoBreak")
-CreateToggle(MainTab, "🚀 AUTO TP TO EGG  (🥚Egg)", "AutoTPEgg") 
+CreateToggle(MainTab, "🚀 AUTO TP TO EGG  (Universal TP)", "AutoTPEgg") 
 CreateToggle(MainTab, "💥 AUTO HIT EGG VAULT  (🔨Hit Super Speed⚡)", "AutoHitBigEgg")
 CreateToggle(MainTab, "⚔️ AUTO HIT ZONE 2    (🔨Hit Super Speed⚡)", "AutoHitZone2") 
 CreateToggle(MainTab, "🖐️ AUTO PICK UP", "AutoPickUp")
+CreateToggle(MainTab, "💎 AUTO PICK UP (DIVINE ONLY)", "AutoPickDivine")
+CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt")
+CreateToggle(MainTab, "🛸 AUTO TP SAFE ZONE (When Carrying)", "AutoTpSafeZone")
 
--- ดึงตัวแปรปุ่มมาไว้เพื่อสั่งปิด (สีเทา) ตอนทำงานเสร็จ 1 รอบ
-local divineBtn = CreateToggle(MainTab, "💎 AUTO PICK UP (DIVINE )", "AutoPickDivine")
-CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt") -- เพิ่มปุ่มลบดีเลย์ตรงนี้ครับ
+-- 🌟 ปุ่มวาร์ปโซน 1, 2, Vault (พร้อมระบบ Double TP)
+CreateButton(MainTab, "🚀 TP TO ZONE 1", function()
+    pcall(function()
+        local zone = workspace.World.Zones:FindFirstChild("StealZone1")
+        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+    end)
+end)
+
+CreateButton(MainTab, "🚀 TP TO ZONE 2", function()
+    pcall(function()
+        local zone = workspace.World.Zones:FindFirstChild("StealZone2")
+        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+    end)
+end)
+
+CreateButton(MainTab, "🚀 TP TO VAULT", function()
+    pcall(function()
+        local zone = workspace.World.Zones:FindFirstChild("StealZoneVault")
+        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+    end)
+end)
 
 CreateButton(MainTab, "🛸 TP TO SAFE ZONE", function()
     pcall(function()
-        local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            local sz = GetSafeZoneCFrame()
-            if sz then hrp.CFrame = sz end
-        end
+        local sz = GetSafeZoneCFrame()
+        if sz then DoubleTP(sz) end
     end)
 end)
 
@@ -322,18 +361,145 @@ CreateToggle(CollectTab, "⬆️ AUTO UPGRADE ALL (1-30)", "AutoUpgradeAll")
 CreateToggleWithInput(CollectTab, "🎯 AUTO UPGRADE (Delay 0.2)", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
 CreateToggle(CollectTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 
+-- ================= [ ข้อความในแท็บ DETAILS ] ================= --
+local CreditsText1 = Instance.new("TextLabel") 
+CreditsText1.Size = UDim2.new(1, 0, 0, 30) 
+CreditsText1.BackgroundTransparency = 1 
+CreditsText1.Text = " Break a Brainrot Egg!" 
+CreditsText1.TextColor3 = Theme.Success 
+CreditsText1.TextSize = 15 
+CreditsText1.Font = Enum.Font.GothamBold 
+CreditsText1.Parent = DetailsTab
+
+local DevText1 = Instance.new("TextLabel") 
+DevText1.Size = UDim2.new(1, 0, 0, 25) 
+DevText1.BackgroundTransparency = 1 
+DevText1.Text = "🌿 by FARTEZ " 
+DevText1.TextColor3 = Theme.Success 
+DevText1.TextSize = 13
+DevText1.Font = Enum.Font.GothamSemibold 
+DevText1.Parent = DetailsTab
+
+local ZairosText = Instance.new("TextLabel") 
+ZairosText.Size = UDim2.new(1, 0, 0, 25) 
+ZairosText.BackgroundTransparency = 1 
+ZairosText.Text = "👍 Like and follow" 
+ZairosText.TextColor3 = Theme.Success 
+ZairosText.TextSize = 13
+ZairosText.Font = Enum.Font.Gotham 
+ZairosText.Parent = DetailsTab
+
+local AlinurText = Instance.new("TextLabel") 
+AlinurText.Size = UDim2.new(1, 0, 0, 25) 
+AlinurText.BackgroundTransparency = 1 
+AlinurText.Text = "▶️ YouTube FARTEZ HUB" 
+AlinurText.TextColor3 = Theme.Success 
+AlinurText.TextSize = 13
+AlinurText.Font = Enum.Font.GothamSemibold 
+AlinurText.Parent = DetailsTab
+
+local TargetText1 = Instance.new("TextLabel") 
+TargetText1.Size = UDim2.new(1, 0, 0, 25) 
+TargetText1.BackgroundTransparency = 1 
+TargetText1.Text = "🟢 It works" 
+TargetText1.TextColor3 = Theme.Success 
+TargetText1.TextSize = 12
+TargetText1.Font = Enum.Font.GothamSemibold 
+TargetText1.Parent = DetailsTab
+
+local TargetText2 = Instance.new("TextLabel") 
+TargetText2.Size = UDim2.new(1, 0, 0, 25) 
+TargetText2.BackgroundTransparency = 1 
+TargetText2.Text = "🟠 Waiting for update" 
+TargetText2.TextColor3 = Theme.Success 
+TargetText2.TextSize = 11
+TargetText2.Font = Enum.Font.GothamSemibold 
+TargetText2.Parent = DetailsTab
+
+local TargetText3 = Instance.new("TextLabel") 
+TargetText3.Size = UDim2.new(1, 0, 0, 25) 
+TargetText3.BackgroundTransparency = 1 
+TargetText3.Text = "🔴 It's not working" 
+TargetText3.TextColor3 = Theme.Success 
+TargetText3.TextSize = 10
+TargetText3.Font = Enum.Font.GothamSemibold 
+TargetText3.Parent = DetailsTab
+
+-- ================= [ ข้อความในแท็บ UPDATE ] ================= --
+local CreditsText2 = Instance.new("TextLabel") 
+CreditsText2.Size = UDim2.new(1, 0, 0, 30) 
+CreditsText2.BackgroundTransparency = 1 
+CreditsText2.Text = " New Update" 
+CreditsText2.TextColor3 = Theme.Success 
+CreditsText2.TextSize = 15 
+CreditsText2.Font = Enum.Font.GothamBold 
+CreditsText2.Parent = UpdateTab
+
+local DevText2 = Instance.new("TextLabel") 
+DevText2.Size = UDim2.new(1, 0, 0, 25) 
+DevText2.BackgroundTransparency = 1 
+DevText2.Text = "🌟 TP Zone 1" 
+DevText2.TextColor3 = Theme.Success 
+DevText2.TextSize = 13
+DevText2.Font = Enum.Font.GothamSemibold 
+DevText2.Parent = UpdateTab
+
+local DevText3 = Instance.new("TextLabel") 
+DevText3.Size = UDim2.new(1, 0, 0, 25) 
+DevText3.BackgroundTransparency = 1 
+DevText3.Text = "⭐ TP Zone 2" 
+DevText3.TextColor3 = Theme.Success 
+DevText3.TextSize = 13
+DevText3.Font = Enum.Font.GothamSemibold 
+DevText3.Parent = UpdateTab
+
+local DevText4 = Instance.new("TextLabel") 
+DevText4.Size = UDim2.new(1, 0, 0, 25) 
+DevText4.BackgroundTransparency = 1 
+DevText4.Text = "✨ Tp Zone Vault" 
+DevText4.TextColor3 = Theme.Success 
+DevText4.TextSize = 13
+DevText4.Font = Enum.Font.GothamSemibold 
+DevText4.Parent = UpdateTab
+
+local DevText5 = Instance.new("TextLabel") 
+DevText5.Size = UDim2.new(1, 0, 0, 25) 
+DevText5.BackgroundTransparency = 1 
+DevText5.Text = "🌛 Pick up TP SAFE ZoNE" 
+DevText5.TextColor3 = Theme.Success 
+DevText5.TextSize = 12
+DevText5.Font = Enum.Font.GothamSemibold 
+DevText5.Parent = UpdateTab
+
 -- =======================================
 -- 🔄 LOGIC FIXES 
 -- =======================================
 
--- ⏱️ ระบบลบดีเลย์การหยิบของ (Instant ProximityPrompt)
+-- 🛸 LOGIC: AUTO TP SAFE ZONE (วาร์ปกลับ Safe Zone เมื่อหยิบของได้)
 task.spawn(function()
     while task.wait(0.5) do
-        if _G.InstantPrompt then
+        if _G.AutoTpSafeZone and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("ProximityPrompt") then
-                        v.HoldDuration = 0 -- ปรับดีเลย์ให้เหลือ 0 วินาที
+                local isCarrying = false
+                if PlayerGui then
+                    for _, gui in pairs(PlayerGui:GetDescendants()) do
+                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
+                            local btnName = gui.Name:lower()
+                            if btnText:find("drop") or btnName:find("drop") then
+                                isCarrying = true; break
+                            end
+                        end
+                    end
+                end
+                
+                if isCarrying then
+                    local szCFrame = GetSafeZoneCFrame()
+                    if szCFrame then
+                        local hrp = player.Character.HumanoidRootPart
+                        if (hrp.Position - szCFrame.Position).Magnitude > 20 then
+                            DoubleTP(szCFrame)
+                        end
                     end
                 end
             end)
@@ -341,7 +507,21 @@ task.spawn(function()
     end
 end)
 
--- Auto Hit All & Auto TP 
+-- ลบ Delay การกด ProximityPrompt 
+task.spawn(function()
+    while task.wait(0.5) do
+        if _G.InstantPrompt then
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("ProximityPrompt") then
+                        v.HoldDuration = 0
+                    end
+                end
+            end)
+        end
+    end
+end)
+
 task.spawn(function()
     local KnitRemote = nil
     while task.wait(0.2) do
@@ -505,7 +685,7 @@ task.spawn(function()
     end
 end)
 
--- 🖐️ LOGIC: AUTO PICK UP แบบธรรมดา (เดินไปใกล้ 15 หน่วยแล้วหยิบ)
+-- 🖐️ LOGIC: AUTO PICK UP
 task.spawn(function()
     while task.wait(0.2) do
         if _G.AutoPickUp and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -537,9 +717,7 @@ task.spawn(function()
                         for _, word in ipairs(PickUpBlacklist) do
                             if text:find(word) then isBlacklisted = true; break end
                         end
-                        if text:find("pickup") then isBlacklisted = true end
-
-                        if not isBlacklisted and text:find("pick up") then
+                        if not isBlacklisted and (text:find("pick") or text:find("up")) then
                             local part = v:FindFirstAncestorWhichIsA("BasePart")
                             if part and (part.Position - hrp.Position).Magnitude <= 15 then
                                 fireproximityprompt(v)
@@ -564,8 +742,6 @@ task.spawn(function()
                         for _, word in ipairs(PickUpBlacklist) do
                             if allText:find(word) then isBlacklisted = true; break end
                         end
-                        if allText:find("pickup") then isBlacklisted = true end
-
                         if hasPickUpText and not isBlacklisted then
                             local part = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
                             if part and (part.Position - hrp.Position).Magnitude <= 15 then
@@ -588,140 +764,75 @@ task.spawn(function()
     end
 end)
 
--- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE (เดินใกล้ 15 หน่วย หยิบติดปุ๊บ วาร์ปฐาน 1 รอบ แล้วปิดฟังก์ชันตัวเอง)
+-- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE
 task.spawn(function()
     while task.wait(0.3) do
         if _G.AutoPickDivine and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local isCarrying = false
-                local hrp = player.Character.HumanoidRootPart
-                
                 if PlayerGui then
                     for _, gui in pairs(PlayerGui:GetDescendants()) do
                         if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
                             local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
-                            if btnText:find("drop") or gui.Name:lower():find("drop") then
+                            local btnName = gui.Name:lower()
+                            if btnText:find("drop") or btnName:find("drop") then
                                 isCarrying = true; break
                             end
                         end
                     end
                 end
                 
-                if isCarrying then 
-                    hrp.CFrame = dropZoneCFrame
-                    _G.AutoPickDivine = false 
-                    pcall(function()
-                        TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
-                        local status = divineBtn.Status
-                        if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
-                    end)
-                    return 
-                end
+                if isCarrying then return end
 
+                local hrp = player.Character.HumanoidRootPart
+                local hasGrabbed = false 
+                
                 for _, v in pairs(workspace:GetDescendants()) do
+                    if hasGrabbed then break end 
+                    
                     if v:IsA("ProximityPrompt") then
-                        local text = (v.ActionText .. " " .. v.ObjectText .. " " .. v.Name):lower()
-                        local isBlacklisted = false
-                        for _, word in ipairs(PickUpBlacklist) do
-                            if text:find(word) then isBlacklisted = true; break end
-                        end
-                        if text:find("pickup") then isBlacklisted = true end
-                        
-                        if not isBlacklisted and text:find("pick up") then
-                            local isDivine = false
-                            local p = v.Parent
-                            for i=1, 4 do
-                                if p and p ~= workspace then
-                                    for _, desc in pairs(p:GetDescendants()) do
-                                        if desc:IsA("TextLabel") and desc.Text:upper():find("DIVINE") then
-                                            isDivine = true; break
-                                        end
-                                    end
-                                    p = p.Parent
+                        local model = v:FindFirstAncestorOfClass("Model")
+                        local isDivine = false
+                        if model then
+                            for _, child in pairs(model:GetDescendants()) do
+                                if child:IsA("TextLabel") and child.Text:upper():find("DIVINE") then
+                                    isDivine = true
+                                    break
                                 end
-                                if isDivine then break end
                             end
-                            
-                            if isDivine then
-                                local part = v:FindFirstAncestorWhichIsA("BasePart") or v.Parent
-                                if part and part:IsA("BasePart") and (part.Position - hrp.Position).Magnitude <= 15 then
-                                    
-                                    fireproximityprompt(v)
-                                    task.wait(0.4)
-                                    
-                                    local checkCarry = false
-                                    for _, gui in pairs(PlayerGui:GetDescendants()) do
-                                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
-                                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
-                                            if btnText:find("drop") or gui.Name:lower():find("drop") then
-                                                checkCarry = true; break
-                                            end
-                                        end
-                                    end
-                                    
-                                    if checkCarry then
-                                        hrp.CFrame = dropZoneCFrame
-                                        _G.AutoPickDivine = false 
-                                        pcall(function()
-                                            TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
-                                            local status = divineBtn.Status
-                                            if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
-                                        end)
-                                    end
-                                    return 
-                                end
+                        end
+                        
+                        if isDivine then
+                            local part = v:FindFirstAncestorWhichIsA("BasePart")
+                            if part and (part.Position - hrp.Position).Magnitude <= 15 then
+                                fireproximityprompt(v)
+                                hasGrabbed = true 
                             end
                         end
                     end
                     
-                    if v:IsA("BillboardGui") or v:IsA("SurfaceGui") then
+                    if v:IsA("BillboardGui") and not hasGrabbed then
                         local allText = ""
                         local isDivine = false
                         for _, txt in pairs(v:GetDescendants()) do
                             if txt:IsA("TextLabel") then
                                 local tUpper = txt.Text:upper()
-                                if tUpper:find("DIVINE") then isDivine = true end
+                                if tUpper:find("DIVINE") then
+                                    isDivine = true
+                                end
                                 allText = allText .. " " .. txt.Text:lower()
                             end
                         end
                         
-                        local isBlacklisted = false
-                        for _, word in ipairs(PickUpBlacklist) do
-                            if allText:find(word) then isBlacklisted = true; break end
-                        end
-                        if allText:find("pickup") then isBlacklisted = true end
-                        
-                        if isDivine and not isBlacklisted and allText:find("pick up") then
+                        if isDivine and (allText:find("pick") or allText:find("up")) then
                             local part = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
-                            if part and part:IsA("BasePart") and (part.Position - hrp.Position).Magnitude <= 15 then
-                                    
+                            if part and (part.Position - hrp.Position).Magnitude <= 15 then
                                 for _, btn in pairs(v:GetDescendants()) do
                                     if (btn:IsA("TextButton") or btn:IsA("ImageButton")) then
                                         if getconnections then
                                             for _, conn in pairs(getconnections(btn.MouseButton1Click)) do
                                                 conn:Fire()
-                                                task.wait(0.4)
-                                                
-                                                local checkCarry = false
-                                                for _, gui in pairs(PlayerGui:GetDescendants()) do
-                                                    if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
-                                                        local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
-                                                        if btnText:find("drop") or gui.Name:lower():find("drop") then
-                                                            checkCarry = true; break
-                                                        end
-                                                    end
-                                                end
-                                                
-                                                if checkCarry then
-                                                    hrp.CFrame = dropZoneCFrame
-                                                    _G.AutoPickDivine = false 
-                                                    pcall(function()
-                                                        TweenService:Create(divineBtn.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
-                                                        local status = divineBtn.Status
-                                                        if status then TweenService:Create(status, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play() end
-                                                    end)
-                                                end
-                                                return 
+                                                hasGrabbed = true 
                                             end
                                         end
                                     end
@@ -734,5 +845,3 @@ task.spawn(function()
         end
     end
 end)
-
-print("FARTEZ HUB: Instant Interact & Divine 1-Time Mode Loaded!")
