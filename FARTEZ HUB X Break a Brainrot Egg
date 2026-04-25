@@ -19,7 +19,7 @@ local Theme = {
     Accent = Color3.fromRGB(4, 203, 41),
     Text = Color3.fromRGB(255, 255, 255),
     TextDim = Color3.fromRGB(150, 150, 150),
-    Success = Color3.fromRGB(4, 203, 41) -- เพิ่มสี Success ตามโค้ดของคุณ
+    Success = Color3.fromRGB(4, 203, 41) 
 }
 
 -- [[ SETTINGS ]] --
@@ -122,7 +122,7 @@ TabContainer.Size = UDim2.new(1, -16, 0, 40)
 TabContainer.Position = UDim2.new(0, 8, 0, 56)
 TabContainer.BackgroundColor3 = Theme.Surface
 TabContainer.ScrollBarThickness = 2
-TabContainer.CanvasSize = UDim2.new(1.6, 0, 0, 0) -- ขยายให้พอดีกับแท็บใหม่
+TabContainer.CanvasSize = UDim2.new(1.6, 0, 0, 0) 
 Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
 
 local TabLayout = Instance.new("UIListLayout", TabContainer)
@@ -163,8 +163,8 @@ end
 local MainTab = CreateTab("Main")
 local EggTab = CreateTab("EGG")
 local CollectTab = CreateTab("Collect")
-local UpdateTab = CreateTab("Update")   -- แท็บที่เพิ่มใหม่
-local DetailsTab = CreateTab("Details") -- แท็บที่เพิ่มใหม่
+local UpdateTab = CreateTab("Update")   
+local DetailsTab = CreateTab("Details") 
 
 Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
@@ -252,14 +252,19 @@ local function CreateButton(parent, text, callback)
     return Btn
 end
 
--- 🚀 ฟังก์ชัน Double TP (กันเกมดึงตัวกลับ)
-local function DoubleTP(targetCFrame)
+-- 🚀 ฟังก์ชัน Triple TP (เพิ่มล็อกความเร็ว แก้บัคเด้งทะลุพื้น)
+local function TripleTP(targetCFrame)
     pcall(function()
         local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
         if hrp then
             hrp.CFrame = targetCFrame
-            task.wait(0.15) 
+            hrp.Velocity = Vector3.zero -- ล็อกให้นิ่ง
+            task.wait(0.05) 
             hrp.CFrame = targetCFrame
+            hrp.Velocity = Vector3.zero 
+            task.wait(0.05) 
+            hrp.CFrame = targetCFrame
+            hrp.Velocity = Vector3.zero
         end
     end)
 end
@@ -297,32 +302,34 @@ CreateToggle(MainTab, "💎 AUTO PICK UP (DIVINE ONLY)", "AutoPickDivine")
 CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt")
 CreateToggle(MainTab, "🛸 AUTO TP SAFE ZONE (When Carrying)", "AutoTpSafeZone")
 
--- 🌟 ปุ่มวาร์ปโซน 1, 2, Vault (พร้อมระบบ Double TP)
+-- 🌟 ปุ่มวาร์ปโซน 1, 2, Vault 
 CreateButton(MainTab, "🚀 TP TO ZONE 1", function()
     pcall(function()
         local zone = workspace.World.Zones:FindFirstChild("StealZone1")
-        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+        if zone then TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
     end)
 end)
 
 CreateButton(MainTab, "🚀 TP TO ZONE 2", function()
     pcall(function()
         local zone = workspace.World.Zones:FindFirstChild("StealZone2")
-        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+        if zone then TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
     end)
 end)
 
 CreateButton(MainTab, "🚀 TP TO VAULT", function()
     pcall(function()
         local zone = workspace.World.Zones:FindFirstChild("StealZoneVault")
-        if zone then DoubleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
+        if zone then 
+            TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) 
+        end
     end)
 end)
 
 CreateButton(MainTab, "🛸 TP TO SAFE ZONE", function()
     pcall(function()
         local sz = GetSafeZoneCFrame()
-        if sz then DoubleTP(sz) end
+        if sz then TripleTP(sz) end
     end)
 end)
 
@@ -429,7 +436,7 @@ TargetText3.Parent = DetailsTab
 local CreditsText2 = Instance.new("TextLabel") 
 CreditsText2.Size = UDim2.new(1, 0, 0, 30) 
 CreditsText2.BackgroundTransparency = 1 
-CreditsText2.Text = " New Update" 
+CreditsText2.Text = " New Update 2.2" 
 CreditsText2.TextColor3 = Theme.Success 
 CreditsText2.TextSize = 15 
 CreditsText2.Font = Enum.Font.GothamBold 
@@ -471,11 +478,20 @@ DevText5.TextSize = 12
 DevText5.Font = Enum.Font.GothamSemibold 
 DevText5.Parent = UpdateTab
 
+local DevText5 = Instance.new("TextLabel") 
+DevText5.Size = UDim2.new(1, 0, 0, 25) 
+DevText5.BackgroundTransparency = 1 
+DevText5.Text = "🌟Fix Auto Divine  (Not 100% functional.)" 
+DevText5.TextColor3 = Theme.Success 
+DevText5.TextSize = 12
+DevText5.Font = Enum.Font.GothamSemibold 
+DevText5.Parent = UpdateTab
+
 -- =======================================
 -- 🔄 LOGIC FIXES 
 -- =======================================
 
--- 🛸 LOGIC: AUTO TP SAFE ZONE (วาร์ปกลับ Safe Zone เมื่อหยิบของได้)
+-- 🛸 LOGIC: AUTO TP SAFE ZONE 
 task.spawn(function()
     while task.wait(0.5) do
         if _G.AutoTpSafeZone and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -498,7 +514,7 @@ task.spawn(function()
                     if szCFrame then
                         local hrp = player.Character.HumanoidRootPart
                         if (hrp.Position - szCFrame.Position).Magnitude > 20 then
-                            DoubleTP(szCFrame)
+                            TripleTP(szCFrame)
                         end
                     end
                 end
@@ -764,9 +780,9 @@ task.spawn(function()
     end
 end)
 
--- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE
+-- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE (อัปเดตระบบ Sync พิกัด แก้บัค Too Far ขั้นเด็ดขาด)
 task.spawn(function()
-    while task.wait(0.3) do
+    while task.wait(0.3) do -- สแกนหาของแบบเร็วๆ
         if _G.AutoPickDivine and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local isCarrying = false
@@ -782,66 +798,100 @@ task.spawn(function()
                     end
                 end
                 
-                if isCarrying then return end
-
                 local hrp = player.Character.HumanoidRootPart
+
+                -- ถ้าถือของอยู่ -> กลับฐาน
+                if isCarrying then 
+                    local szCFrame = GetSafeZoneCFrame()
+                    if szCFrame and (hrp.Position - szCFrame.Position).Magnitude > 20 then
+                        TripleTP(szCFrame)
+                        task.wait(0.5) 
+                    end
+                    return 
+                end
+
+                -- สแกนเฉพาะใน Brainrots
+                local brainrotsFolder = workspace:FindFirstChild("Brainrots")
+                if not brainrotsFolder then return end
+
                 local hasGrabbed = false 
                 
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if hasGrabbed then break end 
+                local function grabItem(targetUI, targetPart)
+                    -- 🔥 วาร์ปโดยเผื่อระยะความสูง 2 หน่วย (กันตัวละครมุดดิน ซึ่งจะทำให้เกมบอกว่าไกลเกิน)
+                    local targetPos = targetPart.CFrame * CFrame.new(0, 2, 0)
+                    TripleTP(targetPos)
                     
-                    if v:IsA("ProximityPrompt") then
-                        local model = v:FindFirstAncestorOfClass("Model")
-                        local isDivine = false
-                        if model then
-                            for _, child in pairs(model:GetDescendants()) do
-                                if child:IsA("TextLabel") and child.Text:upper():find("DIVINE") then
-                                    isDivine = true
-                                    break
-                                end
-                            end
-                        end
-                        
-                        if isDivine then
-                            local part = v:FindFirstAncestorWhichIsA("BasePart")
-                            if part and (part.Position - hrp.Position).Magnitude <= 15 then
-                                fireproximityprompt(v)
-                                hasGrabbed = true 
-                            end
-                        end
-                    end
+                    -- 🔥 ทริคเด็ด: บังคับให้ Humanoid "เดิน" นิดนึง เพื่อบังคับให้เซิร์ฟเวอร์เกมยอมรับพิกัดใหม่ทันที!
+                    pcall(function()
+                        player.Character.Humanoid:MoveTo(hrp.Position + Vector3.new(0.5, 0, 0.5))
+                    end)
                     
-                    if v:IsA("BillboardGui") and not hasGrabbed then
-                        local allText = ""
-                        local isDivine = false
-                        for _, txt in pairs(v:GetDescendants()) do
-                            if txt:IsA("TextLabel") then
-                                local tUpper = txt.Text:upper()
-                                if tUpper:find("DIVINE") then
-                                    isDivine = true
-                                end
-                                allText = allText .. " " .. txt.Text:lower()
-                            end
-                        end
-                        
-                        if isDivine and (allText:find("pick") or allText:find("up")) then
-                            local part = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
-                            if part and (part.Position - hrp.Position).Magnitude <= 15 then
-                                for _, btn in pairs(v:GetDescendants()) do
-                                    if (btn:IsA("TextButton") or btn:IsA("ImageButton")) then
-                                        if getconnections then
-                                            for _, conn in pairs(getconnections(btn.MouseButton1Click)) do
-                                                conn:Fire()
-                                                hasGrabbed = true 
-                                            end
-                                        end
+                    -- รอให้เซิร์ฟเวอร์เคลียร์พิกัดแป๊บนึง (0.25 วิเพียงพอเพราะเราสั่งเดินไปแล้ว)
+                    task.wait(0.21)
+                    
+                    -- หยุดนิ่งก่อนกดหยิบ
+                    hrp.Velocity = Vector3.zero
+                    
+                    if targetUI:IsA("ProximityPrompt") then
+                        fireproximityprompt(targetUI)
+                        hasGrabbed = true
+                    elseif targetUI:IsA("BillboardGui") then
+                        for _, btn in pairs(targetUI:GetDescendants()) do
+                            if (btn:IsA("TextButton") or btn:IsA("ImageButton")) then
+                                if getconnections then
+                                    for _, conn in pairs(getconnections(btn.MouseButton1Click)) do
+                                        conn:Fire()
+                                        hasGrabbed = true 
+                                        break
                                     end
                                 end
                             end
+                            if hasGrabbed then break end
                         end
+                    end
+                    
+                    if hasGrabbed then
+                        task.wait(0.5) -- รอ UI อัปเดต
+                    end
+                end
+
+                for _, v in pairs(brainrotsFolder:GetDescendants()) do
+                    if hasGrabbed then break end 
+                    
+                    local isDivine = false
+                    local itemPart = nil
+
+                    if v:IsA("ProximityPrompt") then
+                        local parentObj = v:FindFirstAncestorOfClass("Model") or v:FindFirstAncestorWhichIsA("BasePart")
+                        if parentObj then
+                            for _, child in pairs(parentObj:GetDescendants()) do
+                                if child:IsA("TextLabel") and child.Text:upper():find("DIVINE") then
+                                    isDivine = true; break
+                                end
+                            end
+                        end
+                        if isDivine then itemPart = v:FindFirstAncestorWhichIsA("BasePart") end
+
+                    elseif v:IsA("BillboardGui") then
+                        local allText = ""
+                        for _, txt in pairs(v:GetDescendants()) do
+                            if txt:IsA("TextLabel") then
+                                local tUpper = txt.Text:upper()
+                                if tUpper:find("DIVINE") then isDivine = true end
+                                allText = allText .. " " .. txt.Text:lower()
+                            end
+                        end
+                        if isDivine and (allText:find("pick") or allText:find("up")) then
+                            itemPart = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
+                        end
+                    end
+                    
+                    if isDivine and itemPart then
+                        grabItem(v, itemPart)
                     end
                 end
             end)
         end
     end
 end)
+
