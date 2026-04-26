@@ -24,13 +24,10 @@ local Theme = {
 
 -- [[ SETTINGS ]] --
 _G.AutoBreak = false
-_G.AutoTPEgg = false 
 _G.AutoHitBigEgg = false 
 _G.AutoHitZone2 = false 
 _G.AutoCollect = false
 _G.AutoPickUp = false 
-_G.AutoPickDivine = false 
-_G.AutoTpSafeZone = false 
 _G.AutoUpgradeAll = false
 _G.AutoUpgradeSpecific = false
 _G.AutoRebirth = false 
@@ -238,131 +235,24 @@ local function CreateToggleWithInput(parentPage, text, toggleVar, numVar, minVal
     return frame
 end
 
-local function CreateButton(parent, text, callback)
-    local Btn = Instance.new("TextButton", parent)
-    Btn.Size = UDim2.new(0, 300, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Accent; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 11
-    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
-    Btn.MouseButton1Click:Connect(function()
-        TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play(); task.wait(0.1); TweenService:Create(Btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Accent}):Play()
-        if callback then callback() end
-    end)
-    return Btn
-end
-
--- 🚀 ฟังก์ชัน Triple TP 
-local function TripleTP(targetCFrame)
-    pcall(function()
-        local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            hrp.CFrame = targetCFrame
-            hrp.Velocity = Vector3.zero 
-            task.wait(0.05) 
-            hrp.CFrame = targetCFrame
-            hrp.Velocity = Vector3.zero 
-            task.wait(0.05) 
-            hrp.CFrame = targetCFrame
-            hrp.Velocity = Vector3.zero
-        end
-    end)
-end
-
-local function GetSafeZoneCFrame()
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:IsA("BasePart") then
-            for _, ui in pairs(v:GetChildren()) do
-                if ui:IsA("SurfaceGui") or ui:IsA("BillboardGui") then
-                    for _, txt in pairs(ui:GetDescendants()) do
-                        if txt:IsA("TextLabel") and txt.Text:lower():find("safe zone") then
-                            return v.CFrame * CFrame.new(0, 5, 0)
-                        end
-                    end
-                end
-            end
-            if v.Name:lower():find("safe") and v.Name:lower():find("zone") then
-                return v.CFrame * CFrame.new(0, 5, 0)
-            end
-        end
-    end
-    return nil
-end
-
 -- =======================================
--- 📌 UI PLACEMENT - MAIN & OTHERS
+-- 📌 UI PLACEMENT
 -- =======================================
 
-CreateToggle(MainTab, "🟠⚡ AUTO Hit  (🥚Egg All♾️)", "AutoBreak")
-CreateToggle(MainTab, "🔴🚀 AUTO TP TO EGG  (Universal TP)", "AutoTPEgg") 
-CreateToggle(MainTab, "🟢💥 AUTO HIT EGG VAULT  (🔨Hit Super Speed⚡)", "AutoHitBigEgg")
-CreateToggle(MainTab, "🟢⚔️ AUTO HIT ZONE 2    (🔨Hit Super Speed⚡)", "AutoHitZone2") 
-CreateToggle(MainTab, "🟢🖐️ AUTO PICK UP", "AutoPickUp")
-CreateToggle(MainTab, "🔴💎 AUTO PICK UP (DIVINE ONLY)", "AutoPickDivine")
-CreateToggle(MainTab, "🟢⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt")
-CreateToggle(MainTab, "🔴🛸 AUTO TP SAFE ZONE (When Carrying)", "AutoTpSafeZone")
-
-CreateButton(MainTab, "🔴🚀 TP TO ZONE 1", function()
-    pcall(function()
-        local zone = workspace.World.Zones:FindFirstChild("StealZone1")
-        if zone then TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
-    end)
-end)
-
-CreateButton(MainTab, "🔴🚀 TP TO ZONE 2", function()
-    pcall(function()
-        local zone = workspace.World.Zones:FindFirstChild("StealZone2")
-        if zone then TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) end
-    end)
-end)
-
-CreateButton(MainTab, "🔴🚀 TP TO VAULT", function()
-    pcall(function()
-        local zone = workspace.World.Zones:FindFirstChild("StealZoneVault")
-        if zone then 
-            TripleTP(zone.CFrame * CFrame.new(0, 5, 0)) 
-        end
-    end)
-end)
-
-CreateButton(MainTab, "🔴🛸 TP TO SAFE ZONE", function()
-    pcall(function()
-        local sz = GetSafeZoneCFrame()
-        if sz then TripleTP(sz) end
-    end)
-end)
-
-CreateButton(MainTab, "🔓 UNLOCK ZONES.   (❌Cannot be picked up. Brainrot❌)", function()
-    pcall(function()
-        local count = 0
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("BasePart") then
-                local isWall = false
-                local vName = v.Name:lower()
-                if not vName:find("safe") and not vName:find("vault") then
-                    if vName:find("door") or vName:find("wall") or vName:find("zone") or vName:find("glass") then isWall = true end
-                    for _, ui in pairs(v:GetChildren()) do
-                        if ui:IsA("SurfaceGui") or ui:IsA("BillboardGui") then
-                            for _, txt in pairs(ui:GetDescendants()) do
-                                if txt:IsA("TextLabel") then
-                                    local t = txt.Text:lower()
-                                    if not t:find("safe") and not t:find("vault") and (t:find("unlock") or t:find("zone") or t:find("open") or t:find("v.i.p")) then isWall = true end
-                                end
-                            end
-                        end
-                    end
-                end
-                if isWall then v:Destroy(); count = count + 1 end
-            end
-        end
-    end)
-end)
+CreateToggle(MainTab, "⚡ AUTO Hit  (🥚Egg All♾️)", "AutoBreak")
+CreateToggle(MainTab, "💥 AUTO HIT EGG VAULT  (🔨Hit Super Speed⚡)", "AutoHitBigEgg")
+CreateToggle(MainTab, "⚔️ AUTO HIT ZONE 2    (🔨Hit Super Speed⚡)", "AutoHitZone2") 
+CreateToggle(MainTab, "🖐️ AUTO PICK UP", "AutoPickUp")
+CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt")
 
 for _, eggName in ipairs(EggOrder) do 
     CreateEggToggle(EggTab, "Farm " .. eggName, eggName) 
 end
 
-CreateToggle(CollectTab, "🟢💰 AUTO COLLECT MONEY (1-60)", "AutoCollect")
-CreateToggle(CollectTab, "🟢⬆️ AUTO UPGRADE ALL (1-30)", "AutoUpgradeAll")
-CreateToggleWithInput(CollectTab, "🟢🎯 AUTO UPGRADE (Delay 0.2)", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
-CreateToggle(CollectTab, "🟢♻️ AUTO REBIRTH", "AutoRebirth")
+CreateToggle(CollectTab, "💰 AUTO COLLECT MONEY (1-60)", "AutoCollect")
+CreateToggle(CollectTab, "⬆️ AUTO UPGRADE ALL (1-30)", "AutoUpgradeAll")
+CreateToggleWithInput(CollectTab, "🎯 AUTO UPGRADE (Delay 0.2)", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
+CreateToggle(CollectTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 
 -- ================= [ ข้อความในแท็บ DETAILS & UPDATE ] ================= --
 local CreditsText1 = Instance.new("TextLabel") 
@@ -441,7 +331,7 @@ CreditsText2.Parent = UpdateTab
 local DevText2 = Instance.new("TextLabel") 
 DevText2.Size = UDim2.new(1, 0, 0, 25) 
 DevText2.BackgroundTransparency = 1 
-DevText2.Text = "🔴🌟 TP Zone 1" 
+DevText2.Text = "🔴delete TP Zone 1" 
 DevText2.TextColor3 = Theme.Success 
 DevText2.TextSize = 13
 DevText2.Font = Enum.Font.GothamSemibold 
@@ -450,7 +340,7 @@ DevText2.Parent = UpdateTab
 local DevText3 = Instance.new("TextLabel") 
 DevText3.Size = UDim2.new(1, 0, 0, 25) 
 DevText3.BackgroundTransparency = 1 
-DevText3.Text = "🔴⭐ TP Zone 2" 
+DevText3.Text = "🔴delete TP Zone 2" 
 DevText3.TextColor3 = Theme.Success 
 DevText3.TextSize = 13
 DevText3.Font = Enum.Font.GothamSemibold 
@@ -459,7 +349,7 @@ DevText3.Parent = UpdateTab
 local DevText4 = Instance.new("TextLabel") 
 DevText4.Size = UDim2.new(1, 0, 0, 25) 
 DevText4.BackgroundTransparency = 1 
-DevText4.Text = "🔴✨ Tp Zone Vault" 
+DevText4.Text = "🔴delete Tp Zone Vault" 
 DevText4.TextColor3 = Theme.Success 
 DevText4.TextSize = 13
 DevText4.Font = Enum.Font.GothamSemibold 
@@ -468,7 +358,7 @@ DevText4.Parent = UpdateTab
 local DevText5 = Instance.new("TextLabel") 
 DevText5.Size = UDim2.new(1, 0, 0, 25) 
 DevText5.BackgroundTransparency = 1 
-DevText5.Text = "🔴🌛 Pick up TP SAFE ZoNE" 
+DevText5.Text = "🔴delete Pick up TP SAFE ZoNE" 
 DevText5.TextColor3 = Theme.Success 
 DevText5.TextSize = 12
 DevText5.Font = Enum.Font.GothamSemibold 
@@ -477,7 +367,7 @@ DevText5.Parent = UpdateTab
 local DevText5 = Instance.new("TextLabel") 
 DevText5.Size = UDim2.new(1, 0, 0, 25) 
 DevText5.BackgroundTransparency = 1 
-DevText5.Text = "🔴🌟 Auto Divine  (Not 100% functional.)" 
+DevText5.Text = "🔴delete Auto Divine " 
 DevText5.TextColor3 = Theme.Success 
 DevText5.TextSize = 12
 DevText5.Font = Enum.Font.GothamSemibold 
@@ -486,38 +376,6 @@ DevText5.Parent = UpdateTab
 -- =======================================
 -- 🔄 LOGIC FIXES 
 -- =======================================
-
--- 🛸 LOGIC: AUTO TP SAFE ZONE 
-task.spawn(function()
-    while task.wait(0.5) do
-        if _G.AutoTpSafeZone and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                local isCarrying = false
-                if PlayerGui then
-                    for _, gui in pairs(PlayerGui:GetDescendants()) do
-                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
-                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
-                            local btnName = gui.Name:lower()
-                            if btnText:find("drop") or btnName:find("drop") then
-                                isCarrying = true; break
-                            end
-                        end
-                    end
-                end
-                
-                if isCarrying then
-                    local szCFrame = GetSafeZoneCFrame()
-                    if szCFrame then
-                        local hrp = player.Character.HumanoidRootPart
-                        if (hrp.Position - szCFrame.Position).Magnitude > 20 then
-                            TripleTP(szCFrame)
-                        end
-                    end
-                end
-            end)
-        end
-    end
-end)
 
 -- ลบ Delay การกด ProximityPrompt 
 task.spawn(function()
@@ -534,10 +392,10 @@ task.spawn(function()
     end
 end)
 
--- 🥚 LOGIC: AUTO HIT EGG ALL & AUTO TP EGG (โครงสร้างจากคุณ)
+-- 🔥 🥚 LOGIC: AUTO HIT EGG ALL 
 task.spawn(function()
     local KnitRemote = nil
-    while task.wait(0.10) do
+    while task.wait(0.1) do
         local anySpecific = false
         local activeTargetEggs = {}
         for eggName, isActive in pairs(_G.FarmEggs) do 
@@ -552,141 +410,126 @@ task.spawn(function()
                 if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
                 if not KnitRemote then return end
                 
-                local uuidsToHit = {}
                 local hrp = player.Character.HumanoidRootPart
-                local targetFound = false
                 
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("Model") and v.Name:find("-") and #v.Name == 36 then
-                        local isTarget = false
-                        
-                        if _G.AutoBreak then
-                            isTarget = true
-                        end
-                        
-                        if not isTarget and anySpecific then
-                            for _, desc in pairs(v:GetDescendants()) do
-                                if desc:IsA("TextLabel") or desc:IsA("StringValue") then
-                                    local txt = desc:IsA("TextLabel") and string.lower(desc.Text) or string.lower(desc.Value)
-                                    for _, rarity in ipairs(activeTargetEggs) do
-                                        if string.find(txt, rarity) then
-                                            isTarget = true
-                                            break
+                -- ชี้เป้าค้นหาเฉพาะใน 2 โฟลเดอร์ที่ไข่เกิด
+                local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
+                
+                for _, folder in ipairs(folders) do
+                    if folder then
+                        for _, v in pairs(folder:GetDescendants()) do
+                            -- สแกนหารูปแบบชื่อ UUID โดยตรง (ความยาว 36 ตัวอักษรและมีขีด)
+                            if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
+                                local isTarget = false
+                                
+                                if _G.AutoBreak then
+                                    isTarget = true
+                                elseif anySpecific then
+                                    for _, desc in pairs(v:GetDescendants()) do
+                                        if desc:IsA("TextLabel") or desc:IsA("StringValue") then
+                                            local txt = desc:IsA("TextLabel") and string.lower(desc.Text) or string.lower(desc.Value)
+                                            for _, rarity in ipairs(activeTargetEggs) do
+                                                if string.find(txt, rarity) then
+                                                    isTarget = true
+                                                    break
+                                                end
+                                            end
                                         end
+                                        if isTarget then break end
                                     end
                                 end
-                                if isTarget then break end
-                            end
-                        end
-                        
-                        if isTarget then
-                            local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
-                            if part then
-                                if _G.AutoTPEgg and not targetFound then
-                                    TripleTP(part.CFrame * CFrame.new(0, 3, 0))
-                                    targetFound = true
-                                end
-                                if (part.Position - hrp.Position).Magnitude <= 100 then
-                                    table.insert(uuidsToHit, v.Name)
+                                
+                                if isTarget then
+                                    local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                                    if part then
+                                        if (part.Position - hrp.Position).Magnitude <= 150 then
+                                            -- ยิงคำสั่งตีกระจายแบบ Args ทันทีเมื่ออยู่ในระยะ
+                                            task.spawn(function()
+                                                pcall(function()
+                                                    local args = { [1] = { [1] = v.Name } }
+                                                    KnitRemote:InvokeServer(unpack(args))
+                                                end)
+                                            end)
+                                        end
+                                    end
                                 end
                             end
                         end
                     end
-                end
-                
-                if #uuidsToHit > 0 then
-                    pcall(function() KnitRemote:InvokeServer(uuidsToHit) end)
                 end
             end)
         end
     end
 end)
 
--- 💥 LOGIC: AUTO HIT EGG VAULT (สแกน UUID แล้วแพ็กส่งแบบ unpack(args))
+-- 🔥 💥 LOGIC: AUTO HIT EGG VAULT
 task.spawn(function()
     local VaultRemote = nil
-    local cachedVaultUUIDs = {}
-    
-    -- ลูปสแกนหาไข่ Vault ในระยะ
-    task.spawn(function()
-        while task.wait(0.7) do
-            if _G.AutoHitBigEgg and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                pcall(function()
-                    local temp = {}
-                    local hrp = player.Character.HumanoidRootPart
-                    for _, v in pairs(workspace:GetDescendants()) do
-                        if v:IsA("Model") and v.Name:find("-") and #v.Name == 36 then
-                            local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
-                            if part and (part.Position - hrp.Position).Magnitude <= 100 then
-                                table.insert(temp, v.Name)
-                            end
-                        end
-                    end
-                    cachedVaultUUIDs = temp
-                end)
-            end
-        end
-    end)
-
-    -- ลูปโจมตี (ใช้ args แบบที่คุณขอมาเป๊ะๆ)
-    RunService.Heartbeat:Connect(function()
-        if _G.AutoHitBigEgg then
+    while task.wait(0.1) do
+        if _G.AutoHitBigEgg and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 if not VaultRemote then VaultRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggVaultService.RF.RequestHitVaultEgg end
-                if VaultRemote and #cachedVaultUUIDs > 0 then
-                    for _, uuid in ipairs(cachedVaultUUIDs) do
-                        task.spawn(function()
-                            pcall(function()
-                                local args = {
-                                    [1] = {
-                                        [1] = uuid
-                                    }
-                                }
-                                VaultRemote:InvokeServer(unpack(args))
-                            end)
-                        end)
-                    end
-                end
-            end)
-        end
-    end)
-end)
-
--- ⚔️ LOGIC: AUTO HIT ZONE 2 (โครงสร้างจากคุณ)
-task.spawn(function()
-    local KnitRemote = nil
-    local cachedUUIDs = {}
-    
-    task.spawn(function()
-        while task.wait(0.7) do
-            if _G.AutoHitZone2 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                pcall(function()
-                    local temp = {}
-                    local hrp = player.Character.HumanoidRootPart
-                    for _, v in pairs(workspace:GetDescendants()) do
-                        if v:IsA("Model") and v.Name:find("-") and #v.Name == 36 then
-                            local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
-                            if part and (part.Position - hrp.Position).Magnitude <= 100 then
-                                table.insert(temp, v.Name)
+                if not VaultRemote then return end
+                
+                local hrp = player.Character.HumanoidRootPart
+                local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
+                
+                for _, folder in ipairs(folders) do
+                    if folder then
+                        for _, v in pairs(folder:GetDescendants()) do
+                            if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
+                                local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                                if part and (part.Position - hrp.Position).Magnitude <= 150 then
+                                    -- ยิงคำสั่งตีกระจายแบบ Args ทันทีที่เจอ
+                                    task.spawn(function()
+                                        pcall(function()
+                                            local args = { [1] = { [1] = v.Name } }
+                                            VaultRemote:InvokeServer(unpack(args))
+                                        end)
+                                    end)
+                                end
                             end
                         end
                     end
-                    cachedUUIDs = temp
-                end)
-            end
-        end
-    end)
-
-    RunService.Heartbeat:Connect(function()
-        if _G.AutoHitZone2 then
-            pcall(function()
-                if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
-                if KnitRemote and #cachedUUIDs > 0 then
-                    task.spawn(function() KnitRemote:InvokeServer(cachedUUIDs) end)
                 end
             end)
         end
-    end)
+    end
+end)
+
+-- 🔥 ⚔️ LOGIC: AUTO HIT ZONE 2
+task.spawn(function()
+    local KnitRemote = nil
+    while task.wait(0.1) do
+        if _G.AutoHitZone2 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
+                if not KnitRemote then return end
+                
+                local hrp = player.Character.HumanoidRootPart
+                local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
+                
+                for _, folder in ipairs(folders) do
+                    if folder then
+                        for _, v in pairs(folder:GetDescendants()) do
+                            if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
+                                local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                                if part and (part.Position - hrp.Position).Magnitude <= 150 then
+                                    -- ยิงคำสั่งตีกระจายแบบ Args 
+                                    task.spawn(function()
+                                        pcall(function()
+                                            local args = { [1] = { [1] = v.Name } }
+                                            KnitRemote:InvokeServer(unpack(args))
+                                        end)
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end
 end)
 
 -- 💰 LOGIC: AUTO COLLECT 
@@ -812,114 +655,6 @@ task.spawn(function()
                                 end
                             end
                         end
-                    end
-                end
-            end)
-        end
-    end
-end)
-
--- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE
-task.spawn(function()
-    while task.wait(0.3) do 
-        if _G.AutoPickDivine and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                local isCarrying = false
-                if PlayerGui then
-                    for _, gui in pairs(PlayerGui:GetDescendants()) do
-                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
-                            local btnText = gui:IsA("TextButton") and gui.Text:lower() or ""
-                            local btnName = gui.Name:lower()
-                            if btnText:find("drop") or btnName:find("drop") then
-                                isCarrying = true; break
-                            end
-                        end
-                    end
-                end
-                
-                local hrp = player.Character.HumanoidRootPart
-
-                if isCarrying then 
-                    local szCFrame = GetSafeZoneCFrame()
-                    if szCFrame and (hrp.Position - szCFrame.Position).Magnitude > 20 then
-                        TripleTP(szCFrame)
-                        task.wait(0.5) 
-                    end
-                    return 
-                end
-
-                local brainrotsFolder = workspace:FindFirstChild("Brainrots")
-                if not brainrotsFolder then return end
-
-                local hasGrabbed = false 
-                
-                local function grabItem(targetUI, targetPart)
-                    local targetPos = targetPart.CFrame * CFrame.new(0, 2, 0)
-                    TripleTP(targetPos)
-                    
-                    pcall(function()
-                        player.Character.Humanoid:MoveTo(hrp.Position + Vector3.new(0.5, 0, 0.5))
-                    end)
-                    
-                    task.wait(0.21)
-                    hrp.Velocity = Vector3.zero
-                    
-                    if targetUI:IsA("ProximityPrompt") then
-                        fireproximityprompt(targetUI)
-                        hasGrabbed = true
-                    elseif targetUI:IsA("BillboardGui") then
-                        for _, btn in pairs(targetUI:GetDescendants()) do
-                            if (btn:IsA("TextButton") or btn:IsA("ImageButton")) then
-                                if getconnections then
-                                    for _, conn in pairs(getconnections(btn.MouseButton1Click)) do
-                                        conn:Fire()
-                                        hasGrabbed = true 
-                                        break
-                                    end
-                                end
-                            end
-                            if hasGrabbed then break end
-                        end
-                    end
-                    
-                    if hasGrabbed then
-                        task.wait(0.5) 
-                    end
-                end
-
-                for _, v in pairs(brainrotsFolder:GetDescendants()) do
-                    if hasGrabbed then break end 
-                    
-                    local isDivine = false
-                    local itemPart = nil
-
-                    if v:IsA("ProximityPrompt") then
-                        local parentObj = v:FindFirstAncestorOfClass("Model") or v:FindFirstAncestorWhichIsA("BasePart")
-                        if parentObj then
-                            for _, child in pairs(parentObj:GetDescendants()) do
-                                if child:IsA("TextLabel") and child.Text:upper():find("DIVINE") then
-                                    isDivine = true; break
-                                end
-                            end
-                        end
-                        if isDivine then itemPart = v:FindFirstAncestorWhichIsA("BasePart") end
-
-                    elseif v:IsA("BillboardGui") then
-                        local allText = ""
-                        for _, txt in pairs(v:GetDescendants()) do
-                            if txt:IsA("TextLabel") then
-                                local tUpper = txt.Text:upper()
-                                if tUpper:find("DIVINE") then isDivine = true end
-                                allText = allText .. " " .. txt.Text:lower()
-                            end
-                        end
-                        if isDivine and (allText:find("pick") or allText:find("up")) then
-                            itemPart = v.Adornee or v:FindFirstAncestorWhichIsA("BasePart")
-                        end
-                    end
-                    
-                    if isDivine and itemPart then
-                        grabItem(v, itemPart)
                     end
                 end
             end)
