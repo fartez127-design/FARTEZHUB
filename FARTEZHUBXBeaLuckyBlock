@@ -299,7 +299,6 @@ local function CreateInputToggleUI(parent, text, defaultVal, callbackToggle, cal
     end)
 end
 
--- [ สร้างฟังชั่น UI ใหม่แบบมีปุ่ม + / - และพิมพ์ได้ ]
 local function CreateStepperToggleUI(parent, text, defaultVal, minVal, maxVal, callbackToggle, callbackInput)
     local Frame = Instance.new("Frame", parent)
     Frame.Size = UDim2.new(1, -20, 0, 40)
@@ -316,7 +315,6 @@ local function CreateStepperToggleUI(parent, text, defaultVal, minVal, maxVal, c
     TLabel.TextSize = 12
     TLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    -- Minus Button
     local MinusBtn = Instance.new("TextButton", Frame)
     MinusBtn.Size = UDim2.new(0, 20, 0, 24)
     MinusBtn.Position = UDim2.new(1, -135, 0.5, -12)
@@ -326,7 +324,6 @@ local function CreateStepperToggleUI(parent, text, defaultVal, minVal, maxVal, c
     MinusBtn.Font = Enum.Font.GothamBold
     Instance.new("UICorner", MinusBtn).CornerRadius = UDim.new(0, 4)
 
-    -- TextBox (สำหรับพิมพ์)
     local TextBox = Instance.new("TextBox", Frame)
     TextBox.Size = UDim2.new(0, 30, 0, 24)
     TextBox.Position = UDim2.new(1, -110, 0.5, -12)
@@ -337,7 +334,6 @@ local function CreateStepperToggleUI(parent, text, defaultVal, minVal, maxVal, c
     TextBox.Text = tostring(defaultVal)
     Instance.new("UICorner", TextBox).CornerRadius = UDim.new(0, 4)
 
-    -- Plus Button
     local PlusBtn = Instance.new("TextButton", Frame)
     PlusBtn.Size = UDim2.new(0, 20, 0, 24)
     PlusBtn.Position = UDim2.new(1, -75, 0.5, -12)
@@ -363,7 +359,6 @@ local function CreateStepperToggleUI(parent, text, defaultVal, minVal, maxVal, c
         if num then updateValue(num) else updateValue(currentValue) end
     end)
 
-    -- Toggle Button
     local TButton = Instance.new("TextButton", Frame)
     TButton.Size = UDim2.new(0, 40, 0, 20)
     TButton.Position = UDim2.new(1, -50, 0.5, -10)
@@ -513,6 +508,32 @@ CreateButtonUI(MainTab, "Teleport Home", function()
     end
 end)
 
+-- 4. Auto Collect Egg & Hat 🥚🎩
+local AutoCollectEgg = false
+CreateToggleUI(MainTab, "🟢 Auto Collect Egg & Hat 🥚🎩 (Fast)", function(active)
+    AutoCollectEgg = active
+    if active then
+        task.spawn(function()
+            while AutoCollectEgg do
+                task.spawn(function()
+                    pcall(function()
+                        if collectEggRemote then
+                            collectEggRemote:InvokeServer()
+                        else
+                            game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.7.0").knit.Services.EventService.RF.CollectEgg:InvokeServer()
+                        end
+                    end)
+                    
+                    pcall(function()
+                        game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.7.0").knit.Services.EventService.RF.CollectHat:InvokeServer()
+                    end)
+                end)
+                task.wait()
+            end
+        end)
+    end
+end)
+
 
 -- [ ZONE TAB ] --
 
@@ -522,60 +543,79 @@ local function StartBossFarm(zoneName)
     task.spawn(function()
         while _G.FarmBosses[zoneName] do
             pcall(function()
-
                 local char = player.Character or player.CharacterAdded:Wait()
-                local root = char:FindFirstChild("HumanoidRootPart")
-                local humanoid = char:FindFirstChild("Humanoid")
+                local root = char:WaitForChild("HumanoidRootPart", 5)
+                local humanoid = char:WaitForChild("Humanoid", 5)
+                local userId = player.UserId
+                
+                local modelsFolder = workspace:WaitForChild("RunningModels", 5)
+                local zonesFolder = workspace:WaitForChild("CollectZones", 5)
+                local target = zonesFolder and zonesFolder:WaitForChild(zoneName, 5)
 
-                if not root or not humanoid then return end
+                if not root or not humanoid or not modelsFolder or not target then return end
 
-                local modelsFolder = workspace:FindFirstChild("RunningModels")
-                local zonesFolder = workspace:FindFirstChild("CollectZones")
-                local target = zonesFolder and zonesFolder:FindFirstChild(zoneName)
-
-                if not modelsFolder or not target then return end
-
-                -- 🚀 1. วาปไป spawn (เร็ว)
-                root.CFrame = SPAWN_POS
-                task.wait(0.03)
-
-                -- 🚀 2. ขยับนิดเดียวให้ spawn model
-                humanoid:MoveTo(WALK_POS)
-
-                -- 🚀 3. หา model (เร็วขึ้นมาก)
-                local ownedModel
-                for i = 1, 15 do
+                root.CFrame = CFrame.new(715, 39, -2122)
+                task.wait(0.3)
+                
+                humanoid:MoveTo(Vector3.new(710, 39, -2122))
+                
+                local ownedModel = nil
+                repeat
+                    task.wait(0.3)
                     for _, obj in ipairs(modelsFolder:GetChildren()) do
-                        if obj:IsA("Model") and obj:GetAttribute("OwnerId") == player.UserId then
+                        if obj:IsA("Model") and obj:GetAttribute("OwnerId") == userId then
                             ownedModel = obj
                             break
                         end
                     end
-                    if ownedModel then break end
-                    task.wait(0.04)
+                until ownedModel ~= nil or not _G.FarmBosses[zoneName]
+                
+                if not _G.FarmBosses[zoneName] then return end
+                
+                if ownedModel.PrimaryPart then
+                    ownedModel:SetPrimaryPartCFrame(target.CFrame)
+                else
+                    local part = ownedModel:FindFirstChildWhichIsA("BasePart")
+                    if part then
+                        part.CFrame = target.CFrame
+                    end
                 end
-
-                -- 🚀 4. วาง model
-                if ownedModel then
-                    local offset = CFrame.new(0, -5, 0)
-
+                
+                task.wait(0.7)
+                
+                if ownedModel and ownedModel.Parent == modelsFolder then
                     if ownedModel.PrimaryPart then
-                        ownedModel:SetPrimaryPartCFrame(target.CFrame * offset)
+                        ownedModel:SetPrimaryPartCFrame(target.CFrame * CFrame.new(0, -5, 0))
                     else
                         local part = ownedModel:FindFirstChildWhichIsA("BasePart")
                         if part then
-                            part.CFrame = target.CFrame * offset
+                            part.CFrame = target.CFrame * CFrame.new(0, -5, 0)
                         end
                     end
                 end
-
-                -- 🚀 5. วาปกลับทันที (ไม่หน่วง)
-                root.CFrame = RESPAWN_POS
-
+                
+                repeat
+                    task.wait(0.3)
+                until not _G.FarmBosses[zoneName] or (ownedModel == nil or ownedModel.Parent ~= modelsFolder)
+                
+                if not _G.FarmBosses[zoneName] then return end
+                
+                local oldCharacter = player.Character
+                repeat
+                    task.wait(0.2)
+                until not _G.FarmBosses[zoneName] or (player.Character ~= oldCharacter and player.Character ~= nil)
+                
+                if not _G.FarmBosses[zoneName] then return end
+                task.wait(0.4)
+                
+                local newChar = player.Character
+                local newRoot = newChar and newChar:WaitForChild("HumanoidRootPart", 5)
+                if newRoot then
+                    newRoot.CFrame = CFrame.new(737, 39, -2118)
+                end
+                
+                task.wait(2.1)
             end)
-
-            -- 🔥 loop เร็วขึ้น
-            task.wait(0.03)
         end
     end)
 end
@@ -590,35 +630,14 @@ CreateToggleUI(ZoneTab, "🟢 Auto Boss 15 👾", function(active)
     if active then StartBossFarm("base15") end
 end)
 
-local AutoEventActive = false
-CreateToggleUI(ZoneTab, "🔴 Auto Event 💫", function(active)
-    AutoEventActive = active
-    if active then
-        task.spawn(function()
-            while AutoEventActive do
-                pcall(function()
-                    local char = player.Character
-                    if char and char:FindFirstChild("HumanoidRootPart") then
-                        local hrp = char.HumanoidRootPart
-                        for _, part in ipairs(workspace:GetDescendants()) do
-                            if not AutoEventActive then break end
-                            if part:IsA("BasePart") and (string.match(part.Name, "EventThreshold") or string.match(part.Name, "EventBasePlaceholder")) then
-                                hrp.CFrame = part.CFrame * CFrame.new(0, 3, 0)
-                                task.wait(2)
-                            end
-                        end
-                    end
-                end)
-                task.wait(3)
-            end
-        end)
-    end
+CreateToggleUI(ZoneTab, "🟢 Auto Boss 16 👑", function(active)
+    _G.FarmBosses["base16"] = active
+    if active then StartBossFarm("base16") end
 end)
 
 
 -- [ COLLECT TAB ] --
 
--- ค้นหา Plot (ฐาน) ของผู้เล่น
 local function GetMyPlot()
     local plots = workspace:FindFirstChild("Plots")
     if not plots then return nil end
@@ -629,7 +648,6 @@ local function GetMyPlot()
     return nil
 end
 
--- 1. Auto Collect Money (สแกนหาตัวหนังสือเครื่องหมาย $ แล้วเหยียบแผ่น)
 local AutoCollectMoney = false
 CreateToggleUI(CollectTab, "🟢 Auto Collect Money 💸", function(active)
     AutoCollectMoney = active
@@ -640,30 +658,25 @@ CreateToggleUI(CollectTab, "🟢 Auto Collect Money 💸", function(active)
                     local char = player.Character
                     local hrp = char and char:FindFirstChild("HumanoidRootPart")
                     
-                    -- เช็คฐานตัวเองก่อน ถ้าหาไม่เจอให้สแกนทั้งโฟลเดอร์ Plots ไปเลย (เผื่อบัค)
                     local searchArea = GetMyPlot() or workspace:FindFirstChild("Plots")
                     
                     if hrp and searchArea then
-                        -- ค้นหาข้อมูลที่เป็น TextLabel ทุกอันในพื้นที่
                         for _, obj in ipairs(searchArea:GetDescendants()) do
                             if not AutoCollectMoney then break end
                             
                             if obj:IsA("TextLabel") or obj:IsA("TextButton") then
-                                -- ถ้าเจอเครื่องหมาย $ บนป้าย
                                 if string.find(obj.Text, "%$") then
-                                    -- ถอยกลับไปหาตัวชิ้นส่วน (BasePart) ที่ป้ายแปะอยู่
                                     local gui = obj:FindFirstAncestorWhichIsA("SurfaceGui") or obj:FindFirstAncestorWhichIsA("BillboardGui")
                                     if gui and gui.Parent and gui.Parent:IsA("BasePart") then
                                         local targetPart = gui.Parent
                                         
-                                        -- วาร์ปไปเหยียบแผ่นนั้น
                                         if firetouchinterest then
                                             firetouchinterest(hrp, targetPart, 0)
                                             task.wait()
                                             firetouchinterest(hrp, targetPart, 1)
                                         else
                                             hrp.CFrame = targetPart.CFrame * CFrame.new(0, 2, 0)
-                                            task.wait(0.1) -- ดีเลย์ให้เกมรับรู้การเหยียบ
+                                            task.wait(0.1) 
                                         end
                                     end
                                 end
@@ -671,35 +684,12 @@ CreateToggleUI(CollectTab, "🟢 Auto Collect Money 💸", function(active)
                         end
                     end
                 end)
-                task.wait(1.5) -- รอบคูลดาวน์สแกนใหม่ (ไม่ให้แลค)
+                task.wait(1.5) 
             end
         end)
     end
 end)
 
--- 2. Auto Collect Egg (Fast)
-local AutoCollectEgg = false
-CreateToggleUI(MainTab, "🟢 Auto Collect Egg 🥚 (Fast)", function(active)
-    AutoCollectEgg = active
-    if active then
-        task.spawn(function()
-            while AutoCollectEgg do
-                task.spawn(function()
-                    pcall(function()
-                        if collectEggRemote then
-                            collectEggRemote:InvokeServer()
-                        else
-                            game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.7.0").knit.Services.EventService.RF.CollectEgg:InvokeServer()
-                        end
-                    end)
-                end)
-                task.wait()
-            end
-        end)
-    end
-end)
-
--- 3. Auto Claim Playtime
 local AutoClaimPlaytime = false
 CreateToggleUI(CollectTab, "🟢 Auto Ready 🎁", function(active)
     AutoClaimPlaytime = active
@@ -717,7 +707,6 @@ CreateToggleUI(CollectTab, "🟢 Auto Ready 🎁", function(active)
     end
 end)
 
--- 4. Auto Rebirth
 local AutoRebirth = false
 CreateToggleUI(CollectTab, "🟢 Auto Rebirth ♻️", function(active)
     AutoRebirth = active
@@ -731,7 +720,6 @@ CreateToggleUI(CollectTab, "🟢 Auto Rebirth ♻️", function(active)
     end
 end)
 
--- 5. Auto Upgrade Speed
 local AutoUpgradeSpeed = false
 CreateToggleUI(CollectTab, "🟢 Auto Upgrade Speed  👟", function(active)
     AutoUpgradeSpeed = active
@@ -745,7 +733,6 @@ CreateToggleUI(CollectTab, "🟢 Auto Upgrade Speed  👟", function(active)
     end
 end)
 
--- [ 🆕 ฟังก์ชั่น Upgrade Brainrots ที่เพิ่มเข้ามาใหม่ ] --
 local function FireUpgradeBrainrot(id)
     pcall(function()
         local args = { [1] = tostring(id) }
@@ -753,7 +740,6 @@ local function FireUpgradeBrainrot(id)
     end)
 end
 
--- อัพเกรดแบบทั้งหมด 1-30
 local AutoUpgradeAllBrainrot = false
 CreateToggleUI(CollectTab, "🟢 Auto Upgrade All Brainrot 🧠", function(active)
     AutoUpgradeAllBrainrot = active
@@ -763,7 +749,7 @@ CreateToggleUI(CollectTab, "🟢 Auto Upgrade All Brainrot 🧠", function(activ
                 for i = 1, 30 do
                     if not AutoUpgradeAllBrainrot then break end
                     FireUpgradeBrainrot(i)
-                    task.wait(0.1) -- ใส่ delay เล็กน้อยกันหลุด
+                    task.wait(0.1) 
                 end
                 task.wait(0.5)
             end
@@ -771,7 +757,6 @@ CreateToggleUI(CollectTab, "🟢 Auto Upgrade All Brainrot 🧠", function(activ
     end
 end)
 
--- อัพเกรดแบบเจาะจง (ระบุตัวเลข 1-30) พร้อมปุ่ม + / -
 local AutoUpgradeSpecificBrainrot = false
 local SpecificBrainrotID = 1
 
@@ -792,8 +777,6 @@ SpecificBrainrotID = value
     end
 )
 
-
--- 6. Redeem All Codes
 CreateButtonUI(CollectTab, "🟢 Redeem All Code 🎁 ", function()
     if redeem then
         local codes = {"release", "lucky", "block", "free", "update", "gems"}
@@ -824,6 +807,7 @@ CreateDetailText("▶️ YouTube FARTEZ HUB", DetailsTab)
 CreateDetailText("🟢 It works", DetailsTab)
 CreateDetailText("🟠 Waiting for update.", DetailsTab)
 CreateDetailText("🔴 It doesn't work.", DetailsTab)
+
 -- เปิดหน้าแรกเริ่มต้น
 Tabs[1].Page.Visible = true
 Tabs[1].Btn.BackgroundColor3 = Theme.Accent
