@@ -252,7 +252,7 @@ local function CreateButton(parent, text, callback)
     return Btn
 end
 
--- 🚀 ฟังก์ชัน Triple TP (เพิ่มล็อกความเร็ว แก้บัคเด้งทะลุพื้น)
+-- 🚀 ฟังก์ชัน Triple TP (เพิ่มล็อกความเร็ว แก้บัคเด้งทะลุพื้นและกันระบบดึงกลับของเกม)
 local function TripleTP(targetCFrame)
     pcall(function()
         local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
@@ -538,9 +538,10 @@ task.spawn(function()
     end
 end)
 
+-- 🥚 LOGIC: AUTO HIT EGG ALL & AUTO TP EGG (แก้ไขรูปแบบ UUID)
 task.spawn(function()
     local KnitRemote = nil
-    while task.wait(0.2) do
+    while task.wait(0.1) do
         local anySpecific = false
         local activeTargetEggs = {}
         for eggName, isActive in pairs(_G.FarmEggs) do 
@@ -585,8 +586,9 @@ task.spawn(function()
                         if isTarget then
                             local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
                             if part then
+                                -- ใช้ TripleTP วาร์ป 3 รอบเพื่อทะลุกันโปรดึงกลับ
                                 if _G.AutoTPEgg and not targetFound then
-                                    hrp.CFrame = part.CFrame * CFrame.new(0, 3, 0)
+                                    TripleTP(part.CFrame * CFrame.new(0, 3, 0))
                                     targetFound = true
                                 end
                                 if (part.Position - hrp.Position).Magnitude <= 100 then
@@ -598,61 +600,90 @@ task.spawn(function()
                 end
                 
                 if #uuidsToHit > 0 then
-                    pcall(function() KnitRemote:InvokeServer(uuidsToHit) end)
+                    -- ส่งค่าทีละ UUID โดยใช้ตารางซ้อนตารางให้ตรงกับรูปแบบที่เกมต้องการ 
+                    for _, uuid in ipairs(uuidsToHit) do
+                        task.spawn(function() 
+                            pcall(function() 
+                                KnitRemote:InvokeServer({uuid}) 
+                            end) 
+                        end)
+                    end
                 end
             end)
         end
     end
 end)
 
+-- 💥 LOGIC: AUTO HIT EGG VAULT (FASTEST MODE)
 task.spawn(function()
     local VaultRemote = nil
-    RunService.Heartbeat:Connect(function()
+    while task.wait() do -- วนลูปเร็วที่สุดเท่าที่เกมรันได้ (ทุกเฟรม)
         if _G.AutoHitBigEgg then
             pcall(function()
-                if not VaultRemote then VaultRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggVaultService.RF.RequestHitVaultEgg end
-                if VaultRemote then task.spawn(function() VaultRemote:InvokeServer() end) end
+                if not VaultRemote then 
+                    VaultRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggVaultService.RF.RequestHitVaultEgg 
+                end
+                
+                if VaultRemote then 
+                    -- ใช้ task.spawn เพื่อยิงคำสั่งทันทีโดยไม่รอเซิร์ฟเวอร์ตอบกลับ (No Yielding)
+                    task.spawn(function() pcall(function() VaultRemote:InvokeServer() end) end)
+                    -- เบิ้ลให้อีก 1 รอบในเฟรมเดียวกันเพื่อความโหด
+                    task.spawn(function() pcall(function() VaultRemote:InvokeServer() end) end)
+                end
             end)
         end
-    end)
+    end
 end)
 
+-- ⚔️ LOGIC: AUTO HIT ZONE 2 (FASTEST MODE)
 task.spawn(function()
     local KnitRemote = nil
     local cachedUUIDs = {}
     
+    -- ลูปแยกสำหรับ "สแกน" หาไข่รอบตัว (ป้องกันเกมแลคจากการสแกนทุกเฟรม)
     task.spawn(function()
-        while task.wait(0.2) do
+        while task.wait(0.1) do
             if _G.AutoHitZone2 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
                 pcall(function()
-                    local temp = {}
+                    local tempUUIDs = {}
                     local hrp = player.Character.HumanoidRootPart
                     for _, v in pairs(workspace:GetDescendants()) do
                         if v:IsA("Model") and v.Name:find("-") and #v.Name == 36 then
                             local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
-                            if part and (part.Position - hrp.Position).Magnitude <= 100 then
-                                table.insert(temp, v.Name)
+                            if part and (part.Position - hrp.Position).Magnitude <= 150 then
+                                table.insert(tempUUIDs, v.Name)
                             end
                         end
                     end
-                    cachedUUIDs = temp
+                    cachedUUIDs = tempUUIDs
                 end)
             end
         end
     end)
 
-    RunService.Heartbeat:Connect(function()
-        if _G.AutoHitZone2 then
+    -- ลูปสำหรับ "ส่งคำสั่งตี" รัวที่สุดเท่าที่จะทำได้
+    while task.wait() do -- วนลูปทุกเฟรม
+        if _G.AutoHitZone2 and #cachedUUIDs > 0 then
             pcall(function()
-                if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
-                if KnitRemote and #cachedUUIDs > 0 then
-                    task.spawn(function() KnitRemote:InvokeServer(cachedUUIDs) end)
+                if not KnitRemote then 
+                    KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg 
+                end
+                
+                if KnitRemote then
+                    for _, uuid in ipairs(cachedUUIDs) do
+                        task.spawn(function() 
+                            pcall(function() 
+                                KnitRemote:InvokeServer({uuid}) 
+                            end) 
+                        end)
+                    end
                 end
             end)
         end
-    end)
+    end
 end)
 
+-- 💰 LOGIC: AUTO COLLECT 
 task.spawn(function()
     local CollectRemote = nil
     while task.wait(0.5) do
@@ -669,6 +700,7 @@ task.spawn(function()
     end
 end)
 
+-- ⬆️ LOGIC: AUTO UPGRADE 
 task.spawn(function()
     local UpgradeRemote = nil
     while task.wait(0.2) do
@@ -689,6 +721,7 @@ task.spawn(function()
     end
 end)
 
+-- ♻️ LOGIC: AUTO REBIRTH
 task.spawn(function()
     local RebirthRemote = nil
     while task.wait(1.5) do
@@ -780,9 +813,9 @@ task.spawn(function()
     end
 end)
 
--- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE (อัปเดตระบบ Sync พิกัด แก้บัค Too Far ขั้นเด็ดขาด)
+-- 💎 LOGIC: AUTO PICK UP เฉพาะ DIVINE
 task.spawn(function()
-    while task.wait(0.3) do -- สแกนหาของแบบเร็วๆ
+    while task.wait(0.3) do 
         if _G.AutoPickDivine and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local isCarrying = false
@@ -800,7 +833,6 @@ task.spawn(function()
                 
                 local hrp = player.Character.HumanoidRootPart
 
-                -- ถ้าถือของอยู่ -> กลับฐาน
                 if isCarrying then 
                     local szCFrame = GetSafeZoneCFrame()
                     if szCFrame and (hrp.Position - szCFrame.Position).Magnitude > 20 then
@@ -810,26 +842,20 @@ task.spawn(function()
                     return 
                 end
 
-                -- สแกนเฉพาะใน Brainrots
                 local brainrotsFolder = workspace:FindFirstChild("Brainrots")
                 if not brainrotsFolder then return end
 
                 local hasGrabbed = false 
                 
                 local function grabItem(targetUI, targetPart)
-                    -- 🔥 วาร์ปโดยเผื่อระยะความสูง 2 หน่วย (กันตัวละครมุดดิน ซึ่งจะทำให้เกมบอกว่าไกลเกิน)
                     local targetPos = targetPart.CFrame * CFrame.new(0, 2, 0)
                     TripleTP(targetPos)
                     
-                    -- 🔥 ทริคเด็ด: บังคับให้ Humanoid "เดิน" นิดนึง เพื่อบังคับให้เซิร์ฟเวอร์เกมยอมรับพิกัดใหม่ทันที!
                     pcall(function()
                         player.Character.Humanoid:MoveTo(hrp.Position + Vector3.new(0.5, 0, 0.5))
                     end)
                     
-                    -- รอให้เซิร์ฟเวอร์เคลียร์พิกัดแป๊บนึง (0.25 วิเพียงพอเพราะเราสั่งเดินไปแล้ว)
                     task.wait(0.21)
-                    
-                    -- หยุดนิ่งก่อนกดหยิบ
                     hrp.Velocity = Vector3.zero
                     
                     if targetUI:IsA("ProximityPrompt") then
@@ -851,7 +877,7 @@ task.spawn(function()
                     end
                     
                     if hasGrabbed then
-                        task.wait(0.5) -- รอ UI อัปเดต
+                        task.wait(0.5) 
                     end
                 end
 
@@ -894,4 +920,3 @@ task.spawn(function()
         end
     end
 end)
-
