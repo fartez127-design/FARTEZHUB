@@ -41,8 +41,8 @@ btnStroke.Thickness = 2
 btnStroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 290, 0, 300) 
-Main.Position = UDim2.new(0.5, -170, 0.5, -240)
+Main.Size = UDim2.new(0, 310, 0, 380) 
+Main.Position = UDim2.new(0.5, -155, 0.5, -190)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
 Main.Active = true
@@ -66,7 +66,7 @@ local Title = Instance.new("TextLabel", TopBar)
 Title.Size = UDim2.new(0, 160, 0, 22) 
 Title.Position = UDim2.new(0, 52, 0, 5) 
 Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB v1" 
+Title.Text = "FARTEZ HUB" 
 Title.TextColor3 = Theme.Text 
 Title.TextSize = 18 
 Title.Font = Enum.Font.GothamBold 
@@ -93,7 +93,7 @@ local TabLayout = Instance.new("UIListLayout", TabContainer)
 TabLayout.FillDirection = Enum.FillDirection.Horizontal
 TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-TabLayout.Padding = UDim.new(0, 4)
+TabLayout.Padding = UDim.new(0, 3)
 
 local Content = Instance.new("Frame", Main)
 Content.Size = UDim2.new(1, -16, 1, -110)
@@ -105,7 +105,7 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 50, 0, 28) 
+    Btn.Size = UDim2.new(0, 44, 0, 28) 
     Btn.BackgroundColor3 = Theme.SurfaceLight
     Btn.Text = name
     Btn.TextColor3 = Theme.TextDim
@@ -143,14 +143,15 @@ end
 
 local MainTab = CreateTab("Main")
 local CollectTab = CreateTab("Collect")
-local UpGTab = CreateTab("Upgrades") 
+local UpGTab = CreateTab("UpG") 
+local BuyTab = CreateTab("Buy") 
 local SellTab = CreateTab("Sell") 
 local DetailsTab = CreateTab("Info")
 
 -- ================= [ UI COMPONENTS ] ================= --
 local function CreateButton(parent, text, callback)
     local btn = Instance.new("TextButton", parent)
-    btn.Size = UDim2.new(0, 250, 0, 32)
+    btn.Size = UDim2.new(0, 260, 0, 32)
     btn.BackgroundColor3 = Theme.SurfaceLight
     btn.Text = text
     btn.TextColor3 = Theme.Text
@@ -162,7 +163,7 @@ end
 
 local function CreateToggle(parent, text, callback)
     local frame = Instance.new("Frame", parent)
-    frame.Size = UDim2.new(0, 250, 0, 32)
+    frame.Size = UDim2.new(0, 260, 0, 32)
     frame.BackgroundColor3 = Theme.SurfaceLight
     Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
     
@@ -193,7 +194,7 @@ end
 
 local function CreateDropdown(parent, title, options, callback)
     local container = Instance.new("Frame", parent)
-    container.Size = UDim2.new(0, 250, 0, 32)
+    container.Size = UDim2.new(0, 260, 0, 32)
     container.BackgroundColor3 = Theme.SurfaceLight
     container.ClipsDescendants = true 
     Instance.new("UICorner", container).CornerRadius = UDim.new(0, 6)
@@ -225,10 +226,10 @@ local function CreateDropdown(parent, title, options, callback)
     mainBtn.MouseButton1Click:Connect(function()
         isOpen = not isOpen
         if isOpen then
-            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32 + maxDropHeight)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play()
             mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▲"
         else
-            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
             mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▼"
         end
     end)
@@ -247,7 +248,7 @@ local function CreateDropdown(parent, title, options, callback)
         optBtn.MouseButton1Click:Connect(function()
             selected = option
             isOpen = false
-            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
             mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▼"
             callback(option)
         end)
@@ -255,34 +256,10 @@ local function CreateDropdown(parent, title, options, callback)
     callback(selected)
 end
 
-local function CreateTextBox(parent, placeholder, callback)
-    local frame = Instance.new("Frame", parent)
-    frame.Size = UDim2.new(0, 250, 0, 32)
-    frame.BackgroundColor3 = Theme.SurfaceLight
-    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
-    
-    local box = Instance.new("TextBox", frame)
-    box.Size = UDim2.new(1, -20, 1, 0)
-    box.Position = UDim2.new(0, 10, 0, 0)
-    box.BackgroundTransparency = 1
-    box.PlaceholderText = placeholder
-    box.Text = ""
-    box.TextColor3 = Theme.Accent
-    box.PlaceholderColor3 = Theme.TextDim
-    box.Font = Enum.Font.GothamBold
-    box.TextSize = 11
-    box.TextXAlignment = Enum.TextXAlignment.Left
-    box.ClearTextOnFocus = false
-    
-    box.FocusLost:Connect(function()
-        callback(box.Text)
-    end)
-end
-
 -- ================= [ LOGIC ] ================= --
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- MAIN TAB
+-- MAIN TAB (ดีเลย์ 3 วินาทีเหมือนเดิมเพื่อความเสถียร)
 local kickValues = {
     ["Perfect"] = 1,
     ["Excellent"] = 0.8670379929244518,
@@ -307,6 +284,7 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                 local hum = char and char:FindFirstChild("Humanoid")
                 
                 if hrp and hum then
+                    -- 1. วาปไปจุดเตะ
                     hrp.Velocity = Vector3.new(0,0,0)
                     hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
                     task.wait(0.5)
@@ -316,54 +294,33 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                         for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
                     end
                     
-                    -- [ แก้ไขจุดที่แอนิเมชันซ้อนทับกัน ]
+                    -- เล่นแอนิเมชัน & เอฟเฟกต์
                     pcall(function()
                         local animToPlay
-                        
                         if currentKickMode == "Perfect" then
-                            animToPlay = game:GetService("ReplicatedStorage"):FindFirstChild("Objects") 
-                                and game:GetService("ReplicatedStorage").Objects:FindFirstChild("Animations")
-                                and game:GetService("ReplicatedStorage").Objects.Animations:FindFirstChild("PerfectKick")
+                            animToPlay = game:GetService("ReplicatedStorage").Objects.Animations.PerfectKick
                         else
-                            animToPlay = game:GetService("ReplicatedStorage"):FindFirstChild("Modules")
-                                and game:GetService("ReplicatedStorage").Modules:FindFirstChild("UILoader")
-                                and game:GetService("ReplicatedStorage").Modules.UILoader:FindFirstChild("Kickbar")
-                                and game:GetService("ReplicatedStorage").Modules.UILoader.Kickbar:FindFirstChild("KickAnim")
+                            animToPlay = game:GetService("ReplicatedStorage").Modules.UILoader.Kickbar.KickAnim
                         end
                         
-                        if animToPlay and animToPlay:IsA("Animation") then
+                        if animToPlay then
                             local animator = hum:FindFirstChildOfClass("Animator")
                             if animator then
-                                -- 1. หยุดแอนิเมชันทุกอย่างที่กำลังเล่นอยู่ (ลบท่าเตะธรรมดาที่แอบเล่นทิ้งไป)
-                                for _, playingTrack in ipairs(animator:GetPlayingAnimationTracks()) do
-                                    playingTrack:Stop()
-                                end
-                                
-                                -- 2. โหลดท่าใหม่แล้วบังคับให้มีความสำคัญสูงสุด (Action4)
+                                for _, track in ipairs(animator:GetPlayingAnimationTracks()) do track:Stop() end
                                 local track = animator:LoadAnimation(animToPlay)
                                 track.Priority = Enum.AnimationPriority.Action4
                                 track:Play()
                             end
                         end
                         
-                        -- ดึงเอฟเฟกต์ VFX 
                         local vfxName = (currentKickMode == "Perfect") and "CosmicKick" or "KickVFX"
-                        local vfxFolder = game:GetService("ReplicatedStorage"):FindFirstChild("Objects")
-                            and game:GetService("ReplicatedStorage").Objects:FindFirstChild("VFX")
-                        
-                        if vfxFolder then
-                            local kickVFX = vfxFolder:FindFirstChild(vfxName)
-                            if kickVFX then
-                                local vfxClone = kickVFX:Clone()
-                                vfxClone.Parent = hrp
-                                
-                                if vfxClone:IsA("ParticleEmitter") then vfxClone:Emit(30) end
-                                for _, desc in pairs(vfxClone:GetDescendants()) do
-                                    if desc:IsA("ParticleEmitter") then desc:Emit(30) end
-                                end
-                                
-                                game:GetService("Debris"):AddItem(vfxClone, 2)
-                            end
+                        local vfx = game:GetService("ReplicatedStorage").Objects.VFX:FindFirstChild(vfxName)
+                        if vfx then
+                            local vfxClone = vfx:Clone()
+                            vfxClone.Parent = hrp
+                            if vfxClone:IsA("ParticleEmitter") then vfxClone:Emit(30) end
+                            for _, d in pairs(vfxClone:GetDescendants()) do if d:IsA("ParticleEmitter") then d:Emit(30) end end
+                            game:GetService("Debris"):AddItem(vfxClone, 2)
                         end
                     end)
                     
@@ -373,8 +330,9 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                     
                     Net.rev_Transformed:FireServer()
                     Net.rev_KickZman:FireServer()
-                    task.wait(0.5)
+                    task.wait(0.2)
                     
+                    -- วาปกลับจุดเซฟ
                     local safeZone = workspace.Lobby:FindFirstChild("Safe")
                     if safeZone then 
                         hrp.Velocity = Vector3.new(0,0,0)
@@ -382,7 +340,7 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                     end
                 end
             end)
-            task.wait(3) 
+            task.wait(2.9) -- กลับมาใช้ 3 วินาทีเพื่อความเสถียร
         end
     end)
 end)
@@ -396,7 +354,6 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                 local char = player.Character
                 local hum = char and char:FindFirstChild("Humanoid")
                 local backpack = player:FindFirstChild("Backpack")
-                
                 local currentTool = char and char:FindFirstChildOfClass("Tool")
                 local isHoldingWeight = currentTool and currentTool:FindFirstChild("WeightBar", true)
                 
@@ -431,18 +388,12 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                                     task.spawn(function()
                                         task.wait(0.2)
                                         local imgLabel = bonus:FindFirstChild("ImageLabel")
-                                        local targets = {bonus}
-                                        if imgLabel then table.insert(targets, imgLabel) end
                                         if getconnections then
-                                            for _, target in pairs(targets) do
-                                                pcall(function()
-                                                    for _, conn in pairs(getconnections(target.InputBegan)) do 
-                                                        conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
-                                                        conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
-                                                    end
-                                                end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
+                                            for _, target in pairs({bonus, imgLabel}) do
+                                                if target then
+                                                    for _, conn in pairs(getconnections(target.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                end
                                             end
                                         end
                                     end)
@@ -484,9 +435,7 @@ CreateToggle(UpGTab, "Auto Upgrade All 🧠", function(v)
     autoUpAll = v
     task.spawn(function()
         while autoUpAll do
-            for i = 1, 30 do
-                pcall(function() Net.rev_B_Upgrade:FireServer(i) end)
-            end
+            for i = 1, 30 do pcall(function() Net.rev_B_Upgrade:FireServer(i) end) end
             task.wait(0.05) 
         end
     end)
@@ -495,28 +444,30 @@ end)
 local upList = {}
 for i = 1, 30 do table.insert(upList, tostring(i)) end
 local targetUpgrade = "1"
-
-CreateDropdown(UpGTab, "Select UpG", upList, function(val)
-    targetUpgrade = val
-end)
+CreateDropdown(UpGTab, "Select UpG", upList, function(val) targetUpgrade = val end)
 
 local autoUpSel = false
 CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
     autoUpSel = v
     task.spawn(function()
         while autoUpSel do
-            pcall(function()
-                Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade))
-            end)
+            pcall(function() Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade)) end)
             task.wait(0.05) 
         end
     end)
 end)
 
+-- BUY TAB 
+local weightList = {"Wooden Stick    Free", "Bone Barbel     $7.5K", "Stone Block    $75K", "Copper Plate    $500K", "Iron Plate    $7.2M", "Ice Barbell    $350M", "Donut Barbell    	$6.2B", "Golden Barbell    $85B", "Heaven Plate     $1.2T", "Mega Golden Barbell     $18T", "Neon Pulse    $500T", "Giant Gold Star Barbell     $20Q"}
+local targetWeight = weightList[1]
+CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
+
+CreateButton(BuyTab, "Buy Weight 🛒", function() Net.rev_Shop_Buy:FireServer("WeightShop", targetWeight) end)
+
 -- SELL TAB
 CreateButton(SellTab, "Sell All 💲 (Danger!)", function() Net.ref_B_SellAll:InvokeServer() end)
 
--- DETAILS TAB
+-- INFO TAB
 local function addLabel(txt, clr)
     local l = Instance.new("TextLabel", DetailsTab)
     l.Size = UDim2.new(1, 0, 0, 25); l.BackgroundTransparency = 1
@@ -529,8 +480,6 @@ addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
 addLabel("🟢 It works", Theme.Success)
 addLabel("🟠 Waiting for update", Theme.Success)
 addLabel("🔴 It's not working", Theme.Success)
-
-
 
 -- START UI
 Tabs[1].Page.Visible = true
