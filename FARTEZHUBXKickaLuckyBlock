@@ -1,0 +1,539 @@
+-- [[ 1. SETUP & CORE VARIABLES ]] --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+local SafeParent = (pcall(function() return gethui() end) and gethui()) or PlayerGui
+
+-- ลบ UI เก่าทิ้ง
+if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then 
+    SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
+end
+
+-- [[ THEME SETUP ]] --
+local Theme = {
+    Background = Color3.fromRGB(5, 5, 8),
+    Surface = Color3.fromRGB(15, 15, 20),
+    SurfaceLight = Color3.fromRGB(25, 25, 35),
+    Accent = Color3.fromRGB(4, 203, 41),
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDim = Color3.fromRGB(150, 150, 150),
+    Success = Color3.fromRGB(4, 203, 41)
+}
+
+-- [[ 2. UI CREATION ]] --
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FARTEZ_LUCKY_HUB"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = SafeParent
+
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+toggleBtn.Draggable = true
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
+local btnStroke = Instance.new("UIStroke", toggleBtn)
+btnStroke.Thickness = 2
+btnStroke.Color = Theme.Accent
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 290, 0, 300) 
+Main.Position = UDim2.new(0.5, -170, 0.5, -240)
+Main.BackgroundColor3 = Theme.Background
+Main.BorderSizePixel = 0
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+-- [ หัวตาราง (TopBar) ]
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 50)
+TopBar.BackgroundColor3 = Theme.Surface
+TopBar.BorderSizePixel = 0
+
+local Logo = Instance.new("ImageLabel", TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
+
+local Title = Instance.new("TextLabel", TopBar) 
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 52, 0, 5) 
+Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB v1" 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 18 
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left 
+
+local Subtitle = Instance.new("TextLabel", TopBar) 
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 52, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Kick a Lucky Block" 
+Subtitle.TextColor3 = Theme.Accent 
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
+
+-- [ ระบบแถบเมนู (Tabs) ]
+local TabContainer = Instance.new("Frame", Main)
+TabContainer.Size = UDim2.new(1, -16, 0, 36)
+TabContainer.Position = UDim2.new(0, 8, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
+
+local TabLayout = Instance.new("UIListLayout", TabContainer)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+TabLayout.Padding = UDim.new(0, 4)
+
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -16, 1, -110)
+Content.Position = UDim2.new(0, 8, 0, 98)
+Content.BackgroundColor3 = Theme.Surface
+Content.ClipsDescendants = true
+Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
+
+local Tabs = {}
+local function CreateTab(name)
+    local Btn = Instance.new("TextButton", TabContainer)
+    Btn.Size = UDim2.new(0, 50, 0, 28) 
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = name
+    Btn.TextColor3 = Theme.TextDim
+    Btn.TextSize = 9 
+    Btn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+
+    local Page = Instance.new("ScrollingFrame", Content)
+    Page.Name = name .. "Page"
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Theme.Accent
+    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Page.Visible = false
+    
+    local PL = Instance.new("UIListLayout", Page)
+    PL.Padding = UDim.new(0, 10)
+    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Instance.new("UIPadding", Page).PaddingTop = UDim.new(0, 12)
+    Instance.new("UIPadding", Page).PaddingBottom = UDim.new(0, 12)
+
+    table.insert(Tabs, {Btn = Btn, Page = Page})
+
+    Btn.MouseButton1Click:Connect(function()
+        for _, t in pairs(Tabs) do
+            t.Page.Visible = false
+            TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play()
+        end
+        Page.Visible = true
+        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+    end)
+    return Page
+end
+
+local MainTab = CreateTab("Main")
+local CollectTab = CreateTab("Collect")
+local UpGTab = CreateTab("Upgrades") 
+local SellTab = CreateTab("Sell") 
+local DetailsTab = CreateTab("Info")
+
+-- ================= [ UI COMPONENTS ] ================= --
+local function CreateButton(parent, text, callback)
+    local btn = Instance.new("TextButton", parent)
+    btn.Size = UDim2.new(0, 250, 0, 32)
+    btn.BackgroundColor3 = Theme.SurfaceLight
+    btn.Text = text
+    btn.TextColor3 = Theme.Text
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 12
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    btn.MouseButton1Click:Connect(callback)
+end
+
+local function CreateToggle(parent, text, callback)
+    local frame = Instance.new("Frame", parent)
+    frame.Size = UDim2.new(0, 250, 0, 32)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
+    
+    local label = Instance.new("TextLabel", frame)
+    label.Size = UDim2.new(1, -50, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = Theme.Text
+    label.Font = Enum.Font.GothamBold
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local tBtn = Instance.new("TextButton", frame)
+    tBtn.Size = UDim2.new(0, 20, 0, 20)
+    tBtn.Position = UDim2.new(1, -30, 0.5, -10)
+    tBtn.BackgroundColor3 = Theme.Surface
+    tBtn.Text = ""
+    Instance.new("UICorner", tBtn).CornerRadius = UDim.new(0, 4)
+    Instance.new("UIStroke", tBtn).Color = Theme.Accent
+    
+    local s = false
+    tBtn.MouseButton1Click:Connect(function()
+        s = not s
+        tBtn.BackgroundColor3 = s and Theme.Accent or Theme.Surface
+        callback(s)
+    end)
+end
+
+local function CreateDropdown(parent, title, options, callback)
+    local container = Instance.new("Frame", parent)
+    container.Size = UDim2.new(0, 250, 0, 32)
+    container.BackgroundColor3 = Theme.SurfaceLight
+    container.ClipsDescendants = true 
+    Instance.new("UICorner", container).CornerRadius = UDim.new(0, 6)
+    
+    local selected = options[1]
+    
+    local mainBtn = Instance.new("TextButton", container)
+    mainBtn.Size = UDim2.new(1, 0, 0, 32)
+    mainBtn.BackgroundTransparency = 1
+    mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▼"
+    mainBtn.TextColor3 = Theme.Accent
+    mainBtn.Font = Enum.Font.GothamBold
+    mainBtn.TextSize = 12
+    mainBtn.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local scroll = Instance.new("ScrollingFrame", container)
+    scroll.Size = UDim2.new(1, 0, 1, -32)
+    scroll.Position = UDim2.new(0, 0, 0, 32)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness = 2
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    
+    local layout = Instance.new("UIListLayout", scroll)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    
+    local isOpen = false
+    local maxDropHeight = math.min(#options * 30, 150)
+    
+    mainBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32 + maxDropHeight)}):Play()
+            mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▲"
+        else
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32)}):Play()
+            mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▼"
+        end
+    end)
+    
+    for i, option in ipairs(options) do
+        local optBtn = Instance.new("TextButton", scroll)
+        optBtn.Size = UDim2.new(1, -10, 0, 30)
+        optBtn.BackgroundColor3 = Theme.Surface
+        optBtn.Text = "    " .. option
+        optBtn.TextColor3 = Theme.TextDim
+        optBtn.Font = Enum.Font.GothamBold
+        optBtn.TextSize = 11
+        optBtn.TextXAlignment = Enum.TextXAlignment.Left
+        optBtn.LayoutOrder = i
+        
+        optBtn.MouseButton1Click:Connect(function()
+            selected = option
+            isOpen = false
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 250, 0, 32)}):Play()
+            mainBtn.Text = "  " .. title .. ": " .. selected .. "  ▼"
+            callback(option)
+        end)
+    end
+    callback(selected)
+end
+
+local function CreateTextBox(parent, placeholder, callback)
+    local frame = Instance.new("Frame", parent)
+    frame.Size = UDim2.new(0, 250, 0, 32)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
+    
+    local box = Instance.new("TextBox", frame)
+    box.Size = UDim2.new(1, -20, 1, 0)
+    box.Position = UDim2.new(0, 10, 0, 0)
+    box.BackgroundTransparency = 1
+    box.PlaceholderText = placeholder
+    box.Text = ""
+    box.TextColor3 = Theme.Accent
+    box.PlaceholderColor3 = Theme.TextDim
+    box.Font = Enum.Font.GothamBold
+    box.TextSize = 11
+    box.TextXAlignment = Enum.TextXAlignment.Left
+    box.ClearTextOnFocus = false
+    
+    box.FocusLost:Connect(function()
+        callback(box.Text)
+    end)
+end
+
+-- ================= [ LOGIC ] ================= --
+local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
+
+-- MAIN TAB
+local kickValues = {
+    ["Perfect"] = 1,
+    ["Excellent"] = 0.8670379929244518,
+    ["Great"] = 0.6358855310827494,
+    ["Mid"] = 0.2641407661139965,
+    ["Bad"] = 0.06738599948585033
+}
+local currentKickMode = "Perfect"
+
+CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val)
+    currentKickMode = val
+end)
+
+local autoKick = false
+CreateToggle(MainTab, " Auto Kick! 💫", function(v)
+    autoKick = v
+    task.spawn(function()
+        while autoKick do
+            pcall(function()
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local hum = char and char:FindFirstChild("Humanoid")
+                
+                if hrp and hum then
+                    hrp.Velocity = Vector3.new(0,0,0)
+                    hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
+                    task.wait(0.5)
+                    
+                    local guiBtn = PlayerGui.HUD.KickButton
+                    if getconnections then
+                        for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
+                    end
+                    
+                    -- [ แก้ไขจุดที่แอนิเมชันซ้อนทับกัน ]
+                    pcall(function()
+                        local animToPlay
+                        
+                        if currentKickMode == "Perfect" then
+                            animToPlay = game:GetService("ReplicatedStorage"):FindFirstChild("Objects") 
+                                and game:GetService("ReplicatedStorage").Objects:FindFirstChild("Animations")
+                                and game:GetService("ReplicatedStorage").Objects.Animations:FindFirstChild("PerfectKick")
+                        else
+                            animToPlay = game:GetService("ReplicatedStorage"):FindFirstChild("Modules")
+                                and game:GetService("ReplicatedStorage").Modules:FindFirstChild("UILoader")
+                                and game:GetService("ReplicatedStorage").Modules.UILoader:FindFirstChild("Kickbar")
+                                and game:GetService("ReplicatedStorage").Modules.UILoader.Kickbar:FindFirstChild("KickAnim")
+                        end
+                        
+                        if animToPlay and animToPlay:IsA("Animation") then
+                            local animator = hum:FindFirstChildOfClass("Animator")
+                            if animator then
+                                -- 1. หยุดแอนิเมชันทุกอย่างที่กำลังเล่นอยู่ (ลบท่าเตะธรรมดาที่แอบเล่นทิ้งไป)
+                                for _, playingTrack in ipairs(animator:GetPlayingAnimationTracks()) do
+                                    playingTrack:Stop()
+                                end
+                                
+                                -- 2. โหลดท่าใหม่แล้วบังคับให้มีความสำคัญสูงสุด (Action4)
+                                local track = animator:LoadAnimation(animToPlay)
+                                track.Priority = Enum.AnimationPriority.Action4
+                                track:Play()
+                            end
+                        end
+                        
+                        -- ดึงเอฟเฟกต์ VFX 
+                        local vfxName = (currentKickMode == "Perfect") and "CosmicKick" or "KickVFX"
+                        local vfxFolder = game:GetService("ReplicatedStorage"):FindFirstChild("Objects")
+                            and game:GetService("ReplicatedStorage").Objects:FindFirstChild("VFX")
+                        
+                        if vfxFolder then
+                            local kickVFX = vfxFolder:FindFirstChild(vfxName)
+                            if kickVFX then
+                                local vfxClone = kickVFX:Clone()
+                                vfxClone.Parent = hrp
+                                
+                                if vfxClone:IsA("ParticleEmitter") then vfxClone:Emit(30) end
+                                for _, desc in pairs(vfxClone:GetDescendants()) do
+                                    if desc:IsA("ParticleEmitter") then desc:Emit(30) end
+                                end
+                                
+                                game:GetService("Debris"):AddItem(vfxClone, 2)
+                            end
+                        end
+                    end)
+                    
+                    local kickMultiplier = kickValues[currentKickMode] or 1
+                    Net.rev_KickEvent:FireServer(kickMultiplier)
+                    task.wait(0.2)
+                    
+                    Net.rev_Transformed:FireServer()
+                    Net.rev_KickZman:FireServer()
+                    task.wait(0.5)
+                    
+                    local safeZone = workspace.Lobby:FindFirstChild("Safe")
+                    if safeZone then 
+                        hrp.Velocity = Vector3.new(0,0,0)
+                        hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
+                    end
+                end
+            end)
+            task.wait(3) 
+        end
+    end)
+end)
+
+local autoTrain = false
+CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
+    autoTrain = v
+    task.spawn(function()
+        while autoTrain do
+            pcall(function()
+                local char = player.Character
+                local hum = char and char:FindFirstChild("Humanoid")
+                local backpack = player:FindFirstChild("Backpack")
+                
+                local currentTool = char and char:FindFirstChildOfClass("Tool")
+                local isHoldingWeight = currentTool and currentTool:FindFirstChild("WeightBar", true)
+                
+                if not isHoldingWeight then
+                    if hum then hum:UnequipTools() end
+                    task.wait(0.1)
+                    if backpack and hum then
+                        for _, tool in pairs(backpack:GetChildren()) do
+                            if tool:FindFirstChild("WeightBar", true) then
+                                hum:EquipTool(tool)
+                                break
+                            end
+                        end
+                    end
+                    local xLabel = PlayerGui:FindFirstChild("Backpack") and PlayerGui.Backpack:FindFirstChild("Bar") and PlayerGui.Backpack.Bar:FindFirstChild("Slot1") and PlayerGui.Backpack.Bar.Slot1:FindFirstChild("X_Label")
+                    if xLabel and getconnections then
+                        for _, conn in pairs(getconnections(xLabel.MouseButton1Click)) do conn:Fire() end
+                    end
+                else
+                    currentTool:Activate()
+                end
+            end)
+            
+            pcall(function()
+                local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
+                if kickUpgrades then
+                    for _, bonus in pairs(kickUpgrades:GetChildren()) do
+                        if bonus.Name == "Bonus" or bonus.Name == "PopBonus" then
+                            if bonus.Visible then
+                                if not bonus:GetAttribute("AutoClicked") then
+                                    bonus:SetAttribute("AutoClicked", true) 
+                                    task.spawn(function()
+                                        task.wait(0.2)
+                                        local imgLabel = bonus:FindFirstChild("ImageLabel")
+                                        local targets = {bonus}
+                                        if imgLabel then table.insert(targets, imgLabel) end
+                                        if getconnections then
+                                            for _, target in pairs(targets) do
+                                                pcall(function()
+                                                    for _, conn in pairs(getconnections(target.InputBegan)) do 
+                                                        conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
+                                                        conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
+                                                    end
+                                                end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
+                                            end
+                                        end
+                                    end)
+                                end
+                            else
+                                bonus:SetAttribute("AutoClicked", nil)
+                            end
+                        end
+                    end
+                end
+            end)
+            task.wait(0.1) 
+        end
+    end)
+end)
+
+CreateButton(MainTab, "TP KickRead ⚡", function()
+    pcall(function() player.Character.HumanoidRootPart.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0) end)
+end)
+
+-- COLLECT TAB
+local autoCollect = false
+CreateToggle(CollectTab, "Auto Collect Money 🤑", function(v)
+    autoCollect = v
+    task.spawn(function()
+        while autoCollect do
+            for i = 1, 30 do pcall(function() Net.rev_B_Collect:FireServer(i) end) end
+            task.wait(1)
+        end
+    end)
+end)
+
+CreateButton(CollectTab, "Buy Speed x1 👟", function() Net.rev_SPEED_UPGRADE:FireServer(1) end)
+CreateButton(CollectTab, "Rebirth ♻️", function() Net.rev_RebirthRequest:FireServer() end)
+
+-- UPGRADES TAB
+local autoUpAll = false
+CreateToggle(UpGTab, "Auto Upgrade All 🧠", function(v)
+    autoUpAll = v
+    task.spawn(function()
+        while autoUpAll do
+            for i = 1, 30 do
+                pcall(function() Net.rev_B_Upgrade:FireServer(i) end)
+            end
+            task.wait(0.05) 
+        end
+    end)
+end)
+
+local upList = {}
+for i = 1, 30 do table.insert(upList, tostring(i)) end
+local targetUpgrade = "1"
+
+CreateDropdown(UpGTab, "Select UpG", upList, function(val)
+    targetUpgrade = val
+end)
+
+local autoUpSel = false
+CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
+    autoUpSel = v
+    task.spawn(function()
+        while autoUpSel do
+            pcall(function()
+                Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade))
+            end)
+            task.wait(0.05) 
+        end
+    end)
+end)
+
+-- SELL TAB
+CreateButton(SellTab, "Sell All 💲 (Danger!)", function() Net.ref_B_SellAll:InvokeServer() end)
+
+-- DETAILS TAB
+local function addLabel(txt, clr)
+    local l = Instance.new("TextLabel", DetailsTab)
+    l.Size = UDim2.new(1, 0, 0, 25); l.BackgroundTransparency = 1
+    l.Text = txt; l.TextColor3 = clr; l.Font = Enum.Font.GothamBold; l.TextSize = 12
+end
+addLabel("🍀 Kick a Lucky Block", Theme.Success)
+addLabel("🌿 by FARTEZ", Theme.Success)
+addLabel("👍 Like and follow", Theme.Success)
+addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
+addLabel("🟢 It works", Theme.Success)
+addLabel("🟠 Waiting for update", Theme.Success)
+addLabel("🔴 It's not working", Theme.Success)
+
+
+
+-- START UI
+Tabs[1].Page.Visible = true
+Tabs[1].Btn.BackgroundColor3 = Theme.Accent
+Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
