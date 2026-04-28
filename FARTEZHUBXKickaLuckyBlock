@@ -259,7 +259,7 @@ end
 -- ================= [ LOGIC ] ================= --
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- MAIN TAB (ดีเลย์ 3 วินาทีเหมือนเดิมเพื่อความเสถียร)
+-- MAIN TAB 
 local kickValues = {
     ["Perfect"] = 1,
     ["Excellent"] = 0.8670379929244518,
@@ -274,166 +274,160 @@ CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "
 end)
 
 local autoKick = false
+local kickTick = 0
 CreateToggle(MainTab, " Auto Kick! 💫", function(v)
     autoKick = v
-    task.spawn(function()
-        while autoKick do
-            pcall(function()
-                local char = player.Character
-                local hrp = char and char:FindFirstChild("HumanoidRootPart")
-                local hum = char and char:FindFirstChild("Humanoid")
-                
-                if hrp and hum then
-                    -- 1. วาปไปจุดเตะ
-                    hrp.Velocity = Vector3.new(0,0,0)
-                    hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
-                    task.wait(0.5)
+    kickTick = kickTick + 1
+    local currentTick = kickTick
+    
+    if autoKick then
+        task.spawn(function()
+            while autoKick and currentTick == kickTick do
+                pcall(function()
+                    local char = player.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                    local hum = char and char:FindFirstChild("Humanoid")
                     
-                    local guiBtn = PlayerGui.HUD.KickButton
-                    if getconnections then
-                        for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
-                    end
-                    
-                    -- เล่นแอนิเมชัน & เอฟเฟกต์
-                    pcall(function()
-                        local animToPlay
-                        if currentKickMode == "Perfect" then
-                            animToPlay = game:GetService("ReplicatedStorage").Objects.Animations.PerfectKick
-                        else
-                            animToPlay = game:GetService("ReplicatedStorage").Modules.UILoader.Kickbar.KickAnim
-                        end
-                        
-                        if animToPlay then
-                            local animator = hum:FindFirstChildOfClass("Animator")
-                            if animator then
-                                for _, track in ipairs(animator:GetPlayingAnimationTracks()) do track:Stop() end
-                                local track = animator:LoadAnimation(animToPlay)
-                                track.Priority = Enum.AnimationPriority.Action4
-                                track:Play()
-                            end
-                        end
-                        
-                        local vfxName = (currentKickMode == "Perfect") and "CosmicKick" or "KickVFX"
-                        local vfx = game:GetService("ReplicatedStorage").Objects.VFX:FindFirstChild(vfxName)
-                        if vfx then
-                            local vfxClone = vfx:Clone()
-                            vfxClone.Parent = hrp
-                            if vfxClone:IsA("ParticleEmitter") then vfxClone:Emit(30) end
-                            for _, d in pairs(vfxClone:GetDescendants()) do if d:IsA("ParticleEmitter") then d:Emit(30) end end
-                            game:GetService("Debris"):AddItem(vfxClone, 2)
-                        end
-                    end)
-                    
-                    local kickMultiplier = kickValues[currentKickMode] or 1
-                    Net.rev_KickEvent:FireServer(kickMultiplier)
-                    task.wait(0.2)
-                    
-                    Net.rev_Transformed:FireServer()
-                    Net.rev_KickZman:FireServer()
-                    task.wait(0.5)
-                    
-                    -- วาปกลับจุดเซฟ
-                    local safeZone = workspace.Lobby:FindFirstChild("Safe")
-                    if safeZone then 
+                    if hrp and hum then
                         hrp.Velocity = Vector3.new(0,0,0)
-                        hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
+                        hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
+                        task.wait(0.5)
+                        
+                        local guiBtn = PlayerGui.HUD.KickButton
+                        if getconnections then
+                            for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
+                        end
+                        
+                        -- โชว์ VFX เฉพาะตอนเลือก Perfect
+                        if currentKickMode == "Perfect" then
+                            pcall(function()
+                                local vfx = game:GetService("ReplicatedStorage").Objects.VFX:FindFirstChild("PerfectKick")
+                                if vfx then
+                                    local vfxClone = vfx:Clone()
+                                    vfxClone.Parent = hrp
+                                    if vfxClone:IsA("ParticleEmitter") then vfxClone:Emit(30) end
+                                    for _, d in pairs(vfxClone:GetDescendants()) do 
+                                        if d:IsA("ParticleEmitter") then d:Emit(30) end 
+                                    end
+                                    game:GetService("Debris"):AddItem(vfxClone, 2)
+                                end
+                            end)
+                        end
+                        
+                        local kickMultiplier = kickValues[currentKickMode] or 1
+                        Net.rev_KickEvent:FireServer(kickMultiplier)
+                        task.wait(0.2)
+                        
+                        Net.rev_Transformed:FireServer()
+                        Net.rev_KickZman:FireServer()
+                        task.wait(0.5)
+                        
+                        local safeZone = workspace.Lobby:FindFirstChild("Safe")
+                        if safeZone then 
+                            hrp.Velocity = Vector3.new(0,0,0)
+                            hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
+                        end
                     end
-                end
-            end)
-            task.wait(2.9) 
-        end
-    end)
+                end)
+                task.wait(2.9) 
+            end
+        end)
+    end
 end)
 
 local autoTrain = false
+local trainTick = 0
 CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     autoTrain = v
-    task.spawn(function()
-        while autoTrain do
-            -- [ ระบบถือของแบบเจาะทะลวง 100% ]
-            pcall(function()
-                local char = player.Character
-                local hum = char and char:FindFirstChild("Humanoid")
-                local backpack = player:FindFirstChild("Backpack")
-                local currentTool = char and char:FindFirstChildOfClass("Tool")
+    trainTick = trainTick + 1
+    local currentTick = trainTick
+    
+    if autoTrain then
+        task.spawn(function()
+            while autoTrain and currentTick == trainTick do
+                pcall(function()
+                    local char = player.Character
+                    local hum = char and char:FindFirstChild("Humanoid")
+                    local backpack = player:FindFirstChild("Backpack")
+                    local currentTool = char and char:FindFirstChildOfClass("Tool")
+                    
+                    if not currentTool then
+                        local slot1 = PlayerGui:FindFirstChild("Backpack") 
+                            and PlayerGui.Backpack:FindFirstChild("Bar") 
+                            and PlayerGui.Backpack.Bar:FindFirstChild("Slot1")
+                        
+                        if slot1 and getconnections then
+                            local targets = {slot1, slot1:FindFirstChild("ToolImage")}
+                            for _, t in pairs(targets) do
+                                if t then
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.Activated)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
+                                end
+                            end
+                        end
+                        
+                        task.wait(0.1)
+                        
+                        if not char:FindFirstChildOfClass("Tool") and backpack and hum then
+                            for _, tool in pairs(backpack:GetChildren()) do
+                                if tool:IsA("Tool") then
+                                    local isBrainrot = tool:GetAttribute("Rarity") or tool:FindFirstChild("Rarity")
+                                    if not isBrainrot then
+                                        hum:EquipTool(tool)
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        currentTool:Activate()
+                    end
+                end)
                 
-                if not currentTool then
-                    local slot1 = PlayerGui:FindFirstChild("Backpack") 
-                        and PlayerGui.Backpack:FindFirstChild("Bar") 
-                        and PlayerGui.Backpack.Bar:FindFirstChild("Slot1")
-                    
-                    if slot1 and getconnections then
-                        local targets = {slot1, slot1:FindFirstChild("ToolImage")}
-                        for _, t in pairs(targets) do
-                            if t then
-                                pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
-                                pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
-                                pcall(function() for _, c in pairs(getconnections(t.Activated)) do c:Fire() end end)
-                                pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end end)
-                                pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
-                            end
-                        end
-                    end
-                    
-                    task.wait(0.1)
-                    
-                    if not char:FindFirstChildOfClass("Tool") and backpack and hum then
-                        for _, tool in pairs(backpack:GetChildren()) do
-                            if tool:IsA("Tool") then
-                                local isBrainrot = tool:GetAttribute("Rarity") or tool:FindFirstChild("Rarity")
-                                if not isBrainrot then
-                                    hum:EquipTool(tool)
-                                    break
-                                end
-                            end
-                        end
-                    end
-                else
-                    currentTool:Activate()
-                end
-            end)
-            
-            -- [ ระบบกด x2 แบบคืนชีพการทะลวงเต็มรูปแบบ ]
-            pcall(function()
-                local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
-                if kickUpgrades then
-                    for _, bonus in pairs(kickUpgrades:GetChildren()) do
-                        if bonus.Name == "Bonus" or bonus.Name == "PopBonus" then
-                            if bonus.Visible then
-                                if not bonus:GetAttribute("AutoClicked") then
-                                    bonus:SetAttribute("AutoClicked", true) 
-                                    task.spawn(function()
-                                        task.wait(0.2)
-                                        local imgLabel = bonus:FindFirstChild("ImageLabel")
-                                        local targets = {bonus}
-                                        if imgLabel then table.insert(targets, imgLabel) end
-                                        
-                                        if getconnections then
-                                            for _, target in pairs(targets) do
-                                                pcall(function()
-                                                    for _, conn in pairs(getconnections(target.InputBegan)) do 
-                                                        conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
-                                                        conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
-                                                    end
-                                                end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Down)) do conn:Fire() end end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Up)) do conn:Fire() end end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
-                                                pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
+                pcall(function()
+                    local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
+                    if kickUpgrades then
+                        for _, bonus in pairs(kickUpgrades:GetChildren()) do
+                            if bonus.Name == "Bonus" or bonus.Name == "PopBonus" then
+                                if bonus.Visible then
+                                    if not bonus:GetAttribute("AutoClicked") then
+                                        bonus:SetAttribute("AutoClicked", true) 
+                                        task.spawn(function()
+                                            task.wait(0.2)
+                                            local imgLabel = bonus:FindFirstChild("ImageLabel")
+                                            local targets = {bonus}
+                                            if imgLabel then table.insert(targets, imgLabel) end
+                                            
+                                            if getconnections then
+                                                for _, target in pairs(targets) do
+                                                    pcall(function()
+                                                        for _, conn in pairs(getconnections(target.InputBegan)) do 
+                                                            conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
+                                                            conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
+                                                        end
+                                                    end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Down)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Up)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
+                                                end
                                             end
-                                        end
-                                    end)
+                                        end)
+                                    end
+                                else
+                                    bonus:SetAttribute("AutoClicked", nil)
                                 end
-                            else
-                                bonus:SetAttribute("AutoClicked", nil)
                             end
                         end
                     end
-                end
-            end)
-            task.wait(0.1) 
-        end
-    end)
+                end)
+                task.wait(0.1) 
+            end
+        end)
+    end
 end)
 
 CreateButton(MainTab, "TP KickRead ⚡", function()
@@ -442,14 +436,43 @@ end)
 
 -- COLLECT TAB
 local autoCollect = false
+local collectTick = 0
 CreateToggle(CollectTab, "Auto Collect Money 🤑", function(v)
     autoCollect = v
-    task.spawn(function()
-        while autoCollect do
-            for i = 1, 30 do pcall(function() Net.rev_B_Collect:FireServer(i) end) end
-            task.wait(1)
-        end
-    end)
+    collectTick = collectTick + 1
+    local currentTick = collectTick
+    
+    if autoCollect then
+        task.spawn(function()
+            while autoCollect and currentTick == collectTick do
+                for i = 1, 30 do pcall(function() Net.rev_B_Collect:FireServer(i) end) end
+                task.wait(1)
+            end
+        end)
+    end
+end)
+
+local instantInteract = false
+local grabTick = 0
+CreateToggle(MainTab, "Pick Up (No Delay) ⚡", function(v)
+    instantInteract = v
+    grabTick = grabTick + 1
+    local currentTick = grabTick
+    
+    if instantInteract then
+        task.spawn(function()
+            while instantInteract and currentTick == grabTick do
+                pcall(function()
+                    for _, obj in pairs(workspace:GetDescendants()) do
+                        if obj:IsA("ProximityPrompt") then
+                            obj.HoldDuration = 0
+                        end
+                    end
+                end)
+                task.wait(1)
+            end
+        end)
+    end
 end)
 
 CreateButton(CollectTab, "Buy Speed x1 👟", function() Net.rev_SPEED_UPGRADE:FireServer(1) end)
@@ -457,14 +480,20 @@ CreateButton(CollectTab, "Rebirth ♻️", function() Net.rev_RebirthRequest:Fir
 
 -- UPGRADES TAB
 local autoUpAll = false
+local upAllTick = 0
 CreateToggle(UpGTab, "Auto Upgrade All 🧠", function(v)
     autoUpAll = v
-    task.spawn(function()
-        while autoUpAll do
-            for i = 1, 30 do pcall(function() Net.rev_B_Upgrade:FireServer(i) end) end
-            task.wait(0.05) 
-        end
-    end)
+    upAllTick = upAllTick + 1
+    local currentTick = upAllTick
+    
+    if autoUpAll then
+        task.spawn(function()
+            while autoUpAll and currentTick == upAllTick do
+                for i = 1, 30 do pcall(function() Net.rev_B_Upgrade:FireServer(i) end) end
+                task.wait(0.05) 
+            end
+        end)
+    end
 end)
 
 local upList = {}
@@ -473,14 +502,20 @@ local targetUpgrade = "1"
 CreateDropdown(UpGTab, "Select UpG", upList, function(val) targetUpgrade = val end)
 
 local autoUpSel = false
+local upSelTick = 0
 CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
     autoUpSel = v
-    task.spawn(function()
-        while autoUpSel do
-            pcall(function() Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade)) end)
-            task.wait(0.05) 
-        end
-    end)
+    upSelTick = upSelTick + 1
+    local currentTick = upSelTick
+    
+    if autoUpSel then
+        task.spawn(function()
+            while autoUpSel and currentTick == upSelTick do
+                pcall(function() Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade)) end)
+                task.wait(0.05) 
+            end
+        end)
+    end
 end)
 
 -- BUY TAB 
