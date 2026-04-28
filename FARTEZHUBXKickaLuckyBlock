@@ -330,7 +330,7 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                     
                     Net.rev_Transformed:FireServer()
                     Net.rev_KickZman:FireServer()
-                    task.wait(0.2)
+                    task.wait(0.5)
                     
                     -- วาปกลับจุดเซฟ
                     local safeZone = workspace.Lobby:FindFirstChild("Safe")
@@ -340,7 +340,7 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                     end
                 end
             end)
-            task.wait(2.9) -- กลับมาใช้ 3 วินาทีเพื่อความเสถียร
+            task.wait(2.9) 
         end
     end)
 end)
@@ -350,33 +350,50 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     autoTrain = v
     task.spawn(function()
         while autoTrain do
+            -- [ ระบบถือของแบบเจาะทะลวง 100% ]
             pcall(function()
                 local char = player.Character
                 local hum = char and char:FindFirstChild("Humanoid")
                 local backpack = player:FindFirstChild("Backpack")
                 local currentTool = char and char:FindFirstChildOfClass("Tool")
-                local isHoldingWeight = currentTool and currentTool:FindFirstChild("WeightBar", true)
                 
-                if not isHoldingWeight then
-                    if hum then hum:UnequipTools() end
-                    task.wait(0.1)
-                    if backpack and hum then
-                        for _, tool in pairs(backpack:GetChildren()) do
-                            if tool:FindFirstChild("WeightBar", true) then
-                                hum:EquipTool(tool)
-                                break
+                if not currentTool then
+                    local slot1 = PlayerGui:FindFirstChild("Backpack") 
+                        and PlayerGui.Backpack:FindFirstChild("Bar") 
+                        and PlayerGui.Backpack.Bar:FindFirstChild("Slot1")
+                    
+                    if slot1 and getconnections then
+                        local targets = {slot1, slot1:FindFirstChild("ToolImage")}
+                        for _, t in pairs(targets) do
+                            if t then
+                                pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
+                                pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
+                                pcall(function() for _, c in pairs(getconnections(t.Activated)) do c:Fire() end end)
+                                pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end end)
+                                pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
                             end
                         end
                     end
-                    local xLabel = PlayerGui:FindFirstChild("Backpack") and PlayerGui.Backpack:FindFirstChild("Bar") and PlayerGui.Backpack.Bar:FindFirstChild("Slot1") and PlayerGui.Backpack.Bar.Slot1:FindFirstChild("X_Label")
-                    if xLabel and getconnections then
-                        for _, conn in pairs(getconnections(xLabel.MouseButton1Click)) do conn:Fire() end
+                    
+                    task.wait(0.1)
+                    
+                    if not char:FindFirstChildOfClass("Tool") and backpack and hum then
+                        for _, tool in pairs(backpack:GetChildren()) do
+                            if tool:IsA("Tool") then
+                                local isBrainrot = tool:GetAttribute("Rarity") or tool:FindFirstChild("Rarity")
+                                if not isBrainrot then
+                                    hum:EquipTool(tool)
+                                    break
+                                end
+                            end
+                        end
                     end
                 else
                     currentTool:Activate()
                 end
             end)
             
+            -- [ ระบบกด x2 แบบคืนชีพการทะลวงเต็มรูปแบบ ]
             pcall(function()
                 local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
                 if kickUpgrades then
@@ -388,12 +405,21 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                                     task.spawn(function()
                                         task.wait(0.2)
                                         local imgLabel = bonus:FindFirstChild("ImageLabel")
+                                        local targets = {bonus}
+                                        if imgLabel then table.insert(targets, imgLabel) end
+                                        
                                         if getconnections then
-                                            for _, target in pairs({bonus, imgLabel}) do
-                                                if target then
-                                                    for _, conn in pairs(getconnections(target.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end
-                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
-                                                end
+                                            for _, target in pairs(targets) do
+                                                pcall(function()
+                                                    for _, conn in pairs(getconnections(target.InputBegan)) do 
+                                                        conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
+                                                        conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
+                                                    end
+                                                end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Down)) do conn:Fire() end end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Up)) do conn:Fire() end end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
                                             end
                                         end
                                     end)
@@ -462,7 +488,10 @@ local weightList = {"Wooden Stick    Free", "Bone Barbel     $7.5K", "Stone Bloc
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
 
-CreateButton(BuyTab, "Buy Weight 🛒", function() Net.rev_Shop_Buy:FireServer("WeightShop", targetWeight) end)
+CreateButton(BuyTab, "Buy Weight 🛒", function() 
+    local cleanName = string.match(targetWeight, "^(.-)%s+%S+$") or targetWeight
+    Net.rev_Shop_Buy:FireServer("WeightShop", cleanName) 
+end)
 
 -- SELL TAB
 CreateButton(SellTab, "Sell All 💲 (Danger!)", function() Net.ref_B_SellAll:InvokeServer() end)
@@ -478,7 +507,7 @@ addLabel("🌿 by FARTEZ", Theme.Success)
 addLabel("👍 Like and follow", Theme.Success)
 addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
 addLabel("🟢 It works", Theme.Success)
-addLabel("🟠 Waiting for update", Theme.Success)
+addLabel("🟠 Waiting for update.", Theme.Success)
 addLabel("🔴 It's not working", Theme.Success)
 
 -- START UI
