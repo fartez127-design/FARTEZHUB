@@ -24,6 +24,8 @@ local Theme = {
 
 -- [[ SETTINGS ]] --
 _G.AutoThrow = false
+_G.RollAmount = 9 
+_G.InstantPickup = false -- ตัวแปรใหม่สำหรับลบดีเลย์หยิบ
 _G.AutoCollect = false
 _G.AutoRebirth = false
 _G.AutoUpgrade = false
@@ -35,72 +37,48 @@ ScreenGui.Name = "FARTEZ_LUCKY_HUB"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = SafeParent
 
--- [ เปลี่ยนปุ่ม FZ กลมๆ ให้เป็นโลโก้รูปภาพ ]
 local toggleBtn = Instance.new("ImageButton", ScreenGui)
 toggleBtn.Size = UDim2.new(0, 50, 0, 50)
 toggleBtn.Position = UDim2.new(0, 15, 0, 150)
 toggleBtn.BackgroundColor3 = Theme.Surface
-toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150" -- ใช้รูปโลโก้
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150" 
 toggleBtn.Draggable = true
-Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0) -- ทำให้เป็นวงกลม
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
 local stroke = Instance.new("UIStroke", toggleBtn)
 stroke.Thickness = 2
-stroke.Color = Theme.Accent -- ใส่ขอบสีเขียวให้เข้าธีม
+stroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
 Main.Size = UDim2.new(0, 320, 0, 420); Main.Position = UDim2.new(0.5, -160, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background; Main.ClipsDescendants = true; Main.Active = true; Main.Draggable = true
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
--- [[ ส่วนหัว (TOPBAR) พร้อมโลโก้ ]] --
+-- [[ TOPBAR ]] --
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
 
--- โลโก้รูปภาพ (ใช้ rbxthumb เพื่อดึงภาพจาก Decal ID โดยตรง)
 local Logo = Instance.new("ImageLabel", TopBar)
-Logo.Size = UDim2.new(0, 36, 0, 36)
-Logo.Position = UDim2.new(0, 10, 0.5, -18)
-Logo.BackgroundTransparency = 1
-Logo.ZIndex = 11
-Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150" 
-Logo.ScaleType = Enum.ScaleType.Fit
+Logo.Size = UDim2.new(0, 36, 0, 36); Logo.Position = UDim2.new(0, 10, 0.5, -18); Logo.BackgroundTransparency = 1; Logo.ZIndex = 11
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"; Logo.ScaleType = Enum.ScaleType.Fit
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
 local Title = Instance.new("TextLabel") 
-Title.Size = UDim2.new(0, 160, 0, 22) 
-Title.Position = UDim2.new(0, 52, 0, 5) 
-Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB" 
-Title.TextColor3 = Theme.Text 
-Title.TextSize = 18 
-Title.Font = Enum.Font.GothamBold 
-Title.TextXAlignment = Enum.TextXAlignment.Left 
-Title.ZIndex = 11 
-Title.Parent = TopBar
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB"; Title.TextColor3 = Theme.Text; Title.TextSize = 18; Title.Font = Enum.Font.GothamBold; Title.TextXAlignment = 0; Title.ZIndex = 11; Title.Parent = TopBar
 
 local Subtitle = Instance.new("TextLabel") 
-Subtitle.Size = UDim2.new(0, 160, 0, 16) 
-Subtitle.Position = UDim2.new(0, 52, 0, 26) 
-Subtitle.BackgroundTransparency = 1 
-Subtitle.Text = "Throw Lucky Blocks for Brainrots!" 
-Subtitle.TextColor3 = Theme.Accent
-Subtitle.TextSize = 10 
-Subtitle.Font = Enum.Font.GothamSemibold 
-Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
-Subtitle.ZIndex = 11 
-Subtitle.Parent = TopBar
+Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 52, 0, 26); Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Throw Lucky Blocks for Brainrots!"; Subtitle.TextColor3 = Theme.Accent; Subtitle.TextSize = 10; Subtitle.Font = Enum.Font.GothamSemibold; Subtitle.TextXAlignment = 0; Subtitle.ZIndex = 11; Subtitle.Parent = TopBar
 
--- [[ เมนูแท็บ ]] --
+-- [[ TABS ]] --
 local TabContainer = Instance.new("Frame", Main)
-TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56)
-TabContainer.BackgroundColor3 = Theme.Surface
+TabContainer.Size = UDim2.new(1, -16, 0, 36); TabContainer.Position = UDim2.new(0, 8, 0, 56); TabContainer.BackgroundColor3 = Theme.Surface
 Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
 local TabLayout = Instance.new("UIListLayout", TabContainer)
 TabLayout.FillDirection = 0; TabLayout.HorizontalAlignment = 1; TabLayout.VerticalAlignment = 1; TabLayout.Padding = UDim.new(0, 4)
 
 local Content = Instance.new("Frame", Main)
-Content.Size = UDim2.new(1, -16, 1, -110); Content.Position = UDim2.new(0, 8, 0, 98)
-Content.BackgroundColor3 = Theme.Surface; Content.ClipsDescendants = true
+Content.Size = UDim2.new(1, -16, 1, -110); Content.Position = UDim2.new(0, 8, 0, 98); Content.BackgroundColor3 = Theme.Surface; Content.ClipsDescendants = true
 Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
@@ -127,9 +105,9 @@ end
 
 local MainTab = CreateTab("Main")
 local CollectTab = CreateTab("Collect")
-
 Tabs[1].Page.Visible = true; Tabs[1].Btn.BackgroundColor3 = Theme.Accent; Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 
+-- [[ UI Helper Functions ]] --
 local function CreateToggle(parent, text, stateVar)
     local Btn = Instance.new("TextButton", parent)
     Btn.Size = UDim2.new(0, 280, 0, 45); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  " .. text; Btn.TextColor3 = Theme.Text; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 12
@@ -147,8 +125,43 @@ local function CreateToggle(parent, text, stateVar)
     end)
 end
 
--- [ ปุ่มหน้า Main ]
+local function CreateDropdown(parent, title, options, stateVar)
+    local Container = Instance.new("Frame", parent)
+    Container.Size = UDim2.new(0, 280, 0, 40); Container.BackgroundColor3 = Theme.SurfaceLight; Container.ClipsDescendants = true
+    Instance.new("UICorner", Container).CornerRadius = UDim.new(0, 8)
+    
+    local DropBtn = Instance.new("TextButton", Container)
+    DropBtn.Size = UDim2.new(1, 0, 0, 40); DropBtn.BackgroundTransparency = 1; DropBtn.Text = "  " .. title .. ": " .. tostring(_G[stateVar])
+    DropBtn.TextColor3 = Theme.Text; DropBtn.Font = Enum.Font.GothamBold; DropBtn.TextSize = 12; DropBtn.TextXAlignment = 0
+
+    local Icon = Instance.new("TextLabel", DropBtn)
+    Icon.Size = UDim2.new(0, 20, 0, 20); Icon.Position = UDim2.new(1, -25, 0.5, -10); Icon.BackgroundTransparency = 1
+    Icon.Text = "▼"; Icon.TextColor3 = Theme.TextDim; Icon.Font = Enum.Font.GothamBold; Icon.TextSize = 14
+    
+    local DropScroll = Instance.new("ScrollingFrame", Container)
+    DropScroll.Size = UDim2.new(1, 0, 1, -40); DropScroll.Position = UDim2.new(0, 0, 0, 40); DropScroll.BackgroundTransparency = 1; DropScroll.ScrollBarThickness = 3; DropScroll.ScrollBarImageColor3 = Theme.Accent
+    local List = Instance.new("UIListLayout", DropScroll); List.HorizontalAlignment = 1
+    
+    local isOpen = false
+    DropBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        Icon.Text = isOpen and "▲" or "▼"
+        TweenService:Create(Container, TweenInfo.new(0.2), {Size = isOpen and UDim2.new(0, 280, 0, 140) or UDim2.new(0, 280, 0, 40)}):Play()
+    end)
+
+    for _, opt in ipairs(options) do
+        local OptBtn = Instance.new("TextButton", DropScroll)
+        OptBtn.Size = UDim2.new(1, 0, 0, 30); OptBtn.BackgroundTransparency = 1; OptBtn.Text = tostring(opt); OptBtn.TextColor3 = Theme.TextDim; OptBtn.Font = Enum.Font.GothamSemibold; OptBtn.TextSize = 12
+        OptBtn.MouseButton1Click:Connect(function()
+            _G[stateVar] = opt; DropBtn.Text = "  " .. title .. ": " .. tostring(opt); isOpen = false; Icon.Text = "▼"
+            TweenService:Create(Container, TweenInfo.new(0.2), {Size = UDim2.new(0, 280, 0, 40)}):Play()
+        end)
+    end
+end
+
+-- [ ใส่เนื้อหาหน้า Main ]
 CreateToggle(MainTab, "🎯 AUTO THROW", "AutoThrow")
+CreateDropdown(MainTab, "Roll Amount", {1, 2, 3, 4, 5, 6, 7, 8, 9}, "RollAmount")
 CreateToggle(MainTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 CreateToggle(MainTab, "💪 AUTO UPGRADE POWER", "AutoUpgrade")
 
@@ -157,8 +170,7 @@ UpdFrame.Size = UDim2.new(0, 280, 0, 40); UpdFrame.BackgroundColor3 = Theme.Surf
 Instance.new("UICorner", UpdFrame).CornerRadius = UDim.new(0, 8)
 
 local UpdLabel = Instance.new("TextLabel", UpdFrame)
-UpdLabel.Size = UDim2.new(0.4, 0, 1, 0); UpdLabel.Position = UDim2.new(0, 10, 0, 0); UpdLabel.Text = "Multiplier: 10x"
-UpdLabel.TextColor3 = Theme.Text; UpdLabel.Font = Enum.Font.GothamBold; UpdLabel.TextXAlignment = 0; UpdLabel.BackgroundTransparency = 1
+UpdLabel.Size = UDim2.new(0.4, 0, 1, 0); UpdLabel.Position = UDim2.new(0, 10, 0, 0); UpdLabel.Text = "Multiplier: 10x"; UpdLabel.TextColor3 = Theme.Text; UpdLabel.Font = Enum.Font.GothamBold; UpdLabel.TextXAlignment = 0; UpdLabel.BackgroundTransparency = 1
 
 local btn1x = Instance.new("TextButton", UpdFrame); btn1x.Size = UDim2.new(0, 40, 0, 26); btn1x.Position = UDim2.new(1, -140, 0.5, -13); btn1x.Text = "1x"; btn1x.Font = Enum.Font.GothamBold; btn1x.BackgroundColor3 = Theme.Background; btn1x.TextColor3 = Theme.Text; Instance.new("UICorner", btn1x).CornerRadius = UDim.new(0, 6)
 local btn3x = Instance.new("TextButton", UpdFrame); btn3x.Size = UDim2.new(0, 40, 0, 26); btn3x.Position = UDim2.new(1, -90, 0.5, -13); btn3x.Text = "3x"; btn3x.Font = Enum.Font.GothamBold; btn3x.BackgroundColor3 = Theme.Background; btn3x.TextColor3 = Theme.Text; Instance.new("UICorner", btn3x).CornerRadius = UDim.new(0, 6)
@@ -174,7 +186,7 @@ btn1x.MouseButton1Click:Connect(function() _G.UpgradeAmount = 1; resetUpdButtons
 btn3x.MouseButton1Click:Connect(function() _G.UpgradeAmount = 3; resetUpdButtons(); btn3x.BackgroundColor3 = Theme.Accent; btn3x.TextColor3 = Color3.new(0,0,0); UpdLabel.Text = "Multiplier: 3x" end)
 btn10x.MouseButton1Click:Connect(function() _G.UpgradeAmount = 10; resetUpdButtons(); btn10x.BackgroundColor3 = Theme.Accent; btn10x.TextColor3 = Color3.new(0,0,0); UpdLabel.Text = "Multiplier: 10x" end)
 
--- [ ปุ่มหน้า Collect ]
+-- [ ใส่เนื้อหาหน้า Collect ]
 CreateToggle(CollectTab, "💰 AUTO COLLECT CASH", "AutoCollect")
 
 -- [[ 3. MAIN LOOPS ]] --
@@ -184,22 +196,36 @@ task.spawn(function()
     
     if not Network then warn("FARTEZ: ไม่พบ Network") return end
 
-    -- Loop: Throw
+    -- Loop 1: Auto Throw (คืนค่าดีเลย์เดิม task.wait(0.1))
     task.spawn(function()
         while task.wait(0.1) do
             if _G.AutoThrow then
                 pcall(function()
                     local claim = Network:FindFirstChild("Throw/ClaimBrainrot")
                     if claim then task.spawn(function() claim:InvokeServer() end) end
-                    task.wait(0.1) 
+                    
+                    task.wait(0.1) -- คืนดีเลย์ 0.1 วิ ตรงนี้ตามที่คุณต้องการ
+                    
                     local roll = Network:FindFirstChild("Throw/RollLoot")
-                    if roll then task.spawn(function() roll:InvokeServer(9) end) end
+                    if roll then task.spawn(function() roll:InvokeServer(_G.RollAmount) end) end
                 end)
             end
         end
     end)
 
-    -- Loop: Collect Cash (F1-S1 ถึง S50)
+    -- Loop 2: Instant Pickup (Bypass หลอดดำตอนหยิบ)
+    task.spawn(function()
+        while task.wait() do -- รันรัวๆ ไม่มีดีเลย์
+            if _G.InstantPickup then
+                pcall(function()
+                    local claim = Network:FindFirstChild("Throw/ClaimBrainrot")
+                    if claim then claim:InvokeServer() end
+                end)
+            end
+        end
+    end)
+
+    -- Loop 3: Collect Cash
     task.spawn(function()
         while task.wait(0.5) do
             if _G.AutoCollect then
@@ -215,7 +241,7 @@ task.spawn(function()
         end
     end)
 
-    -- Loop: Rebirth
+    -- Loop 4: Auto Rebirth
     task.spawn(function()
         while task.wait(2) do
             if _G.AutoRebirth then
@@ -227,7 +253,7 @@ task.spawn(function()
         end
     end)
 
-    -- Loop: Upgrade Power
+    -- Loop 5: Auto Upgrade
     task.spawn(function()
         while task.wait(0.5) do
             if _G.AutoUpgrade then
@@ -240,4 +266,4 @@ task.spawn(function()
     end)
 end)
 
-print("FARTEZ HUB: Floating Logo Update Successfully!")
+print("FARTEZ HUB: Fixed Throw Delay & Added Instant Pickup!")
