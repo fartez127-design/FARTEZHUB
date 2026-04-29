@@ -1,0 +1,877 @@
+-- [[ 1. SETUP & CORE VARIABLES ]] --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+local SafeParent = (pcall(function() return gethui() end) and gethui()) or PlayerGui
+
+-- ลบ UI เก่าทิ้ง
+if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then 
+    SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
+end
+
+-- Global Variables
+getgenv().AutoFarmBrainrot = false
+getgenv().AutoFarmLB = false
+getgenv().SelectedBrainrotZone = "Common"
+getgenv().SelectedLBZone = "Common Lucky Block"
+
+getgenv().InstantInteract = false
+
+getgenv().AutoSell = false
+getgenv().AutoSellRarity = false
+getgenv().SelectedSellRarity = "Common"
+getgenv().SelectedMutation = "Normal" 
+
+getgenv().AutoCollectMoney = false
+getgenv().AutoRebirth = false
+getgenv().AutoUpgrade = false
+
+-- ตัวแปร Shop
+getgenv().SelectedRoller = "Red"
+getgenv().AutoBuyBoost = false
+getgenv().AutoBuySpeed1 = false
+getgenv().AutoBuySpeed5 = false
+
+getgenv().SelectedPlot = nil 
+getgenv().BaseReturnCFrame = nil 
+getgenv().SelectedGiftPlayer = nil 
+
+-- ข้อมูลระดับการขาย (Rarity Data)
+local BrainrotRarities = {
+    ["Common"] = {"Ballerina Cappuccina", "Lirili Larila", "Svinina Bombardino", "Trippi Troppi"},
+    ["Uncommon"] = {"Noobini Pizzanini", "Six Seven", "Trulimero Trulicina", "Tung Sahur"},
+    ["Rare"] = {"Bananita Dolphinita", "Frigo Camelo", "Pot Hotspot", "Tim Cheese"},
+    ["Epic"] = {"Boneca Ambalabu", "Cappuccino Assassino", "Fluri Flura", "Sigma Boy"},
+    ["Legendary"] = {"Bombardire Crocodilo", "Ganganzelll Trulala", "La Vacca Saturno Saturnita", "Tralalero Tralala", "Tric Trac Barabum"},
+    ["Mythic"] = {"Alessio", "Cavallo Virtuoso", "Gralpussi Medussi", "Lionel Cactuseli", "Ketupat Kepat", "Karkerkar Kurikur"},
+    ["Cosmic"] = {"Cocofanto Elefanto", "Gorillo Watermelondrillo", "Job Job Job Sahur", "Lerulerulerule", "Orcalero Orcala"},
+    ["Secret"] = {"1x1x1x1", "Dragon Cannelloni", "Noo My Examen", "Quesadilla Crocodila", "Skibidi Toilet", "Swag Soda", "Tralaledon"},
+    ["Celestial"] = {"Chicleteirina Bicicleteirina", "Meowl", "Nyannini Cattalini", "Strawberry Elephant", "Tralalita Tralala", "Triplito Tralaloritos", "Yess My Examen"},
+    ["Divine"] = {"Chillin Chil", "Esok Sekolah", "Illuminato Triangolo", "Ketchuru And Musturu", "La Grande Combinasion", "Tik Tak Sahur"},
+    ["OG"] = {"Ben", "Smurfo Gatte", "Happy Banana Cat"}
+}
+local RarityList = {"Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Cosmic", "Secret", "Celestial", "Divine", "OG"}
+local MutationList = {"Normal", "Gold", "Diamond", "Rainbow"} 
+
+-- ระบบแปลงชื่อโซนให้ฟาร์มได้
+local zoneList = {"Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Cosmic", "Secret", "Celestial", "Divine & OG"}
+local lbZoneList = {"Common Lucky Block", "Uncommon Lucky Block", "Rare Lucky Block", "Epic Lucky Block", "Legendary Lucky Block", "Mythic Lucky Block", "Cosmic Lucky Block", "Secret Lucky Block", "Celestial Lucky Block", "Divine & OG Lucky Block"}
+
+local ZoneMap = {
+    ["Common"] = "Zone1", ["Uncommon"] = "Zone2", ["Rare"] = "Zone3", 
+    ["Epic"] = "Zone4", ["Legendary"] = "Zone5", ["Mythic"] = "Zone6", 
+    ["Cosmic"] = "Zone7", ["Secret"] = "Zone8", ["Celestial"] = "Zone9", ["Divine & OG"] = "Zone10"
+}
+local LBZoneMap = {
+    ["Common Lucky Block"] = "LB_Zone1", ["Uncommon Lucky Block"] = "LB_Zone2", ["Rare Lucky Block"] = "LB_Zone3", 
+    ["Epic Lucky Block"] = "LB_Zone4", ["Legendary Lucky Block"] = "LB_Zone5", ["Mythic Lucky Block"] = "LB_Zone6", 
+    ["Cosmic Lucky Block"] = "LB_Zone7", ["Secret Lucky Block"] = "LB_Zone8", ["Celestial Lucky Block"] = "LB_Zone9", ["Divine & OG Lucky Block"] = "LB_Zone10"
+}
+
+-- [[ THEME SETUP ]] --
+local Theme = {
+    Background = Color3.fromRGB(5, 5, 8),
+    Surface = Color3.fromRGB(15, 15, 20),
+    SurfaceLight = Color3.fromRGB(25, 25, 35),
+    Accent = Color3.fromRGB(4, 203, 41),
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDim = Color3.fromRGB(150, 150, 150),
+    Success = Color3.fromRGB(4, 203, 41) 
+}
+
+-- [[ 2. UI CREATION ]] --
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FARTEZ_LUCKY_HUB"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 9999
+ScreenGui.Parent = SafeParent
+
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+toggleBtn.Draggable = true
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
+local btnStroke = Instance.new("UIStroke", toggleBtn)
+btnStroke.Thickness = 2
+btnStroke.Color = Theme.Accent
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 330, 0, 380) 
+Main.Position = UDim2.new(0.5, -170, 0.5, -240)
+Main.BackgroundColor3 = Theme.Background
+Main.BorderSizePixel = 0
+Main.ClipsDescendants = true
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+local BgImage = Instance.new("ImageLabel", Main)
+BgImage.Size = UDim2.new(1, 0, 1, 0)
+BgImage.BackgroundTransparency = 1
+BgImage.Image = "rbxassetid://10734950059"
+BgImage.ImageColor3 = Color3.fromRGB(50, 40, 10)
+BgImage.ImageTransparency = 0.85
+BgImage.ScaleType = Enum.ScaleType.Crop
+
+local RainContainer = Instance.new("Frame", Main)
+RainContainer.Size = UDim2.new(1, 0, 1, 0)
+RainContainer.BackgroundTransparency = 1
+RainContainer.ZIndex = 1
+local RainDrops = {}
+for i = 1, 20 do
+    local drop = Instance.new("Frame", RainContainer)
+    drop.Size = UDim2.new(0, 1, 0, math.random(10, 25))
+    drop.Position = UDim2.new(math.random(), 0, -0.1, 0)
+    drop.BackgroundColor3 = Theme.Accent 
+    drop.BackgroundTransparency = 0.7
+    drop.BorderSizePixel = 0
+    drop.ZIndex = 2
+    table.insert(RainDrops, {Object = drop, Speed = math.random(15, 35) / 100})
+end
+RunService.RenderStepped:Connect(function()
+    for _, drop in pairs(RainDrops) do
+        local cp = drop.Object.Position
+        drop.Object.Position = UDim2.new(cp.X.Scale, 0, cp.Y.Scale + drop.Speed, 0)
+        if drop.Object.Position.Y.Scale > 1.1 then
+            drop.Object.Position = UDim2.new(math.random(), 0, -0.1, 0)
+        end
+    end
+end)
+
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 50)
+TopBar.BackgroundColor3 = Theme.Surface
+TopBar.BorderSizePixel = 0
+TopBar.ZIndex = 10
+
+local Logo = Instance.new("ImageLabel", TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+Logo.ScaleType = Enum.ScaleType.Fit
+Logo.ZIndex = 11
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
+
+local Title = Instance.new("TextLabel", TopBar) 
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 52, 0, 5) 
+Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB" 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 18 
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left 
+Title.ZIndex = 11 
+
+local Subtitle = Instance.new("TextLabel", TopBar) 
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 52, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Roller for Brainrots!" 
+Subtitle.TextColor3 = Theme.Accent 
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
+Subtitle.ZIndex = 11 
+
+local TabContainer = Instance.new("Frame", Main)
+TabContainer.Size = UDim2.new(1, -10, 0, 36)
+TabContainer.Position = UDim2.new(0, 5, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
+
+local TabLayout = Instance.new("UIListLayout", TabContainer)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+TabLayout.Padding = UDim.new(0, 4)
+
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -16, 1, -110)
+Content.Position = UDim2.new(0, 8, 0, 98)
+Content.BackgroundColor3 = Theme.Surface
+Content.ClipsDescendants = true
+Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
+
+local Tabs = {}
+local function CreateTab(name)
+    local Btn = Instance.new("TextButton", TabContainer)
+    Btn.Size = UDim2.new(0, 46, 0, 28) 
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = name
+    Btn.TextColor3 = Theme.TextDim
+    Btn.TextSize = 10 
+    Btn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+
+    local Page = Instance.new("ScrollingFrame", Content)
+    Page.Name = name .. "Page"
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Theme.Accent
+    Page.Visible = false
+
+    local PL = Instance.new("UIListLayout", Page)
+    PL.Padding = UDim.new(0, 10)
+    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    
+    local PP = Instance.new("UIPadding", Page)
+    PP.PaddingTop = UDim.new(0, 12)
+    PP.PaddingBottom = UDim.new(0, 12)
+
+    table.insert(Tabs, {Btn = Btn, Page = Page})
+
+    Btn.MouseButton1Click:Connect(function()
+        for _, t in pairs(Tabs) do
+            t.Page.Visible = false
+            TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play()
+        end
+        Page.Visible = true
+        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+    end)
+    return Page
+end
+
+-- สร้าง 6 แท็บ
+local MainTab = CreateTab("Main")
+local SellTab = CreateTab("Sell")
+local CollectTab = CreateTab("Collect")
+local UpTab = CreateTab("Up")
+local ShopTab = CreateTab("Shop")
+local DetailsTab = CreateTab("Details")
+
+-- ================= [ UI COMPONENTS ] ================= --
+local function CreateButton(parentTab, text, callback)
+    local Frame = Instance.new("Frame", parentTab)
+    Frame.Size = UDim2.new(1, -20, 0, 35)
+    Frame.BackgroundColor3 = Theme.Accent
+    Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 6)
+    
+    local Btn = Instance.new("TextButton", Frame)
+    Btn.Size = UDim2.new(1, 0, 1, 0)
+    Btn.BackgroundTransparency = 1
+    Btn.Text = text
+    Btn.TextColor3 = Color3.new(0, 0, 0)
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 11
+    
+    Btn.MouseButton1Click:Connect(function()
+        TweenService:Create(Btn, TweenInfo.new(0.1), {TextSize = 9}):Play()
+        task.wait(0.1)
+        TweenService:Create(Btn, TweenInfo.new(0.1), {TextSize = 11}):Play()
+        callback(Btn)
+    end)
+    return Btn
+end
+
+local function CreateToggle(parentTab, titleText, callback)
+    local ToggleFrame = Instance.new("Frame", parentTab)
+    ToggleFrame.Size = UDim2.new(1, -20, 0, 40)
+    ToggleFrame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", ToggleFrame).CornerRadius = UDim.new(0, 6)
+
+    local Txt = Instance.new("TextLabel", ToggleFrame)
+    Txt.Size = UDim2.new(0.7, 0, 1, 0)
+    Txt.Position = UDim2.new(0, 10, 0, 0)
+    Txt.BackgroundTransparency = 1
+    Txt.Text = titleText
+    Txt.TextColor3 = Theme.Text
+    Txt.TextSize = 11
+    Txt.Font = Enum.Font.GothamSemibold
+    Txt.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Btn = Instance.new("TextButton", ToggleFrame)
+    Btn.Size = UDim2.new(0, 40, 0, 20)
+    Btn.Position = UDim2.new(1, -50, 0.5, -10)
+    Btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    Btn.Text = ""
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(1, 0)
+
+    local Circle = Instance.new("Frame", Btn)
+    Circle.Size = UDim2.new(0, 16, 0, 16)
+    Circle.Position = UDim2.new(0, 2, 0.5, -8)
+    Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Instance.new("UICorner", Circle).CornerRadius = UDim.new(1, 0)
+
+    local toggled = false
+    Btn.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        if toggled then
+            TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent}):Play()
+            TweenService:Create(Circle, TweenInfo.new(0.2), {Position = UDim2.new(1, -18, 0.5, -8)}):Play()
+        else
+            TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+            TweenService:Create(Circle, TweenInfo.new(0.2), {Position = UDim2.new(0, 2, 0.5, -8)}):Play()
+        end
+        callback(toggled)
+    end)
+end
+
+local function CreateDropdown(parentTab, titleText, options, defaultSelect, callback)
+    local Frame = Instance.new("Frame", parentTab)
+    Frame.Size = UDim2.new(1, -20, 0, 35)
+    Frame.BackgroundColor3 = Theme.SurfaceLight
+    Frame.ClipsDescendants = true
+    Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 6)
+
+    local TopBtn = Instance.new("TextButton", Frame)
+    TopBtn.Size = UDim2.new(1, 0, 0, 35)
+    TopBtn.BackgroundTransparency = 1
+    TopBtn.Text = "  " .. titleText .. ": " .. defaultSelect
+    TopBtn.TextColor3 = Theme.Text
+    TopBtn.Font = Enum.Font.GothamSemibold
+    TopBtn.TextSize = 11
+    TopBtn.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Icon = Instance.new("TextLabel", TopBtn)
+    Icon.Size = UDim2.new(0, 30, 0, 35)
+    Icon.Position = UDim2.new(1, -30, 0, 0)
+    Icon.BackgroundTransparency = 1
+    Icon.Text = "▼"
+    Icon.TextColor3 = Theme.Accent
+    Icon.Font = Enum.Font.GothamBold
+
+    local Scroll = Instance.new("ScrollingFrame", Frame)
+    Scroll.Size = UDim2.new(1, 0, 0, 95)
+    Scroll.Position = UDim2.new(0, 0, 0, 35)
+    Scroll.BackgroundTransparency = 1
+    Scroll.ScrollBarThickness = 2
+    Scroll.ScrollBarImageColor3 = Theme.Accent
+    Scroll.CanvasSize = UDim2.new(0, 0, 0, #options * 25)
+    local Layout = Instance.new("UIListLayout", Scroll)
+    
+    local isOpen = false
+    TopBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 130)}):Play()
+            Icon.Text = "▲"
+        else
+            TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 35)}):Play()
+            Icon.Text = "▼"
+        end
+    end)
+
+    for _, opt in ipairs(options) do
+        local OptBtn = Instance.new("TextButton", Scroll)
+        OptBtn.Size = UDim2.new(1, 0, 0, 25)
+        OptBtn.BackgroundColor3 = Theme.Surface
+        OptBtn.BorderSizePixel = 0
+        OptBtn.Text = "  " .. opt
+        OptBtn.TextColor3 = Theme.TextDim
+        OptBtn.Font = Enum.Font.Gotham
+        OptBtn.TextSize = 11
+        OptBtn.TextXAlignment = Enum.TextXAlignment.Left
+
+        OptBtn.MouseButton1Click:Connect(function()
+            TopBtn.Text = "  " .. titleText .. ": " .. opt
+            callback(opt)
+            isOpen = false
+            TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 35)}):Play()
+            Icon.Text = "▼"
+        end)
+    end
+end
+
+local function CreatePlayerDropdown(parentTab, titleText, callback)
+    local Frame = Instance.new("Frame", parentTab)
+    Frame.Size = UDim2.new(1, -20, 0, 35)
+    Frame.BackgroundColor3 = Theme.SurfaceLight
+    Frame.ClipsDescendants = true
+    Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 6)
+
+    local TopBtn = Instance.new("TextButton", Frame)
+    TopBtn.Size = UDim2.new(1, 0, 0, 35)
+    TopBtn.BackgroundTransparency = 1
+    TopBtn.Text = "  " .. titleText .. ": [Select Player]"
+    TopBtn.TextColor3 = Theme.Text
+    TopBtn.Font = Enum.Font.GothamSemibold
+    TopBtn.TextSize = 11
+    TopBtn.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Icon = Instance.new("TextLabel", TopBtn)
+    Icon.Size = UDim2.new(0, 30, 0, 35)
+    Icon.Position = UDim2.new(1, -30, 0, 0)
+    Icon.BackgroundTransparency = 1
+    Icon.Text = "▼"
+    Icon.TextColor3 = Theme.Accent
+    Icon.Font = Enum.Font.GothamBold
+
+    local Scroll = Instance.new("ScrollingFrame", Frame)
+    Scroll.Size = UDim2.new(1, 0, 0, 95)
+    Scroll.Position = UDim2.new(0, 0, 0, 35)
+    Scroll.BackgroundTransparency = 1
+    Scroll.ScrollBarThickness = 2
+    Scroll.ScrollBarImageColor3 = Theme.Accent
+    local Layout = Instance.new("UIListLayout", Scroll)
+    
+    local isOpen = false
+    TopBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 130)}):Play()
+            Icon.Text = "▲"
+            
+            for _, v in pairs(Scroll:GetChildren()) do
+                if v:IsA("TextButton") then v:Destroy() end
+            end
+            
+            local plyCount = 0
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= player then
+                    plyCount = plyCount + 1
+                    local OptBtn = Instance.new("TextButton", Scroll)
+                    OptBtn.Size = UDim2.new(1, 0, 0, 25)
+                    OptBtn.BackgroundColor3 = Theme.Surface
+                    OptBtn.BorderSizePixel = 0
+                    OptBtn.Text = "  " .. p.Name
+                    OptBtn.TextColor3 = Theme.TextDim
+                    OptBtn.Font = Enum.Font.Gotham
+                    OptBtn.TextSize = 11
+                    OptBtn.TextXAlignment = Enum.TextXAlignment.Left
+
+                    OptBtn.MouseButton1Click:Connect(function()
+                        TopBtn.Text = "  " .. titleText .. ": " .. p.Name
+                        callback(p.Name)
+                        isOpen = false
+                        TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 35)}):Play()
+                        Icon.Text = "▼"
+                    end)
+                end
+            end
+            Scroll.CanvasSize = UDim2.new(0, 0, 0, plyCount * 25)
+        else
+            TweenService:Create(Frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -20, 0, 35)}):Play()
+            Icon.Text = "▼"
+        end
+    end)
+end
+
+local function autoInteract(object)
+    if not object then return end
+    for _, v in ipairs(object:GetDescendants()) do
+        if v:IsA("ProximityPrompt") then
+            fireproximityprompt(v, 1) 
+            return true
+        end
+    end
+    return false
+end
+
+-- ================= [ TAB LOGIC ] ================= --
+
+-- [ 1. MAIN TAB: Safe Zone, Instant Interact, Auto Farm ]
+CreateButton(MainTab, "🛡️ Teleport to Safe Zone", function()
+    local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if root then
+        root.CFrame = CFrame.new(-32.8596268, 3.29802537, -49.8498993)
+    end
+end)
+
+CreateDropdown(MainTab, "🗺️ Select Brainrot", zoneList, "Common", function(selected)
+    getgenv().SelectedBrainrotZone = selected
+end)
+
+CreateToggle(MainTab, "⚔️ Auto Farm Brainrots", function(state)
+    getgenv().AutoFarmBrainrot = state
+    if state then
+        if not getgenv().BaseReturnCFrame then
+            local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if root then getgenv().BaseReturnCFrame = root.CFrame end
+        end
+        
+        task.spawn(function()
+            while getgenv().AutoFarmBrainrot do
+                pcall(function()
+                    local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    -- แปลงชื่อเพื่อหาโฟลเดอร์ของจริง
+                    local realZone = ZoneMap[getgenv().SelectedBrainrotZone]
+                    local targetZone = workspace:FindFirstChild("SpawnedBrainrots") and workspace.SpawnedBrainrots:FindFirstChild(realZone)
+
+                    if root and targetZone then
+                        for _, item in pairs(targetZone:GetChildren()) do
+                            if not getgenv().AutoFarmBrainrot then break end
+                            local targetPos = item:IsA("BasePart") and item.CFrame or (item:IsA("Model") and item:GetPivot())
+                            if targetPos then
+                                root.CFrame = targetPos
+                                task.wait(0.2) 
+                                autoInteract(item)
+                                task.wait(0.3) 
+                                if getgenv().BaseReturnCFrame then
+                                    root.CFrame = getgenv().BaseReturnCFrame
+                                end
+                                task.wait(0.3)
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+CreateDropdown(MainTab, "🎲 Select Lucky Block", lbZoneList, "Common Lucky Block", function(selected)
+    getgenv().SelectedLBZone = selected
+end)
+
+CreateToggle(MainTab, "🍀 Auto Farm Lucky Blocks", function(state)
+    getgenv().AutoFarmLB = state
+    if state then
+        if not getgenv().BaseReturnCFrame then
+            local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if root then getgenv().BaseReturnCFrame = root.CFrame end
+        end
+        
+        task.spawn(function()
+            while getgenv().AutoFarmLB do
+                pcall(function()
+                    local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    -- แปลงชื่อเพื่อหาโฟลเดอร์ของจริง
+                    local realLBZone = LBZoneMap[getgenv().SelectedLBZone]
+                    local targetZone = workspace:FindFirstChild("SpawnedBrainrots") and workspace.SpawnedBrainrots:FindFirstChild(realLBZone)
+
+                    if root and targetZone then
+                        for _, item in pairs(targetZone:GetChildren()) do
+                            if not getgenv().AutoFarmLB then break end
+                            local targetPos = item:IsA("BasePart") and item.CFrame or (item:IsA("Model") and item:GetPivot())
+                            if targetPos then
+                                root.CFrame = targetPos
+                                task.wait(0.2)
+                                autoInteract(item)
+                                task.wait(0.3)
+                                if getgenv().BaseReturnCFrame then
+                                    root.CFrame = getgenv().BaseReturnCFrame
+                                end
+                                task.wait(0.3)
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+CreateToggle(MainTab, "⏱️ Pick Up & Gift 🎁 (No Delay)", function(state)
+    getgenv().InstantInteract = state
+    if state then
+        task.spawn(function()
+            while getgenv().InstantInteract do
+                pcall(function()
+                    for _, prompt in pairs(workspace:GetDescendants()) do
+                        if prompt:IsA("ProximityPrompt") then
+                            prompt.HoldDuration = 0
+                        end
+                    end
+                end)
+                task.wait(1) 
+            end
+        end)
+    end
+end)
+
+-- [ 2. SELL TAB: Mutation + Rarity คอมโบการขาย โคตรไว ]
+CreateDropdown(SellTab, "💎 Select Sell Rarity", RarityList, "Common", function(selected)
+    getgenv().SelectedSellRarity = selected
+end)
+
+CreateDropdown(SellTab, "🧬 Select Mutation", MutationList, "Normal", function(selected)
+    getgenv().SelectedMutation = selected
+end)
+
+CreateToggle(SellTab, "⚡ Auto Sell Selected", function(state)
+    getgenv().AutoSellRarity = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoSellRarity do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/SellBrainrot")
+                    local inv = player:FindFirstChild("Backpack")
+                    
+                    if remote and inv and getgenv().SelectedSellRarity then
+                        local brainrotsToSell = BrainrotRarities[getgenv().SelectedSellRarity]
+                        local currentMutation = getgenv().SelectedMutation
+                        
+                        if brainrotsToSell then
+                            for _, item in pairs(inv:GetChildren()) do
+                                local bName = item.Name
+                                
+                                if table.find(brainrotsToSell, bName) then
+                                    task.spawn(function()
+                                        for i = 1, 20 do
+                                            remote:FireServer(bName, i, currentMutation)
+                                        end
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.2) 
+            end
+        end)
+    end
+end)
+
+CreateToggle(SellTab, "💰 Auto Sell All Brainrots", function(state)
+    getgenv().AutoSell = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoSell do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/SellAllBrainrots")
+                    if remote then remote:FireServer() end
+                end)
+                task.wait(0.5) 
+            end
+        end)
+    end
+end)
+
+-- [ 3. COLLECT TAB ]
+CreateButton(CollectTab, "🏠 Lock Base (Stand Inside)", function(btn)
+    local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if root and workspace:FindFirstChild("Plots") then
+        local closestPlot = nil
+        local shortestDistance = math.huge
+        
+        for _, plot in pairs(workspace.Plots:GetChildren()) do
+            local distance = (root.Position - plot:GetPivot().Position).Magnitude
+            if distance < shortestDistance then
+                shortestDistance = distance
+                closestPlot = plot
+            end
+        end
+        
+        if closestPlot then
+            getgenv().SelectedPlot = closestPlot.Name
+            getgenv().BaseReturnCFrame = closestPlot:GetPivot() * CFrame.new(0, 5, 0)
+            btn.Text = "📍 Locked: " .. closestPlot.Name
+        end
+    end
+end)
+
+CreateToggle(CollectTab, "💸 Auto Collect Money (TP)", function(state)
+    getgenv().AutoCollectMoney = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoCollectMoney do
+                pcall(function()
+                    local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    local plots = workspace:FindFirstChild("Plots")
+                    
+                    if root and plots and getgenv().SelectedPlot then
+                        local myPlot = plots:FindFirstChild(getgenv().SelectedPlot)
+                        if myPlot then
+                            local slots = myPlot:FindFirstChild("Slots")
+                            if slots then
+                                for _, floor in pairs(slots:GetChildren()) do
+                                    for _, slot in pairs(floor:GetChildren()) do
+                                        if not getgenv().AutoCollectMoney then break end
+                                        
+                                        local cashBtn = slot:FindFirstChild("CashButton")
+                                        if cashBtn then
+                                            root.CFrame = cashBtn:GetPivot()
+                                            task.wait(0.15) 
+                                        end
+                                    end
+                                end
+                            end
+                            if getgenv().BaseReturnCFrame then 
+                                root.CFrame = getgenv().BaseReturnCFrame 
+                            end
+                        end
+                    end
+                end)
+                task.wait(1) 
+            end
+        end)
+    end
+end)
+
+CreateToggle(CollectTab, "♻️ Auto Rebirth", function(state)
+    getgenv().AutoRebirth = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoRebirth do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/RequestRebirth")
+                    if remote then remote:FireServer() end
+                end)
+                task.wait(1)
+            end
+        end)
+    end
+end)
+
+CreatePlayerDropdown(CollectTab, "🎯 Select Player to Gift", function(selectedPlayer)
+    getgenv().SelectedGiftPlayer = selectedPlayer
+end)
+
+CreateButton(CollectTab, "🎁 Teleport & Gift", function()
+    local targetName = getgenv().SelectedGiftPlayer
+    if targetName then
+        local targetPlayer = Players:FindFirstChild(targetName)
+        if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if root then
+                root.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -3)
+                task.wait(0.5) 
+                
+                local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/GiftBrainrot")
+                if remote then
+                    remote:FireServer(targetName)
+                end
+                
+                task.wait(0.5)
+                if getgenv().BaseReturnCFrame then
+                    root.CFrame = getgenv().BaseReturnCFrame
+                end
+            end
+        end
+    end
+end)
+
+-- [ 4. UPGRADE TAB ]
+CreateToggle(UpTab, "🚀 Auto Upgrade Fast (Remote)", function(state)
+    getgenv().AutoUpgrade = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoUpgrade do
+                pcall(function()
+                    local plots = workspace:FindFirstChild("Plots")
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/UpgradeBrainrot")
+                    
+                    if plots and getgenv().SelectedPlot and remote then
+                        local myPlot = plots:FindFirstChild(getgenv().SelectedPlot)
+                        local slotsInfo = myPlot and myPlot:FindFirstChild("Slots")
+                        
+                        if slotsInfo then
+                            for _, floor in pairs(slotsInfo:GetChildren()) do
+                                for _, slotContainer in pairs(floor:GetChildren()) do
+                                    if not getgenv().AutoUpgrade then break end
+                                    
+                                    task.spawn(function()
+                                        remote:FireServer(slotContainer)
+                                        local actualSlotPart = slotContainer:FindFirstChild("Slot")
+                                        if actualSlotPart then
+                                            remote:FireServer(actualSlotPart)
+                                        end
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.2) 
+            end
+        end)
+    end
+end)
+
+-- [ 5. SHOP TAB ]
+CreateToggle(ShopTab, "🔥 Auto Buy Boost (x1)", function(state)
+    getgenv().AutoBuyBoost = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoBuyBoost do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/BuyUpgrade")
+                    if remote then remote:FireServer("Boost", 1) end
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+CreateToggle(ShopTab, "⚡ Auto Buy Speed (x1)", function(state)
+    getgenv().AutoBuySpeed1 = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoBuySpeed1 do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/BuyUpgrade")
+                    if remote then remote:FireServer("Speed", 1) end
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+CreateToggle(ShopTab, "💨 Auto Buy Speed (x5)", function(state)
+    getgenv().AutoBuySpeed5 = state
+    if state then
+        task.spawn(function()
+            while getgenv().AutoBuySpeed5 do
+                pcall(function()
+                    local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/BuyUpgrade")
+                    if remote then remote:FireServer("Speed", 5) end
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+CreateButton(ShopTab, "🎒 Buy Carry (x1)", function()
+    pcall(function()
+        local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/BuyUpgrade")
+        if remote then remote:FireServer("Carry", 1) end
+    end)
+end)
+
+local rollerList = {"Red", "Rainbow", "Gold", "Angel", "Neon", "Wizard", "Lightning", "Hacker"}
+
+CreateDropdown(ShopTab, "🛼 Select Roller", rollerList, "Red", function(selected)
+    getgenv().SelectedRoller = selected
+end)
+
+CreateButton(ShopTab, "🛒 Buy Selected Roller", function()
+    pcall(function()
+        local remote = game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/BuyRoller")
+        if remote and getgenv().SelectedRoller then
+            local rollerName = getgenv().SelectedRoller .. "Rollers"
+            remote:FireServer(rollerName)
+        end
+    end)
+end)
+
+-- [ 6. DETAILS TAB ]
+local DetailsList = {
+    {" Roller for Brainrots!", Theme.Success, 15, Enum.Font.GothamBold},
+    {"🌿 by FARTEZ", Theme.Success, 13, Enum.Font.GothamSemibold},
+    {"👍 Like and follow", Theme.Success, 13, Enum.Font.Gotham},
+    {"▶️ YouTube FARTEZ HUB", Theme.Success, 13, Enum.Font.GothamSemibold},
+    {"🟢 It works", Theme.Success, 12, Enum.Font.GothamSemibold},
+    {"🟠 Waiting for update", Theme.Success, 11, Enum.Font.GothamSemibold},
+    {"🔴 It's not working", Theme.Success, 10, Enum.Font.GothamSemibold}
+}
+
+for _, info in ipairs(DetailsList) do
+    local Txt = Instance.new("TextLabel", DetailsTab) 
+    Txt.Size = UDim2.new(1, 0, 0, 25) 
+    Txt.BackgroundTransparency = 1 
+    Txt.Text = info[1]
+    Txt.TextColor3 = info[2]
+    Txt.TextSize = info[3]
+    Txt.Font = info[4]
+end
+
+Tabs[1].Page.Visible = true
+Tabs[1].Btn.BackgroundColor3 = Theme.Accent
+Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+
+toggleBtn.MouseButton1Click:Connect(function()
+    Main.Visible = not Main.Visible
+end)
