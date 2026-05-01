@@ -512,6 +512,23 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
     end
 end)
 
+-- 🔥 รายชื่อที่ยกน้ำหนักทั้งหมด ไว้สำหรับให้สคริปต์ค้นหาใน Backpack 🔥
+local validWeights = {
+    ["Wooden Stick"] = true,
+    ["Copper Plate"] = true,
+    ["Stone Block"] = true,
+    ["Bone Barbell"] = true,
+    ["Bone Barbel"] = true, -- เผื่อตัวสะกดผิด
+    ["Donut Barbell"] = true,
+    ["Ice Barbell"] = true,
+    ["Iron Plate"] = true,
+    ["Heaven Plate"] = true,
+    ["Golden Barbell"] = true,
+    ["Giant Gold Star Barbell"] = true,
+    ["Neon Pulse"] = true,
+    ["Mega Golden Barbell"] = true
+}
+
 local autoTrain = false
 local trainTick = 0
 CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
@@ -548,14 +565,12 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                         
                         task.wait(0.1)
                         
+                        -- 🚨 แก้ไขใหม่: ค้นหาไอเทมตามรายชื่อที่คุณให้มา หากเจอในกระเป๋าจะถือทันที 🚨
                         if not char:FindFirstChildOfClass("Tool") and backpack and hum then
                             for _, tool in pairs(backpack:GetChildren()) do
-                                if tool:IsA("Tool") then
-                                    local isBrainrot = tool:GetAttribute("Rarity") or tool:FindFirstChild("Rarity")
-                                    if not isBrainrot then
-                                        hum:EquipTool(tool)
-                                        break
-                                    end
+                                if tool:IsA("Tool") and validWeights[tool.Name] then
+                                    hum:EquipTool(tool)
+                                    break
                                 end
                             end
                         end
