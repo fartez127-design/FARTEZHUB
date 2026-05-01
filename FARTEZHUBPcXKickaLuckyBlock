@@ -365,14 +365,25 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                     local hum = char and char:FindFirstChild("Humanoid")
                     
                     if hrp and hum and hum.Health > 0 then
-                        -- 1. ยืนประจำจุดเตะ
+                        -- 1. ยืนประจำจุดเตะ (อัปเดตแก้บัคสำหรับคอม)
                         hrp.Velocity = Vector3.new(0,0,0)
                         hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
-                        task.wait(0.8) -- ⏳ ปรับดีเลย์เป็น 0.8 วิ เพื่อให้ PC ประมวลผลทันเซิร์ฟเวอร์
                         
-                        local guiBtn = PlayerGui.HUD.KickButton
-                        if getconnections then
-                            for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
+                        -- ล็อคตัวละครไว้ชั่วคราวให้เกมรู้ว่ายืนอยู่จริงๆ ไม่ได้ลอย
+                        hrp.Anchored = true 
+                        task.wait(0.5)
+                        hrp.Anchored = false
+
+                        local guiBtn = PlayerGui:FindFirstChild("HUD") and PlayerGui.HUD:FindFirstChild("KickButton")
+                        if guiBtn then
+                            -- ยิง Event ทุกแบบที่เกมอาจจะเรียกใช้บน PC
+                            if getconnections then
+                                pcall(function() for _, c in pairs(getconnections(guiBtn.MouseButton1Down)) do c:Fire() end end)
+                                pcall(function() for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end end)
+                                pcall(function() for _, c in pairs(getconnections(guiBtn.Activated)) do c:Fire() end end)
+                            end
+                            -- Fallback เผื่อ Getconnections ไม่ทำงานใน Executor คอม
+                            pcall(function() guiBtn:Activate() end)
                         end
                         
                         -- แสงออกเท้า PerfectKick
