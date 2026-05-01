@@ -578,8 +578,8 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                                             local targets = {bonus}
                                             if imgLabel then table.insert(targets, imgLabel) end
                                             
-                                            if getconnections then
-                                                for _, target in pairs(targets) do
+                                            for _, target in pairs(targets) do
+                                                if getconnections then
                                                     pcall(function()
                                                         for _, conn in pairs(getconnections(target.InputBegan)) do 
                                                             conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
@@ -591,6 +591,12 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                                                     pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
                                                     pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
                                                 end
+                                                -- 🔥 เพิ่ม Fallback ให้คอมพิวเตอร์คลิกปุ่ม x2 ได้ 🔥
+                                                pcall(function()
+                                                    if target:IsA("GuiButton") then
+                                                        target:Activate()
+                                                    end
+                                                end)
                                             end
                                         end)
                                     end
