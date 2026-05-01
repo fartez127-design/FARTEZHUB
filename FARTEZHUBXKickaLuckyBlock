@@ -41,8 +41,8 @@ btnStroke.Thickness = 2
 btnStroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 310, 0, 380) 
-Main.Position = UDim2.new(0.5, -155, 0.5, -190)
+Main.Size = UDim2.new(0, 310, 0, 420) 
+Main.Position = UDim2.new(0.5, -155, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
 Main.Active = true
@@ -66,11 +66,21 @@ local Title = Instance.new("TextLabel", TopBar)
 Title.Size = UDim2.new(0, 160, 0, 22) 
 Title.Position = UDim2.new(0, 52, 0, 5) 
 Title.BackgroundTransparency = 1 
+Title.Text = "                                         1.5 Bata " 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 10
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local Title = Instance.new("TextLabel", TopBar) 
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 52, 0, 5) 
+Title.BackgroundTransparency = 1 
 Title.Text = "FARTEZ HUB" 
 Title.TextColor3 = Theme.Text 
 Title.TextSize = 18 
 Title.Font = Enum.Font.GothamBold 
-Title.TextXAlignment = Enum.TextXAlignment.Left 
+Title.TextXAlignment = Enum.TextXAlignment.Left  
 
 local Subtitle = Instance.new("TextLabel", TopBar) 
 Subtitle.Size = UDim2.new(0, 160, 0, 16) 
@@ -105,7 +115,7 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 44, 0, 28) 
+    Btn.Size = UDim2.new(0, 42, 0, 28) -- ปรับขนาดเล็กน้อยให้พอดีกับแท็บใหม่
     Btn.BackgroundColor3 = Theme.SurfaceLight
     Btn.Text = name
     Btn.TextColor3 = Theme.TextDim
@@ -147,6 +157,7 @@ local UpGTab = CreateTab("UpG")
 local BuyTab = CreateTab("Buy") 
 local SellTab = CreateTab("Sell") 
 local DetailsTab = CreateTab("Info")
+local UpdateTab = CreateTab("Update") -- เพิ่มแท็บ Update ตรงนี้
 
 -- ================= [ UI COMPONENTS ] ================= --
 local function CreateButton(parent, text, callback)
@@ -256,10 +267,84 @@ local function CreateDropdown(parent, title, options, callback)
     callback(selected)
 end
 
+-- [ เมนูเลือกการกลายพันธุ์แบบติ๊กได้หลายอัน ]
+local function CreateMultiDropdown(parent, title, options, callback)
+    local container = Instance.new("Frame", parent)
+    container.Size = UDim2.new(0, 260, 0, 32)
+    container.BackgroundColor3 = Theme.SurfaceLight
+    container.ClipsDescendants = true 
+    Instance.new("UICorner", container).CornerRadius = UDim.new(0, 6)
+    
+    local selected = {}
+    for _, opt in ipairs(options) do selected[opt] = false end
+    
+    local mainBtn = Instance.new("TextButton", container)
+    mainBtn.Size = UDim2.new(1, 0, 0, 32)
+    mainBtn.BackgroundTransparency = 1
+    mainBtn.Text = "  " .. title .. ": Any  ▼"
+    mainBtn.TextColor3 = Theme.Accent
+    mainBtn.Font = Enum.Font.GothamBold
+    mainBtn.TextSize = 12
+    mainBtn.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local scroll = Instance.new("ScrollingFrame", container)
+    scroll.Size = UDim2.new(1, 0, 1, -32)
+    scroll.Position = UDim2.new(0, 0, 0, 32)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness = 2
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    
+    local layout = Instance.new("UIListLayout", scroll)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    
+    local isOpen = false
+    local maxDropHeight = math.min(#options * 30, 150)
+    
+    local function updateText()
+        local count = 0
+        for k, v in pairs(selected) do if v then count = count + 1 end end
+        if count == 0 then
+            mainBtn.Text = "  " .. title .. ": Any  " .. (isOpen and "▲" or "▼")
+        else
+            mainBtn.Text = "  " .. title .. ": " .. count .. " Selected  " .. (isOpen and "▲" or "▼")
+        end
+        callback(selected)
+    end
+    
+    mainBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play()
+        else
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+        end
+        updateText()
+    end)
+    
+    for i, option in ipairs(options) do
+        local optBtn = Instance.new("TextButton", scroll)
+        optBtn.Size = UDim2.new(1, -10, 0, 30)
+        optBtn.BackgroundColor3 = Theme.Surface
+        optBtn.Text = "    " .. option
+        optBtn.TextColor3 = Theme.TextDim
+        optBtn.Font = Enum.Font.GothamBold
+        optBtn.TextSize = 11
+        optBtn.TextXAlignment = Enum.TextXAlignment.Left
+        optBtn.LayoutOrder = i
+        
+        optBtn.MouseButton1Click:Connect(function()
+            selected[option] = not selected[option]
+            optBtn.TextColor3 = selected[option] and Theme.Success or Theme.TextDim
+            updateText()
+        end)
+    end
+    callback(selected)
+end
+
 -- ================= [ LOGIC ] ================= --
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- MAIN TAB 
+-- MAIN TAB
 local kickValues = {
     ["Perfect"] = 1,
     ["Excellent"] = 0.8670379929244518,
@@ -268,14 +353,15 @@ local kickValues = {
     ["Bad"] = 0.06738599948585033
 }
 local currentKickMode = "Perfect"
+CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val)
-    currentKickMode = val
-end)
+local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+local targetMutations = {}
+CreateMultiDropdown(MainTab, "Sniper Muts", mutationList, function(selected) targetMutations = selected end)
 
 local autoKick = false
 local kickTick = 0
-CreateToggle(MainTab, " Auto Kick! 💫", function(v)
+CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
     autoKick = v
     kickTick = kickTick + 1
     local currentTick = kickTick
@@ -288,17 +374,18 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                     local hrp = char and char:FindFirstChild("HumanoidRootPart")
                     local hum = char and char:FindFirstChild("Humanoid")
                     
-                    if hrp and hum then
+                    if hrp and hum and hum.Health > 0 then
+                        -- 1. ยืนประจำจุดเตะ
                         hrp.Velocity = Vector3.new(0,0,0)
                         hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)
-                        task.wait(0.5)
+                        task.wait(0.3)
                         
                         local guiBtn = PlayerGui.HUD.KickButton
                         if getconnections then
                             for _, c in pairs(getconnections(guiBtn.MouseButton1Click)) do c:Fire() end
                         end
                         
-                        -- โชว์ VFX เฉพาะตอนเลือก Perfect
+                        -- แสงออกเท้า PerfectKick
                         if currentKickMode == "Perfect" then
                             pcall(function()
                                 local vfx = game:GetService("ReplicatedStorage").Objects.VFX:FindFirstChild("PerfectKick")
@@ -314,22 +401,111 @@ CreateToggle(MainTab, " Auto Kick! 💫", function(v)
                             end)
                         end
                         
+                        -- บันทึกตำแหน่งจุดเตะ
+                        local startPos = hrp.Position
+                        
+                        -- เตะ!!!
                         local kickMultiplier = kickValues[currentKickMode] or 1
                         Net.rev_KickEvent:FireServer(kickMultiplier)
-                        task.wait(0.2)
-                        
                         Net.rev_Transformed:FireServer()
                         Net.rev_KickZman:FireServer()
-                        task.wait(0.5)
                         
-                        local safeZone = workspace.Lobby:FindFirstChild("Safe")
-                        if safeZone then 
-                            hrp.Velocity = Vector3.new(0,0,0)
-                            hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
+                        -- 2. รอจนกว่าเกมจะวาปตัวละครเราไปที่จุดกล่องตก 
+                        local teleported = false
+                        local waitTimeout = 0
+                        while waitTimeout < 15 and hum.Health > 0 do
+                            task.wait(0.1)
+                            waitTimeout = waitTimeout + 0.2
+                            if hrp and (hrp.Position - startPos).Magnitude > 50 then
+                                teleported = true
+                                break
+                            end
+                        end
+                        
+                        if teleported then
+                            task.wait(0.1) 
+                            
+                            local foundTarget = false
+                            local selectedCount = 0
+                            for k, isSelected in pairs(targetMutations) do 
+                                if isSelected then selectedCount = selectedCount + 1 end 
+                            end
+                            
+                            if selectedCount == 0 then
+                                foundTarget = true
+                            else
+                                -- สแกนหาโมเดลที่อยู่ใกล้ตัวเราที่สุดใน Debris 
+                                for _, obj in pairs(workspace.Debris:GetChildren()) do
+                                    if obj:IsA("Model") and obj.PrimaryPart then
+                                        if (obj.PrimaryPart.Position - hrp.Position).Magnitude < 100 then
+                                            
+                                            for _, m in ipairs({"Gold", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}) do
+                                                if obj:FindFirstChild(m) or obj:FindFirstChild(m, true) then
+                                                    if targetMutations[m] then foundTarget = true end
+                                                    if (m == "Golden" or m == "Gold") and targetMutations["Gold"] then foundTarget = true end
+                                                end
+                                            end
+                                            
+                                            if targetMutations["Normal"] then
+                                                foundTarget = true
+                                            end
+                                            break 
+                                        end
+                                    end
+                                end
+                            end
+                            
+                            -- 3. ชี้ชะตา: รอดรับของ หรือ พุ่งไปตาย!
+                            if foundTarget then
+                                -- ✅ ใช่ตัวที่ต้องการ: วาปหนีคลื่นกลับ Safe Zone เลย!
+                                local safeZone = workspace.Lobby:FindFirstChild("Safe")
+                                if safeZone then 
+                                    hrp.Velocity = Vector3.new(0,0,0)
+                                    hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
+                                end
+                                task.wait(0.1) 
+                            else
+                                -- ❌ ไม่ใช่ตัวที่ต้องการ: วาปพุ่งหลาวเข้าใส่คลื่นเพื่อฆ่าตัวตายทันที!
+                                local deathTimeout = 0
+                                local died = false
+                                local deathConn
+                                if hum then
+                                    deathConn = hum.Died:Connect(function() died = true end)
+                                end
+                                
+                                while hum and hum.Health > 0 and not died and deathTimeout < 15 do
+                                    task.wait(0.1)
+                                    deathTimeout = deathTimeout + 0.1
+                                    
+                                    -- สแกนหาคลื่นในโฟลเดอร์ Waves
+                                    local waveFound = false
+                                    local wavesFolder = workspace:FindFirstChild("Waves")
+                                    if wavesFolder then
+                                        for _, waveObj in pairs(wavesFolder:GetChildren()) do
+                                            -- หาชิ้นส่วนของคลื่น
+                                            local targetPart = waveObj:IsA("Model") and (waveObj.PrimaryPart or waveObj:FindFirstChildWhichIsA("BasePart")) or (waveObj:IsA("BasePart") and waveObj)
+                                            
+                                            if targetPart and hrp then
+                                                hrp.Velocity = Vector3.new(0,0,0)
+                                                hrp.CFrame = targetPart.CFrame -- วาปไปโผล่กลางคลื่นเลย!
+                                                waveFound = true
+                                                break
+                                            end
+                                        end
+                                    end
+                                    
+                                    -- ถ้าคลื่นยังไม่เกิด ให้ล็อคตัวไว้ที่เดิมก่อน
+                                    if not waveFound and hrp then
+                                        hrp.Velocity = Vector3.new(0,0,0)
+                                    end
+                                end
+                                
+                                if deathConn then deathConn:Disconnect() end
+                                task.wait(1.5) -- รอเกิดใหม่
+                            end
                         end
                     end
                 end)
-                task.wait(2.9) 
             end
         end)
     end
@@ -454,7 +630,7 @@ end)
 
 local instantInteract = false
 local grabTick = 0
-CreateToggle(MainTab, "Pick Up (No Delay) ⚡", function(v)
+CreateToggle(CollectTab, "Instant Grab/Hatch (No Delay) ⚡", function(v)
     instantInteract = v
     grabTick = grabTick + 1
     local currentTick = grabTick
@@ -479,23 +655,6 @@ CreateButton(CollectTab, "Buy Speed x1 👟", function() Net.rev_SPEED_UPGRADE:F
 CreateButton(CollectTab, "Rebirth ♻️", function() Net.rev_RebirthRequest:FireServer() end)
 
 -- UPGRADES TAB
-local autoUpAll = false
-local upAllTick = 0
-CreateToggle(UpGTab, "Auto Upgrade All 🧠", function(v)
-    autoUpAll = v
-    upAllTick = upAllTick + 1
-    local currentTick = upAllTick
-    
-    if autoUpAll then
-        task.spawn(function()
-            while autoUpAll and currentTick == upAllTick do
-                for i = 1, 30 do pcall(function() Net.rev_B_Upgrade:FireServer(i) end) end
-                task.wait(0.05) 
-            end
-        end)
-    end
-end)
-
 local upList = {}
 for i = 1, 30 do table.insert(upList, tostring(i)) end
 local targetUpgrade = "1"
@@ -516,6 +675,23 @@ CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
             end
         end)
     end
+    
+end)
+local autoUpAll = false
+local upAllTick = 0
+CreateToggle(UpGTab, "Auto Upgrade All 🧠", function(v)
+    autoUpAll = v
+    upAllTick = upAllTick + 1
+    local currentTick = upAllTick
+    
+    if autoUpAll then
+        task.spawn(function()
+            while autoUpAll and currentTick == upAllTick do
+                for i = 1, 30 do pcall(function() Net.rev_B_Upgrade:FireServer(i) end) end
+                task.wait(0.05) 
+            end
+        end)
+    end
 end)
 
 -- BUY TAB 
@@ -526,6 +702,26 @@ CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight =
 CreateButton(BuyTab, "Buy Weight 🛒", function() 
     local cleanName = string.match(targetWeight, "^(.-)%s+%S+$") or targetWeight
     Net.rev_Shop_Buy:FireServer("WeightShop", cleanName) 
+end)
+
+local autoBuyWeight = false
+local buyTick = 0
+CreateToggle(BuyTab, "Auto Buy Selected 🛒", function(v)
+    autoBuyWeight = v
+    buyTick = buyTick + 1
+    local currentTick = buyTick
+    
+    if autoBuyWeight then
+        task.spawn(function()
+            while autoBuyWeight and currentTick == buyTick do
+                pcall(function() 
+                    local cleanName = string.match(targetWeight, "^(.-)%s+%S+$") or targetWeight
+                    Net.rev_Shop_Buy:FireServer("WeightShop", cleanName) 
+                end)
+                task.wait(0.5)
+            end
+        end)
+    end
 end)
 
 -- SELL TAB
@@ -544,6 +740,18 @@ addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
 addLabel("🟢 It works", Theme.Success)
 addLabel("🟠 Waiting for update.", Theme.Success)
 addLabel("🔴 It's not working", Theme.Success)
+
+-- UPDATE TAB
+local function addUpdateLabel(txt, clr)
+    local l = Instance.new("TextLabel", UpdateTab)
+    l.Size = UDim2.new(1, 0, 0, 25); l.BackgroundTransparency = 1
+    l.Text = txt; l.TextColor3 = clr; l.Font = Enum.Font.GothamBold; l.TextSize = 12
+    l.TextWrapped = true
+end
+addUpdateLabel("🌛 Version Beta", Theme.Success)
+addUpdateLabel("💫 New Sniper Muts Beta.", Theme.Success)
+addUpdateLabel("💬 Please report any bugs you find to me.", Theme.Success)
+addUpdateLabel("🌐 https://discord.gg/Gvq6hY766J.", Theme.Success)
 
 -- START UI
 Tabs[1].Page.Visible = true
