@@ -1,0 +1,449 @@
+-- [[ 1. SETUP & CORE VARIABLES ]] --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+local SafeParent = (pcall(function() return gethui() end) and gethui()) or PlayerGui
+
+-- ลบ UI เก่าทิ้ง
+if SafeParent:FindFirstChild("FARTEZ_LUCKY_HUB") then 
+    SafeParent.FARTEZ_LUCKY_HUB:Destroy() 
+end
+
+-- ระบบ Auto Variables
+_G.AutoFarm = false
+_G.AutoCollectMoney = false
+_G.AutoRebirth = false
+_G.SelectedZone = "1"
+_G.CollectAmount = "1"
+_G.SelectedShopItem = "👻 Invisible Time (1)" 
+
+local SafeZoneCFrame = CFrame.new(
+    3.83587933, 5.00753117, 27.4547634, 
+    -0.936105371, 2.6624198e-08, 0.351719618, 
+    1.02398463e-08, 1, -4.84437628e-08, 
+    -0.351719618, -4.17469117e-08, -0.936105371
+)
+
+-- [[ THEME SETUP ]] --
+local Theme = {
+    Background = Color3.fromRGB(5, 5, 8),
+    Surface = Color3.fromRGB(15, 15, 20),
+    SurfaceLight = Color3.fromRGB(25, 25, 35),
+    Accent = Color3.fromRGB(4, 203, 41),
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDim = Color3.fromRGB(150, 150, 150),
+    Dark = Color3.fromRGB(10, 10, 15),
+    Success = Color3.fromRGB(4, 203, 41)
+}
+
+-- [[ 2. UI CREATION ]] --
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FARTEZ_LUCKY_HUB"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = SafeParent
+
+-- [ ปุ่มเปิด/ปิด - โลโก้ ]
+local toggleBtn = Instance.new("ImageButton", ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+toggleBtn.Draggable = true
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0.5, 0)
+local btnStroke = Instance.new("UIStroke", toggleBtn)
+btnStroke.Thickness = 2
+btnStroke.Color = Theme.Accent
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 290, 0, 350)
+Main.Position = UDim2.new(0.5, -170, 0.5, -240)
+Main.BackgroundColor3 = Theme.Background
+Main.ClipsDescendants = true
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 50)
+TopBar.BackgroundColor3 = Theme.Surface
+TopBar.BorderSizePixel = 0
+
+-- [ โลโก้ในเมนูบาร์ ]
+local Logo = Instance.new("ImageLabel", TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
+Logo.ScaleType = Enum.ScaleType.Fit
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
+
+local Title = Instance.new("TextLabel", TopBar)
+Title.Size = UDim2.new(0, 160, 0, 22) 
+Title.Position = UDim2.new(0, 52, 0, 5) 
+Title.BackgroundTransparency = 1 
+Title.Text = "FARTEZ HUB" 
+Title.TextColor3 = Theme.Text 
+Title.TextSize = 18 
+Title.Font = Enum.Font.GothamBold 
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local Subtitle = Instance.new("TextLabel", TopBar)
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 52, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = "Become Invisible For Brainrots" 
+Subtitle.TextColor3 = Theme.Accent 
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local TabContainer = Instance.new("Frame", Main)
+TabContainer.Size = UDim2.new(1, -16, 0, 36)
+TabContainer.Position = UDim2.new(0, 8, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+Instance.new("UICorner", TabContainer).CornerRadius = UDim.new(0, 8)
+
+local TabLayout = Instance.new("UIListLayout", TabContainer)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+TabLayout.Padding = UDim.new(0, 4)
+
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -16, 1, -110)
+Content.Position = UDim2.new(0, 8, 0, 98)
+Content.BackgroundColor3 = Theme.Surface
+Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
+
+local Tabs = {}
+local function CreateTab(name)
+    local Btn = Instance.new("TextButton", TabContainer)
+    Btn.Size = UDim2.new(0, 62, 0, 28) 
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = name
+    Btn.TextColor3 = Theme.TextDim
+    Btn.TextSize = 10 
+    Btn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+
+    local Page = Instance.new("ScrollingFrame", Content)
+    Page.Name = name .. "Page"
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Theme.Accent
+    Page.Visible = false
+
+    local PL = Instance.new("UIListLayout", Page)
+    PL.Padding = UDim.new(0, 10)
+    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    
+    local PP = Instance.new("UIPadding", Page)
+    PP.PaddingTop = UDim.new(0, 12)
+    PP.PaddingBottom = UDim.new(0, 12)
+
+    table.insert(Tabs, {Btn = Btn, Page = Page})
+
+    Btn.MouseButton1Click:Connect(function()
+        for _, t in pairs(Tabs) do
+            t.Page.Visible = false
+            TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play()
+        end
+        Page.Visible = true
+        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+    end)
+    return Page
+end
+
+-- สร้าง 4 แท็บ
+local MainTab = CreateTab("Main")
+local CollectTab = CreateTab("Collect")
+local ShopTab = CreateTab("Shop")
+local InfoTab = CreateTab("Info")
+
+Tabs[1].Page.Visible = true
+Tabs[1].Btn.BackgroundColor3 = Theme.Accent
+Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+
+-- ================= [ UI COMPONENTS ] ================= --
+local function CreateDropdown(parent, title, options, callback)
+    local DropFrame = Instance.new("Frame", parent)
+    DropFrame.Size = UDim2.new(1, -20, 0, 35)
+    DropFrame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", DropFrame).CornerRadius = UDim.new(0, 6)
+    
+    local Label = Instance.new("TextLabel", DropFrame)
+    Label.Size = UDim2.new(0.5, 0, 1, 0)
+    Label.Position = UDim2.new(0, 10, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = title
+    Label.TextColor3 = Theme.Text
+    Label.Font = Enum.Font.GothamSemibold
+    Label.TextSize = 11
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+
+    local SelectBtn = Instance.new("TextButton", DropFrame)
+    SelectBtn.Size = UDim2.new(0.45, 0, 0, 25)
+    SelectBtn.Position = UDim2.new(0.52, 0, 0.5, -12.5)
+    SelectBtn.BackgroundColor3 = Theme.Dark
+    SelectBtn.Text = options[1]
+    SelectBtn.TextColor3 = Theme.Accent
+    SelectBtn.Font = Enum.Font.GothamBold
+    SelectBtn.TextSize = 10
+    Instance.new("UICorner", SelectBtn).CornerRadius = UDim.new(0, 4)
+
+    local DropList = Instance.new("ScrollingFrame", DropFrame)
+    DropList.Size = UDim2.new(0.45, 0, 0, 120)
+    DropList.Position = UDim2.new(0.52, 0, 1, 2)
+    DropList.BackgroundColor3 = Theme.Dark
+    DropList.Visible = false
+    DropList.ZIndex = 15 
+    DropList.ScrollBarThickness = 2
+    DropList.CanvasSize = UDim2.new(0, 0, 0, 0)
+    DropList.AutomaticCanvasSize = Enum.AutomaticSize.Y 
+    Instance.new("UICorner", DropList).CornerRadius = UDim.new(0, 4)
+    Instance.new("UIListLayout", DropList)
+
+    SelectBtn.MouseButton1Click:Connect(function() DropList.Visible = not DropList.Visible end)
+
+    for _, opt in pairs(options) do
+        local OptBtn = Instance.new("TextButton", DropList)
+        OptBtn.Size = UDim2.new(1, 0, 0, 25)
+        OptBtn.BackgroundTransparency = 1
+        OptBtn.Text = opt
+        OptBtn.TextColor3 = Theme.TextDim
+        OptBtn.Font = Enum.Font.Gotham
+        OptBtn.TextSize = 10
+        OptBtn.ZIndex = 16
+        OptBtn.MouseButton1Click:Connect(function()
+            SelectBtn.Text = opt
+            DropList.Visible = false
+            callback(opt)
+        end)
+    end
+end
+
+local function CreateToggle(parent, title, callback)
+    local TogFrame = Instance.new("Frame", parent)
+    TogFrame.Size = UDim2.new(1, -20, 0, 35)
+    TogFrame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", TogFrame).CornerRadius = UDim.new(0, 6)
+
+    local Label = Instance.new("TextLabel", TogFrame)
+    Label.Size = UDim2.new(0.7, 0, 1, 0)
+    Label.Position = UDim2.new(0, 10, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = title
+    Label.TextColor3 = Theme.Text
+    Label.Font = Enum.Font.GothamSemibold
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Btn = Instance.new("TextButton", TogFrame)
+    Btn.Size = UDim2.new(0, 25, 0, 25)
+    Btn.Position = UDim2.new(1, -35, 0.5, -12.5)
+    Btn.BackgroundColor3 = Theme.Dark
+    Btn.Text = ""
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+
+    local State = false
+    Btn.MouseButton1Click:Connect(function()
+        State = not State
+        Btn.BackgroundColor3 = State and Theme.Accent or Theme.Dark
+        callback(State)
+    end)
+end
+
+local function CreateButton(parent, text, callback)
+    local BtnFrame = Instance.new("Frame", parent)
+    BtnFrame.Size = UDim2.new(1, -20, 0, 35)
+    BtnFrame.BackgroundTransparency = 1
+
+    local Btn = Instance.new("TextButton", BtnFrame)
+    Btn.Size = UDim2.new(1, 0, 1, 0)
+    Btn.BackgroundColor3 = Theme.Accent
+    Btn.Text = text
+    Btn.TextColor3 = Color3.new(0,0,0)
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 12
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+
+    Btn.MouseButton1Click:Connect(function()
+        TweenService:Create(Btn, TweenInfo.new(0.1), {Size = UDim2.new(0.95, 0, 0.9, 0), Position = UDim2.new(0.025, 0, 0.05, 0)}):Play()
+        task.wait(0.1)
+        TweenService:Create(Btn, TweenInfo.new(0.1), {Size = UDim2.new(1, 0, 1, 0), Position = UDim2.new(0, 0, 0, 0)}):Play()
+        callback()
+    end)
+end
+
+-- ================= [ MENU SETUP ] ================= --
+
+-- [ แท็บ MAIN ]
+CreateDropdown(MainTab, "🌍 Select Zone", {"1","2","3","4","5","6","7","8","9","10","11"}, function(val)
+    _G.SelectedZone = val
+end)
+
+CreateDropdown(MainTab, "📦 Items per Warp", {"1", "2", "3"}, function(val)
+    _G.CollectAmount = val
+end)
+
+CreateToggle(MainTab, "🚀 Auto Farm Zone", function(state)
+    _G.AutoFarm = state
+end)
+
+-- [ แท็บ COLLECT ]
+CreateToggle(CollectTab, "💸 Auto Collect Money", function(state)
+    _G.AutoCollectMoney = state
+end)
+
+CreateToggle(CollectTab, "🔄 Auto Rebirth", function(state)
+    _G.AutoRebirth = state
+end)
+
+-- [ แท็บ SHOP ]
+local shopOptionsMap = {
+    ["👻 Invisible Time (1)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.InvisibleService.RF.TryPurchase:InvokeServer(1) end,
+    ["👻 Invisible Time (5)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.InvisibleService.RF.TryPurchase:InvokeServer(5) end,
+    ["👻 Invisible Time (10)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.InvisibleService.RF.TryPurchase:InvokeServer(10) end,
+    ["⚡ Speed Up (1)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.SpeedService.RF.TryPurchase:InvokeServer(1) end,
+    ["⚡ Speed Up (5)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.SpeedService.RF.TryPurchase:InvokeServer(5) end,
+    ["⚡ Speed Up (10)"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.SpeedService.RF.TryPurchase:InvokeServer(10) end,
+    ["🎒 Carry Upgrade"] = function() game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.CarryService.RF.TryUpgrade:InvokeServer() end,
+}
+
+local shopOptionsList = {
+    "👻 Invisible Time (1)", "👻 Invisible Time (5)", "👻 Invisible Time (10)",
+    "⚡ Speed Up (1)", "⚡ Speed Up (5)", "⚡ Speed Up (10)",
+    "🎒 Carry Upgrade"
+}
+
+CreateDropdown(ShopTab, "🛒 Select Item", shopOptionsList, function(val)
+    _G.SelectedShopItem = val
+end)
+
+CreateButton(ShopTab, "💳 BUY SELECTED ITEM", function()
+    if shopOptionsMap[_G.SelectedShopItem] then
+        pcall(function()
+            shopOptionsMap[_G.SelectedShopItem]()
+        end)
+    end
+end)
+
+-- [ แท็บ INFO ]
+local function addLabel(txt, clr)
+    local l = Instance.new("TextLabel", InfoTab)
+    l.Size = UDim2.new(1, 0, 0, 25)
+    l.BackgroundTransparency = 1
+    l.Text = txt
+    l.TextColor3 = clr
+    l.Font = Enum.Font.GothamBold
+    l.TextSize = 12
+end
+
+addLabel("🍀 Become Invisible For Brainrots", Theme.Success)
+addLabel("🌿 by FARTEZ", Theme.Success)
+addLabel("👍 Like and follow", Theme.Success)
+addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
+addLabel("🟢 It works", Theme.Success)
+addLabel("🔴 There will be no updates for this game. .", Theme.Success)
+
+
+-- ================= [ LOGIC CORE ] ================= --
+
+-- [ 1. Auto Farm Zone ]
+task.spawn(function()
+    while task.wait(0.1) do
+        if _G.AutoFarm then
+            pcall(function()
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local zoneData = workspace.__MAP.Stages:FindFirstChild(tostring(_G.SelectedZone))
+                local zonePart = zoneData and zoneData:FindFirstChild("Zone")
+                
+                if hrp and zonePart then
+                    hrp.CFrame = zonePart.CFrame
+                    task.wait(0.15) -- รอโหลดพื้นที่
+                    
+                    local itemsFolder = workspace:FindFirstChild("CASCHES") and workspace.CASCHES:FindFirstChild("SPAWNED_ITEMS")
+                    local targetAmount = tonumber(_G.CollectAmount) or 1
+                    local collectedCount = 0
+
+                    if itemsFolder then
+                        for _, item in pairs(itemsFolder:GetChildren()) do
+                            if not _G.AutoFarm then break end
+                            
+                            local targetPart = item:IsA("BasePart") and item or item:FindFirstChildWhichIsA("BasePart", true)
+                            
+                            if targetPart then
+                                local distanceToZone = (targetPart.Position - zonePart.Position).Magnitude
+                                
+                                if distanceToZone < 150 then
+                                    -- วาร์ปไปหาไอเทม
+                                    hrp.CFrame = targetPart.CFrame * CFrame.new(0, 2, 0)
+                                    task.wait(0.1) -- รอให้ตัวละครไปถึงตำแหน่งไอเทมจริงๆ
+                                    
+                                    local prompt = item:FindFirstChildWhichIsA("ProximityPrompt", true)
+                                    if prompt then
+                                        prompt.RequiresLineOfSight = false 
+                                        fireproximityprompt(prompt)
+                                        task.wait(0.05)
+                                        fireproximityprompt(prompt)
+                                    else
+                                        firetouchinterest(hrp, targetPart, 0)
+                                        firetouchinterest(hrp, targetPart, 1)
+                                    end
+                                    
+                                    -- *** จุดสำคัญ: รอ 0.2 วินาทีเพื่อให้เกมบันทึกว่าเราเก็บของเข้ากระเป๋าแล้วจริงๆ ***
+                                    task.wait(0.2) 
+                                    collectedCount = collectedCount + 1 
+                                    
+                                    if collectedCount >= targetAmount then
+                                        break 
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    
+                    if collectedCount > 0 then
+                        hrp.CFrame = SafeZoneCFrame
+                        task.wait(0.3) -- พักนิดนึงก่อนวนลูปใหม่ให้เนียนๆ
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- [ 2. Auto Collect Money ]
+task.spawn(function()
+    while task.wait(2) do 
+        if _G.AutoCollectMoney then
+            pcall(function()
+                for i = 1, 40 do
+                    local args = { [1] = tostring(i) }
+                    game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.SlotService.RF.TryCollectCurrency:InvokeServer(unpack(args))
+                end
+            end)
+        end
+    end
+end)
+
+-- [ 3. Auto Rebirth ]
+task.spawn(function()
+    while task.wait(5) do 
+        if _G.AutoRebirth then
+            pcall(function()
+                game:GetService("ReplicatedStorage").Library.Knit.Knit.Services.RebirthService.RF.TryRebirth:InvokeServer()
+            end)
+        end
+    end
+end)
+
+-- [ ปุ่มเปิด/ปิด UI ]
+toggleBtn.MouseButton1Click:Connect(function()
+    Main.Visible = not Main.Visible
+end)
