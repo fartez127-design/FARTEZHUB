@@ -591,10 +591,30 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                                                     pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
                                                     pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
                                                 end
-                                                -- 🔥 เพิ่ม Fallback ให้คอมพิวเตอร์คลิกปุ่ม x2 ได้ 🔥
+                                                
+                                                -- 🔥 เพิ่ม Fallback ขั้นสุดยอดให้ PC ดักคลิกปุ่ม x2 ได้ชัวร์ 100% 🔥
+                                                pcall(function()
+                                                    if firesignal then
+                                                        firesignal(target.MouseButton1Click)
+                                                        firesignal(target.Activated)
+                                                    end
+                                                end)
                                                 pcall(function()
                                                     if target:IsA("GuiButton") then
                                                         target:Activate()
+                                                    end
+                                                end)
+                                                
+                                                -- ท่าไม้ตาย: จำลองเมาส์คอมไปคลิกที่ปุ่ม x2 ตรงๆ บนหน้าจอ
+                                                pcall(function()
+                                                    if target:IsA("GuiObject") and target.AbsoluteSize.X > 0 then
+                                                        local vim = game:GetService("VirtualInputManager")
+                                                        local guiInset = game:GetService("GuiService"):GetGuiInset()
+                                                        local clickX = target.AbsolutePosition.X + (target.AbsoluteSize.X / 2) + guiInset.X
+                                                        local clickY = target.AbsolutePosition.Y + (target.AbsoluteSize.Y / 2) + guiInset.Y
+                                                        vim:SendMouseButtonEvent(clickX, clickY, 0, true, game, 1)
+                                                        task.wait(0.05)
+                                                        vim:SendMouseButtonEvent(clickX, clickY, 0, false, game, 1)
                                                     end
                                                 end)
                                             end
