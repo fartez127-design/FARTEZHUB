@@ -357,7 +357,7 @@ CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "
 
 local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
 local targetMutations = {}
-CreateMultiDropdown(MainTab, "Sniper Muts", mutationList, function(selected) targetMutations = selected end)
+CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected) targetMutations = selected end)
 
 local autoKick = false
 local kickTick = 0
