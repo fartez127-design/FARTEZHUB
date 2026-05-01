@@ -41,7 +41,7 @@ btnStroke.Thickness = 2
 btnStroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 310, 0, 310) 
+Main.Size = UDim2.new(0, 310, 0, 300) 
 Main.Position = UDim2.new(0.5, -155, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
