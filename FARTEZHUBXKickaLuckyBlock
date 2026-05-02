@@ -66,7 +66,7 @@ local Title1 = Instance.new("TextLabel", TopBar)
 Title1.Size = UDim2.new(0, 160, 0, 22) 
 Title1.Position = UDim2.new(0, 52, 0, 5) 
 Title1.BackgroundTransparency = 1 
-Title1.Text = "                                        Mobile   1.6 Beta " 
+Title1.Text = "                                        Mobile   3.1 Fix " 
 Title1.TextColor3 = Theme.Text 
 Title1.TextSize = 10
 Title1.Font = Enum.Font.GothamBold 
@@ -157,7 +157,6 @@ local UpGTab = CreateTab("UpG")
 local BuyTab = CreateTab("Buy") 
 local SellTab = CreateTab("Sell") 
 local DetailsTab = CreateTab("Info")
-local UpdateTab = CreateTab("Update") 
 
 -- ================= [ UI COMPONENTS ] ================= --
 local function CreateButton(parent, text, callback)
@@ -340,35 +339,40 @@ local function CreateMultiDropdown(parent, title, options, callback)
     callback(selected)
 end
 
--- ================= [ LOGIC ] ================= --
+-- ================= [ MOVEMENT FUNCTIONS ] ================= --
 
--- 🔥 SmartWalk V.3: เดินสมจริง 100% ไม่ดัน CFrame 
+local function ForcedTP(targetCFrame)
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    hrp.Anchored = true 
+    hrp.CFrame = targetCFrame
+    task.wait(0.1)
+    hrp.Anchored = false
+end
+
+-- 🔥 ระบบเดินสองขา (SmartWalk) ตัวสมบูรณ์ที่สุด
 local function SmartWalk(targetPosition)
     local char = player.Character
     local hum = char and char:FindFirstChild("Humanoid")
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
     if not hum or not hrp then return end
 
-    -- กระโดด 1 ครั้งเพื่อปลดบัคแช่แข็งของเกมหลังจบคัทซีน
-    hum.Jump = true 
-    
+    -- กระโดดเพื่อปลดล็อคบัคยืนนิ่งของเกม
+    hum.Jump = true
+    task.wait(0.1)
+
     local timeout = 0
-    -- ให้เวลาเดินนาน 30 วินาที เผื่อความเร็วเดินช้า
-    while hum.Health > 0 and timeout < 300 do 
-        local currentPos = hrp.Position
-        local flatTarget = Vector3.new(targetPosition.X, currentPos.Y, targetPosition.Z)
-        local dist = (currentPos - flatTarget).Magnitude
+    while hum.Health > 0 and timeout < 250 do 
+        -- ล็อคแกน Y ตอนคำนวณระยะ จะได้วิ่งพุ่งเป้าตรงๆ
+        local flatTarget = Vector3.new(targetPosition.X, hrp.Position.Y, targetPosition.Z)
+        local dist = (Vector3.new(hrp.Position.X, 0, hrp.Position.Z) - Vector3.new(targetPosition.X, 0, targetPosition.Z)).Magnitude
         
-        -- ถึงเป้าหมายแล้วหยุด
         if dist < 4 then break end 
         
-        -- ปลดแอก 1: ถ้าเกมสั่ง Anchored (ล็อคตัว) ให้สคริปต์ปลดล็อคทันที
-        if hrp.Anchored then hrp.Anchored = false end
-        -- ปลดแอก 2: ถ้าเกมตั้ง WalkSpeed เป็น 0 ให้คืนค่าเป็นความเร็วปกติ
-        if hum.WalkSpeed == 0 then hum.WalkSpeed = 16 end
-        
-        -- สั่งให้เดินด้วยคำสั่งปกติของเกมล้วนๆ (ไม่มีการไถลพื้น)
-        hum:MoveTo(targetPosition)
+        hrp.Anchored = false
+        hum:MoveTo(flatTarget)
         
         task.wait(0.1)
         timeout = timeout + 1
@@ -377,7 +381,8 @@ end
 
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- MAIN TAB
+-- ================= [ MAIN TAB (AUTO KICK) ] ================= --
+
 local kickValues = {
     ["Perfect"] = 1,
     ["Excellent"] = 0.8670379929244518,
@@ -394,7 +399,8 @@ CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected) target
 
 local autoKick = false
 local kickTick = 0
-CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
+
+CreateToggle(MainTab, " Auto Kick! (Wait 3s & Run) 💫", function(v)
     autoKick = v
     kickTick = kickTick + 1
     local currentTick = kickTick
@@ -408,11 +414,11 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                     local hum = char and char:FindFirstChild("Humanoid")
                     
                     if hrp and hum and hum.Health > 0 then
-                        -- 1. วาปไปจุดเตะรวดเดียวจบ
-                        hrp.Velocity = Vector3.new(0,0,0)
-                        hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 1.5, 0)
-                        task.wait(0.3)
+                        -- 1. วาร์ปไปเตะ
+                        ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 1.5, 0))
+                        task.wait(0.5)
                         
+                        -- แสงออกเท้า PerfectKick
                         if currentKickMode == "Perfect" then
                             pcall(function()
                                 local vfx = game:GetService("ReplicatedStorage").Objects.VFX:FindFirstChild("PerfectKick")
@@ -428,18 +434,15 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                             end)
                         end
                         
-                        -- เตะ
-                        pcall(function()
-                            Net.rev_Transformed:FireServer()
-                            task.wait(0.1) 
-                            local kickMultiplier = kickValues[currentKickMode] or 1
-                            Net.rev_KickEvent:FireServer(kickMultiplier)
-                        end)
+                        -- 2. เตะ
+                        Net.rev_Transformed:FireServer()
+                        task.wait(0.1) 
+                        local kickMultiplier = kickValues[currentKickMode] or 1
+                        Net.rev_KickEvent:FireServer(kickMultiplier)
                         
-                        -- 2. สแกนหาตัวมอนสเตอร์ (รอกล่องตกลงมา)
+                        -- 3. สแกนหาตัวมอนสเตอร์ (ให้เวลาสุ่ม 15 วิ)
                         local foundTarget = false
                         local monsterScanned = false
-                        local waitTimeout = 0
                         local targetMonster = nil 
                         
                         local selectedCount = 0
@@ -447,14 +450,12 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                             if isSelected then selectedCount = selectedCount + 1 end 
                         end
                         
-                        while waitTimeout < 150 and hum.Health > 0 and not monsterScanned do
-                            task.wait(0.1)
-                            waitTimeout = waitTimeout + 1
-                            
+                        for i = 1, 150 do
+                            if not autoKick or hum.Health <= 0 then break end
                             for _, obj in pairs(workspace.Debris:GetChildren()) do
-                                if obj:IsA("Model") then
-                                    local root = obj.PrimaryPart or obj:FindFirstChild("HumanoidRootPart") or obj:FindFirstChildWhichIsA("BasePart")
-                                    if root and (root.Position - hrp.Position).Magnitude < 100 and not obj:FindFirstChild("LuckyBlock") then
+                                if obj:IsA("Model") and not obj:FindFirstChild("LuckyBlock") then
+                                    local root = obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart")
+                                    if root and (root.Position - hrp.Position).Magnitude < 100 then
                                         monsterScanned = true 
                                         targetMonster = obj 
                                         
@@ -472,61 +473,56 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                                     end
                                 end
                             end
+                            if monsterScanned then break end
+                            task.wait(0.1)
                         end
                         
-                        -- 3. ตอนรอด (รอ 3 วิ แล้ววิ่งเดินเข้าเซฟโซน)
+                        -- 4. จัดการผลลัพธ์
                         if monsterScanned then
                             
-                            -- 🔥 จุดสำคัญ: หยุดพักรอ 3 วินาทีตามที่คุณสั่ง
-                            task.wait(3)
+                            -- 🔥 จุดสำคัญที่ผมลืมใส่รอบที่แล้ว: รอเวลา 3.5 วินาทีให้กล้องปลดล็อค! 🔥
+                            task.wait(3.5)
                             
                             if foundTarget then
-                                -- สั่งเดินเข้า Safe Zone ทันที (ระบบ SmartWalk จะกระโดด 1 ทีเพื่อปลดล็อคตัวละครให้วิ่งออกไปได้)
+                                -- เดินเข้า Safe Zone
                                 local safeZone = workspace.Lobby:FindFirstChild("Safe")
-                                if safeZone then
+                                if safeZone and autoKick and hum.Health > 0 then
                                     SmartWalk(safeZone.Position)
+                                    
+                                    local claimCheck = 0
+                                    while targetMonster and targetMonster.Parent and claimCheck < 100 do
+                                        task.wait(0.1)
+                                        claimCheck = claimCheck + 1
+                                    end
+                                    task.wait(1)
                                 end
-                                
-                                -- ยืนรอให้มอนตาย/รับของเสร็จ
-                                local claimCheck = 0
-                                while targetMonster and targetMonster.Parent and claimCheck < 100 do
-                                    task.wait(0.1)
-                                    claimCheck = claimCheck + 1
-                                end
-                                task.wait(1)
-
                             else
-                                -- กรณีเกลือ: วิ่งตามคลื่นไปกระโดดฆ่าตัวตาย (รัน SmartWalk อัปเดตพิกัดคลื่น)
-                                local deathTimeout = 0
-                                local died = false
+                                -- กรณีเกลือ: วิ่งไปตาย
                                 local deathConn
+                                local died = false
                                 if hum then deathConn = hum.Died:Connect(function() died = true end) end
                                 
-                                while hum and hum.Health > 0 and not died and deathTimeout < 300 do
+                                for i = 1, 200 do
+                                    if not autoKick or died then break end
                                     local wavesFolder = workspace:FindFirstChild("Waves")
-                                    local foundWave = false
-                                    
+                                    local waveFound = false
                                     if wavesFolder then
                                         for _, waveObj in pairs(wavesFolder:GetChildren()) do
                                             local targetPart = waveObj:IsA("Model") and (waveObj.PrimaryPart or waveObj:FindFirstChildWhichIsA("BasePart")) or (waveObj:IsA("BasePart") and waveObj)
                                             if targetPart and hrp then
-                                                -- ให้เดินปกติไปหาคลื่น
                                                 SmartWalk(targetPart.Position)
-                                                foundWave = true
+                                                waveFound = true
                                                 break
                                             end
                                         end
                                     end
-                                    
-                                    if not foundWave then
+                                    if not waveFound then
                                         SmartWalk(workspace.Areas.KickReady.Position)
                                     end
-                                    
                                     task.wait(0.1)
-                                    deathTimeout = deathTimeout + 1
                                 end
                                 if deathConn then deathConn:Disconnect() end
-                                task.wait(1.5)
+                                task.wait(1)
                             end
                         else
                             task.wait(0.5)
@@ -540,7 +536,7 @@ end)
 
 local autoTrain = false
 local trainTick = 0
-CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
+CreateToggle(MainTab, "Auto Train ||—||", function(v)
     autoTrain = v
     trainTick = trainTick + 1
     local currentTick = trainTick
@@ -594,46 +590,6 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                         currentTool:Activate()
                     end
                 end)
-                
-                -- ระบบกด x2
-                pcall(function()
-                    local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
-                    if kickUpgrades then
-                        for _, target in pairs(kickUpgrades:GetChildren()) do
-                            if target:IsA("GuiObject") then
-                                local isOnScreen = target.Visible and target.AbsolutePosition.X > -1000 and target.AbsolutePosition.Y > -1000
-                                
-                                if isOnScreen then
-                                    if not target:GetAttribute("Claimed_X2") then
-                                        target:SetAttribute("Claimed_X2", true) 
-                                        
-                                        task.spawn(function()
-                                            task.wait(0.6) 
-                                            pcall(function() Net.rev_TaviMishkal:FireServer() end)
-                                            task.wait(0.2)
-                                            if getconnections then
-                                                local btn = target:FindFirstChildWhichIsA("GuiButton") or target:FindFirstChildWhichIsA("ImageLabel") or target
-                                                pcall(function() for _, conn in pairs(getconnections(btn.MouseButton1Click)) do conn:Fire() end end)
-                                                pcall(function() for _, conn in pairs(getconnections(btn.Activated)) do conn:Fire() end end)
-                                            end
-                                            
-                                            target.Visible = false
-                                            
-                                            task.delay(5, function()
-                                                if target then target:SetAttribute("Claimed_X2", nil) end
-                                            end)
-                                        end)
-                                    end
-                                else
-                                    if target:GetAttribute("Claimed_X2") then
-                                        target:SetAttribute("Claimed_X2", nil)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end)
-                
                 task.wait(0.1) 
             end
         end)
@@ -642,15 +598,12 @@ end)
 
 CreateButton(MainTab, "TP KickRead ⚡", function()
     pcall(function() 
-        local char = player.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            hrp.CFrame = workspace.Areas.KickReady.CFrame + Vector3.new(0, 1.5, 0)
-        end
+        ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0))
     end)
 end)
 
--- COLLECT TAB
+-- ================= [ COLLECT TAB ] ================= --
+
 local autoCollect = false
 local collectTick = 0
 CreateToggle(CollectTab, "Auto Collect Money 🤑", function(v)
@@ -686,7 +639,8 @@ end)
 CreateButton(CollectTab, "Buy Speed x1 👟", function() Net.rev_SPEED_UPGRADE:FireServer(1) end)
 CreateButton(CollectTab, "Rebirth ♻️", function() Net.rev_RebirthRequest:FireServer() end)
 
--- UPGRADES TAB
+-- ================= [ UPGRADES TAB ] ================= --
+
 local upList = {}
 for i = 1, 30 do table.insert(upList, tostring(i)) end
 local targetUpgrade = "1"
@@ -708,7 +662,8 @@ CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
     end
 end)
 
--- BUY TAB 
+-- ================= [ BUY TAB ] ================= --
+
 local weightList = {"Wooden Stick    Free", "Bone Barbel     $7.5K", "Stone Block    $75K", "Copper Plate    $500K", "Iron Plate    $7.2M", "Ice Barbell    $350M", "Donut Barbell    	$6.2B", "Gold Barbell    $85B", "Heaven Plate     $1.2T", "Mega Gold Barbell     $18T", "Neon Pulse    $500T", "Giant Gold Star Barbell     $20Q"}
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
@@ -737,7 +692,10 @@ CreateToggle(BuyTab, "Auto Buy Selected 🛒", function(v)
     end
 end)
 
--- INFO TAB
+-- ================= [ SELL TAB ] ================= --
+CreateButton(SellTab, "Sell All 💲 (Danger!)", function() pcall(function() Net.ref_B_SellAll:InvokeServer() end) end)
+
+-- ================= [ INFO TAB ] ================= --
 local function addLabel(txt, clr)
     local l = Instance.new("TextLabel", DetailsTab)
     l.Size = UDim2.new(1, 0, 0, 25); l.BackgroundTransparency = 1
@@ -746,7 +704,29 @@ end
 addLabel("🍀 Kick a Lucky Block", Theme.Success)
 addLabel("🌿 by FARTEZ", Theme.Success)
 addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
-addLabel("🟢 It works", Theme.Success)
+addLabel("🟢 Active: V.3.1 (Wait 3.5s & Run)", Theme.Success)
+
+-- ================= [ GLOBAL x2 AUTO CLICKER ] ================= --
+task.spawn(function()
+    local lastX2 = 0
+    while true do
+        pcall(function()
+            if (tick() - lastX2) > 1 then
+                local kickUp = PlayerGui:FindFirstChild("KickUpgrades")
+                if kickUp then
+                    for _, child in pairs(kickUp:GetChildren()) do
+                        if child:IsA("GuiObject") and child.Visible then
+                            Net.rev_TaviMishkal:FireServer()
+                            child.Visible = false
+                            lastX2 = tick()
+                        end
+                    end
+                end
+            end
+        end)
+        task.wait(0.5)
+    end
+end)
 
 -- START UI
 Tabs[1].Page.Visible = true
