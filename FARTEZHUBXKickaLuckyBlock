@@ -463,12 +463,12 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                                 -- 🛑 รอจนกว่ามอนสเตอร์ตัวนี้จะโดนเกมลบทิ้ง
                                 local claimWait = 0
                                 while targetMonster and targetMonster.Parent and claimWait < 50 do
-                                    task.wait(0.1)
+                                    task.wait(0.17)
                                     claimWait = claimWait + 1
                                 end
                                 
                                 -- ⏱️ เพิ่มเวลายืนแช่ใน Safe Zone เผื่อให้เซิร์ฟยัดของเข้ากระเป๋าทัน
-                                task.wait(1.18) 
+                                task.wait(1) 
                                 
                             else
                                 -- ❌ ไม่ใช่ตัวที่ต้องการ: วาปพุ่งหลาวเข้าใส่คลื่นเพื่อฆ่าตัวตายทันที!
@@ -755,7 +755,7 @@ local function addUpdateLabel(txt, clr)
     l.TextWrapped = true
 end
 addUpdateLabel("🌛 Version Beta", Theme.Success)
-addUpdateLabel("💫 New Sniper Muts Beta.", Theme.Success)
+addUpdateLabel("💫 New Mutation Beta.", Theme.Success)
 addUpdateLabel("💬 Please report any bugs you find to me.", Theme.Success)
 addUpdateLabel("🌐 https://discord.gg/Gvq6hY766J.", Theme.Success)
 
