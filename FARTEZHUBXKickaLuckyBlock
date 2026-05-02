@@ -756,7 +756,8 @@ local function addUpdateLabel(txt, clr)
 end
 addUpdateLabel("🌛 Version Beta", Theme.Success)
 addUpdateLabel("💫 New Mutation Beta.", Theme.Success)
-addUpdateLabel("💬 Please report any bugs you find to me.", Theme.Success)
+addUpdateLabel("🔧 Fix kick Zone Celestial.", Theme.Success)
+addUpdateLabel("💬  Report a bug Discord👇 ", Theme.Success)
 addUpdateLabel("🌐 https://discord.gg/Gvq6hY766J.", Theme.Success)
 
 -- START UI
