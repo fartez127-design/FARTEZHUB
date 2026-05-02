@@ -62,25 +62,25 @@ Logo.BackgroundTransparency = 1
 Logo.Image = "rbxthumb://type=Asset&id=117149073945265&w=150&h=150"
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
-local Title = Instance.new("TextLabel", TopBar) 
-Title.Size = UDim2.new(0, 160, 0, 22) 
-Title.Position = UDim2.new(0, 52, 0, 5) 
-Title.BackgroundTransparency = 1 
-Title.Text = "                                         1.5 Bata " 
-Title.TextColor3 = Theme.Text 
-Title.TextSize = 10
-Title.Font = Enum.Font.GothamBold 
-Title.TextXAlignment = Enum.TextXAlignment.Left
+local Title1 = Instance.new("TextLabel", TopBar) 
+Title1.Size = UDim2.new(0, 160, 0, 22) 
+Title1.Position = UDim2.new(0, 52, 0, 5) 
+Title1.BackgroundTransparency = 1 
+Title1.Text = "                                        Mobile   1.5 Bata " 
+Title1.TextColor3 = Theme.Text 
+Title1.TextSize = 10
+Title1.Font = Enum.Font.GothamBold 
+Title1.TextXAlignment = Enum.TextXAlignment.Left
 
-local Title = Instance.new("TextLabel", TopBar) 
-Title.Size = UDim2.new(0, 160, 0, 22) 
-Title.Position = UDim2.new(0, 52, 0, 5) 
-Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB    Mobile" 
-Title.TextColor3 = Theme.Text 
-Title.TextSize = 17 
-Title.Font = Enum.Font.GothamBold 
-Title.TextXAlignment = Enum.TextXAlignment.Left  
+local Title2 = Instance.new("TextLabel", TopBar) 
+Title2.Size = UDim2.new(0, 160, 0, 22) 
+Title2.Position = UDim2.new(0, 52, 0, 5) 
+Title2.BackgroundTransparency = 1 
+Title2.Text = "FARTEZ HUB" 
+Title2.TextColor3 = Theme.Text 
+Title2.TextSize = 17 
+Title2.Font = Enum.Font.GothamBold 
+Title2.TextXAlignment = Enum.TextXAlignment.Left  
 
 local Subtitle = Instance.new("TextLabel", TopBar) 
 Subtitle.Size = UDim2.new(0, 160, 0, 16) 
@@ -115,7 +115,7 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    Btn.Size = UDim2.new(0, 42, 0, 28) -- ปรับขนาดเล็กน้อยให้พอดีกับแท็บใหม่
+    Btn.Size = UDim2.new(0, 42, 0, 28) 
     Btn.BackgroundColor3 = Theme.SurfaceLight
     Btn.Text = name
     Btn.TextColor3 = Theme.TextDim
@@ -157,7 +157,7 @@ local UpGTab = CreateTab("UpG")
 local BuyTab = CreateTab("Buy") 
 local SellTab = CreateTab("Sell") 
 local DetailsTab = CreateTab("Info")
-local UpdateTab = CreateTab("Update") -- เพิ่มแท็บ Update ตรงนี้
+local UpdateTab = CreateTab("Update") 
 
 -- ================= [ UI COMPONENTS ] ================= --
 local function CreateButton(parent, text, callback)
@@ -267,7 +267,6 @@ local function CreateDropdown(parent, title, options, callback)
     callback(selected)
 end
 
--- [ เมนูเลือกการกลายพันธุ์แบบติ๊กได้หลายอัน ]
 local function CreateMultiDropdown(parent, title, options, callback)
     local container = Instance.new("Frame", parent)
     container.Size = UDim2.new(0, 260, 0, 32)
@@ -355,7 +354,7 @@ local kickValues = {
 local currentKickMode = "Perfect"
 CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+local mutationList = {"Normal", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
 local targetMutations = {}
 CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected) targetMutations = selected end)
 
@@ -401,61 +400,58 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                             end)
                         end
                         
-                        -- บันทึกตำแหน่งจุดเตะ
-                        local startPos = hrp.Position
-                        
                         -- เตะ!!!
                         local kickMultiplier = kickValues[currentKickMode] or 1
                         Net.rev_KickEvent:FireServer(kickMultiplier)
                         Net.rev_Transformed:FireServer()
                         Net.rev_KickZman:FireServer()
                         
-                        -- 2. รอจนกว่าเกมจะวาปตัวละครเราไปที่จุดกล่องตก 
-                        local teleported = false
+                        -- 2. ระบบสแกนเรียลไทม์: รอมอนสเตอร์วาปกลับมาหาเรา
+                        local foundTarget = false
+                        local monsterScanned = false
                         local waitTimeout = 0
-                        while waitTimeout < 15 and hum.Health > 0 do
-                            task.wait(0.1)
-                            waitTimeout = waitTimeout + 0.2
-                            if hrp and (hrp.Position - startPos).Magnitude > 50 then
-                                teleported = true
-                                break
-                            end
+                        local targetMonster = nil 
+                        
+                        -- นับว่าติ๊กเลือก Mutation ไว้กี่อัน
+                        local selectedCount = 0
+                        for k, isSelected in pairs(targetMutations) do 
+                            if isSelected then selectedCount = selectedCount + 1 end 
                         end
                         
-                        if teleported then
-                            task.wait(0.1) 
+                        -- วนลูปเช็คทุกๆ 0.1 วิ (รอสูงสุด 4 วินาทีเผื่อเซิร์ฟเวอร์หน่วง)
+                        while waitTimeout < 40 and hum.Health > 0 and not monsterScanned do
+                            task.wait(0.1)
+                            waitTimeout = waitTimeout + 1
                             
-                            local foundTarget = false
-                            local selectedCount = 0
-                            for k, isSelected in pairs(targetMutations) do 
-                                if isSelected then selectedCount = selectedCount + 1 end 
-                            end
-                            
-                            if selectedCount == 0 then
-                                foundTarget = true
-                            else
-                                -- สแกนหาโมเดลที่อยู่ใกล้ตัวเราที่สุดใน Debris 
-                                for _, obj in pairs(workspace.Debris:GetChildren()) do
-                                    if obj:IsA("Model") and obj.PrimaryPart then
-                                        if (obj.PrimaryPart.Position - hrp.Position).Magnitude < 100 then
-                                            
-                                            for _, m in ipairs({"Gold", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}) do
+                            -- สแกนหาโมเดลใน Debris ที่อยู่ใกล้ๆ (ระยะไม่เกิน 100)
+                            for _, obj in pairs(workspace.Debris:GetChildren()) do
+                                if obj:IsA("Model") and obj.PrimaryPart then
+                                    if (obj.PrimaryPart.Position - hrp.Position).Magnitude < 100 then
+                                        monsterScanned = true 
+                                        targetMonster = obj 
+                                        
+                                        if selectedCount == 0 then
+                                            foundTarget = true
+                                        else
+                                            -- เช็คชื่อ Rarity ทันที
+                                            for _, m in ipairs({"Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}) do
                                                 if obj:FindFirstChild(m) or obj:FindFirstChild(m, true) then
                                                     if targetMutations[m] then foundTarget = true end
-                                                    if (m == "Golden" or m == "Gold") and targetMutations["Gold"] then foundTarget = true end
                                                 end
                                             end
                                             
                                             if targetMutations["Normal"] then
                                                 foundTarget = true
                                             end
-                                            break 
                                         end
+                                        break
                                     end
                                 end
                             end
-                            
-                            -- 3. ชี้ชะตา: รอดรับของ หรือ พุ่งไปตาย!
+                        end
+                        
+                        -- 3. ชี้ชะตา: รอดรับของ หรือ พุ่งไปตาย!
+                        if monsterScanned then
                             if foundTarget then
                                 -- ✅ ใช่ตัวที่ต้องการ: วาปหนีคลื่นกลับ Safe Zone เลย!
                                 local safeZone = workspace.Lobby:FindFirstChild("Safe")
@@ -463,7 +459,17 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                                     hrp.Velocity = Vector3.new(0,0,0)
                                     hrp.CFrame = safeZone.CFrame + Vector3.new(0, 5, 0) 
                                 end
-                                task.wait(0.1) 
+                                
+                                -- 🛑 รอจนกว่ามอนสเตอร์ตัวนี้จะโดนเกมลบทิ้ง
+                                local claimWait = 0
+                                while targetMonster and targetMonster.Parent and claimWait < 50 do
+                                    task.wait(0.1)
+                                    claimWait = claimWait + 1
+                                end
+                                
+                                -- ⏱️ เพิ่มเวลายืนแช่ใน Safe Zone เผื่อให้เซิร์ฟยัดของเข้ากระเป๋าทัน
+                                task.wait(1.18) 
+                                
                             else
                                 -- ❌ ไม่ใช่ตัวที่ต้องการ: วาปพุ่งหลาวเข้าใส่คลื่นเพื่อฆ่าตัวตายทันที!
                                 local deathTimeout = 0
@@ -474,27 +480,24 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                                 end
                                 
                                 while hum and hum.Health > 0 and not died and deathTimeout < 15 do
-                                    task.wait(0.1)
+                                    task.wait(0.2)
                                     deathTimeout = deathTimeout + 0.1
                                     
-                                    -- สแกนหาคลื่นในโฟลเดอร์ Waves
                                     local waveFound = false
                                     local wavesFolder = workspace:FindFirstChild("Waves")
                                     if wavesFolder then
                                         for _, waveObj in pairs(wavesFolder:GetChildren()) do
-                                            -- หาชิ้นส่วนของคลื่น
                                             local targetPart = waveObj:IsA("Model") and (waveObj.PrimaryPart or waveObj:FindFirstChildWhichIsA("BasePart")) or (waveObj:IsA("BasePart") and waveObj)
                                             
                                             if targetPart and hrp then
                                                 hrp.Velocity = Vector3.new(0,0,0)
-                                                hrp.CFrame = targetPart.CFrame -- วาปไปโผล่กลางคลื่นเลย!
+                                                hrp.CFrame = targetPart.CFrame
                                                 waveFound = true
                                                 break
                                             end
                                         end
                                     end
                                     
-                                    -- ถ้าคลื่นยังไม่เกิด ให้ล็อคตัวไว้ที่เดิมก่อน
                                     if not waveFound and hrp then
                                         hrp.Velocity = Vector3.new(0,0,0)
                                     end
@@ -503,6 +506,9 @@ CreateToggle(MainTab, " Auto Kick! (Sniper) 💫", function(v)
                                 if deathConn then deathConn:Disconnect() end
                                 task.wait(1.5) -- รอเกิดใหม่
                             end
+                        else
+                            -- กรณีเวลาผ่านไป 4 วิเต็มๆ แล้วไม่มีมอนสเตอร์โผล่มาเลย ให้วนไปเตะใหม่
+                            task.wait(0.3)
                         end
                     end
                 end)
