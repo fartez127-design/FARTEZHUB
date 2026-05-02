@@ -76,9 +76,9 @@ local Title = Instance.new("TextLabel", TopBar)
 Title.Size = UDim2.new(0, 160, 0, 22) 
 Title.Position = UDim2.new(0, 52, 0, 5) 
 Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB" 
+Title.Text = "FARTEZ HUB    Mobile" 
 Title.TextColor3 = Theme.Text 
-Title.TextSize = 18 
+Title.TextSize = 17 
 Title.Font = Enum.Font.GothamBold 
 Title.TextXAlignment = Enum.TextXAlignment.Left  
 
