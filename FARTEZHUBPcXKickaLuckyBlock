@@ -765,7 +765,7 @@ end)
 
 -- ================= [ BUY TAB (รวม Sell All แล้ว) ] ================= --
 
-local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Gold Barbell", "Heaven Plate", "Mega Gold Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
+local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Golden Barbell", "Heaven Plate", "Mega Gold Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
 
