@@ -540,11 +540,13 @@ end)
 local autoTrain = false
 local trainTick = 0
 
+-- ✅ แก้ไข: เพิ่มตารางดักชื่อทั้ง Gold, Golden, Mega Gold, Mega Golden ให้ครบ
 local validWeights = {
     ["Wooden Stick"] = true, ["Copper Plate"] = true, ["Stone Block"] = true,
     ["Bone Barbell"] = true, ["Donut Barbell"] = true, ["Ice Barbell"] = true,
     ["Iron Plate"] = true, ["Heaven Plate"] = true, ["Gold Barbell"] = true,
-    ["Giant Gold Star Barbell"] = true, ["Neon Pulse"] = true, ["Mega Gold Barbell"] = true
+    ["Golden Barbell"] = true, ["Giant Gold Star Barbell"] = true, 
+    ["Neon Pulse"] = true, ["Mega Gold Barbell"] = true, ["Mega Golden Barbell"] = true
 }
 
 CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
@@ -651,7 +653,7 @@ end)
 
 -- ================= [ COLLECT TAB (จำบ้านถาวรตลอดการรัน 🏠) ] ================= --
 local autoCollect = false
-local lockedPlot = nil -- วางตัวแปรไว้นอกสุด เพื่อให้มันจำบ้านไว้ตลอดกาล ไม่ลืมแม้จะปิดเปิดใหม่
+local lockedPlot = nil 
 
 CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
     autoCollect = v
@@ -659,7 +661,6 @@ CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
     
     if autoCollect then
-        -- ถ้ายังไม่เคยล็อคเป้าบ้านมาก่อนเลย (ตอนเปิดสวิตช์ครั้งแรก)
         if not lockedPlot and hrp then
             local closestDist = math.huge
             for _, plot in pairs(workspace:WaitForChild("Plots"):GetChildren()) do
@@ -673,13 +674,11 @@ CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
             end
         end
 
-        -- ถ้าล็อคบ้านได้แล้ว ก็เริ่มรันลูปเก็บเงิน
         task.spawn(function()
             while autoCollect do
                 if lockedPlot then
                     local buttonsFolder = lockedPlot:FindFirstChild("Buttons")
                     if buttonsFolder then
-                        -- ไล่วาปไปเหยียบ Slot1 ถึง Slot30 ทีละจุดในบ้านที่เราจำไว้
                         for i = 1, 30 do
                             if not autoCollect then break end
                             local slotPart = buttonsFolder:FindFirstChild("Slot" .. i)
@@ -696,11 +695,8 @@ CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
 
                                 if targetCFrame then
                                     pcall(function()
-                                        -- วาปไปเหยียบ (ลอยขึ้นมานิดนึงกันติด)
                                         ForcedTP(targetCFrame + Vector3.new(0, 1.5, 0))
                                         task.wait(0.1)
-                                        
-                                        -- ส่งคำสั่งเก็บเงินสำรองไปด้วย
                                         Net.rev_B_Collect:FireServer(i)
                                     end)
                                 end
@@ -708,8 +704,6 @@ CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
                         end
                     end
                 end
-                
-                -- หน่วงเวลา 1.5 วินาที ก่อนเริ่มลูปเหยียบใหม่
                 task.wait(1.5)
             end
         end)
@@ -752,7 +746,8 @@ CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
 end)
 
 -- ================= [ BUY TAB ] ================= --
-local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Golden Barbell", "Heaven Plate", "Mega Gold Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
+-- ✅ แก้ไข: เพิ่ม Golden Barbell และ Mega Golden Barbell เข้าไปในลิสต์ช็อปปิ้งเรียบร้อย
+local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Golden Barbell", "Heaven Plate", "Mega Golden Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
 
