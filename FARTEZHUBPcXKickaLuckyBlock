@@ -6,7 +6,7 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
--- รองรับทั้ง PC และ Mobile อย่างปลอดภัย
+-- เอา gethui() ออก ใช้ PlayerGui ตรงๆ ตัวรันมือถือจะได้ไม่เอ๋อ
 local SafeParent = PlayerGui
 
 -- ลบ UI เก่าทิ้งกันสคริปต์ซ้อน
@@ -45,7 +45,7 @@ btnStroke.Thickness = 2
 btnStroke.Color = Theme.Accent
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 310, 0, 330) 
+Main.Size = UDim2.new(0, 310, 0, 320) 
 Main.Position = UDim2.new(0.5, -155, 0.5, -210)
 Main.BackgroundColor3 = Theme.Background
 Main.BorderSizePixel = 0
@@ -70,7 +70,7 @@ local Title1 = Instance.new("TextLabel", TopBar)
 Title1.Size = UDim2.new(0, 160, 0, 22) 
 Title1.Position = UDim2.new(0, 52, 0, 5) 
 Title1.BackgroundTransparency = 1 
-Title1.Text = "                                        PC    1.6 Bata " 
+Title1.Text = "                                        PC   1.5   Bata" 
 Title1.TextColor3 = Theme.Text 
 Title1.TextSize = 10
 Title1.Font = Enum.Font.GothamBold 
@@ -395,6 +395,22 @@ hackerLabel.TextColor3 = Theme.Accent
 hackerLabel.Font = Enum.Font.GothamBold
 hackerLabel.TextSize = 14
 
+local hackerLabel = Instance.new("TextLabel", WarpTab)
+hackerLabel.Size = UDim2.new(1, 0, 0, 30)
+hackerLabel.BackgroundTransparency = 1
+hackerLabel.Text = "OG 49-50 Warp Delay"
+hackerLabel.TextColor3 = Theme.Accent
+hackerLabel.Font = Enum.Font.GothamBold
+hackerLabel.TextSize = 14
+
+local hackerLabel = Instance.new("TextLabel", WarpTab)
+hackerLabel.Size = UDim2.new(1, 0, 0, 30)
+hackerLabel.BackgroundTransparency = 1
+hackerLabel.Text = "Celestial 55-60 Warp Delay"
+hackerLabel.TextColor3 = Theme.Accent
+hackerLabel.Font = Enum.Font.GothamBold
+hackerLabel.TextSize = 14
+
 CreateInput(WarpTab, "Warp Delay (1-1000s):", "30", function(val)
     warpDelayValue = val
 end)
@@ -407,13 +423,13 @@ local kickValues = {
 local currentKickMode = "Perfect"
 CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+local mutationList = {"Normal", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
 local targetMutations = {}
-CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected) targetMutations = selected end)
+CreateMultiDropdown(MainTab, "🔴 Not available", mutationList, function(selected) targetMutations = selected end)
 
 local autoKick = false
 
-CreateToggle(MainTab, " Auto Kick (Warp Loop & Claim)", function(v)
+CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
     autoKick = v
     if autoKick then
         task.spawn(function()
@@ -483,8 +499,6 @@ CreateToggle(MainTab, " Auto Kick (Warp Loop & Claim)", function(v)
                                 
                                 if autoKick then
                                     ForcedTP(CFrame.new(safePos + Vector3.new(0, 3, 0)))
-                                    
-                                    -- รอของเข้าตัว 2 วิ แล้ววนลูปกลับไปเตะใหม่
                                     task.wait(2)
                                 end
                             else
@@ -508,49 +522,134 @@ CreateToggle(MainTab, " Auto Kick (Warp Loop & Claim)", function(v)
     end
 end)
 
--- ================= [ AUTO TRAIN FIX (BACKPACK SCAN) ] ================= --
+-- ================= [ AUTO TRAIN & X2 (FORCE CLICK SYSTEM) ] ================= --
+
+-- 🔥 รายชื่อที่ยกน้ำหนักทั้งหมด 🔥
+local validWeights = {
+    ["Wooden Stick"] = true,
+    ["Copper Plate"] = true,
+    ["Stone Block"] = true,
+    ["Bone Barbell"] = true,
+    ["Bone Barbel"] = true,
+    ["Donut Barbell"] = true,
+    ["Ice Barbell"] = true,
+    ["Iron Plate"] = true,
+    ["Heaven Plate"] = true,
+    ["Golden Barbell"] = true,
+    ["Giant Gold Star Barbell"] = true,
+    ["Neon Pulse"] = true,
+    ["Mega Golden Barbell"] = true
+}
+
+-- 🔥 ฟังก์ชันจัดการคลิกครอบจักรวาล (ดักทุกวิถีทางที่คอมพิวเตอร์จะคลิกได้) 🔥
+local function ForceClick(target)
+    if not target or not target.Parent then return end
+    
+    -- 1. Exploit Bypass
+    if getconnections then
+        pcall(function() for _, c in pairs(getconnections(target.MouseButton1Down)) do c:Fire() end end)
+        pcall(function() for _, c in pairs(getconnections(target.MouseButton1Click)) do c:Fire() end end)
+        pcall(function() for _, c in pairs(getconnections(target.Activated)) do c:Fire() end end)
+    end
+    if firesignal then
+        pcall(function() firesignal(target.MouseButton1Down) end)
+        pcall(function() firesignal(target.MouseButton1Click) end)
+        pcall(function() firesignal(target.Activated) end)
+    end
+    
+    -- 2. Standard Activate
+    pcall(function()
+        if target:IsA("GuiButton") then target:Activate() end
+    end)
+    
+    -- 3. VIM (จำลองเมาส์คลิกของจริงบนหน้าจอ PC)
+    pcall(function()
+        if target:IsA("GuiObject") and target.AbsoluteSize.X > 0 and target.Visible then
+            if target.AbsolutePosition.X >= 0 and target.AbsolutePosition.X <= workspace.CurrentCamera.ViewportSize.X then
+                local vim = game:GetService("VirtualInputManager")
+                local guiInset = game:GetService("GuiService"):GetGuiInset()
+                local clickX = target.AbsolutePosition.X + (target.AbsoluteSize.X / 2) + guiInset.X
+                local clickY = target.AbsolutePosition.Y + (target.AbsoluteSize.Y / 2) + guiInset.Y
+                
+                vim:SendMouseButtonEvent(clickX, clickY, 0, true, game, 1)
+                task.wait(0.01)
+                vim:SendMouseButtonEvent(clickX, clickY, 0, false, game, 1)
+            end
+        end
+    end)
+end
 
 local autoTrain = false
-CreateToggle(MainTab, "Auto Train ||—||", function(v)
+local trainTick = 0
+
+CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     autoTrain = v
+    trainTick = trainTick + 1
+    local currentTick = trainTick
+    
     if autoTrain then
         task.spawn(function()
-            while autoTrain do
+            while autoTrain and currentTick == trainTick do
                 pcall(function()
                     local char = player.Character
                     local hum = char and char:FindFirstChild("Humanoid")
                     local backpack = player:FindFirstChild("Backpack")
-                    
-                    local validWeights = {
-                        ["Wooden Stick"] = true, ["Copper Plate"] = true, ["Stone Block"] = true,
-                        ["Bone Barbell"] = true, ["Donut Barbell"] = true, ["Ice Barbell"] = true,
-                        ["Iron Plate"] = true, ["Heaven Plate"] = true, ["Gold Barbell"] = true,
-                        ["Giant Gold Star Barbell"] = true, ["Neon Pulse"] = true, ["Mega Gold Barbell"] = true
-                    }
-                    
                     local currentTool = char and char:FindFirstChildOfClass("Tool")
-                    local isHoldingValidWeight = currentTool and validWeights[currentTool.Name]
-
-                    if not isHoldingValidWeight then
-                        if currentTool then hum:UnequipTools() end
+                    
+                    if not currentTool then
+                        local slot1 = PlayerGui:FindFirstChild("Backpack") 
+                            and PlayerGui.Backpack:FindFirstChild("Bar") 
+                            and PlayerGui.Backpack.Bar:FindFirstChild("Slot1")
+                        
+                        if slot1 and getconnections then
+                            local targets = {slot1, slot1:FindFirstChild("ToolImage")}
+                            for _, t in pairs(targets) do
+                                if t then
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.Activated)) do c:Fire() end end)
+                                end
+                            end
+                        end
+                        
                         task.wait(0.1)
                         
-                        if backpack and hum then
-                            for _, item in pairs(backpack:GetChildren()) do
-                                if item:IsA("Tool") and validWeights[item.Name] then
-                                    hum:EquipTool(item)
+                        -- 🚨 ถือที่ยกน้ำหนักตามชื่อไอเทมในกระเป๋า 🚨
+                        if not char:FindFirstChildOfClass("Tool") and backpack and hum then
+                            for _, tool in pairs(backpack:GetChildren()) do
+                                if tool:IsA("Tool") and validWeights[tool.Name] then
+                                    hum:EquipTool(tool)
                                     break
                                 end
                             end
                         end
                     else
                         currentTool:Activate()
-                        if getconnections then
-                            for _, c in pairs(getconnections(currentTool.Activated)) do c:Fire() end
+                    end
+                end)
+                
+                -- 🚨 ดักกดปุ่ม x2 แบบไม่มีกั๊ก โผล่ปุ๊บกดปั๊บ 🚨
+                pcall(function()
+                    local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
+                    if kickUpgrades then
+                        for _, bonus in pairs(kickUpgrades:GetChildren()) do
+                            if (bonus.Name == "Bonus" or bonus.Name == "PopBonus") and bonus.Visible then
+                                -- ดึงทั้งปุ่มหลักและปุ่มย่อยทั้งหมดใน Bonus มากดให้หมด
+                                local targets = {bonus}
+                                for _, child in ipairs(bonus:GetDescendants()) do
+                                    if child:IsA("GuiButton") or child:IsA("ImageLabel") then
+                                        table.insert(targets, child)
+                                    end
+                                end
+                                
+                                for _, t in ipairs(targets) do
+                                    ForceClick(t)
+                                end
+                            end
                         end
                     end
                 end)
-                task.wait(0.2) 
+                task.wait(0.1) 
             end
         end)
     end
@@ -638,7 +737,6 @@ CreateToggle(BuyTab, "Auto Buy Selected 🛒", function(v)
     end
 end)
 
--- ย้าย Sell All มารวมไว้ที่นี่!
 CreateButton(BuyTab, "Sell All 💲 (Danger!)", function() pcall(function() Net.ref_B_SellAll:InvokeServer() end) end)
 
 -- ================= [ INFO TAB ] ================= --
@@ -650,39 +748,7 @@ end
 addLabel("🍀 Kick a Lucky Block", Theme.Success)
 addLabel("🌿 by FARTEZ", Theme.Success)
 addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
-addLabel("🟢 Active: V.29.0 (PC & MOBILE ULTIMATE)", Theme.Success)
-
--- ================= [ GLOBAL x2 AUTO CLICKER (FIXED POP) ] ================= --
-task.spawn(function()
-    local lastX2 = 0
-    while true do
-        pcall(function()
-            local kickUp = PlayerGui:FindFirstChild("KickUpgrades")
-            if kickUp then
-                for _, child in pairs(kickUp:GetChildren()) do
-                    if child:IsA("GuiObject") and child.Visible and (child.Name == "Bonus" or child.Name == "Pop" or child:FindFirstChild("TextLabel")) then
-                        if (tick() - lastX2) > 1.5 then
-                            Net.rev_TaviMishkal:FireServer()
-                            pcall(function()
-                                if getconnections then
-                                    for _, desc in pairs(child:GetDescendants()) do
-                                        if desc:IsA("GuiButton") or desc:IsA("TextButton") or desc:IsA("ImageButton") then
-                                            for _, c in pairs(getconnections(desc.MouseButton1Click)) do c:Fire() end
-                                            for _, c in pairs(getconnections(desc.Activated)) do c:Fire() end
-                                        end
-                                    end
-                                end
-                            end)
-                            child.Visible = false
-                            lastX2 = tick()
-                        end
-                    end
-                end
-            end
-        end)
-        task.wait(0.5)
-    end
-end)
+addLabel("🟢 It works", Theme.Success)
 
 -- START UI
 Tabs[1].Page.Visible = true
