@@ -1,3 +1,9 @@
+local args = {
+    [1] = 1 -- เลข1 -30
+}
+
+game:GetService("ReplicatedStorage").Shared.Packages.Network.rev_B_Collect:FireServer(unpack(args))
+
 -- [[ 1. SETUP & CORE VARIABLES ]] --
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -421,7 +427,7 @@ local kickValues = {
 local currentKickMode = "Perfect"
 CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-local mutationList = {"Normal", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
 local targetMutations = {}
 CreateMultiDropdown(MainTab, " 🔴 Waiting for a fix", mutationList, function(selected) targetMutations = selected end)
 
@@ -549,7 +555,6 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     if autoTrain then
         task.spawn(function()
             while autoTrain and currentTick == trainTick do
-                -- ระบบ Auto Train (ป้องกันหยิบขยะมั่ว)
                 pcall(function()
                     local char = player.Character
                     local hum = char and char:FindFirstChild("Humanoid")
@@ -596,7 +601,6 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
                     end
                 end)
                 
-                -- ระบบ x2 Auto Clicker (สคริปต์เก่า)
                 pcall(function()
                     local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
                     if kickUpgrades then
@@ -645,15 +649,68 @@ CreateButton(MainTab, "TP KickReady ⚡", function()
     pcall(function() ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end)
 end)
 
--- ================= [ COLLECT TAB ] ================= --
+-- ================= [ COLLECT TAB (จำบ้านถาวรตลอดการรัน 🏠) ] ================= --
 local autoCollect = false
-CreateToggle(CollectTab, "Auto Collect Money 🤑", function(v)
+local lockedPlot = nil -- วางตัวแปรไว้นอกสุด เพื่อให้มันจำบ้านไว้ตลอดกาล ไม่ลืมแม้จะปิดเปิดใหม่
+
+CreateToggle(CollectTab, "Auto Collect Money (home) 🤑", function(v)
     autoCollect = v
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    
     if autoCollect then
+        -- ถ้ายังไม่เคยล็อคเป้าบ้านมาก่อนเลย (ตอนเปิดสวิตช์ครั้งแรก)
+        if not lockedPlot and hrp then
+            local closestDist = math.huge
+            for _, plot in pairs(workspace:WaitForChild("Plots"):GetChildren()) do
+                if plot:IsA("Model") or plot:IsA("Folder") then
+                    local dist = (hrp.Position - plot:GetPivot().Position).Magnitude
+                    if dist < closestDist then
+                        closestDist = dist
+                        lockedPlot = plot
+                    end
+                end
+            end
+        end
+
+        -- ถ้าล็อคบ้านได้แล้ว ก็เริ่มรันลูปเก็บเงิน
         task.spawn(function()
             while autoCollect do
-                for i = 1, 30 do pcall(function() Net.rev_B_Collect:FireServer(i) end) task.wait(0.05) end
-                task.wait(1)
+                if lockedPlot then
+                    local buttonsFolder = lockedPlot:FindFirstChild("Buttons")
+                    if buttonsFolder then
+                        -- ไล่วาปไปเหยียบ Slot1 ถึง Slot30 ทีละจุดในบ้านที่เราจำไว้
+                        for i = 1, 30 do
+                            if not autoCollect then break end
+                            local slotPart = buttonsFolder:FindFirstChild("Slot" .. i)
+                            
+                            if slotPart then
+                                local targetCFrame
+                                if slotPart:IsA("BasePart") then
+                                    targetCFrame = slotPart.CFrame
+                                elseif slotPart:IsA("Model") and slotPart.PrimaryPart then
+                                    targetCFrame = slotPart.PrimaryPart.CFrame
+                                elseif slotPart:FindFirstChildWhichIsA("BasePart") then
+                                    targetCFrame = slotPart:FindFirstChildWhichIsA("BasePart").CFrame
+                                end
+
+                                if targetCFrame then
+                                    pcall(function()
+                                        -- วาปไปเหยียบ (ลอยขึ้นมานิดนึงกันติด)
+                                        ForcedTP(targetCFrame + Vector3.new(0, 1.5, 0))
+                                        task.wait(0.1)
+                                        
+                                        -- ส่งคำสั่งเก็บเงินสำรองไปด้วย
+                                        Net.rev_B_Collect:FireServer(i)
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end
+                
+                -- หน่วงเวลา 1.5 วินาที ก่อนเริ่มลูปเหยียบใหม่
+                task.wait(1.5)
             end
         end)
     end
