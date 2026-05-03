@@ -119,7 +119,6 @@ Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 10)
 local Tabs = {}
 local function CreateTab(name)
     local Btn = Instance.new("TextButton", TabContainer)
-    -- ปรับให้ปุ่มขยายขนาดตามชื่อแท็บอัตโนมัติ จะได้ไม่เบียดกัน
     Btn.Size = UDim2.new(0, 0, 0, 28) 
     Btn.AutomaticSize = Enum.AutomaticSize.X
     Btn.BackgroundColor3 = Theme.SurfaceLight
@@ -161,12 +160,12 @@ local function CreateTab(name)
     return Page
 end
 
--- สร้างแท็บใหม่ตามคำสั่ง
+-- สร้างแท็บ
 local MainTab = CreateTab("Main")
 local CollectTab = CreateTab("Collect")
 local UpGTab = CreateTab("UpG") 
 local BuyTab = CreateTab("Buy") 
-local WarpTab = CreateTab("Warp Delay") -- แท็บใหม่!
+local WarpTab = CreateTab("Warp Delay") 
 local DetailsTab = CreateTab("Info")
 
 -- ================= [ UI COMPONENTS ] ================= --
@@ -370,7 +369,6 @@ local function CreateMultiDropdown(parent, title, options, callback)
 end
 
 -- ================= [ MOVEMENT FUNCTIONS ] ================= --
-
 local function ForcedTP(targetCFrame)
     local char = player.Character
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
@@ -385,8 +383,7 @@ end
 
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- ================= [ WARP DELAY TAB (ใหม่) ] ================= --
--- ย้ายระบบตั้งเวลามาไว้ในแท็บนี้ และใส่ข้อความตามที่คุณสั่ง!
+-- ================= [ WARP DELAY TAB ] ================= --
 local warpDelayValue = 30 
 
 local hackerLabel = Instance.new("TextLabel", WarpTab)
@@ -397,37 +394,36 @@ hackerLabel.TextColor3 = Theme.Accent
 hackerLabel.Font = Enum.Font.GothamBold
 hackerLabel.TextSize = 14
 
-local hackerLabel = Instance.new("TextLabel", WarpTab)
-hackerLabel.Size = UDim2.new(1, 0, 0, 30)
-hackerLabel.BackgroundTransparency = 1
-hackerLabel.Text = "OG 49-50 Warp Delay"
-hackerLabel.TextColor3 = Theme.Accent
-hackerLabel.Font = Enum.Font.GothamBold
-hackerLabel.TextSize = 14
+local hackerLabel2 = Instance.new("TextLabel", WarpTab)
+hackerLabel2.Size = UDim2.new(1, 0, 0, 30)
+hackerLabel2.BackgroundTransparency = 1
+hackerLabel2.Text = "OG 49-50 Warp Delay"
+hackerLabel2.TextColor3 = Theme.Accent
+hackerLabel2.Font = Enum.Font.GothamBold
+hackerLabel2.TextSize = 14
 
-local hackerLabel = Instance.new("TextLabel", WarpTab)
-hackerLabel.Size = UDim2.new(1, 0, 0, 30)
-hackerLabel.BackgroundTransparency = 1
-hackerLabel.Text = "Celestial ? Warp Delay"
-hackerLabel.TextColor3 = Theme.Accent
-hackerLabel.Font = Enum.Font.GothamBold
-hackerLabel.TextSize = 14
+local hackerLabel3 = Instance.new("TextLabel", WarpTab)
+hackerLabel3.Size = UDim2.new(1, 0, 0, 30)
+hackerLabel3.BackgroundTransparency = 1
+hackerLabel3.Text = "Celestial 55-60 Warp Delay"
+hackerLabel3.TextColor3 = Theme.Accent
+hackerLabel3.Font = Enum.Font.GothamBold
+hackerLabel3.TextSize = 14
 
 CreateInput(WarpTab, "Warp Delay (1-1000s):", "30", function(val)
     warpDelayValue = val
 end)
 
--- ================= [ MAIN TAB (AUTO KICK V.28) ] ================= --
-
+-- ================= [ MAIN TAB (AUTO KICK & AUTO TRAIN) ] ================= --
 local kickValues = {
     ["Perfect"] = 1, ["Excellent"] = 0.867, ["Great"] = 0.635, ["Mid"] = 0.264, ["Bad"] = 0.067
 }
 local currentKickMode = "Perfect"
 CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+local mutationList = {"Normal", "Golden", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
 local targetMutations = {}
-CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected) targetMutations = selected end)
+CreateMultiDropdown(MainTab, " 🔴 Waiting for a fix", mutationList, function(selected) targetMutations = selected end)
 
 local autoKick = false
 
@@ -435,6 +431,8 @@ CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
     autoKick = v
     if autoKick then
         task.spawn(function()
+            local vaultArea = workspace:FindFirstChild("Areas") and workspace.Areas:FindFirstChild("Vault")
+            
             while autoKick do
                 pcall(function()
                     local char = player.Character
@@ -466,18 +464,27 @@ CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
                             for _, obj in pairs(workspace.Debris:GetChildren()) do
                                 if obj:IsA("Model") and not obj:FindFirstChild("LuckyBlock") then
                                     local root = obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart")
-                                    if root and (root.Position - hrp.Position).Magnitude < 200 then
-                                        targetMonster = obj 
-                                        if selectedCount == 0 then foundTarget = true
-                                        else
-                                            for _, m in ipairs(mutationList) do
-                                                if obj:FindFirstChild(m) or obj:FindFirstChild(m, true) then
-                                                    if targetMutations[m] then foundTarget = true end
-                                                end
+                                    if root then
+                                        local inVault = true
+                                        if vaultArea then
+                                            if (root.Position - vaultArea:GetPivot().Position).Magnitude > 250 then
+                                                inVault = false
                                             end
-                                            if targetMutations["Normal"] then foundTarget = true end
                                         end
-                                        break
+                                        
+                                        if inVault and (root.Position - hrp.Position).Magnitude < 500 then
+                                            targetMonster = obj 
+                                            if selectedCount == 0 then foundTarget = true
+                                            else
+                                                for _, m in ipairs(mutationList) do
+                                                    if obj:FindFirstChild(m) or obj:FindFirstChild(m, true) then
+                                                        if targetMutations[m] then foundTarget = true end
+                                                    end
+                                                end
+                                                if targetMutations["Normal"] then foundTarget = true end
+                                            end
+                                            break
+                                        end
                                     end
                                 end
                             end
@@ -500,10 +507,7 @@ CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
                                 end
                                 
                                 if autoKick then
-                                    -- วาร์ปกลับเซฟโซน
                                     ForcedTP(CFrame.new(safePos + Vector3.new(0, 3, 0)))
-                                    
-                                    -- บังคับรอรับของ 2 วินาที
                                     task.wait(2)
                                 end
                             else
@@ -527,37 +531,59 @@ CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
     end
 end)
 
--- ================= [ AUTO TRAIN FIX (BACKPACK SCAN) ] ================= --
-
 local autoTrain = false
-CreateToggle(MainTab, "Auto Train ||—||", function(v)
+local trainTick = 0
+
+local validWeights = {
+    ["Wooden Stick"] = true, ["Copper Plate"] = true, ["Stone Block"] = true,
+    ["Bone Barbell"] = true, ["Donut Barbell"] = true, ["Ice Barbell"] = true,
+    ["Iron Plate"] = true, ["Heaven Plate"] = true, ["Gold Barbell"] = true,
+    ["Giant Gold Star Barbell"] = true, ["Neon Pulse"] = true, ["Mega Gold Barbell"] = true
+}
+
+CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     autoTrain = v
+    trainTick = trainTick + 1
+    local currentTick = trainTick
+    
     if autoTrain then
         task.spawn(function()
-            while autoTrain do
+            while autoTrain and currentTick == trainTick do
+                -- ระบบ Auto Train (ป้องกันหยิบขยะมั่ว)
                 pcall(function()
                     local char = player.Character
                     local hum = char and char:FindFirstChild("Humanoid")
                     local backpack = player:FindFirstChild("Backpack")
-                    
-                    local validWeights = {
-                        ["Wooden Stick"] = true, ["Copper Plate"] = true, ["Stone Block"] = true,
-                        ["Bone Barbell"] = true, ["Donut Barbell"] = true, ["Ice Barbell"] = true,
-                        ["Iron Plate"] = true, ["Heaven Plate"] = true, ["Gold Barbell"] = true,
-                        ["Giant Gold Star Barbell"] = true, ["Neon Pulse"] = true, ["Mega Gold Barbell"] = true
-                    }
-                    
                     local currentTool = char and char:FindFirstChildOfClass("Tool")
+                    
                     local isHoldingValidWeight = currentTool and validWeights[currentTool.Name]
-
+                    
                     if not isHoldingValidWeight then
                         if currentTool then hum:UnequipTools() end
+                        
+                        local slot1 = PlayerGui:FindFirstChild("Backpack") 
+                            and PlayerGui.Backpack:FindFirstChild("Bar") 
+                            and PlayerGui.Backpack.Bar:FindFirstChild("Slot1")
+                        
+                        if slot1 and getconnections then
+                            local targets = {slot1, slot1:FindFirstChild("ToolImage")}
+                            for _, t in pairs(targets) do
+                                if t then
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.Activated)) do c:Fire() end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}) end end)
+                                    pcall(function() for _, c in pairs(getconnections(t.InputBegan)) do c:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
+                                end
+                            end
+                        end
+                        
                         task.wait(0.1)
                         
-                        if backpack and hum then
-                            for _, item in pairs(backpack:GetChildren()) do
-                                if item:IsA("Tool") and validWeights[item.Name] then
-                                    hum:EquipTool(item)
+                        if not char:FindFirstChildOfClass("Tool") and backpack and hum then
+                            for _, tool in pairs(backpack:GetChildren()) do
+                                if tool:IsA("Tool") and validWeights[tool.Name] then
+                                    hum:EquipTool(tool)
                                     break
                                 end
                             end
@@ -569,7 +595,47 @@ CreateToggle(MainTab, "Auto Train ||—||", function(v)
                         end
                     end
                 end)
-                task.wait(0.2) 
+                
+                -- ระบบ x2 Auto Clicker (สคริปต์เก่า)
+                pcall(function()
+                    local kickUpgrades = PlayerGui:FindFirstChild("KickUpgrades")
+                    if kickUpgrades then
+                        for _, bonus in pairs(kickUpgrades:GetChildren()) do
+                            if bonus.Name == "Bonus" or bonus.Name == "PopBonus" then
+                                if bonus.Visible then
+                                    if not bonus:GetAttribute("AutoClicked") then
+                                        bonus:SetAttribute("AutoClicked", true) 
+                                        task.spawn(function()
+                                            task.wait(0.2)
+                                            local imgLabel = bonus:FindFirstChild("ImageLabel")
+                                            local targets = {bonus}
+                                            if imgLabel then table.insert(targets, imgLabel) end
+                                            
+                                            if getconnections then
+                                                for _, target in pairs(targets) do
+                                                    pcall(function()
+                                                        for _, conn in pairs(getconnections(target.InputBegan)) do 
+                                                            conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin})
+                                                            conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin})
+                                                        end
+                                                    end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Down)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Up)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
+                                                end
+                                            end
+                                        end)
+                                    end
+                                else
+                                    bonus:SetAttribute("AutoClicked", nil)
+                                end
+                            end
+                        end
+                    end
+                end)
+                
+                task.wait(0.1) 
             end
         end)
     end
@@ -580,7 +646,6 @@ CreateButton(MainTab, "TP KickReady ⚡", function()
 end)
 
 -- ================= [ COLLECT TAB ] ================= --
-
 local autoCollect = false
 CreateToggle(CollectTab, "Auto Collect Money 🤑", function(v)
     autoCollect = v
@@ -611,7 +676,6 @@ CreateButton(CollectTab, "Buy Speed x1 👟", function() Net.rev_SPEED_UPGRADE:F
 CreateButton(CollectTab, "Rebirth ♻️", function() Net.rev_RebirthRequest:FireServer() end)
 
 -- ================= [ UPGRADES TAB ] ================= --
-
 local upList = {}
 for i = 1, 30 do table.insert(upList, tostring(i)) end
 local targetUpgrade = "1"
@@ -630,8 +694,7 @@ CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
     end
 end)
 
--- ================= [ BUY TAB (รวม Sell All แล้ว) ] ================= --
-
+-- ================= [ BUY TAB ] ================= --
 local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Gold Barbell", "Heaven Plate", "Mega Gold Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
@@ -657,7 +720,6 @@ CreateToggle(BuyTab, "Auto Buy Selected 🛒", function(v)
     end
 end)
 
--- ย้าย Sell All มารวมไว้ที่นี่!
 CreateButton(BuyTab, "Sell All 💲 (Danger!)", function() pcall(function() Net.ref_B_SellAll:InvokeServer() end) end)
 
 -- ================= [ INFO TAB ] ================= --
@@ -669,42 +731,7 @@ end
 addLabel("🍀 Kick a Lucky Block", Theme.Success)
 addLabel("🌿 by FARTEZ", Theme.Success)
 addLabel("▶️ YouTube FARTEZ HUB", Theme.Success)
-addLabel("🟢 Active: V.28.0 (UI REWORK)", Theme.Success)
-
--- ================= [ GLOBAL x2 AUTO CLICKER ] ================= --
-task.spawn(function()
-    local lastX2 = 0
-    while true do
-        pcall(function()
-            local kickUp = PlayerGui:FindFirstChild("KickUpgrades")
-            if kickUp then
-                for _, child in pairs(kickUp:GetChildren()) do
-                    if child:IsA("GuiObject") and child.Visible then
-                        if (tick() - lastX2) > 1.5 then
-                            
-                            Net.rev_TaviMishkal:FireServer()
-                            
-                            pcall(function()
-                                if getconnections then
-                                    for _, desc in pairs(child:GetDescendants()) do
-                                        if desc:IsA("GuiButton") or desc:IsA("TextButton") or desc:IsA("ImageButton") then
-                                            for _, c in pairs(getconnections(desc.MouseButton1Click)) do c:Fire() end
-                                            for _, c in pairs(getconnections(desc.Activated)) do c:Fire() end
-                                        end
-                                    end
-                                end
-                            end)
-                            
-                            child.Visible = false
-                            lastX2 = tick()
-                        end
-                    end
-                end
-            end
-        end)
-        task.wait(0.5)
-    end
-end)
+addLabel("🟢 It works", Theme.Success)
 
 -- START UI
 Tabs[1].Page.Visible = true
