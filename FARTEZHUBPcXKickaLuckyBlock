@@ -468,30 +468,28 @@ end)
 
 -- ===== Smooth Fly (บินตรงฝ่าอากาศความเร็วตามที่ตั้งไว้) =====
 local function smoothFlyTo(hrp, hum, targetPos)
-    local target = Vector3.new(targetPos.X, FIXED_Y, targetPos.Z)
+    if not (hrp and hum and hum.Health > 0) then return end
     
-    if hrp then hrp.Anchored = true end
+    local targetCFrame = CFrame.new(targetPos.X, FIXED_Y, targetPos.Z)
+    local dist = (hrp.Position - targetCFrame.Position).Magnitude
     
-    while hrp and hum and hum.Health > 0 do
-        local dt = task.wait()
-        local pos = hrp.Position
-        local dir = (target - pos)
-        local dist = dir.Magnitude
-        
-        if dist < 2 then 
-            hrp.CFrame = CFrame.new(target)
-            break 
-        end
-        
-        -- 🔥 ดึงความเร็วจาก UI ที่ตั้งไว้มาคูณตรงๆ เลย
-        local flySpeed = enableCustomSpeed and customWalkSpeed or math.max(hum.WalkSpeed, 50)
-        
-        local moveDist = flySpeed * dt
-        if moveDist > dist then moveDist = dist end
-        
-        hrp.CFrame = CFrame.new(pos + dir.Unit * moveDist)
-    end
+    -- 🔥 ดึงความเร็วจาก UI ที่ตั้งไว้
+    local flySpeed = enableCustomSpeed and customWalkSpeed or math.max(hum.WalkSpeed, 50)
     
+    -- คำนวณเวลาที่ต้องใช้ในการบินให้สัมพันธ์กับระยะทางและความเร็ว
+    local timeToFly = dist / flySpeed
+    
+    -- ล็อคตัวละครชั่วคราว
+    hrp.Anchored = true
+    
+    -- ใช้ TweenService เพื่อความสมูทและเสถียรบน PC
+    local tweenInfo = TweenInfo.new(timeToFly, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+    
+    tween:Play()
+    tween.Completed:Wait() -- รอจนกว่าจะบินเสร็จ
+    
+    -- ปลดล็อคเมื่อถึงเป้าหมาย
     if hrp and hrp.Parent then 
         hrp.Anchored = false 
     end
@@ -538,8 +536,8 @@ CreateToggle(MainTab, "Auto Kick (Warp & Run Back) ✨", function(v)
                         task.wait(0.1)
                         if not char or not char.Parent or hum.Health <= 0 then return end
                         
-                        -- ✅ เช็คระยะวาร์ปตลอดเวลา ถ้าระยะห่างเกิน 40 แปลว่าวาร์ปไปหามอนสเตอร์แล้ว
-                        if (hrp.Position - startPos).Magnitude > 40 then 
+                        -- ✅ เช็คระยะวาร์ปตลอดเวลา ถ้าระยะห่างเกิน 30 แปลว่าวาร์ปไปหามอนสเตอร์แล้ว
+                        if (hrp.Position - startPos).Magnitude > 30 then 
                             wasTeleported = true
                             break 
                         end
