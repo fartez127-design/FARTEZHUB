@@ -12,10 +12,8 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
--- เอา gethui() ออก ใช้ PlayerGui ตรงๆ ตัวรันมือถือจะได้ไม่เอ๋อ
 local SafeParent = PlayerGui
 
--- ลบ UI เก่าทิ้งกันสคริปต์ซ้อน
 for _, v in pairs(SafeParent:GetChildren()) do
     if v.Name == "FARTEZ_LUCKY_HUB" then
         v:Destroy()
@@ -166,12 +164,10 @@ local function CreateTab(name)
     return Page
 end
 
--- สร้างแท็บ
 local MainTab = CreateTab("Main")
 local CollectTab = CreateTab("Collect")
 local UpGTab = CreateTab("UpG") 
 local BuyTab = CreateTab("Buy") 
-local WarpTab = CreateTab("Warp Delay") 
 local DetailsTab = CreateTab("Info")
 
 -- ================= [ UI COMPONENTS ] ================= --
@@ -216,29 +212,6 @@ local function CreateToggle(parent, text, callback)
         s = not s
         tBtn.BackgroundColor3 = s and Theme.Accent or Theme.Surface
         callback(s)
-    end)
-end
-
-local function CreateInput(parent, text, placeholder, callback)
-    local frame = Instance.new("Frame", parent)
-    frame.Size = UDim2.new(0, 260, 0, 32)
-    frame.BackgroundColor3 = Theme.SurfaceLight
-    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
-    
-    local label = Instance.new("TextLabel", frame)
-    label.Size = UDim2.new(0, 150, 1, 0); label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1; label.Text = text; label.TextColor3 = Theme.Text
-    label.Font = Enum.Font.GothamBold; label.TextXAlignment = Enum.TextXAlignment.Left; label.TextSize = 11
-
-    local input = Instance.new("TextBox", frame)
-    input.Size = UDim2.new(0, 80, 0, 22); input.Position = UDim2.new(1, -90, 0.5, -11)
-    input.BackgroundColor3 = Theme.Surface; input.TextColor3 = Theme.Accent
-    input.Text = placeholder; input.Font = Enum.Font.GothamBold; input.TextSize = 12
-    Instance.new("UICorner", input).CornerRadius = UDim.new(0, 4)
-
-    input.FocusLost:Connect(function()
-        local val = tonumber(input.Text)
-        if val then callback(val) else input.Text = "30"; callback(30) end
     end)
 end
 
@@ -380,167 +353,195 @@ local function ForcedTP(targetCFrame)
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
     if hrp then
         hrp.Velocity = Vector3.new(0,0,0)
-        hrp.Anchored = true
         hrp.CFrame = targetCFrame
-        task.wait(0.1)
-        hrp.Anchored = false
     end
 end
 
+-- ===== REQUIRED =====
 local Net = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Packages"):WaitForChild("Network")
 
--- ================= [ WARP DELAY TAB ] ================= --
-local warpDelayValue = 30 
-
-local hackerLabel = Instance.new("TextLabel", WarpTab)
-hackerLabel.Size = UDim2.new(1, 0, 0, 30)
-hackerLabel.BackgroundTransparency = 1
-hackerLabel.Text = "hacker 45 Warp Delay"
-hackerLabel.TextColor3 = Theme.Accent
-hackerLabel.Font = Enum.Font.GothamBold
-hackerLabel.TextSize = 14
-
-local hackerLabel2 = Instance.new("TextLabel", WarpTab)
-hackerLabel2.Size = UDim2.new(1, 0, 0, 30)
-hackerLabel2.BackgroundTransparency = 1
-hackerLabel2.Text = "OG 49-50 Warp Delay"
-hackerLabel2.TextColor3 = Theme.Accent
-hackerLabel2.Font = Enum.Font.GothamBold
-hackerLabel2.TextSize = 14
-
-local hackerLabel3 = Instance.new("TextLabel", WarpTab)
-hackerLabel3.Size = UDim2.new(1, 0, 0, 30)
-hackerLabel3.BackgroundTransparency = 1
-hackerLabel3.Text = "Celestial 55-60 Warp Delay"
-hackerLabel3.TextColor3 = Theme.Accent
-hackerLabel3.Font = Enum.Font.GothamBold
-hackerLabel3.TextSize = 14
-
-CreateInput(WarpTab, "Warp Delay (1-1000s):", "30", function(val)
-    warpDelayValue = val
-end)
-
--- ================= [ MAIN TAB (AUTO KICK & AUTO TRAIN) ] ================= --
 local kickValues = {
     ["Perfect"] = 1, ["Excellent"] = 0.867, ["Great"] = 0.635, ["Mid"] = 0.264, ["Bad"] = 0.067
 }
 local currentKickMode = "Perfect"
-CreateDropdown(MainTab, "Kick Power", {"Perfect", "Excellent", "Great", "Mid", "Bad"}, function(val) currentKickMode = val end)
 
-local mutationList = {"Normal", "Gold", "Diamond", "Plasma", "Molten", "Radioactive", "Shadow", "Electrified", "Rainbow"}
+-- 🔥 ความสูงตอนบิน
+local FIXED_Y = 3
+
+-- ===== Mutation =====
+local mutationList = {"Normal","Golden","Diamond","Plasma","Molten","Radioactive","Shadow","Electrified","Rainbow","Virus"}
+
 local targetMutations = {}
-CreateMultiDropdown(MainTab, " 🔴 Waiting for a fix", mutationList, function(selected) targetMutations = selected end)
+CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected)
+    targetMutations = selected
+end)
 
+-- ===== Smooth Fly =====
+local function smoothFlyTo(hrp, hum, targetPos)
+    local target = Vector3.new(targetPos.X, FIXED_Y, targetPos.Z)
+    local speed = math.max(hum.WalkSpeed, 50) 
+    
+    if hrp then hrp.Anchored = true end
+    
+    while hrp and hum and hum.Health > 0 do
+        local dt = task.wait()
+        local pos = hrp.Position
+        local dir = (target - pos)
+        local dist = dir.Magnitude
+        
+        if dist < 2 then 
+            hrp.CFrame = CFrame.new(target)
+            break 
+        end
+        
+        local moveDist = speed * dt
+        if moveDist > dist then moveDist = dist end
+        
+        hrp.CFrame = CFrame.new(pos + dir.Unit * moveDist)
+    end
+    
+    if hrp and hrp.Parent then 
+        hrp.Anchored = false 
+    end
+end
+
+-- ===== AUTO KICK =====
 local autoKick = false
+local tickID = 0
 
-CreateToggle(MainTab, " Auto Kick (Warp Delay)", function(v)
+CreateToggle(MainTab, "Auto Kick (Warp & Run Back) ✨", function(v)
     autoKick = v
+    tickID += 1
+    local id = tickID
+
     if autoKick then
         task.spawn(function()
-            local vaultArea = workspace:FindFirstChild("Areas") and workspace.Areas:FindFirstChild("Vault")
-            
-            while autoKick do
+            while autoKick and id == tickID do
                 pcall(function()
+
                     local char = player.Character
-                    if not char then return end
-                    local hrp = char:FindFirstChild("HumanoidRootPart")
-                    local hum = char:FindFirstChild("Humanoid")
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                    local hum = char and char:FindFirstChild("Humanoid")
+
+                    if not (hrp and hum and hum.Health > 0) then return end
+
+                    -- 1. 🛫 เตรียมจุดเตะ
+                    local kickPos = workspace:FindFirstChild("Areas") and workspace.Areas:FindFirstChild("KickReady")
+                    if not kickPos then return end
+                    local targetCF = kickPos:IsA("BasePart") and kickPos.CFrame or kickPos:GetPivot()
                     
-                    if hrp and hum then
-                        hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-                        
-                        ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 1.5, 0))
+                    if (hrp.Position - targetCF.Position).Magnitude > 5 then
+                        ForcedTP(targetCF + Vector3.new(0, 3, 0)) 
+                    end
+
+                    task.wait(0.5) 
+                    local startPos = hrp.Position
+
+                    -- 2. 🔥 สั่งเตะรัวๆ
+                    local wasTeleported = false
+                    for i = 1, 20 do 
                         task.wait(0.2)
+                        if not char or not char.Parent or hum.Health <= 0 then return end
                         
                         Net.rev_KickEvent:FireServer(kickValues[currentKickMode] or 1)
-                        task.wait(0.2) 
                         Net.rev_Transformed:FireServer()
                         
-                        while PlayerGui:FindFirstChild("RandomBrainrotGui") and PlayerGui.RandomBrainrotGui.Enabled do
-                            task.wait(0.1)
-                        end
-                        
-                        local targetMonster = nil 
-                        local foundTarget = false
-                        local selectedCount = 0
-                        for k, isSelected in pairs(targetMutations) do if isSelected then selectedCount = selectedCount + 1 end end
-                        
-                        for i = 1, 50 do
-                            if not autoKick then break end
-                            for _, obj in pairs(workspace.Debris:GetChildren()) do
-                                if obj:IsA("Model") and not obj:FindFirstChild("LuckyBlock") then
-                                    local root = obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart")
-                                    if root then
-                                        local inVault = true
-                                        if vaultArea then
-                                            if (root.Position - vaultArea:GetPivot().Position).Magnitude > 250 then
-                                                inVault = false
-                                            end
-                                        end
-                                        
-                                        if inVault and (root.Position - hrp.Position).Magnitude < 500 then
-                                            targetMonster = obj 
-                                            if selectedCount == 0 then foundTarget = true
-                                            else
-                                                for _, m in ipairs(mutationList) do
-                                                    if obj:FindFirstChild(m) or obj:FindFirstChild(m, true) then
-                                                        if targetMutations[m] then foundTarget = true end
-                                                    end
-                                                end
-                                                if targetMutations["Normal"] then foundTarget = true end
-                                            end
-                                            break
-                                        end
-                                    end
-                                end
-                            end
-                            if targetMonster then break end
-                            task.wait(0.1)
-                        end
-                        
-                        if targetMonster then
-                            if foundTarget then
-                                local timer = 0
-                                while timer < warpDelayValue and autoKick do
-                                    task.wait(1)
-                                    timer = timer + 1
-                                end
-                                
-                                local safePos = Vector3.new(673.375, -6.903, 242.360) 
-                                local safeZone = workspace.Lobby:FindFirstChild("Safe")
-                                if safeZone then
-                                    safePos = safeZone:IsA("BasePart") and safeZone.Position or safeZone:GetPivot().Position
-                                end
-                                
-                                if autoKick then
-                                    ForcedTP(CFrame.new(safePos + Vector3.new(0, 3, 0)))
-                                    task.wait(2)
-                                end
-                            else
-                                hum:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
-                                char:BreakJoints()
-                                task.wait(3)
-                            end
-                        else
-                            task.wait(0.5)
+                        if (hrp.Position - startPos).Magnitude > 40 then 
+                            wasTeleported = true
+                            break 
                         end
                     end
+
+                    if not wasTeleported then return end 
+
+                    task.wait(0.5)
+
+                    -- 3. 🔍 รอมอนสเตอร์สุ่มเกิด (แก้ไข: เช็คระยะห่าง ไม่แย่งของคนอื่น)
+                    local hasMonster = false
+                    local spawnedMonster = nil
+                    for i = 1, 40 do -- รอสูงสุด 8 วิ
+                        task.wait(0.2)
+                        
+                        local closestDist = 60 -- กำหนดระยะค้นหาสูงสุด ป้องกันไปคว้าตัวของคนอื่น
+                        
+                        for _, obj in pairs(workspace.Debris:GetChildren()) do
+                            if obj:IsA("Model") and obj.PrimaryPart then
+                                -- คำนวณระยะห่างระหว่างเรา กับ มอนสเตอร์
+                                local dist = (obj.PrimaryPart.Position - hrp.Position).Magnitude
+                                if dist < closestDist then
+                                    closestDist = dist
+                                    hasMonster = true
+                                    spawnedMonster = obj
+                                end
+                            end
+                        end
+                        if hasMonster then break end
+                    end
+
+                    -- 4. 🎯 เช็คสายพันธุ์ & วิ่ง/บินกลับ
+                    if hasMonster and spawnedMonster then
+                        task.wait(0.5) 
+                        
+                        local isDesired = false
+                        local hasSelection = false
+                        
+                        for mut, isActive in pairs(targetMutations) do
+                            if isActive then
+                                hasSelection = true
+                                
+                                if mut == "Normal" then
+                                    isDesired = true
+                                    break
+                                end
+                                
+                                for _, child in pairs(spawnedMonster:GetChildren()) do
+                                    if string.find(string.lower(child.Name), string.lower(mut)) then
+                                        isDesired = true
+                                        break
+                                    end
+                                end
+                                
+                                if isDesired then break end
+                            end
+                        end
+                        
+                        if hasSelection and not isDesired then
+                            -- ❌ วิ่งไปตายที่คลื่น
+                            local waves = workspace:FindFirstChild("Waves")
+                            local wavePos = nil
+                            if waves then
+                                if waves:IsA("BasePart") then wavePos = waves.Position
+                                elseif waves:IsA("Model") then wavePos = waves:GetPivot().Position
+                                else
+                                    local part = waves:FindFirstChildWhichIsA("BasePart", true)
+                                    if part then wavePos = part.Position end
+                                end
+                            end
+                            
+                            if wavePos then
+                                smoothFlyTo(hrp, hum, wavePos)
+                            elseif kickPos then
+                                smoothFlyTo(hrp, hum, targetCF.Position)
+                            end
+                        else
+                            -- ✅ วิ่งกลับจุดเตะ
+                            if kickPos then
+                                smoothFlyTo(hrp, hum, targetCF.Position)
+                            end
+                        end
+                    end
+
                 end)
-                task.wait(0.5)
+
+                task.wait(0.4)
             end
         end)
-    else
-        local char = player.Character
-        if char and char:FindFirstChild("Humanoid") then
-            char.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
-        end
     end
 end)
 
 local autoTrain = false
 local trainTick = 0
 
--- ✅ แก้ไข: เพิ่มตารางดักชื่อทั้ง Gold, Golden, Mega Gold, Mega Golden ให้ครบ
 local validWeights = {
     ["Wooden Stick"] = true, ["Copper Plate"] = true, ["Stone Block"] = true,
     ["Bone Barbell"] = true, ["Donut Barbell"] = true, ["Ice Barbell"] = true,
@@ -746,7 +747,6 @@ CreateToggle(UpGTab, "Auto Upgrade Selected ⚡", function(v)
 end)
 
 -- ================= [ BUY TAB ] ================= --
--- ✅ แก้ไข: เพิ่ม Golden Barbell และ Mega Golden Barbell เข้าไปในลิสต์ช็อปปิ้งเรียบร้อย
 local weightList = {"Wooden Stick", "Bone Barbell", "Stone Block", "Copper Plate", "Iron Plate", "Ice Barbell", "Donut Barbell", "Golden Barbell", "Heaven Plate", "Mega Golden Barbell", "Neon Pulse", "Giant Gold Star Barbell"}
 local targetWeight = weightList[1]
 CreateDropdown(BuyTab, "Select Weight", weightList, function(val) targetWeight = val end)
@@ -790,3 +790,4 @@ Tabs[1].Page.Visible = true
 Tabs[1].Btn.BackgroundColor3 = Theme.Accent
 Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
+
