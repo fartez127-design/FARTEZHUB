@@ -74,7 +74,7 @@ local Title1 = Instance.new("TextLabel", TopBar)
 Title1.Size = UDim2.new(0, 160, 0, 22) 
 Title1.Position = UDim2.new(0, 52, 0, 5) 
 Title1.BackgroundTransparency = 1 
-Title1.Text = "                                        Mobile   1.7  Bata" 
+Title1.Text = "                                        Mobile   1.7   Bata" 
 Title1.TextColor3 = Theme.Text 
 Title1.TextSize = 10
 Title1.Font = Enum.Font.GothamBold 
@@ -347,6 +347,75 @@ local function CreateMultiDropdown(parent, title, options, callback)
     end
 end
 
+local function CreateNumberPicker(parent, title, min, max, default, callback)
+    local frame = Instance.new("Frame", parent)
+    frame.Size = UDim2.new(0, 260, 0, 32)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
+    
+    local label = Instance.new("TextLabel", frame)
+    label.Size = UDim2.new(0, 110, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = title
+    label.TextColor3 = Theme.Text
+    label.Font = Enum.Font.GothamBold
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextSize = 11
+    
+    local controls = Instance.new("Frame", frame)
+    controls.Size = UDim2.new(0, 130, 1, 0)
+    controls.Position = UDim2.new(1, -140, 0, 0)
+    controls.BackgroundTransparency = 1
+    
+    local minusBtn = Instance.new("TextButton", controls)
+    minusBtn.Size = UDim2.new(0, 28, 0, 24)
+    minusBtn.Position = UDim2.new(0, 0, 0.5, -12)
+    minusBtn.BackgroundColor3 = Theme.Surface
+    minusBtn.Text = "-"
+    minusBtn.TextColor3 = Theme.Text
+    minusBtn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", minusBtn).CornerRadius = UDim.new(0, 4)
+    
+    local textInput = Instance.new("TextBox", controls)
+    textInput.Size = UDim2.new(0, 60, 0, 24)
+    textInput.Position = UDim2.new(0, 34, 0.5, -12)
+    textInput.BackgroundColor3 = Theme.Surface
+    textInput.Text = tostring(default)
+    textInput.TextColor3 = Theme.Accent
+    textInput.Font = Enum.Font.GothamBold
+    textInput.TextSize = 11
+    Instance.new("UICorner", textInput).CornerRadius = UDim.new(0, 4)
+    
+    local plusBtn = Instance.new("TextButton", controls)
+    plusBtn.Size = UDim2.new(0, 28, 0, 24)
+    plusBtn.Position = UDim2.new(0, 100, 0.5, -12)
+    plusBtn.BackgroundColor3 = Theme.Surface
+    plusBtn.Text = "+"
+    plusBtn.TextColor3 = Theme.Text
+    plusBtn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", plusBtn).CornerRadius = UDim.new(0, 4)
+    
+    local val = default
+    local function update(newVal)
+        newVal = tonumber(newVal) or val
+        newVal = math.clamp(newVal, min, max)
+        val = newVal
+        textInput.Text = tostring(val)
+        callback(val)
+    end
+    
+    minusBtn.MouseButton1Click:Connect(function() update(val - 1) end)
+    plusBtn.MouseButton1Click:Connect(function() update(val + 1) end)
+    textInput.FocusLost:Connect(function() update(textInput.Text) end)
+    
+    update(val)
+end
+
+-- 🔥 ตัวแปรเก็บความเร็ว (ย้ายขึ้นมาให้ระบบออโต้บินอ่านค่าได้)
+local customWalkSpeed = 50
+local enableCustomSpeed = false
+
 -- ================= [ MOVEMENT FUNCTIONS ] ================= --
 local function ForcedTP(targetCFrame)
     local char = player.Character
@@ -372,14 +441,13 @@ local FIXED_Y = 3
 local mutationList = {"Normal","Golden","Diamond","Plasma","Molten","Radioactive","Shadow","Electrified","Rainbow","Virus"}
 
 local targetMutations = {}
-CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected)
+CreateMultiDropdown(MainTab, "Sniper Muts", mutationList, function(selected)
     targetMutations = selected
 end)
 
--- ===== Smooth Fly =====
+-- ===== Smooth Fly (แก้ให้ดึงสปีดที่คุณปรับไปใช้แบบตรงๆ) =====
 local function smoothFlyTo(hrp, hum, targetPos)
     local target = Vector3.new(targetPos.X, FIXED_Y, targetPos.Z)
-    local speed = math.max(hum.WalkSpeed, 50) 
     
     if hrp then hrp.Anchored = true end
     
@@ -394,7 +462,10 @@ local function smoothFlyTo(hrp, hum, targetPos)
             break 
         end
         
-        local moveDist = speed * dt
+        -- 🔥 ดึงความเร็วจาก UI ที่ตั้งไว้มาคูณตรงๆ เลย ถ้าตั้ง 1000 ก็บิน 1000!
+        local flySpeed = enableCustomSpeed and customWalkSpeed or math.max(hum.WalkSpeed, 50)
+        
+        local moveDist = flySpeed * dt
         if moveDist > dist then moveDist = dist end
         
         hrp.CFrame = CFrame.new(pos + dir.Unit * moveDist)
@@ -456,17 +527,16 @@ CreateToggle(MainTab, "Auto Kick (Warp & Run Back) ✨", function(v)
 
                     task.wait(0.5)
 
-                    -- 3. 🔍 รอมอนสเตอร์สุ่มเกิด (แก้ไข: เช็คระยะห่าง ไม่แย่งของคนอื่น)
+                    -- 3. 🔍 รอมอนสเตอร์สุ่มเกิด
                     local hasMonster = false
                     local spawnedMonster = nil
-                    for i = 1, 40 do -- รอสูงสุด 8 วิ
+                    for i = 1, 40 do 
                         task.wait(0.2)
                         
-                        local closestDist = 60 -- กำหนดระยะค้นหาสูงสุด ป้องกันไปคว้าตัวของคนอื่น
+                        local closestDist = 60 
                         
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA("Model") and obj.PrimaryPart then
-                                -- คำนวณระยะห่างระหว่างเรา กับ มอนสเตอร์
                                 local dist = (obj.PrimaryPart.Position - hrp.Position).Magnitude
                                 if dist < closestDist then
                                     closestDist = dist
@@ -648,6 +718,29 @@ CreateToggle(MainTab, "Auto Train & x2 ||—||", function(v)
     end
 end)
 
+-- 🔥 สวิตช์และกล่องปรับตัวเลขความเร็ว
+CreateToggle(MainTab, "Enable Custom Speed 🏃", function(v)
+    enableCustomSpeed = v
+    if enableCustomSpeed then
+        task.spawn(function()
+            while enableCustomSpeed do
+                pcall(function()
+                    local char = player.Character
+                    local hum = char and char:FindFirstChild("Humanoid")
+                    if hum then
+                        hum.WalkSpeed = customWalkSpeed
+                    end
+                end)
+                task.wait(0.1)
+            end
+        end)
+    end
+end)
+
+CreateNumberPicker(MainTab, "Set Speed", 1, 1000, 50, function(val)
+    customWalkSpeed = val
+end)
+
 CreateButton(MainTab, "TP KickReady ⚡", function()
     pcall(function() ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end)
 end)
@@ -790,4 +883,3 @@ Tabs[1].Page.Visible = true
 Tabs[1].Btn.BackgroundColor3 = Theme.Accent
 Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
-
