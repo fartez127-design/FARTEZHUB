@@ -498,10 +498,11 @@ local function smoothFlyTo(hrp, hum, targetPos)
 end
 
 -- ===== AUTO KICK =====
+
 local autoKick = false
 local tickID = 0
 
-CreateToggle(MainTab, "Auto Kick ✨", function(v)
+CreateToggle(MainTab, "Auto Kick (Warp & Run Back) ✨", function(v)
     autoKick = v
     tickID += 1
     local id = tickID
@@ -529,18 +530,26 @@ CreateToggle(MainTab, "Auto Kick ✨", function(v)
                     task.wait(0.5) 
                     local startPos = hrp.Position
 
-                    -- 2. 🔥 สั่งเตะรัวๆ
+                    -- 2. 🔥 สั่งเตะ (เช็คจากปุ่ม KickButton)
                     local wasTeleported = false
-                    for i = 1, 20 do 
-                        task.wait(0.2)
+                    local HUD = PlayerGui:FindFirstChild("HUD")
+                    
+                    for i = 1, 150 do
+                        task.wait(0.1)
                         if not char or not char.Parent or hum.Health <= 0 then return end
                         
-                        Net.rev_KickEvent:FireServer(kickValues[currentKickMode] or 1)
-                        Net.rev_Transformed:FireServer()
-                        
+                        -- ✅ เช็คระยะวาร์ปตลอดเวลา ถ้าระยะห่างเกิน 40 แปลว่าวาร์ปไปหามอนสเตอร์แล้ว
                         if (hrp.Position - startPos).Magnitude > 40 then 
                             wasTeleported = true
                             break 
+                        end
+                        
+                        local KickButton = HUD and HUD:FindFirstChild("KickButton")
+                        
+                        -- ถ้าปุ่มเตะโชว์บนจอ ค่อยส่ง Event เตะไปที่เซิร์ฟเวอร์
+                        if KickButton and KickButton.Visible then
+                            Net.rev_KickEvent:FireServer(kickValues[currentKickMode] or 1)
+                            task.wait(0.5) 
                         end
                     end
 
@@ -551,7 +560,7 @@ CreateToggle(MainTab, "Auto Kick ✨", function(v)
                     -- 3. 🔍 รอมอนสเตอร์สุ่มเกิด
                     local hasMonster = false
                     local spawnedMonster = nil
-                    for i = 1, 40 do -- รอสูงสุด 8 วิ
+                    for i = 1, 40 do 
                         task.wait(0.2)
                         
                         local closestDist = 60 
@@ -629,7 +638,6 @@ CreateToggle(MainTab, "Auto Kick ✨", function(v)
         end)
     end
 end)
-
 
 -- ================= [ AUTO TRAIN & X2 (FORCE CLICK SYSTEM) ] ================= --
 
