@@ -441,7 +441,7 @@ local FIXED_Y = 3
 local mutationList = {"Normal","Golden","Diamond","Plasma","Molten","Radioactive","Shadow","Electrified","Rainbow","Virus"}
 
 local targetMutations = {}
-CreateMultiDropdown(MainTab, "Sniper Muts", mutationList, function(selected)
+CreateMultiDropdown(MainTab, "Mutation", mutationList, function(selected)
     targetMutations = selected
 end)
 
