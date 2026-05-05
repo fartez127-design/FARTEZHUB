@@ -26,6 +26,9 @@ _G.HitboxSize = 40
 _G.SavedPos = nil
 _G.StealRange = 800
 
+-- Zone Lock Setting
+_G.ZoneLockRadius = 150 
+
 -- Upgrade Settings
 _G.UpgradeTarget = 1
 _G.AutoUpgradeSelected = false
@@ -40,7 +43,7 @@ _G.SelectedBlocks = {
     ["Exclusive"] = false, ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, 
     ["67"] = false, ["Rainbow"] = false, ["Toxic"] = false, ["Cosmic"] = false, ["Easter"] = false,
     ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false, ["Transcendent"] = false, ["Blackhole"] = false,
-    ["Crab"] = false
+    ["Crab"] = false, ["Splashy"] = false, ["Robot"] = false, ["Ocean"] = false, ["Celestial"] = false
 }
 
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Transcendent", "Blackhole", "Crab"}
@@ -56,6 +59,36 @@ local Theme = {
     TextDim = Color3.fromRGB(150, 150, 150)
 }
 
+-- [[ ZONE LOCK FUNCTION ]] --
+local function IsBlockInLockedZone(modelName, blockPart)
+    if not blockPart then return false end
+    
+    local ZonePaths = {
+        ["OG"] = {"Map", "SpawnParts", "OG", "OG"},
+        ["Divine"] = {"Map", "SpawnParts", "Divine", "Divine"},
+        ["Celestial"] = {"Map", "SpawnParts", "Celestial", "Celestial"},
+        ["Transcendent"] = {"Map", "SpawnParts", "Transcendent", "Transcendent"}
+    }
+
+    for keyName, pathArray in pairs(ZonePaths) do
+        if modelName:find(keyName) then
+            local node = workspace
+            for _, nodeName in ipairs(pathArray) do
+                if node then node = node:FindFirstChild(nodeName) end
+            end
+            
+            if node and node:IsA("BasePart") then
+                local dist = (blockPart.Position - node.Position).Magnitude
+                if dist > _G.ZoneLockRadius then
+                    return false 
+                end
+            end
+            break
+        end
+    end
+    return true
+end
+
 -- [[ 2. UI CREATION ]] --
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "FARTEZ_LUCKY_HUB"
@@ -63,7 +96,6 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 9999
 ScreenGui.Parent = SafeParent
 
--- [ เปลี่ยนปุ่มเปิด/ปิด ให้เป็นโลโก้รูปภาพวงกลม ]
 local toggleBtn = Instance.new("ImageButton", ScreenGui)
 toggleBtn.Size = UDim2.new(0, 50, 0, 50)
 toggleBtn.Position = UDim2.new(0, 15, 0, 150)
@@ -80,7 +112,6 @@ Main.Size = UDim2.new(0, 340, 0, 380); Main.Position = UDim2.new(0.5, -170, 0.5,
 Main.BackgroundColor3 = Theme.Background; Main.ClipsDescendants = true; Main.Active = true; Main.Draggable = true; Main.ZIndex = 5
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
--- [[ ส่วนหัว (TOPBAR) พร้อมโลโก้ ]] --
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Theme.Surface; TopBar.ZIndex = 10
 
@@ -94,7 +125,7 @@ Logo.ScaleType = Enum.ScaleType.Fit
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.Text = "FARTEZ HUB (Update v2.7)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.Text = "FARTEZ HUB (Update v2.9)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
 Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 52, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
@@ -164,6 +195,80 @@ local function CreateButton(parent, text, callback)
     return Btn
 end
 
+local function CreateDropdown(parent, text, options)
+    local DropdownFrame = Instance.new("Frame", parent)
+    DropdownFrame.Size = UDim2.new(0, 300, 0, 45)
+    DropdownFrame.BackgroundColor3 = Theme.SurfaceLight
+    DropdownFrame.ClipsDescendants = true
+    DropdownFrame.ZIndex = 12
+    Instance.new("UICorner", DropdownFrame).CornerRadius = UDim.new(0, 8)
+
+    local HeaderBtn = Instance.new("TextButton", DropdownFrame)
+    HeaderBtn.Size = UDim2.new(1, 0, 0, 45)
+    HeaderBtn.BackgroundTransparency = 1
+    HeaderBtn.Text = "  " .. text .. " ▼"
+    HeaderBtn.TextColor3 = Theme.Text
+    HeaderBtn.Font = Enum.Font.GothamBold
+    HeaderBtn.TextSize = 12
+    HeaderBtn.TextXAlignment = Enum.TextXAlignment.Left
+    HeaderBtn.ZIndex = 13
+
+    local Scroll = Instance.new("ScrollingFrame", DropdownFrame)
+    Scroll.Size = UDim2.new(1, 0, 1, -45)
+    Scroll.Position = UDim2.new(0, 0, 0, 45)
+    Scroll.BackgroundTransparency = 1
+    Scroll.ScrollBarThickness = 2
+    Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+    Scroll.ZIndex = 13
+    
+    local UIListLayout = Instance.new("UIListLayout", Scroll)
+    UIListLayout.Padding = UDim.new(0, 5)
+    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Instance.new("UIPadding", Scroll).PaddingTop = UDim.new(0, 5)
+
+    local expanded = false
+    HeaderBtn.MouseButton1Click:Connect(function()
+        expanded = not expanded
+        if expanded then
+            HeaderBtn.Text = "  " .. text .. " ▲"
+            TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, 300, 0, 240)}):Play()
+        else
+            HeaderBtn.Text = "  " .. text .. " ▼"
+            TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, 300, 0, 45)}):Play()
+        end
+    end)
+
+    for _, option in ipairs(options) do
+        local Btn = Instance.new("TextButton", Scroll)
+        Btn.Size = UDim2.new(0, 280, 0, 35)
+        local isActive = _G.SelectedBlocks[option]
+        Btn.BackgroundColor3 = isActive and Theme.Accent or Theme.Background
+        Btn.Text = "  " .. option
+        Btn.TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text
+        Btn.Font = Enum.Font.GothamBold
+        Btn.TextSize = 11
+        Btn.TextXAlignment = Enum.TextXAlignment.Left
+        Btn.ZIndex = 14
+        Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+        
+        local Status = Instance.new("Frame", Btn)
+        Status.Size = UDim2.new(0, 8, 0, 8)
+        Status.Position = UDim2.new(1, -15, 0.5, -4)
+        Status.BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim
+        Status.ZIndex = 15
+        Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
+
+        Btn.MouseButton1Click:Connect(function()
+            _G.SelectedBlocks[option] = not _G.SelectedBlocks[option]
+            isActive = _G.SelectedBlocks[option]
+            TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.Background}):Play()
+            TweenService:Create(Btn, TweenInfo.new(0.2), {TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text}):Play()
+            TweenService:Create(Status, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim}):Play()
+        end)
+    end
+end
+
 -- [[ TABS CONTENT ]] --
 CreateButton(MainTab, "🔓 BYPASS VIP DOOR", function()
     pcall(function()
@@ -189,7 +294,13 @@ InputBox.FocusLost:Connect(function() _G.UpgradeTarget = tonumber(InputBox.Text)
 CreateToggle(UpgradeTab, "AUTO UPGRADE SELECTED", "AutoUpgradeSelected", false)
 CreateToggle(UpgradeTab, "AUTO UPGRADE ALL", "AutoUpgradeAll", false)
 
-for _, b in pairs({"Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab"}) do CreateToggle(LuckyTab, b, b, true) end
+local AllBlocksList = {
+    "Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", 
+    "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", 
+    "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab", "Splashy", "Robot", "Ocean", "Celestial"
+}
+CreateDropdown(LuckyTab, "Select Blocks To Steal", AllBlocksList)
+
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
 CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
 CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false)
@@ -230,7 +341,7 @@ task.spawn(function()
     end
 end)
 
--- IMPROVED COLLECT SYSTEM (CFrame + FireTouch Bypass)
+-- IMPROVED COLLECT SYSTEM
 task.spawn(function()
     while task.wait(0.1) do
         if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
@@ -291,6 +402,14 @@ task.spawn(function()
                             if not match and _G.AutoSteal then
                                 for name, sel in pairs(_G.SelectedBlocks) do if sel and model.Name:find(name) then match = true break end end
                             end
+                            
+                            if match then
+                                local part = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
+                                if part and not IsBlockInLockedZone(model.Name, part) then
+                                    match = false
+                                end
+                            end
+
                             if match and (rootPos - (model:GetPivot().Position)).Magnitude < _G.StealRange then
                                 if v:IsA("ClickDetector") then fireclickdetector(v) else fireproximityprompt(v) end
                                 stoleCount = stoleCount + 1 
@@ -315,7 +434,7 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- AUTO TP COMBO 
+-- AUTO TP COMBO (FIXED INTERACTION DELAY)
 task.spawn(function()
     local function DoStealTrip(shouldDrop)
         local hrp = plr.Character.HumanoidRootPart; local targets = {}
@@ -326,9 +445,10 @@ task.spawn(function()
                 if not match and _G.StealEvent then
                     for _, eventName in ipairs(EventBlocksList) do if v.Name:find(eventName) then match = true break end end
                 end
+                
                 if match then
                     local part = v:FindFirstChildWhichIsA("BasePart")
-                    if part then
+                    if part and IsBlockInLockedZone(v.Name, part) then
                         local exists = false; for _, t in ipairs(targets) do if t.model == v then exists = true break end end
                         if not exists then table.insert(targets, {model = v, part = part}) end
                     end
@@ -338,16 +458,27 @@ task.spawn(function()
         end
         if #targets > 0 then 
             for i, targetData in ipairs(targets) do
-                local targetCFrame = targetData.part.CFrame * CFrame.new(0, 4, 0)
+                -- ลดความสูงลงมาเป็น 1.5 ให้ตัวละครอยู่ติดบล็อกเลย
+                local targetCFrame = targetData.part.CFrame * CFrame.new(0, 1.5, 0)
                 local dist = (hrp.Position - targetCFrame.Position).Magnitude
                 hrp.Anchored = true
                 local tw = TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 300, 0.1, 2), Enum.EasingStyle.Linear), {CFrame = targetCFrame})
                 tw:Play()
                 tw.Completed:Wait()
                 hrp.Anchored = false
-                task.wait(0.1)
-                local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true); local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
-                if cd then fireclickdetector(cd) end; if pp then fireproximityprompt(pp) end
+                
+                -- รอสักครู่ให้เซิร์ฟเวอร์เช็คตำแหน่งตัวละคร
+                task.wait(0.3)
+                
+                local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true)
+                local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
+                
+                -- สั่งกดย้ำๆ 3 ครั้ง ป้องกันบัคไม่ติด
+                for _ = 1, 3 do
+                    if cd then fireclickdetector(cd) end
+                    if pp then fireproximityprompt(pp) end
+                    task.wait(0.1)
+                end
             end
             if _G.SavedPos then
                 task.wait(0.3); hrp.Anchored = true; local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
@@ -385,4 +516,4 @@ task.spawn(function()
     end
 end)
 
-print("FARTEZ HUB (Update v2.7 with Logo) Loaded Successfully!")
+print("FARTEZ HUB (Update v2.9 Fix AutoTP Sync) Loaded Successfully!")
