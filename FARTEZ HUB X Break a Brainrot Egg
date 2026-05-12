@@ -32,26 +32,82 @@ _G.AutoUpgradeAll = false
 _G.AutoUpgradeSpecific = false
 _G.AutoRebirth = false 
 _G.InstantPrompt = false 
+_G.BypassZones = false 
 _G.TargetPlatform = 1 
+_G.AutoHitSelected = false
 
+-- Prepare table for multi-egg selection
 _G.FarmEggs = {
     Common = false, Rare = false, Epic = false, Legendary = false, Mythic = false,
     Secret = false, Godly = false, OG = false, Inferno = false, Divine = false,
     Emerald = false, Sapphire = false, Amethyst = false, Skibidi = false,
-    Obsidian = false
+    Obsidian = false, Shadow = false, Phoenix = false, Yeti = false, 
+    Dragon = false, Kraken = false, Titan = false
 }
 
 local EggOrder = {
     "Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Godly", 
-    "OG", "Inferno", "Divine", "Emerald", "Sapphire", "Amethyst", "Skibidi", "Obsidian"
+    "OG", "Inferno", "Divine", "Emerald", "Sapphire", "Amethyst", "Skibidi", "Obsidian",
+    "Shadow", "Phoenix", "Yeti", "Dragon", "Kraken", "Titan"
 }
 
--- Blacklist กันกดมั่ว
+-- Blacklist to prevent accidental clicks
 local PickUpBlacklist = {
     "buy hammers", "buy gear", "new event!", "sign up",
     "spawn godly egg", "spawn skibidi egg", "spawn og egg", "teleport",
     "sell", "place", "upgrade", "trade"
 }
+
+-- ==========================================
+-- 🚀 TWEEN SERVICE & NOCLIP FUNCTION 
+-- ==========================================
+local function TweenTo(targetCFrame)
+    local char = player.Character
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+    
+    local hrp = char.HumanoidRootPart
+    local hum = char:FindFirstChild("Humanoid")
+    
+    -- Get character speed, default to 16
+    local speed = (hum and hum.WalkSpeed) or 16
+    if speed <= 0 then speed = 16 end 
+    
+    -- Normal walking height offset (3 Studs)
+    local safeCFrame = targetCFrame * CFrame.new(0, 3, 0)
+    
+    local distance = (hrp.Position - safeCFrame.Position).Magnitude
+    local tweenTime = distance / speed 
+    
+    local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = safeCFrame})
+    
+    -- Anchor character to prevent physics glitches
+    hrp.Anchored = true
+    
+    local noclipConnection
+    noclipConnection = RunService.Stepped:Connect(function()
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide then
+                part.CanCollide = false
+            end
+        end
+    end)
+    
+    tween:Play()
+    
+    tween.Completed:Connect(function()
+        if noclipConnection then
+            noclipConnection:Disconnect()
+        end
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
+        end
+        -- Unanchor character to allow normal movement
+        hrp.Anchored = false 
+    end)
+end
 
 -- [[ 2. UI CREATION ]] --
 local ScreenGui = Instance.new("ScreenGui")
@@ -93,7 +149,7 @@ local Title = Instance.new("TextLabel", TopBar)
 Title.Size = UDim2.new(0, 160, 0, 22) 
 Title.Position = UDim2.new(0, 52, 0, 5) 
 Title.BackgroundTransparency = 1 
-Title.Text = "FARTEZ HUB" 
+Title.Text = "FARTEZ HUB.     UPDATE 2  " 
 Title.TextColor3 = Theme.Text 
 Title.TextSize = 18 
 Title.Font = Enum.Font.GothamBold 
@@ -141,8 +197,8 @@ local function CreateTab(name)
     Instance.new("UIPadding", Page).PaddingTop = UDim.new(0, 12); Instance.new("UIPadding", Page).PaddingBottom = UDim.new(0, 12)
 
     task.spawn(function()
-        while task.wait(1) do
-            if Page and PL then Page.CanvasSize = UDim2.new(0, 0, 0, PL.AbsoluteContentSize.Y + 100) end
+        while task.wait(0.5) do
+            if Page and PL then Page.CanvasSize = UDim2.new(0, 0, 0, PL.AbsoluteContentSize.Y + 40) end
         end
     end)
 
@@ -172,6 +228,13 @@ local function CreateToggle(parent, text, stateVar)
     Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim
     Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
 
+    -- Set initial UI state
+    if _G[stateVar] then
+        Btn.BackgroundColor3 = Theme.Accent
+        Btn.TextColor3 = Color3.new(0,0,0)
+        Status.BackgroundColor3 = Theme.Accent
+    end
+
     Btn.MouseButton1Click:Connect(function()
         _G[stateVar] = not _G[stateVar]
         local isActive = _G[stateVar]
@@ -181,20 +244,19 @@ local function CreateToggle(parent, text, stateVar)
     return Btn
 end
 
-local function CreateEggToggle(parent, text, eggKey)
+local function CreateButton(parent, text, callback)
     local Btn = Instance.new("TextButton", parent)
-    Btn.Size = UDim2.new(0, 300, 0, 40); Btn.BackgroundColor3 = Theme.SurfaceLight; Btn.Text = "  "..text; Btn.TextColor3 = Theme.Text; Btn.TextXAlignment = 0; Btn.Font = Enum.Font.GothamBold; Btn.TextSize = 11
+    Btn.Size = UDim2.new(0, 300, 0, 45)
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = "  " .. text
+    Btn.TextColor3 = Theme.Text
+    Btn.TextXAlignment = Enum.TextXAlignment.Left
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 11
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
-    local Status = Instance.new("Frame", Btn)
-    Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim
-    Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
-
-    Btn.MouseButton1Click:Connect(function()
-        _G.FarmEggs[eggKey] = not _G.FarmEggs[eggKey]
-        local isActive = _G.FarmEggs[eggKey]
-        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.SurfaceLight, TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text}):Play()
-        TweenService:Create(Status, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim}):Play()
-    end)
+    
+    Btn.MouseButton1Click:Connect(callback)
+    return Btn
 end
 
 local function CreateToggleWithInput(parentPage, text, toggleVar, numVar, minVal, maxVal)
@@ -239,26 +301,108 @@ end
 -- 📌 UI PLACEMENT
 -- =======================================
 
-CreateToggle(MainTab, "⚡ AUTO Hit  (🥚Egg All♾️)", "AutoBreak")
-CreateToggle(MainTab, "💥 AUTO HIT EGG VAULT  (🔨Hit Super Speed⚡)", "AutoHitBigEgg")
-CreateToggle(MainTab, "⚔️ AUTO HIT ZONE 2    (🔨Hit Super Speed⚡)", "AutoHitZone2") 
+-- TAB MAIN
+CreateToggle(MainTab, "⚡ AUTO Hit All", "AutoBreak")
+CreateToggle(MainTab, "💥 AUTO HIT EGG VAULT", "AutoHitBigEgg")
+CreateToggle(MainTab, "⚔️ AUTO HIT ZONE 2", "AutoHitZone2") 
 CreateToggle(MainTab, "🖐️ AUTO PICK UP", "AutoPickUp")
-CreateToggle(MainTab, "⏱️ INSTANT INTERACT (No Delay)", "InstantPrompt")
+CreateToggle(MainTab, "⏱️ INSTANT INTERACT", "InstantPrompt")
+CreateToggle(MainTab, "🔓 AUTO BYPASS ZONES", "BypassZones")
+
+-- 🟢 TP Button to Shop Zone 3
+CreateButton(MainTab, "🏃 TP to Shop Zone 3", function()
+    pcall(function()
+        local target = workspace:FindFirstChild("World")
+        if target then target = target:FindFirstChild("TeleportPoints") end
+        if target then target = target:FindFirstChild("Shop_Zone3") end
+        
+        if target then
+            TweenTo(target.CFrame)
+        end
+    end)
+end)
+
+-- ================== TAB EGG ================== --
+CreateToggle(EggTab, "⚡ AUTO Hit Selected Eggs", "AutoHitSelected")
+
+local DropdownBtn = Instance.new("TextButton", EggTab)
+DropdownBtn.Size = UDim2.new(0, 300, 0, 45)
+DropdownBtn.BackgroundColor3 = Theme.SurfaceLight
+DropdownBtn.Text = "  🥚 Select Specific Eggs ▼"
+DropdownBtn.TextColor3 = Theme.Text
+DropdownBtn.Font = Enum.Font.GothamBold
+DropdownBtn.TextSize = 12
+DropdownBtn.TextXAlignment = Enum.TextXAlignment.Left
+Instance.new("UICorner", DropdownBtn).CornerRadius = UDim.new(0, 8)
+
+local DropdownList = Instance.new("ScrollingFrame", EggTab)
+DropdownList.Size = UDim2.new(0, 300, 0, 180) 
+DropdownList.BackgroundColor3 = Theme.Background 
+DropdownList.Visible = false
+DropdownList.ScrollBarThickness = 4
+DropdownList.BorderSizePixel = 0
+DropdownList.ClipsDescendants = true
+Instance.new("UICorner", DropdownList).CornerRadius = UDim.new(0, 8)
+
+local DropdownLayout = Instance.new("UIListLayout", DropdownList)
+DropdownLayout.Padding = UDim.new(0, 4)
+DropdownLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+Instance.new("UIPadding", DropdownList).PaddingTop = UDim.new(0, 6)
+Instance.new("UIPadding", DropdownList).PaddingBottom = UDim.new(0, 6)
+
+task.spawn(function()
+    while task.wait(0.5) do
+        if DropdownList and DropdownLayout then
+            DropdownList.CanvasSize = UDim2.new(0, 0, 0, DropdownLayout.AbsoluteContentSize.Y + 15)
+        end
+    end
+end)
+
+DropdownBtn.MouseButton1Click:Connect(function()
+    DropdownList.Visible = not DropdownList.Visible
+    DropdownBtn.Text = DropdownList.Visible and "  🥚 Select Specific Eggs ▲" or "  🥚 Select Specific Eggs ▼"
+end)
 
 for _, eggName in ipairs(EggOrder) do 
-    CreateEggToggle(EggTab, "Farm " .. eggName, eggName) 
-end
+    local itemBtn = Instance.new("TextButton", DropdownList)
+    itemBtn.Size = UDim2.new(0, 280, 0, 32)
+    itemBtn.BackgroundColor3 = Theme.SurfaceLight
+    itemBtn.Text = "  [ ]  " .. eggName
+    itemBtn.TextColor3 = Theme.TextDim
+    itemBtn.Font = Enum.Font.GothamBold
+    itemBtn.TextSize = 11
+    itemBtn.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new("UICorner", itemBtn).CornerRadius = UDim.new(0, 6)
 
-CreateToggle(CollectTab, "💰 AUTO COLLECT MONEY (1-60)", "AutoCollect")
-CreateToggle(CollectTab, "⬆️ AUTO UPGRADE ALL (1-30)", "AutoUpgradeAll")
-CreateToggleWithInput(CollectTab, "🎯 AUTO UPGRADE (Delay 0.2)", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
+    if _G.FarmEggs[eggName] then
+        itemBtn.Text = "  [✓]  " .. eggName
+        itemBtn.TextColor3 = Theme.Accent
+    end
+
+    itemBtn.MouseButton1Click:Connect(function()
+        _G.FarmEggs[eggName] = not _G.FarmEggs[eggName]
+        if _G.FarmEggs[eggName] then
+            itemBtn.Text = "  [✓]  " .. eggName
+            itemBtn.TextColor3 = Theme.Accent
+        else
+            itemBtn.Text = "  [ ]  " .. eggName
+            itemBtn.TextColor3 = Theme.TextDim
+        end
+    end)
+end
+-- ============================================== --
+
+-- TAB COLLECT
+CreateToggle(CollectTab, "💰 AUTO COLLECT MONEY", "AutoCollect")
+CreateToggle(CollectTab, "⬆️ AUTO UPGRADE ALL", "AutoUpgradeAll")
+CreateToggleWithInput(CollectTab, "🎯 AUTO UPGRADE", "AutoUpgradeSpecific", "TargetPlatform", 1, 30)
 CreateToggle(CollectTab, "♻️ AUTO REBIRTH", "AutoRebirth")
 
--- ================= [ ข้อความในแท็บ DETAILS & UPDATE ] ================= --
+-- ================= [ DETAILS & UPDATE TEXT ] ================= --
 local CreditsText1 = Instance.new("TextLabel") 
 CreditsText1.Size = UDim2.new(1, 0, 0, 30) 
 CreditsText1.BackgroundTransparency = 1 
-CreditsText1.Text = " Break a Brainrot Egg!" 
+CreditsText1.Text = "🎯 Break a Brainrot Egg!" 
 CreditsText1.TextColor3 = Theme.Success 
 CreditsText1.TextSize = 15 
 CreditsText1.Font = Enum.Font.GothamBold 
@@ -273,23 +417,15 @@ DevText1.TextSize = 13
 DevText1.Font = Enum.Font.GothamSemibold 
 DevText1.Parent = DetailsTab
 
-local ZairosText = Instance.new("TextLabel") 
-ZairosText.Size = UDim2.new(1, 0, 0, 25) 
-ZairosText.BackgroundTransparency = 1 
-ZairosText.Text = "👍 Like and follow" 
-ZairosText.TextColor3 = Theme.Success 
-ZairosText.TextSize = 13
-ZairosText.Font = Enum.Font.Gotham 
-ZairosText.Parent = DetailsTab
+local DevText1 = Instance.new("TextLabel") 
+DevText1.Size = UDim2.new(1, 0, 0, 25) 
+DevText1.BackgroundTransparency = 1 
+DevText1.Text = "▶️ YouTube FARTEZ HUB" 
+DevText1.TextColor3 = Theme.Success 
+DevText1.TextSize = 13
+DevText1.Font = Enum.Font.GothamSemibold 
+DevText1.Parent = DetailsTab
 
-local AlinurText = Instance.new("TextLabel") 
-AlinurText.Size = UDim2.new(1, 0, 0, 25) 
-AlinurText.BackgroundTransparency = 1 
-AlinurText.Text = "▶️ YouTube FARTEZ HUB" 
-AlinurText.TextColor3 = Theme.Success 
-AlinurText.TextSize = 13
-AlinurText.Font = Enum.Font.GothamSemibold 
-AlinurText.Parent = DetailsTab
 
 local TargetText1 = Instance.new("TextLabel") 
 TargetText1.Size = UDim2.new(1, 0, 0, 25) 
@@ -300,91 +436,93 @@ TargetText1.TextSize = 12
 TargetText1.Font = Enum.Font.GothamSemibold 
 TargetText1.Parent = DetailsTab
 
-local TargetText2 = Instance.new("TextLabel") 
-TargetText2.Size = UDim2.new(1, 0, 0, 25) 
-TargetText2.BackgroundTransparency = 1 
-TargetText2.Text = "🟠 Waiting for update" 
-TargetText2.TextColor3 = Theme.Success 
-TargetText2.TextSize = 11
-TargetText2.Font = Enum.Font.GothamSemibold 
-TargetText2.Parent = DetailsTab
+local DevText1 = Instance.new("TextLabel") 
+DevText1.Size = UDim2.new(1, 0, 0, 25) 
+DevText1.BackgroundTransparency = 1 
+DevText1.Text = "NEW UPDATE 2" 
+DevText1.TextColor3 = Theme.Success 
+DevText1.TextSize = 15
+DevText1.Font = Enum.Font.GothamSemibold 
+DevText1.Parent = UpdateTab
 
-local TargetText3 = Instance.new("TextLabel") 
-TargetText3.Size = UDim2.new(1, 0, 0, 25) 
-TargetText3.BackgroundTransparency = 1 
-TargetText3.Text = "🔴 It's not working" 
-TargetText3.TextColor3 = Theme.Success 
-TargetText3.TextSize = 10
-TargetText3.Font = Enum.Font.GothamSemibold 
-TargetText3.Parent = DetailsTab
+local DevText1 = Instance.new("TextLabel") 
+DevText1.Size = UDim2.new(1, 0, 0, 25) 
+DevText1.BackgroundTransparency = 1 
+DevText1.Text = "🔴 There will be no more updates" 
+DevText1.TextColor3 = Theme.Success 
+DevText1.TextSize = 13
+DevText1.Font = Enum.Font.GothamSemibold 
+DevText1.Parent = UpdateTab
 
--- ================= [ ข้อความในแท็บ UPDATE ] ================= --
-local CreditsText2 = Instance.new("TextLabel") 
-CreditsText2.Size = UDim2.new(1, 0, 0, 30) 
-CreditsText2.BackgroundTransparency = 1 
-CreditsText2.Text = " 🟠Waiting for update" 
-CreditsText2.TextColor3 = Theme.Success 
-CreditsText2.TextSize = 15 
-CreditsText2.Font = Enum.Font.GothamBold 
-CreditsText2.Parent = UpdateTab
+local DevText1 = Instance.new("TextLabel") 
+DevText1.Size = UDim2.new(1, 0, 0, 25) 
+DevText1.BackgroundTransparency = 1 
+DevText1.Text = "🔴 No support Games" 
+DevText1.TextColor3 = Theme.Success 
+DevText1.TextSize = 13
+DevText1.Font = Enum.Font.GothamSemibold 
+DevText1.Parent = UpdateTab
 
-local DevText2 = Instance.new("TextLabel") 
-DevText2.Size = UDim2.new(1, 0, 0, 25) 
-DevText2.BackgroundTransparency = 1 
-DevText2.Text = "🔴delete TP Zone 1" 
-DevText2.TextColor3 = Theme.Success 
-DevText2.TextSize = 13
-DevText2.Font = Enum.Font.GothamSemibold 
-DevText2.Parent = UpdateTab
-
-local DevText3 = Instance.new("TextLabel") 
-DevText3.Size = UDim2.new(1, 0, 0, 25) 
-DevText3.BackgroundTransparency = 1 
-DevText3.Text = "🔴delete TP Zone 2" 
-DevText3.TextColor3 = Theme.Success 
-DevText3.TextSize = 13
-DevText3.Font = Enum.Font.GothamSemibold 
-DevText3.Parent = UpdateTab
-
-local DevText4 = Instance.new("TextLabel") 
-DevText4.Size = UDim2.new(1, 0, 0, 25) 
-DevText4.BackgroundTransparency = 1 
-DevText4.Text = "🔴delete Tp Zone Vault" 
-DevText4.TextColor3 = Theme.Success 
-DevText4.TextSize = 13
-DevText4.Font = Enum.Font.GothamSemibold 
-DevText4.Parent = UpdateTab
-
-local DevText5 = Instance.new("TextLabel") 
-DevText5.Size = UDim2.new(1, 0, 0, 25) 
-DevText5.BackgroundTransparency = 1 
-DevText5.Text = "🔴delete Pick up TP SAFE ZoNE" 
-DevText5.TextColor3 = Theme.Success 
-DevText5.TextSize = 12
-DevText5.Font = Enum.Font.GothamSemibold 
-DevText5.Parent = UpdateTab
-
-local DevText5 = Instance.new("TextLabel") 
-DevText5.Size = UDim2.new(1, 0, 0, 25) 
-DevText5.BackgroundTransparency = 1 
-DevText5.Text = "🔴delete Auto Divine " 
-DevText5.TextColor3 = Theme.Success 
-DevText5.TextSize = 12
-DevText5.Font = Enum.Font.GothamSemibold 
-DevText5.Parent = UpdateTab
 
 -- =======================================
 -- 🔄 LOGIC FIXES 
 -- =======================================
 
--- ลบ Delay การกด ProximityPrompt 
+-- 🚧 LOGIC: BYPASS ZONES 
+task.spawn(function()
+    while task.wait(1.5) do
+        if _G.BypassZones then
+            pcall(function()
+                local world = workspace:FindFirstChild("World")
+                if world then
+                    if world:FindFirstChild("PurchaseWall_Zone3") then world.PurchaseWall_Zone3:Destroy() end
+                    if world:FindFirstChild("PurchaseWall_Zone2") then world.PurchaseWall_Zone2:Destroy() end
+                end
+            end)
+        end
+    end
+end)
+
+-- Remove ProximityPrompt Delay
 task.spawn(function()
     while task.wait(0.5) do
         if _G.InstantPrompt then
             pcall(function()
                 for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("ProximityPrompt") then
-                        v.HoldDuration = 0
+                    if v:IsA("ProximityPrompt") then v.HoldDuration = 0 end
+                end
+            end)
+        end
+    end
+end)
+
+-- 🔥 🥚 LOGIC: AUTO HIT ALL 
+task.spawn(function()
+    local KnitRemote = nil
+    while task.wait(0.1) do
+        if _G.AutoBreak and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
+                if not KnitRemote then return end
+                
+                local hrp = player.Character.HumanoidRootPart
+                local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
+                
+                for _, folder in ipairs(folders) do
+                    if folder then
+                        for _, v in pairs(folder:GetDescendants()) do
+                            if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
+                                local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                                if part and (part.Position - hrp.Position).Magnitude <= 150 then
+                                    task.spawn(function()
+                                        pcall(function()
+                                            local args = { [1] = { [1] = v.Name } }
+                                            KnitRemote:InvokeServer(unpack(args))
+                                        end)
+                                    end)
+                                end
+                            end
+                        end
                     end
                 end
             end)
@@ -392,43 +530,33 @@ task.spawn(function()
     end
 end)
 
--- 🔥 🥚 LOGIC: AUTO HIT EGG ALL 
+-- 🎯 🥚 LOGIC: AUTO HIT SELECTED EGG
 task.spawn(function()
     local KnitRemote = nil
     while task.wait(0.1) do
-        local anySpecific = false
-        local activeTargetEggs = {}
-        for eggName, isActive in pairs(_G.FarmEggs) do 
-            if isActive then 
-                table.insert(activeTargetEggs, string.lower(eggName))
-                anySpecific = true
-            end 
-        end
-        
-        if (_G.AutoBreak or anySpecific) and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            pcall(function()
-                if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
-                if not KnitRemote then return end
-                
-                local hrp = player.Character.HumanoidRootPart
-                
-                -- ชี้เป้าค้นหาเฉพาะใน 2 โฟลเดอร์ที่ไข่เกิด
-                local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
-                
-                for _, folder in ipairs(folders) do
-                    if folder then
-                        for _, v in pairs(folder:GetDescendants()) do
-                            -- สแกนหารูปแบบชื่อ UUID โดยตรง (ความยาว 36 ตัวอักษรและมีขีด)
-                            if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
-                                local isTarget = false
-                                
-                                if _G.AutoBreak then
-                                    isTarget = true
-                                elseif anySpecific then
+        if _G.AutoHitSelected and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local activeTargets = {}
+            for name, isActive in pairs(_G.FarmEggs) do
+                if isActive then table.insert(activeTargets, string.lower(name)) end
+            end
+            
+            if #activeTargets > 0 then
+                pcall(function()
+                    if not KnitRemote then KnitRemote = game:GetService("ReplicatedStorage").Packages.Knit.Services.EggSpawnerService.RF.RequestHitEgg end
+                    if not KnitRemote then return end
+                    
+                    local hrp = player.Character.HumanoidRootPart
+                    local folders = {workspace:FindFirstChild("Eggs"), workspace:FindFirstChild("EggRenderModels")}
+                    
+                    for _, folder in ipairs(folders) do
+                        if folder then
+                            for _, v in pairs(folder:GetDescendants()) do
+                                if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
+                                    local isTarget = false
                                     for _, desc in pairs(v:GetDescendants()) do
                                         if desc:IsA("TextLabel") or desc:IsA("StringValue") then
-                                            local txt = desc:IsA("TextLabel") and string.lower(desc.Text) or string.lower(desc.Value)
-                                            for _, rarity in ipairs(activeTargetEggs) do
+                                            local txt = string.lower(desc:IsA("TextLabel") and desc.Text or desc.Value)
+                                            for _, rarity in ipairs(activeTargets) do
                                                 if string.find(txt, rarity) then
                                                     isTarget = true
                                                     break
@@ -437,13 +565,10 @@ task.spawn(function()
                                         end
                                         if isTarget then break end
                                     end
-                                end
-                                
-                                if isTarget then
-                                    local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
-                                    if part then
-                                        if (part.Position - hrp.Position).Magnitude <= 150 then
-                                            -- ยิงคำสั่งตีกระจายแบบ Args ทันทีเมื่ออยู่ในระยะ
+                                    
+                                    if isTarget then
+                                        local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                                        if part and (part.Position - hrp.Position).Magnitude <= 150 then
                                             task.spawn(function()
                                                 pcall(function()
                                                     local args = { [1] = { [1] = v.Name } }
@@ -456,8 +581,8 @@ task.spawn(function()
                             end
                         end
                     end
-                end
-            end)
+                end)
+            end
         end
     end
 end)
@@ -480,7 +605,6 @@ task.spawn(function()
                             if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
                                 local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
                                 if part and (part.Position - hrp.Position).Magnitude <= 150 then
-                                    -- ยิงคำสั่งตีกระจายแบบ Args ทันทีที่เจอ
                                     task.spawn(function()
                                         pcall(function()
                                             local args = { [1] = { [1] = v.Name } }
@@ -515,7 +639,6 @@ task.spawn(function()
                             if (v:IsA("Model") or v:IsA("BasePart")) and v.Name:find("-") and #v.Name == 36 then
                                 local part = v:IsA("BasePart") and v or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
                                 if part and (part.Position - hrp.Position).Magnitude <= 150 then
-                                    -- ยิงคำสั่งตีกระจายแบบ Args 
                                     task.spawn(function()
                                         pcall(function()
                                             local args = { [1] = { [1] = v.Name } }
