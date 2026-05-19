@@ -34,8 +34,14 @@ _G.UpgradeTarget = 1
 _G.AutoUpgradeSelected = false
 _G.AutoUpgradeAll = false
 
+-- Ancient Steal Settings
+_G.AutoStealAncient = false
+_G.SelectedAncientLevel = "Ancient"
+
 local autoTpBtnInstance = nil 
 local autoTpStatusInstance = nil
+local ancientBtnInstance = nil
+local ancientStatusInstance = nil
 
 _G.SelectedBlocks = {
     ["Common"] = false, ["Rare"] = false, ["Epic"] = false, ["Legendary"] = false, 
@@ -43,12 +49,15 @@ _G.SelectedBlocks = {
     ["Exclusive"] = false, ["OG"] = false, ["Divine"] = true, ["Lava"] = false, ["Ghost"] = false, 
     ["67"] = false, ["Rainbow"] = false, ["Toxic"] = false, ["Cosmic"] = false, ["Easter"] = false,
     ["Hacked"] = false, ["Fire"] = false, ["Taco"] = false, ["Transcendent"] = false, ["Blackhole"] = false,
-    ["Crab"] = false, ["Splashy"] = false, ["Robot"] = false, ["Ocean"] = false, ["Celestial"] = false
+    ["Crab"] = false, ["Splashy"] = false, ["Robot"] = false, ["Ocean"] = false, ["Celestial"] = false,
+    ["Galaxy"] = false
 }
 
 local EventBlocksList = {"Hacked", "Fire", "Taco", "OG", "Divine", "Rainbow", "Toxic", "Cosmic", "Transcendent", "Blackhole", "Crab"}
 local Blacklist = {"shop", "buy", "purchase", "gamepass", "robux", "product", "teleport", "only", "x2", "auto collect", "[op]", "cheap", "floor", "new", "skip", "quest", "exclusive", "griffin", "r$", "extinct", "grande", "strawberry", "elephant", "sell", "easter spinner", "upgrade"}
 local MobsToIgnore = {"EASY", "NORMAL", "MEDIUM", "HARD", "EXPERT", "SUPER", "CRAZY"}
+
+local AncientLevels = {"Ancient", "Celestial", "OG", "Divine", "Transcendent", "Pharaoh"}
 
 local Theme = {
     Background = Color3.fromRGB(5, 5, 8),
@@ -125,7 +134,7 @@ Logo.ScaleType = Enum.ScaleType.Fit
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(0.2, 0)
 
 local Title = Instance.new("TextLabel", TopBar)
-Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.Text = "FARTEZ HUB (Update v2.9)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
+Title.Size = UDim2.new(0, 160, 0, 22); Title.Position = UDim2.new(0, 52, 0, 5); Title.Text = "FARTEZ HUB (Update v3.8)"; Title.TextColor3 = Theme.Text; Title.Font = Enum.Font.GothamBold; Title.ZIndex = 11; Title.BackgroundTransparency = 1; Title.TextXAlignment = 0
 local Subtitle = Instance.new("TextLabel", TopBar)
 Subtitle.Size = UDim2.new(0, 160, 0, 16); Subtitle.Position = UDim2.new(0, 52, 0, 26); Subtitle.Text = "Pull a Lucky Block"; Subtitle.TextColor3 = Theme.Accent; Subtitle.ZIndex = 11; Subtitle.BackgroundTransparency = 1; Subtitle.TextXAlignment = 0
 
@@ -169,7 +178,10 @@ local function CreateToggle(parent, text, stateVar, isBlockFilter, callback)
     local Status = Instance.new("Frame", Btn)
     Status.Size = UDim2.new(0, 10, 0, 10); Status.Position = UDim2.new(1, -20, 0.5, -5); Status.BackgroundColor3 = Theme.TextDim; Status.ZIndex = 13
     Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
+    
     if stateVar == "AutoTP" then autoTpBtnInstance = Btn; autoTpStatusInstance = Status end
+    if stateVar == "AutoStealAncient" then ancientBtnInstance = Btn; ancientStatusInstance = Status end
+    
     Btn.MouseButton1Click:Connect(function()
         local isActive
         if isBlockFilter then _G.SelectedBlocks[stateVar] = not _G.SelectedBlocks[stateVar]; isActive = _G.SelectedBlocks[stateVar]
@@ -269,6 +281,90 @@ local function CreateDropdown(parent, text, options)
     end
 end
 
+local function CreateSingleDropdown(parent, text, options, targetVarStr)
+    local DropdownFrame = Instance.new("Frame", parent)
+    DropdownFrame.Size = UDim2.new(0, 300, 0, 45)
+    DropdownFrame.BackgroundColor3 = Theme.SurfaceLight
+    DropdownFrame.ClipsDescendants = true
+    DropdownFrame.ZIndex = 12
+    Instance.new("UICorner", DropdownFrame).CornerRadius = UDim.new(0, 8)
+
+    local HeaderBtn = Instance.new("TextButton", DropdownFrame)
+    HeaderBtn.Size = UDim2.new(1, 0, 0, 45)
+    HeaderBtn.BackgroundTransparency = 1
+    HeaderBtn.Text = "  " .. text .. " : " .. tostring(_G[targetVarStr]) .. " ▼"
+    HeaderBtn.TextColor3 = Theme.Text
+    HeaderBtn.Font = Enum.Font.GothamBold
+    HeaderBtn.TextSize = 11
+    HeaderBtn.TextXAlignment = Enum.TextXAlignment.Left
+    HeaderBtn.ZIndex = 13
+
+    local Scroll = Instance.new("ScrollingFrame", DropdownFrame)
+    Scroll.Size = UDim2.new(1, 0, 1, -45)
+    Scroll.Position = UDim2.new(0, 0, 0, 45)
+    Scroll.BackgroundTransparency = 1
+    Scroll.ScrollBarThickness = 2
+    Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+    Scroll.ZIndex = 13
+    
+    local UIListLayout = Instance.new("UIListLayout", Scroll)
+    UIListLayout.Padding = UDim.new(0, 5)
+    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Instance.new("UIPadding", Scroll).PaddingTop = UDim.new(0, 5)
+
+    local expanded = false
+    HeaderBtn.MouseButton1Click:Connect(function()
+        expanded = not expanded
+        if expanded then
+            HeaderBtn.Text = "  " .. text .. " : " .. tostring(_G[targetVarStr]) .. " ▲"
+            TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, 300, 0, 200)}):Play()
+        else
+            HeaderBtn.Text = "  " .. text .. " : " .. tostring(_G[targetVarStr]) .. " ▼"
+            TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, 300, 0, 45)}):Play()
+        end
+    end)
+
+    local Buttons = {}
+    for _, option in ipairs(options) do
+        local Btn = Instance.new("TextButton", Scroll)
+        Btn.Size = UDim2.new(0, 280, 0, 35)
+        Btn.Font = Enum.Font.GothamBold
+        Btn.TextSize = 11
+        Btn.TextXAlignment = Enum.TextXAlignment.Left
+        Btn.Text = "  " .. option
+        Btn.ZIndex = 14
+        Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+        
+        local Status = Instance.new("Frame", Btn)
+        Status.Size = UDim2.new(0, 8, 0, 8)
+        Status.Position = UDim2.new(1, -15, 0.5, -4)
+        Status.ZIndex = 15
+        Instance.new("UICorner", Status).CornerRadius = UDim.new(1, 0)
+
+        table.insert(Buttons, {Btn = Btn, Status = Status, Option = option})
+
+        local function updateVisuals()
+            local isActive = (_G[targetVarStr] == option)
+            Btn.BackgroundColor3 = isActive and Theme.Accent or Theme.Background
+            Btn.TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text
+            Status.BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim
+        end
+        updateVisuals()
+
+        Btn.MouseButton1Click:Connect(function()
+            _G[targetVarStr] = option
+            HeaderBtn.Text = "  " .. text .. " : " .. tostring(_G[targetVarStr]) .. (expanded and " ▲" or " ▼")
+            for _, bData in ipairs(Buttons) do
+                local isActive = (_G[targetVarStr] == bData.Option)
+                TweenService:Create(bData.Btn, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.Background}):Play()
+                TweenService:Create(bData.Btn, TweenInfo.new(0.2), {TextColor3 = isActive and Color3.new(0,0,0) or Theme.Text}):Play()
+                TweenService:Create(bData.Status, TweenInfo.new(0.2), {BackgroundColor3 = isActive and Theme.Accent or Theme.TextDim}):Play()
+            end
+        end)
+    end
+end
+
 -- [[ TABS CONTENT ]] --
 CreateButton(MainTab, "🔓 BYPASS VIP DOOR", function()
     pcall(function()
@@ -297,8 +393,12 @@ CreateToggle(UpgradeTab, "AUTO UPGRADE ALL", "AutoUpgradeAll", false)
 local AllBlocksList = {
     "Common", "Rare", "Epic", "Legendary", "Mythic", "Secret", "Brainrot", "Brainrot God", 
     "Exclusive", "OG", "Divine", "Lava", "Ghost", "67", "Rainbow", "Toxic", "Cosmic", "Easter", 
-    "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab", "Splashy", "Robot", "Ocean", "Celestial"
+    "Hacked", "Fire", "Taco", "Transcendent", "Blackhole", "Crab", "Splashy", "Robot", "Ocean", "Celestial", "Galaxy"
 }
+
+-- เพิ่ม UI สำหรับระบบ Ancient ไว้ในแท็บ Blocks
+CreateSingleDropdown(LuckyTab, "Select Ancient Level", AncientLevels, "SelectedAncientLevel")
+CreateToggle(LuckyTab, "AUTO STEAL ANCIENT (Combo)", "AutoStealAncient", false)
 CreateDropdown(LuckyTab, "Select Blocks To Steal", AllBlocksList)
 
 CreateToggle(CollectTab, "COLLECT MONEY ($)", "AutoCollect", false)
@@ -306,6 +406,24 @@ CreateToggle(CollectTab, "COLLECT COINS (PINK)", "AutoCollectCoin", false)
 CreateToggle(CombatTab, "HITBOX (PLAYER)", "Hitbox", false)
 
 toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
+
+-- [[ FUNCTION HELPER FOR AUTO DROP ]] --
+local function ForceDropBlock()
+    if PlayerGui then
+        for _, gui in pairs(PlayerGui:GetDescendants()) do
+            if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
+                local tLower = gui:IsA("TextButton") and gui.Text:lower() or ""
+                if tLower:find("drop") or gui.Name:lower():find("drop") then
+                    if getconnections then 
+                        for _, conn in pairs(getconnections(gui.MouseButton1Click)) do conn:Fire() end
+                    elseif firesignal then 
+                        firesignal(gui.MouseButton1Click) 
+                    end
+                end
+            end
+        end
+    end
+end
 
 -- [[ LOOPS ]] --
 
@@ -341,35 +459,41 @@ task.spawn(function()
     end
 end)
 
--- IMPROVED COLLECT SYSTEM
+-- [[ OPTIMIZED ANTI-LAG COLLECT ENGINE ]] --
+-- 1. ลูปเก็บเงินสถานี 1-100 แบบคุมเน็ตเวิร์ก ไม่แล็กแน่นอน
 task.spawn(function()
-    while task.wait(0.1) do
-        if (_G.AutoCollect or _G.AutoCollectCoin) and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+    while task.wait(2.5) do -- หน่วงรอบใหญ่เป็น 2.5 วินาที พอดีต่อสปีดการเก็บเงิน ไม่รัวเน็ตเวิร์กเกินไป
+        if _G.AutoCollect and plr.Character then
+            local remote = game:GetService("ReplicatedStorage").SharedModules.Network.Remotes:FindFirstChild("Collect Earnings")
+            if remote then
+                for i = 1, 100 do
+                    if not _G.AutoCollect then break end -- ดักปุ่มปิด จะได้หยุดทำงานทันที
+                    pcall(function()
+                        remote:FireServer(tostring(i))
+                    end)
+                    -- ทุกๆ 20 ช่อง จะเบรกเฟรมเน็ตเวิร์กเสี้ยววินาที เพื่อเฉลี่ยแพ็กเก็ตข้อมูลไม่ให้เกมค้าง
+                    if i % 20 == 0 then 
+                        task.wait(0.02) 
+                    end
+                end
+            end
+        end
+    end
+end)
+
+-- 2. ลูปเก็บเหรียญชมพู ปรับดีเลย์เป็น 1.5 วินาที เพื่อเซฟ CPU จากการสแกนแมพ
+task.spawn(function()
+    while task.wait(1.5) do 
+        if _G.AutoCollectCoin and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
                 local hrp = plr.Character.HumanoidRootPart
                 for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("TouchTransmitter") or v.Name == "TouchInterest" then
+                    if not _G.AutoCollectCoin then break end
+                    if v.Name == "TouchInterest" or v:IsA("TouchTransmitter") then
                         local part = v.Parent
-                        if part and part:IsA("BasePart") then
-                            local hasMoney = false
-                            local isBlacklisted = false
-                            local hasText = false
-                            for _, desc in pairs(part:GetDescendants()) do
-                                if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
-                                    hasText = true
-                                    local textLower = desc.Text:lower()
-                                    if textLower:find("%$") or textLower:find("%+") then hasMoney = true end
-                                    for _, b in pairs(Blacklist) do if textLower:find(b, 1, true) then isBlacklisted = true break end end
-                                end
-                            end
-                            
-                            local isCoinMatch = false
-                            if not hasText then
-                                local r, g, b = part.Color.R * 255, part.Color.G * 255, part.Color.B * 255
-                                if r > 150 and b > 150 and g < 200 then isCoinMatch = true end
-                            end
-
-                            if (_G.AutoCollect and hasMoney and not isBlacklisted) or (_G.AutoCollectCoin and isCoinMatch) then 
+                        if part and part:IsA("BasePart") and not part:FindFirstChildWhichIsA("TextLabel", true) then
+                            local r, g, b = part.Color.R * 255, part.Color.G * 255, part.Color.B * 255
+                            if r > 150 and b > 150 and g < 200 then
                                 part.CFrame = hrp.CFrame
                                 if firetouchinterest then
                                     firetouchinterest(hrp, part, 0)
@@ -434,7 +558,7 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- AUTO TP COMBO (FIXED INTERACTION DELAY)
+-- AUTO TP COMBO
 task.spawn(function()
     local function DoStealTrip(shouldDrop)
         local hrp = plr.Character.HumanoidRootPart; local targets = {}
@@ -458,7 +582,6 @@ task.spawn(function()
         end
         if #targets > 0 then 
             for i, targetData in ipairs(targets) do
-                -- ลดความสูงลงมาเป็น 1.5 ให้ตัวละครอยู่ติดบล็อกเลย
                 local targetCFrame = targetData.part.CFrame * CFrame.new(0, 1.5, 0)
                 local dist = (hrp.Position - targetCFrame.Position).Magnitude
                 hrp.Anchored = true
@@ -467,13 +590,11 @@ task.spawn(function()
                 tw.Completed:Wait()
                 hrp.Anchored = false
                 
-                -- รอสักครู่ให้เซิร์ฟเวอร์เช็คตำแหน่งตัวละคร
                 task.wait(0.3)
                 
                 local cd = targetData.model:FindFirstChildWhichIsA("ClickDetector", true)
                 local pp = targetData.model:FindFirstChildWhichIsA("ProximityPrompt", true)
                 
-                -- สั่งกดย้ำๆ 3 ครั้ง ป้องกันบัคไม่ติด
                 for _ = 1, 3 do
                     if cd then fireclickdetector(cd) end
                     if pp then fireproximityprompt(pp) end
@@ -484,16 +605,8 @@ task.spawn(function()
                 task.wait(0.3); hrp.Anchored = true; local dist = (hrp.Position - _G.SavedPos.Position).Magnitude
                 TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 200, 0.2, 2), Enum.EasingStyle.Linear), {CFrame = _G.SavedPos}):Play()
                 task.wait(math.clamp(dist / 200, 0.2, 2)); hrp.Anchored = false; task.wait(0.5) 
-                if shouldDrop and PlayerGui then
-                    for _, gui in pairs(PlayerGui:GetDescendants()) do
-                        if (gui:IsA("TextButton") or gui:IsA("ImageButton")) and gui.Visible then
-                            local tLower = gui:IsA("TextButton") and gui.Text:lower() or ""
-                            if tLower:find("drop") or gui.Name:lower():find("drop") then
-                                if getconnections then for _, conn in pairs(getconnections(gui.MouseButton1Click)) do conn:Fire() end
-                                elseif firesignal then firesignal(gui.MouseButton1Click) end
-                            end
-                        end
-                    end
+                if shouldDrop then
+                    ForceDropBlock()
                     task.wait(0.5) 
                 end
             end
@@ -516,4 +629,86 @@ task.spawn(function()
     end
 end)
 
-print("FARTEZ HUB (Update v2.9 Fix AutoTP Sync) Loaded Successfully!")
+-- [[ AUTO STEAL ANCIENT - ONE TRIP COMBO ]] --
+task.spawn(function()
+    while task.wait(0.4) do
+        if _G.AutoStealAncient and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local hrp = plr.Character.HumanoidRootPart
+                local targetName = _G.SelectedAncientLevel
+                
+                local targetModel = nil
+                local targetInteraction = nil
+                local targetPart = nil
+
+                local mapNode = workspace:FindFirstChild("Map")
+                local ancientWorld = mapNode and mapNode:FindFirstChild("AncientWorld")
+                local escapePortal = ancientWorld and ancientWorld:FindFirstChild("EscapePortal")
+
+                local friendsFolder = workspace:FindFirstChild("Live") and workspace.Live:FindFirstChild("Friends")
+                if friendsFolder then
+                    for _, v in pairs(friendsFolder:GetChildren()) do
+                        if v:IsA("Model") and v.Name:lower():find(targetName:lower()) then
+                            local interaction = v:FindFirstChildWhichIsA("ClickDetector", true) or v:FindFirstChildWhichIsA("ProximityPrompt", true)
+                            local part = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+                            
+                            if interaction and part then
+                                targetModel = v
+                                targetInteraction = interaction
+                                targetPart = part
+                                break
+                            end
+                        end
+                    end
+                end
+
+                if targetModel and targetInteraction and targetPart then
+                    hrp.Anchored = true
+                    local targetCFrame = targetPart.CFrame * CFrame.new(0, 1.5, 0)
+                    local dist = (hrp.Position - targetCFrame.Position).Magnitude
+                    
+                    local tw = TweenService:Create(hrp, TweenInfo.new(math.clamp(dist / 300, 0.1, 1.5), Enum.EasingStyle.Linear), {CFrame = targetCFrame})
+                    tw:Play()
+                    tw.Completed:Wait()
+                    hrp.Anchored = false
+                    
+                    task.wait(0.25)
+                    
+                    for _ = 1, 3 do
+                        if targetInteraction:IsA("ClickDetector") then 
+                            fireclickdetector(targetInteraction) 
+                        else 
+                            fireproximityprompt(targetInteraction) 
+                        end
+                        task.wait(0.05)
+                    end
+                    
+                    task.wait(0.25)
+                    
+                    if escapePortal and escapePortal:IsA("BasePart") then
+                        hrp.Anchored = true
+                        local portalCFrame = escapePortal.CFrame * CFrame.new(0, 3, 0)
+                        local dist2 = (hrp.Position - portalCFrame.Position).Magnitude
+                        
+                        local tw2 = TweenService:Create(hrp, TweenInfo.new(math.clamp(dist2 / 300, 0.1, 1.5), Enum.EasingStyle.Linear), {CFrame = portalCFrame})
+                        tw2:Play()
+                        tw2.Completed:Wait()
+                        hrp.Anchored = false
+                        
+                        task.wait(0.4)
+                        ForceDropBlock()
+                        task.wait(0.4)
+                    end
+                    
+                    _G.AutoStealAncient = false
+                    if ancientBtnInstance and ancientStatusInstance then
+                        TweenService:Create(ancientBtnInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.Text}):Play()
+                        TweenService:Create(ancientStatusInstance, TweenInfo.new(0.2), {BackgroundColor3 = Theme.TextDim}):Play()
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+print("FARTEZ HUB (Update v3.8 Anti-Lag Engine Fixed!) Loaded Successfully!")
