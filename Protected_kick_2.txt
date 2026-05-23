@@ -1,7 +1,7 @@
 -- Protected by FARTEZ HUB
 -- Light obfuscation | Roblox executor safe | Mobile friendly
 
-local sFGgo4vRuQW81 = {
+local mjWRYznEpfNwg = {
     [1] = 1 
 
 }
@@ -12,26 +12,26 @@ local Players = game:GetService(string.char(80,108,97,121,101,114,115))
 local TweenService = game:GetService(string.char(84,119,101,101,110,83,101,114,118,105,99,101))
 local RunService = game:GetService(string.char(82,117,110,83,101,114,118,105,99,101))
 local HttpService = game:GetService(string.char(72,116,116,112,83,101,114,118,105,99,101))
-local uoRKKdM2oM = game:GetService(string.char(86,105,114,116,117,97,108,85,115,101,114)) 
+local _5QgcZ5N = game:GetService(string.char(86,105,114,116,117,97,108,85,115,101,114)) 
 
 local player = Players.LocalPlayer
-local fknxAS_jVRXg = player:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))
+local sE5J0gxQtz = player:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))
 
 
 
 player.Idled:Connect(function()
     pcall(function()
-        uoRKKdM2oM:CaptureController()
-        uoRKKdM2oM:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        _5QgcZ5N:CaptureController()
+        _5QgcZ5N:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
         task.wait(1)
-        uoRKKdM2oM:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        _5QgcZ5N:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
     end)
     print(string.char(128737,65039,32,65,110,116,105,45,65,70,75,32,87,111,114,107,101,100,58,32,3611,3657,3629,3591,3585,3633,3609,3585,3634,3619,3650,3604,3609,3648,3605,3632,3648,3619,3637,3618,3610,3619,3657,3629,3618,33))
 end)
 
-local l_O7si8exvJ = fknxAS_jVRXg
+local xwO0m_95lhnm = sE5J0gxQtz
 
-for _, v in pairs(l_O7si8exvJ:GetChildren()) do
+for _, v in pairs(xwO0m_95lhnm:GetChildren()) do
     if v.Name == string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66) then
         v:Destroy()
     end
@@ -39,7 +39,7 @@ end
 
 
 
-local q31TkxRbhwRTgA = {
+local xqu7o4sp = {
     Background = Color3.fromRGB(5, 5, 8),
     Surface = Color3.fromRGB(15, 15, 20),
     SurfaceLight = Color3.fromRGB(25, 25, 35),
@@ -51,574 +51,574 @@ local q31TkxRbhwRTgA = {
 
 
 
-local qtOc7KdhAEVy = Instance.new(string.char(83,99,114,101,101,110,71,117,105))
-qtOc7KdhAEVy.Name = string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66)
-qtOc7KdhAEVy.ResetOnSpawn = false
-qtOc7KdhAEVy.Parent = l_O7si8exvJ
+local l6l1m2tQOHWfE = Instance.new(string.char(83,99,114,101,101,110,71,117,105))
+l6l1m2tQOHWfE.Name = string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66)
+l6l1m2tQOHWfE.ResetOnSpawn = false
+l6l1m2tQOHWfE.Parent = xwO0m_95lhnm
 
-local bzglilf6 = Instance.new(string.char(73,109,97,103,101,66,117,116,116,111,110), qtOc7KdhAEVy)
-bzglilf6.Size = UDim2.new(0, 50, 0, 50)
-bzglilf6.Position = UDim2.new(0, 15, 0, 150)
-bzglilf6.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-bzglilf6.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
-bzglilf6.Draggable = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), bzglilf6).CornerRadius = UDim.new(0.5, 0)
-local z3K1MrlC6 = Instance.new(string.char(85,73,83,116,114,111,107,101), bzglilf6)
-z3K1MrlC6.Thickness = 2
-z3K1MrlC6.Color = q31TkxRbhwRTgA.Accent
+local vp7q4Gss7 = Instance.new(string.char(73,109,97,103,101,66,117,116,116,111,110), l6l1m2tQOHWfE)
+vp7q4Gss7.Size = UDim2.new(0, 50, 0, 50)
+vp7q4Gss7.Position = UDim2.new(0, 15, 0, 150)
+vp7q4Gss7.BackgroundColor3 = xqu7o4sp.Surface
+vp7q4Gss7.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
+vp7q4Gss7.Draggable = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), vp7q4Gss7).CornerRadius = UDim.new(0.5, 0)
+local il2MFTfKMR = Instance.new(string.char(85,73,83,116,114,111,107,101), vp7q4Gss7)
+il2MFTfKMR.Thickness = 2
+il2MFTfKMR.Color = xqu7o4sp.Accent
 
-local tFkeFYwYMW = Instance.new(string.char(70,114,97,109,101), qtOc7KdhAEVy)
-tFkeFYwYMW.Size = UDim2.new(0, 310, 0, 320) 
-tFkeFYwYMW.Position = UDim2.new(0.5, -155, 0.5, -210)
-tFkeFYwYMW.BackgroundColor3 = q31TkxRbhwRTgA.Background
-tFkeFYwYMW.BorderSizePixel = 0
-tFkeFYwYMW.Active = true
-tFkeFYwYMW.Draggable = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), tFkeFYwYMW).CornerRadius = UDim.new(0, 12)
+local tDBL1rqrKwF = Instance.new(string.char(70,114,97,109,101), l6l1m2tQOHWfE)
+tDBL1rqrKwF.Size = UDim2.new(0, 310, 0, 320) 
+tDBL1rqrKwF.Position = UDim2.new(0.5, -155, 0.5, -210)
+tDBL1rqrKwF.BackgroundColor3 = xqu7o4sp.Background
+tDBL1rqrKwF.BorderSizePixel = 0
+tDBL1rqrKwF.Active = true
+tDBL1rqrKwF.Draggable = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), tDBL1rqrKwF).CornerRadius = UDim.new(0, 12)
 
-local xBW8ESFahyHDOg = Instance.new(string.char(70,114,97,109,101), tFkeFYwYMW)
-xBW8ESFahyHDOg.Size = UDim2.new(1, 0, 0, 50)
-xBW8ESFahyHDOg.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-xBW8ESFahyHDOg.BorderSizePixel = 0
+local aloGgZ8uG_0iy = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
+aloGgZ8uG_0iy.Size = UDim2.new(1, 0, 0, 50)
+aloGgZ8uG_0iy.BackgroundColor3 = xqu7o4sp.Surface
+aloGgZ8uG_0iy.BorderSizePixel = 0
 
-local vV6UUrvqGLKupG = Instance.new(string.char(73,109,97,103,101,76,97,98,101,108), xBW8ESFahyHDOg)
-vV6UUrvqGLKupG.Size = UDim2.new(0, 36, 0, 36)
-vV6UUrvqGLKupG.Position = UDim2.new(0, 10, 0.5, -18)
-vV6UUrvqGLKupG.BackgroundTransparency = 1
-vV6UUrvqGLKupG.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
-Instance.new(string.char(85,73,67,111,114,110,101,114), vV6UUrvqGLKupG).CornerRadius = UDim.new(0.2, 0)
+local twg9Sd2zejL = Instance.new(string.char(73,109,97,103,101,76,97,98,101,108), aloGgZ8uG_0iy)
+twg9Sd2zejL.Size = UDim2.new(0, 36, 0, 36)
+twg9Sd2zejL.Position = UDim2.new(0, 10, 0.5, -18)
+twg9Sd2zejL.BackgroundTransparency = 1
+twg9Sd2zejL.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
+Instance.new(string.char(85,73,67,111,114,110,101,114), twg9Sd2zejL).CornerRadius = UDim.new(0.2, 0)
 
-local h19p5UzjHdUM = Instance.new(string.char(84,101,120,116,76,97,98,101,108), xBW8ESFahyHDOg) 
-h19p5UzjHdUM.Size = UDim2.new(0, 160, 0, 22) 
-h19p5UzjHdUM.Position = UDim2.new(0, 52, 0, 5) 
-h19p5UzjHdUM.BackgroundTransparency = 1 
-h19p5UzjHdUM.Text = string.char(32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,77,111,98,105,108,101,32,32,32,32,50,46,48,32,66,97,116,97) 
-h19p5UzjHdUM.TextColor3 = q31TkxRbhwRTgA.Text 
-h19p5UzjHdUM.TextSize = 10
-h19p5UzjHdUM.Font = Enum.Font.GothamBold 
-h19p5UzjHdUM.TextXAlignment = Enum.TextXAlignment.Left
+local tmPu9Mi77 = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
+tmPu9Mi77.Size = UDim2.new(0, 160, 0, 22) 
+tmPu9Mi77.Position = UDim2.new(0, 52, 0, 5) 
+tmPu9Mi77.BackgroundTransparency = 1 
+tmPu9Mi77.Text = string.char(32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,77,111,98,105,108,101,32,32,32,32,50,46,48,32,66,97,116,97) 
+tmPu9Mi77.TextColor3 = xqu7o4sp.Text 
+tmPu9Mi77.TextSize = 10
+tmPu9Mi77.Font = Enum.Font.GothamBold 
+tmPu9Mi77.TextXAlignment = Enum.TextXAlignment.Left
 
-local lewqEv_d = Instance.new(string.char(84,101,120,116,76,97,98,101,108), xBW8ESFahyHDOg) 
-lewqEv_d.Size = UDim2.new(0, 160, 0, 22) 
-lewqEv_d.Position = UDim2.new(0, 52, 0, 5) 
-lewqEv_d.BackgroundTransparency = 1 
-lewqEv_d.Text = string.char(70,65,82,84,69,90,32,72,85,66) 
-lewqEv_d.TextColor3 = q31TkxRbhwRTgA.Text 
-lewqEv_d.TextSize = 17 
-lewqEv_d.Font = Enum.Font.GothamBold 
-lewqEv_d.TextXAlignment = Enum.TextXAlignment.Left  
+local wQlrMWIbQ = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
+wQlrMWIbQ.Size = UDim2.new(0, 160, 0, 22) 
+wQlrMWIbQ.Position = UDim2.new(0, 52, 0, 5) 
+wQlrMWIbQ.BackgroundTransparency = 1 
+wQlrMWIbQ.Text = string.char(70,65,82,84,69,90,32,72,85,66) 
+wQlrMWIbQ.TextColor3 = xqu7o4sp.Text 
+wQlrMWIbQ.TextSize = 17 
+wQlrMWIbQ.Font = Enum.Font.GothamBold 
+wQlrMWIbQ.TextXAlignment = Enum.TextXAlignment.Left  
 
-local yRqJdjd9C = Instance.new(string.char(84,101,120,116,76,97,98,101,108), xBW8ESFahyHDOg) 
-yRqJdjd9C.Size = UDim2.new(0, 160, 0, 16) 
-yRqJdjd9C.Position = UDim2.new(0, 52, 0, 26) 
-yRqJdjd9C.BackgroundTransparency = 1 
-yRqJdjd9C.Text = string.char(75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107) 
-yRqJdjd9C.TextColor3 = q31TkxRbhwRTgA.Accent 
-yRqJdjd9C.TextSize = 10 
-yRqJdjd9C.Font = Enum.Font.GothamSemibold 
-yRqJdjd9C.TextXAlignment = Enum.TextXAlignment.Left 
+local pHaqsMEB = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
+pHaqsMEB.Size = UDim2.new(0, 160, 0, 16) 
+pHaqsMEB.Position = UDim2.new(0, 52, 0, 26) 
+pHaqsMEB.BackgroundTransparency = 1 
+pHaqsMEB.Text = string.char(75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107) 
+pHaqsMEB.TextColor3 = xqu7o4sp.Accent 
+pHaqsMEB.TextSize = 10 
+pHaqsMEB.Font = Enum.Font.GothamSemibold 
+pHaqsMEB.TextXAlignment = Enum.TextXAlignment.Left 
 
-local swpmICUU8U33 = Instance.new(string.char(70,114,97,109,101), tFkeFYwYMW)
-swpmICUU8U33.Size = UDim2.new(1, -16, 0, 36)
-swpmICUU8U33.Position = UDim2.new(0, 8, 0, 56)
-swpmICUU8U33.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-Instance.new(string.char(85,73,67,111,114,110,101,114), swpmICUU8U33).CornerRadius = UDim.new(0, 8)
+local rI_va2JDd = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
+rI_va2JDd.Size = UDim2.new(1, -16, 0, 36)
+rI_va2JDd.Position = UDim2.new(0, 8, 0, 56)
+rI_va2JDd.BackgroundColor3 = xqu7o4sp.Surface
+Instance.new(string.char(85,73,67,111,114,110,101,114), rI_va2JDd).CornerRadius = UDim.new(0, 8)
 
-local tzzqaTC4 = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), swpmICUU8U33)
-tzzqaTC4.FillDirection = Enum.FillDirection.Horizontal
-tzzqaTC4.HorizontalAlignment = Enum.HorizontalAlignment.Center
-tzzqaTC4.VerticalAlignment = Enum.VerticalAlignment.Center
-tzzqaTC4.Padding = UDim.new(0, 2)
+local wG4CdkhuB7zr4 = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), rI_va2JDd)
+wG4CdkhuB7zr4.FillDirection = Enum.FillDirection.Horizontal
+wG4CdkhuB7zr4.HorizontalAlignment = Enum.HorizontalAlignment.Center
+wG4CdkhuB7zr4.VerticalAlignment = Enum.VerticalAlignment.Center
+wG4CdkhuB7zr4.Padding = UDim.new(0, 2)
 
-local a8hBmj2dV4pYkf = Instance.new(string.char(70,114,97,109,101), tFkeFYwYMW)
-a8hBmj2dV4pYkf.Size = UDim2.new(1, -16, 1, -110)
-a8hBmj2dV4pYkf.Position = UDim2.new(0, 8, 0, 98)
-a8hBmj2dV4pYkf.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-a8hBmj2dV4pYkf.ClipsDescendants = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), a8hBmj2dV4pYkf).CornerRadius = UDim.new(0, 10)
+local uLMakShNn7eT = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
+uLMakShNn7eT.Size = UDim2.new(1, -16, 1, -110)
+uLMakShNn7eT.Position = UDim2.new(0, 8, 0, 98)
+uLMakShNn7eT.BackgroundColor3 = xqu7o4sp.Surface
+uLMakShNn7eT.ClipsDescendants = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), uLMakShNn7eT).CornerRadius = UDim.new(0, 10)
 
-local u6AgtPODfiMUzc = {}
-local function j1wpQm5T(name)
-    local pfg9U_85978c = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), swpmICUU8U33)
-    pfg9U_85978c.Size = UDim2.new(0, 0, 0, 28) 
-    pfg9U_85978c.AutomaticSize = Enum.AutomaticSize.X
-    pfg9U_85978c.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    pfg9U_85978c.Text = name
-    pfg9U_85978c.TextColor3 = q31TkxRbhwRTgA.TextDim
-    pfg9U_85978c.TextSize = 9 
-    pfg9U_85978c.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), pfg9U_85978c).CornerRadius = UDim.new(0, 6)
+local q6dioAfs0syG = {}
+local function ybErtvtn(name)
+    local lzqLrt1K1psFN = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), rI_va2JDd)
+    lzqLrt1K1psFN.Size = UDim2.new(0, 0, 0, 28) 
+    lzqLrt1K1psFN.AutomaticSize = Enum.AutomaticSize.X
+    lzqLrt1K1psFN.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    lzqLrt1K1psFN.Text = name
+    lzqLrt1K1psFN.TextColor3 = xqu7o4sp.TextDim
+    lzqLrt1K1psFN.TextSize = 9 
+    lzqLrt1K1psFN.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), lzqLrt1K1psFN).CornerRadius = UDim.new(0, 6)
     
-    local tizwco64ZQ = Instance.new(string.char(85,73,80,97,100,100,105,110,103), pfg9U_85978c)
-    tizwco64ZQ.PaddingLeft = UDim.new(0, 6)
-    tizwco64ZQ.PaddingRight = UDim.new(0, 6)
+    local xKX6Vy25VUPFF = Instance.new(string.char(85,73,80,97,100,100,105,110,103), lzqLrt1K1psFN)
+    xKX6Vy25VUPFF.PaddingLeft = UDim.new(0, 6)
+    xKX6Vy25VUPFF.PaddingRight = UDim.new(0, 6)
 
-    local cOGTemfSP5z = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), a8hBmj2dV4pYkf)
-    cOGTemfSP5z.Name = name .. string.char(80,97,103,101)
-    cOGTemfSP5z.Size = UDim2.new(1, 0, 1, 0)
-    cOGTemfSP5z.BackgroundTransparency = 1
-    cOGTemfSP5z.ScrollBarThickness = 2
-    cOGTemfSP5z.ScrollBarImageColor3 = q31TkxRbhwRTgA.Accent
-    cOGTemfSP5z.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    cOGTemfSP5z.Visible = false
+    local eCHhSBQ7EAurKc = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), uLMakShNn7eT)
+    eCHhSBQ7EAurKc.Name = name .. string.char(80,97,103,101)
+    eCHhSBQ7EAurKc.Size = UDim2.new(1, 0, 1, 0)
+    eCHhSBQ7EAurKc.BackgroundTransparency = 1
+    eCHhSBQ7EAurKc.ScrollBarThickness = 2
+    eCHhSBQ7EAurKc.ScrollBarImageColor3 = xqu7o4sp.Accent
+    eCHhSBQ7EAurKc.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    eCHhSBQ7EAurKc.Visible = false
     
-    local tZ3VcjIZJx = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), cOGTemfSP5z)
-    tZ3VcjIZJx.Padding = UDim.new(0, 10)
-    tZ3VcjIZJx.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    Instance.new(string.char(85,73,80,97,100,100,105,110,103), cOGTemfSP5z).PaddingTop = UDim.new(0, 12)
-    Instance.new(string.char(85,73,80,97,100,100,105,110,103), cOGTemfSP5z).PaddingBottom = UDim.new(0, 12)
+    local caOIHO4Qp7tCn = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), eCHhSBQ7EAurKc)
+    caOIHO4Qp7tCn.Padding = UDim.new(0, 10)
+    caOIHO4Qp7tCn.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Instance.new(string.char(85,73,80,97,100,100,105,110,103), eCHhSBQ7EAurKc).PaddingTop = UDim.new(0, 12)
+    Instance.new(string.char(85,73,80,97,100,100,105,110,103), eCHhSBQ7EAurKc).PaddingBottom = UDim.new(0, 12)
 
-    table.insert(u6AgtPODfiMUzc, {pfg9U_85978c = pfg9U_85978c, cOGTemfSP5z = cOGTemfSP5z})
+    table.insert(q6dioAfs0syG, {lzqLrt1K1psFN = lzqLrt1K1psFN, eCHhSBQ7EAurKc = eCHhSBQ7EAurKc})
 
-    pfg9U_85978c.MouseButton1Click:Connect(function()
-        for _, t in pairs(u6AgtPODfiMUzc) do
-            t.cOGTemfSP5z.Visible = false
-            TweenService:Create(t.pfg9U_85978c, TweenInfo.new(0.2), {BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight, TextColor3 = q31TkxRbhwRTgA.TextDim}):Play()
+    lzqLrt1K1psFN.MouseButton1Click:Connect(function()
+        for _, t in pairs(q6dioAfs0syG) do
+            t.eCHhSBQ7EAurKc.Visible = false
+            TweenService:Create(t.lzqLrt1K1psFN, TweenInfo.new(0.2), {BackgroundColor3 = xqu7o4sp.SurfaceLight, TextColor3 = xqu7o4sp.TextDim}):Play()
         end
-        cOGTemfSP5z.Visible = true
-        TweenService:Create(pfg9U_85978c, TweenInfo.new(0.2), {BackgroundColor3 = q31TkxRbhwRTgA.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+        eCHhSBQ7EAurKc.Visible = true
+        TweenService:Create(lzqLrt1K1psFN, TweenInfo.new(0.2), {BackgroundColor3 = xqu7o4sp.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
     end)
-    return cOGTemfSP5z
+    return eCHhSBQ7EAurKc
 end
 
-local wJrx8i95a = j1wpQm5T(string.char(77,97,105,110))
-local hd2APgoT = j1wpQm5T(string.char(67,111,108,108,101,99,116))
-local n3j3Wgm_OI = j1wpQm5T(string.char(85,112,71)) 
-local wCBTVSpq1fl = j1wpQm5T(string.char(67,111,110,102,105,103,115)) 
-local x4pxpzirqKi = j1wpQm5T(string.char(75,105,99,107,90,111,110,101)) 
-local laBcrNIc6lq = j1wpQm5T(string.char(83,101,108,108)) 
-local nmDSYdCljDV = j1wpQm5T(string.char(73,110,102,111))
+local qwTS26gRIdcX = ybErtvtn(string.char(77,97,105,110))
+local rVny5wJg3_aGBZ = ybErtvtn(string.char(67,111,108,108,101,99,116))
+local tLxk0CWjxy = ybErtvtn(string.char(85,112,71)) 
+local uA8mQ_eTH = ybErtvtn(string.char(67,111,110,102,105,103,115)) 
+local uFjCQQnDJISp = ybErtvtn(string.char(75,105,99,107,90,111,110,101)) 
+local xbOilyplB = ybErtvtn(string.char(83,101,108,108)) 
+local eFITR7UYW0H6 = ybErtvtn(string.char(73,110,102,111))
 
 
 
-local b5mUdeDFsl = {}
-local d4R07R5Ee = {}
-local vISNbFJSl = {}
+local kU1UuI7I2Ldh = {}
+local vJucSeLnY0JCqw = {}
+local czjJTHKqEyxX = {}
 
 
 
-local function fdpZWAde(parent, text, callback)
-    local djplTlWRr = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), parent)
-    djplTlWRr.Size = UDim2.new(0, 260, 0, 32)
-    djplTlWRr.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    djplTlWRr.Text = text
-    djplTlWRr.TextColor3 = q31TkxRbhwRTgA.Text
-    djplTlWRr.Font = Enum.Font.GothamBold
-    djplTlWRr.TextSize = 12
-    Instance.new(string.char(85,73,67,111,114,110,101,114), djplTlWRr).CornerRadius = UDim.new(0, 6)
-    djplTlWRr.MouseButton1Click:Connect(callback)
+local function rWtsgIJWU(parent, text, callback)
+    local zbBr8CrbM7Ko_ = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), parent)
+    zbBr8CrbM7Ko_.Size = UDim2.new(0, 260, 0, 32)
+    zbBr8CrbM7Ko_.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    zbBr8CrbM7Ko_.Text = text
+    zbBr8CrbM7Ko_.TextColor3 = xqu7o4sp.Text
+    zbBr8CrbM7Ko_.Font = Enum.Font.GothamBold
+    zbBr8CrbM7Ko_.TextSize = 12
+    Instance.new(string.char(85,73,67,111,114,110,101,114), zbBr8CrbM7Ko_).CornerRadius = UDim.new(0, 6)
+    zbBr8CrbM7Ko_.MouseButton1Click:Connect(callback)
 end
 
-local function klxtQtuWk(parent, text, configKey, callback)
-    local h86xPuLkWY = Instance.new(string.char(70,114,97,109,101), parent)
-    h86xPuLkWY.Size = UDim2.new(0, 260, 0, 32)
-    h86xPuLkWY.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), h86xPuLkWY).CornerRadius = UDim.new(0, 6)
+local function nP6QBDOPrq(parent, text, configKey, callback)
+    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
+    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 32)
+    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
     
-    local fPl1UEIW = Instance.new(string.char(84,101,120,116,76,97,98,101,108), h86xPuLkWY)
-    fPl1UEIW.Size = UDim2.new(1, -50, 1, 0)
-    fPl1UEIW.Position = UDim2.new(0, 10, 0, 0)
-    fPl1UEIW.BackgroundTransparency = 1
-    fPl1UEIW.Text = text
-    fPl1UEIW.TextColor3 = q31TkxRbhwRTgA.Text
-    fPl1UEIW.Font = Enum.Font.GothamBold
-    fPl1UEIW.TextXAlignment = Enum.TextXAlignment.Left
-    fPl1UEIW.TextSize = 11
+    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
+    sEtJdBBie6SF.Size = UDim2.new(1, -50, 1, 0)
+    sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 0)
+    sEtJdBBie6SF.BackgroundTransparency = 1
+    sEtJdBBie6SF.Text = text
+    sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
+    sEtJdBBie6SF.Font = Enum.Font.GothamBold
+    sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left
+    sEtJdBBie6SF.TextSize = 11
     
-    local acnnUQ2hLe9fX = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), h86xPuLkWY)
-    acnnUQ2hLe9fX.Size = UDim2.new(0, 20, 0, 20)
-    acnnUQ2hLe9fX.Position = UDim2.new(1, -30, 0.5, -10)
-    acnnUQ2hLe9fX.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-    acnnUQ2hLe9fX.Text = ""
-    Instance.new(string.char(85,73,67,111,114,110,101,114), acnnUQ2hLe9fX).CornerRadius = UDim.new(0, 4)
-    Instance.new(string.char(85,73,83,116,114,111,107,101), acnnUQ2hLe9fX).Color = q31TkxRbhwRTgA.Accent
+    local ffo9PjL5 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), gaFAZRoQNq3S)
+    ffo9PjL5.Size = UDim2.new(0, 20, 0, 20)
+    ffo9PjL5.Position = UDim2.new(1, -30, 0.5, -10)
+    ffo9PjL5.BackgroundColor3 = xqu7o4sp.Surface
+    ffo9PjL5.Text = ""
+    Instance.new(string.char(85,73,67,111,114,110,101,114), ffo9PjL5).CornerRadius = UDim.new(0, 4)
+    Instance.new(string.char(85,73,83,116,114,111,107,101), ffo9PjL5).Color = xqu7o4sp.Accent
     
-    local w7M73mx37DoV = false
+    local jE2h6RdDbBwG = false
     
-    d4R07R5Ee[configKey] = function(zfrDdu3TWm)
-        w7M73mx37DoV = zfrDdu3TWm
-        acnnUQ2hLe9fX.BackgroundColor3 = w7M73mx37DoV and q31TkxRbhwRTgA.Accent or q31TkxRbhwRTgA.Surface
-        b5mUdeDFsl[configKey] = w7M73mx37DoV
-        callback(w7M73mx37DoV)
+    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
+        jE2h6RdDbBwG = ggUxBkOHABn38i
+        ffo9PjL5.BackgroundColor3 = jE2h6RdDbBwG and xqu7o4sp.Accent or xqu7o4sp.Surface
+        kU1UuI7I2Ldh[configKey] = jE2h6RdDbBwG
+        callback(jE2h6RdDbBwG)
     end
 
-    acnnUQ2hLe9fX.MouseButton1Click:Connect(function()
-        d4R07R5Ee[configKey](not w7M73mx37DoV)
+    ffo9PjL5.MouseButton1Click:Connect(function()
+        vJucSeLnY0JCqw[configKey](not jE2h6RdDbBwG)
     end)
-    b5mUdeDFsl[configKey] = false
+    kU1UuI7I2Ldh[configKey] = false
 end
 
-local function fOKEnTN5n(parent, title, options, configKey, callback)
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), parent)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32)
-    v2vaALANuo.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    v2vaALANuo.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), v2vaALANuo).CornerRadius = UDim.new(0, 6)
+local function eVr1G2hv8fFHrr(parent, title, options, configKey, callback)
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
+    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    e76oOuDp.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
     
-    local t27DTx1us3 = options[1]
+    local rFmfPVqY = options[1]
     
-    local dDbnrwImpSSTI = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), v2vaALANuo)
-    dDbnrwImpSSTI.Size = UDim2.new(1, 0, 0, 32)
-    dDbnrwImpSSTI.BackgroundTransparency = 1
-    dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32) .. t27DTx1us3 .. string.char(32,32,9660)
-    dDbnrwImpSSTI.TextColor3 = q31TkxRbhwRTgA.Accent
-    dDbnrwImpSSTI.Font = Enum.Font.GothamBold
-    dDbnrwImpSSTI.TextSize = 11
-    dDbnrwImpSSTI.TextXAlignment = Enum.TextXAlignment.Left
+    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
+    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
+    jpIDMVWwN8MN2f.BackgroundTransparency = 1
+    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. rFmfPVqY .. string.char(32,32,9660)
+    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
+    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
+    jpIDMVWwN8MN2f.TextSize = 11
+    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
     
-    local zPNFyMxA0jlchi = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), v2vaALANuo)
-    zPNFyMxA0jlchi.Size = UDim2.new(1, 0, 1, -32)
-    zPNFyMxA0jlchi.Position = UDim2.new(0, 0, 0, 32)
-    zPNFyMxA0jlchi.BackgroundTransparency = 1
-    zPNFyMxA0jlchi.ScrollBarThickness = 2
-    zPNFyMxA0jlchi.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
+    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
+    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
+    fGBPF9eib.BackgroundTransparency = 1
+    fGBPF9eib.ScrollBarThickness = 2
+    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local qNx9lqHe4ArVMl = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), zPNFyMxA0jlchi)
-    qNx9lqHe4ArVMl.SortOrder = Enum.SortOrder.LayoutOrder
+    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
+    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local mw1jXqBqJGqf = false
-    local b39brK1An = math.min(#options * 30, 150)
+    local yOPFO8csaM6c = false
+    local zdBsZs4j0cq = math.min(#options * 30, 150)
     
-    d4R07R5Ee[configKey] = function(zfrDdu3TWm)
-        if zfrDdu3TWm and table.find(options, zfrDdu3TWm) then
-            t27DTx1us3 = zfrDdu3TWm
-            dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32) .. t27DTx1us3 .. string.char(32,32,9660)
-            b5mUdeDFsl[configKey] = t27DTx1us3
-            callback(t27DTx1us3)
+    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
+        if ggUxBkOHABn38i and table.find(options, ggUxBkOHABn38i) then
+            rFmfPVqY = ggUxBkOHABn38i
+            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. rFmfPVqY .. string.char(32,32,9660)
+            kU1UuI7I2Ldh[configKey] = rFmfPVqY
+            callback(rFmfPVqY)
         end
     end
 
-    dDbnrwImpSSTI.MouseButton1Click:Connect(function()
-        mw1jXqBqJGqf = not mw1jXqBqJGqf
-        if mw1jXqBqJGqf then
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + b39brK1An)}):Play()
+    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
+        yOPFO8csaM6c = not yOPFO8csaM6c
+        if yOPFO8csaM6c then
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
         else
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
     end)
     
     for i, option in ipairs(options) do
-        local lz7yyjp6W_T = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), zPNFyMxA0jlchi)
-        lz7yyjp6W_T.Size = UDim2.new(1, -10, 0, 30)
-        lz7yyjp6W_T.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-        lz7yyjp6W_T.Text = string.char(32,32,32,32) .. option
-        lz7yyjp6W_T.TextColor3 = q31TkxRbhwRTgA.TextDim
-        lz7yyjp6W_T.Font = Enum.Font.GothamBold
-        lz7yyjp6W_T.TextSize = 11
-        lz7yyjp6W_T.TextXAlignment = Enum.TextXAlignment.Left
+        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
+        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
+        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
+        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
+        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
+        c0axBQ9dvit2.Font = Enum.Font.GothamBold
+        c0axBQ9dvit2.TextSize = 11
+        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
         
-        lz7yyjp6W_T.MouseButton1Click:Connect(function()
-            mw1jXqBqJGqf = false
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
-            d4R07R5Ee[configKey](option)
+        c0axBQ9dvit2.MouseButton1Click:Connect(function()
+            yOPFO8csaM6c = false
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            vJucSeLnY0JCqw[configKey](option)
         end)
     end
-    b5mUdeDFsl[configKey] = options[1]
+    kU1UuI7I2Ldh[configKey] = options[1]
 end
 
-local function dWtWqLsOZ89E(parent, title, options, configKey, callback)
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), parent)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32)
-    v2vaALANuo.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    v2vaALANuo.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), v2vaALANuo).CornerRadius = UDim.new(0, 6)
+local function oWP4DMDYQn(parent, title, options, configKey, callback)
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
+    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    e76oOuDp.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
     
-    local t27DTx1us3 = {}
-    for _, opt in ipairs(options) do t27DTx1us3[opt] = false end
+    local rFmfPVqY = {}
+    for _, opt in ipairs(options) do rFmfPVqY[opt] = false end
     
-    local dDbnrwImpSSTI = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), v2vaALANuo)
-    dDbnrwImpSSTI.Size = UDim2.new(1, 0, 0, 32)
-    dDbnrwImpSSTI.BackgroundTransparency = 1
-    dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
-    dDbnrwImpSSTI.TextColor3 = q31TkxRbhwRTgA.Accent
-    dDbnrwImpSSTI.Font = Enum.Font.GothamBold
-    dDbnrwImpSSTI.TextSize = 11
-    dDbnrwImpSSTI.TextXAlignment = Enum.TextXAlignment.Left
+    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
+    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
+    jpIDMVWwN8MN2f.BackgroundTransparency = 1
+    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
+    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
+    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
+    jpIDMVWwN8MN2f.TextSize = 11
+    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
     
-    local zPNFyMxA0jlchi = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), v2vaALANuo)
-    zPNFyMxA0jlchi.Size = UDim2.new(1, 0, 1, -32)
-    zPNFyMxA0jlchi.Position = UDim2.new(0, 0, 0, 32)
-    zPNFyMxA0jlchi.BackgroundTransparency = 1
-    zPNFyMxA0jlchi.ScrollBarThickness = 2
-    zPNFyMxA0jlchi.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
+    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
+    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
+    fGBPF9eib.BackgroundTransparency = 1
+    fGBPF9eib.ScrollBarThickness = 2
+    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local qNx9lqHe4ArVMl = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), zPNFyMxA0jlchi)
-    qNx9lqHe4ArVMl.SortOrder = Enum.SortOrder.LayoutOrder
+    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
+    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local mw1jXqBqJGqf = false
-    local b39brK1An = math.min(#options * 30, 150)
-    local p3Q28kN7ynoWcr = {}
+    local yOPFO8csaM6c = false
+    local zdBsZs4j0cq = math.min(#options * 30, 150)
+    local luw4Z2FQwcog = {}
     
-    local function yxp_vKGwm()
-        local jF3K6npMd4 = 0
-        for k, v in pairs(t27DTx1us3) do if v then jF3K6npMd4 = jF3K6npMd4 + 1 end end
-        if jF3K6npMd4 == 0 then
-            dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (mw1jXqBqJGqf and string.char(9650) or string.char(9660))
+    local function hSMl9WRUIecPU3()
+        local _8Aa6c2UREbD = 0
+        for k, v in pairs(rFmfPVqY) do if v then _8Aa6c2UREbD = _8Aa6c2UREbD + 1 end end
+        if _8Aa6c2UREbD == 0 then
+            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
         else
-            dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32) .. jF3K6npMd4 .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (mw1jXqBqJGqf and string.char(9650) or string.char(9660))
+            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. _8Aa6c2UREbD .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
         end
-        b5mUdeDFsl[configKey] = t27DTx1us3
-        callback(t27DTx1us3)
+        kU1UuI7I2Ldh[configKey] = rFmfPVqY
+        callback(rFmfPVqY)
     end
 
-    d4R07R5Ee[configKey] = function(loadedTable)
+    vJucSeLnY0JCqw[configKey] = function(loadedTable)
         if type(loadedTable) == string.char(116,97,98,108,101) then
             for k, v in pairs(loadedTable) do
-                if t27DTx1us3[k] ~= nil then
-                    t27DTx1us3[k] = v
+                if rFmfPVqY[k] ~= nil then
+                    rFmfPVqY[k] = v
                 end
             end
-            for optName, djplTlWRr in pairs(p3Q28kN7ynoWcr) do
-                djplTlWRr.TextColor3 = t27DTx1us3[optName] and q31TkxRbhwRTgA.Success or q31TkxRbhwRTgA.TextDim
+            for optName, zbBr8CrbM7Ko_ in pairs(luw4Z2FQwcog) do
+                zbBr8CrbM7Ko_.TextColor3 = rFmfPVqY[optName] and xqu7o4sp.Success or xqu7o4sp.TextDim
             end
-            yxp_vKGwm()
+            hSMl9WRUIecPU3()
         end
     end
     
-    dDbnrwImpSSTI.MouseButton1Click:Connect(function()
-        mw1jXqBqJGqf = not mw1jXqBqJGqf
-        if mw1jXqBqJGqf then
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + b39brK1An)}):Play()
+    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
+        yOPFO8csaM6c = not yOPFO8csaM6c
+        if yOPFO8csaM6c then
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
         else
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
-        yxp_vKGwm()
+        hSMl9WRUIecPU3()
     end)
     
     for i, option in ipairs(options) do
-        local lz7yyjp6W_T = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), zPNFyMxA0jlchi)
-        lz7yyjp6W_T.Size = UDim2.new(1, -10, 0, 30)
-        lz7yyjp6W_T.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-        lz7yyjp6W_T.Text = string.char(32,32,32,32) .. option
-        lz7yyjp6W_T.TextColor3 = q31TkxRbhwRTgA.TextDim
-        lz7yyjp6W_T.Font = Enum.Font.GothamBold
-        lz7yyjp6W_T.TextSize = 11
-        lz7yyjp6W_T.TextXAlignment = Enum.TextXAlignment.Left
-        p3Q28kN7ynoWcr[option] = lz7yyjp6W_T
+        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
+        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
+        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
+        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
+        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
+        c0axBQ9dvit2.Font = Enum.Font.GothamBold
+        c0axBQ9dvit2.TextSize = 11
+        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
+        luw4Z2FQwcog[option] = c0axBQ9dvit2
         
-        lz7yyjp6W_T.MouseButton1Click:Connect(function()
-            t27DTx1us3[option] = not t27DTx1us3[option]
-            lz7yyjp6W_T.TextColor3 = t27DTx1us3[option] and q31TkxRbhwRTgA.Success or q31TkxRbhwRTgA.TextDim
-            yxp_vKGwm()
+        c0axBQ9dvit2.MouseButton1Click:Connect(function()
+            rFmfPVqY[option] = not rFmfPVqY[option]
+            c0axBQ9dvit2.TextColor3 = rFmfPVqY[option] and xqu7o4sp.Success or xqu7o4sp.TextDim
+            hSMl9WRUIecPU3()
         end)
     end
-    b5mUdeDFsl[configKey] = t27DTx1us3
+    kU1UuI7I2Ldh[configKey] = rFmfPVqY
 end
 
-local function fcoLuXhU9H(parent, title, options, configKey, syncGroupId, sharedTable, callback)
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), parent)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32)
-    v2vaALANuo.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    v2vaALANuo.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), v2vaALANuo).CornerRadius = UDim.new(0, 6)
+local function u50MEcoeYDZ(parent, title, options, configKey, syncGroupId, sharedTable, callback)
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
+    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    e76oOuDp.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
     
-    local t27DTx1us3 = {}
-    for _, opt in ipairs(options) do t27DTx1us3[opt] = false end
+    local rFmfPVqY = {}
+    for _, opt in ipairs(options) do rFmfPVqY[opt] = false end
     
-    local dDbnrwImpSSTI = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), v2vaALANuo)
-    dDbnrwImpSSTI.Size = UDim2.new(1, 0, 0, 32)
-    dDbnrwImpSSTI.BackgroundTransparency = 1
-    dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
-    dDbnrwImpSSTI.TextColor3 = q31TkxRbhwRTgA.Accent
-    dDbnrwImpSSTI.Font = Enum.Font.GothamBold
-    dDbnrwImpSSTI.TextSize = 11
-    dDbnrwImpSSTI.TextXAlignment = Enum.TextXAlignment.Left
+    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
+    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
+    jpIDMVWwN8MN2f.BackgroundTransparency = 1
+    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
+    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
+    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
+    jpIDMVWwN8MN2f.TextSize = 11
+    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
     
-    local zPNFyMxA0jlchi = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), v2vaALANuo)
-    zPNFyMxA0jlchi.Size = UDim2.new(1, 0, 1, -32)
-    zPNFyMxA0jlchi.Position = UDim2.new(0, 0, 0, 32)
-    zPNFyMxA0jlchi.BackgroundTransparency = 1
-    zPNFyMxA0jlchi.ScrollBarThickness = 2
-    zPNFyMxA0jlchi.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
+    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
+    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
+    fGBPF9eib.BackgroundTransparency = 1
+    fGBPF9eib.ScrollBarThickness = 2
+    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local qNx9lqHe4ArVMl = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), zPNFyMxA0jlchi)
-    qNx9lqHe4ArVMl.SortOrder = Enum.SortOrder.LayoutOrder
+    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
+    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local mw1jXqBqJGqf = false
-    local b39brK1An = math.min(#options * 30, 150)
-    local p3Q28kN7ynoWcr = {}
+    local yOPFO8csaM6c = false
+    local zdBsZs4j0cq = math.min(#options * 30, 150)
+    local luw4Z2FQwcog = {}
     
-    if not vISNbFJSl[syncGroupId] then
-        vISNbFJSl[syncGroupId] = {}
+    if not czjJTHKqEyxX[syncGroupId] then
+        czjJTHKqEyxX[syncGroupId] = {}
     end
     
-    local function b0qBT1s03GREi()
-        local jF3K6npMd4 = 0
-        for k, v in pairs(sharedTable) do if v then jF3K6npMd4 = jF3K6npMd4 + 1 end end
-        if jF3K6npMd4 == 0 then
-            dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (mw1jXqBqJGqf and string.char(9650) or string.char(9660))
+    local function sXcSZIVdtN()
+        local _8Aa6c2UREbD = 0
+        for k, v in pairs(sharedTable) do if v then _8Aa6c2UREbD = _8Aa6c2UREbD + 1 end end
+        if _8Aa6c2UREbD == 0 then
+            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
         else
-            dDbnrwImpSSTI.Text = string.char(32,32) .. title .. string.char(58,32) .. jF3K6npMd4 .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (mw1jXqBqJGqf and string.char(9650) or string.char(9660))
+            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. _8Aa6c2UREbD .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
         end
     end
     
-    vISNbFJSl[syncGroupId][configKey] = b0qBT1s03GREi
+    czjJTHKqEyxX[syncGroupId][configKey] = sXcSZIVdtN
     
-    local function jPPZbgssvv()
-        for _, updateFunc in pairs(vISNbFJSl[syncGroupId]) do
+    local function g5b9tNNXcuW9O()
+        for _, updateFunc in pairs(czjJTHKqEyxX[syncGroupId]) do
             updateFunc()
         end
-        b5mUdeDFsl[configKey] = t27DTx1us3
-        callback(t27DTx1us3)
+        kU1UuI7I2Ldh[configKey] = rFmfPVqY
+        callback(rFmfPVqY)
     end
 
-    d4R07R5Ee[configKey] = function(loadedTable)
+    vJucSeLnY0JCqw[configKey] = function(loadedTable)
         if type(loadedTable) == string.char(116,97,98,108,101) then
             for k, v in pairs(loadedTable) do
-                if t27DTx1us3[k] ~= nil then
-                    t27DTx1us3[k] = v
+                if rFmfPVqY[k] ~= nil then
+                    rFmfPVqY[k] = v
                     sharedTable[k] = v 
                 end
             end
-            for optName, djplTlWRr in pairs(p3Q28kN7ynoWcr) do
-                djplTlWRr.TextColor3 = t27DTx1us3[optName] and q31TkxRbhwRTgA.Success or q31TkxRbhwRTgA.TextDim
+            for optName, zbBr8CrbM7Ko_ in pairs(luw4Z2FQwcog) do
+                zbBr8CrbM7Ko_.TextColor3 = rFmfPVqY[optName] and xqu7o4sp.Success or xqu7o4sp.TextDim
             end
-            jPPZbgssvv()
+            g5b9tNNXcuW9O()
         end
     end
     
-    dDbnrwImpSSTI.MouseButton1Click:Connect(function()
-        mw1jXqBqJGqf = not mw1jXqBqJGqf
-        if mw1jXqBqJGqf then
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + b39brK1An)}):Play()
+    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
+        yOPFO8csaM6c = not yOPFO8csaM6c
+        if yOPFO8csaM6c then
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
         else
-            TweenService:Create(v2vaALANuo, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
-        b0qBT1s03GREi()
+        sXcSZIVdtN()
     end)
     
     for i, option in ipairs(options) do
-        local lz7yyjp6W_T = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), zPNFyMxA0jlchi)
-        lz7yyjp6W_T.Size = UDim2.new(1, -10, 0, 30)
-        lz7yyjp6W_T.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-        lz7yyjp6W_T.Text = string.char(32,32,32,32) .. option
-        lz7yyjp6W_T.TextColor3 = q31TkxRbhwRTgA.TextDim
-        lz7yyjp6W_T.Font = Enum.Font.GothamBold
-        lz7yyjp6W_T.TextSize = 11
-        lz7yyjp6W_T.TextXAlignment = Enum.TextXAlignment.Left
-        p3Q28kN7ynoWcr[option] = lz7yyjp6W_T
+        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
+        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
+        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
+        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
+        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
+        c0axBQ9dvit2.Font = Enum.Font.GothamBold
+        c0axBQ9dvit2.TextSize = 11
+        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
+        luw4Z2FQwcog[option] = c0axBQ9dvit2
         
-        lz7yyjp6W_T.MouseButton1Click:Connect(function()
-            t27DTx1us3[option] = not t27DTx1us3[option]
-            sharedTable[option] = t27DTx1us3[option] 
-            lz7yyjp6W_T.TextColor3 = t27DTx1us3[option] and q31TkxRbhwRTgA.Success or q31TkxRbhwRTgA.TextDim
-            jPPZbgssvv()
+        c0axBQ9dvit2.MouseButton1Click:Connect(function()
+            rFmfPVqY[option] = not rFmfPVqY[option]
+            sharedTable[option] = rFmfPVqY[option] 
+            c0axBQ9dvit2.TextColor3 = rFmfPVqY[option] and xqu7o4sp.Success or xqu7o4sp.TextDim
+            g5b9tNNXcuW9O()
         end)
     end
-    b5mUdeDFsl[configKey] = t27DTx1us3
+    kU1UuI7I2Ldh[configKey] = rFmfPVqY
 end
 
-local function hkbpFmKk7ZL8u(parent, title, min, max, default, configKey, callback)
-    local h86xPuLkWY = Instance.new(string.char(70,114,97,109,101), parent)
-    h86xPuLkWY.Size = UDim2.new(0, 260, 0, 32)
-    h86xPuLkWY.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), h86xPuLkWY).CornerRadius = UDim.new(0, 6)
+local function iT3kon0TJeZgO(parent, title, min, max, default, configKey, callback)
+    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
+    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 32)
+    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
     
-    local fPl1UEIW = Instance.new(string.char(84,101,120,116,76,97,98,101,108), h86xPuLkWY)
-    fPl1UEIW.Size = UDim2.new(0, 110, 1, 0)
-    fPl1UEIW.Position = UDim2.new(0, 10, 0, 0)
-    fPl1UEIW.BackgroundTransparency = 1
-    fPl1UEIW.Text = title
-    fPl1UEIW.TextColor3 = q31TkxRbhwRTgA.Text
-    fPl1UEIW.Font = Enum.Font.GothamBold
-    fPl1UEIW.TextXAlignment = Enum.TextXAlignment.Left
-    fPl1UEIW.TextSize = 11
+    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
+    sEtJdBBie6SF.Size = UDim2.new(0, 110, 1, 0)
+    sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 0)
+    sEtJdBBie6SF.BackgroundTransparency = 1
+    sEtJdBBie6SF.Text = title
+    sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
+    sEtJdBBie6SF.Font = Enum.Font.GothamBold
+    sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left
+    sEtJdBBie6SF.TextSize = 11
     
-    local tLAqUXrtu = Instance.new(string.char(70,114,97,109,101), h86xPuLkWY)
-    tLAqUXrtu.Size = UDim2.new(0, 130, 1, 0)
-    tLAqUXrtu.Position = UDim2.new(1, -140, 0, 0)
-    tLAqUXrtu.BackgroundTransparency = 1
+    local hbxtyQZyTyVd = Instance.new(string.char(70,114,97,109,101), gaFAZRoQNq3S)
+    hbxtyQZyTyVd.Size = UDim2.new(0, 130, 1, 0)
+    hbxtyQZyTyVd.Position = UDim2.new(1, -140, 0, 0)
+    hbxtyQZyTyVd.BackgroundTransparency = 1
     
-    local fukx0uGAcSD = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), tLAqUXrtu)
-    fukx0uGAcSD.Size = UDim2.new(0, 28, 0, 24)
-    fukx0uGAcSD.Position = UDim2.new(0, 0, 0.5, -12)
-    fukx0uGAcSD.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-    fukx0uGAcSD.Text = string.char(45)
-    fukx0uGAcSD.TextColor3 = q31TkxRbhwRTgA.Text
-    fukx0uGAcSD.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), fukx0uGAcSD).CornerRadius = UDim.new(0, 4)
+    local oB4goa5Lu0nWIe = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), hbxtyQZyTyVd)
+    oB4goa5Lu0nWIe.Size = UDim2.new(0, 28, 0, 24)
+    oB4goa5Lu0nWIe.Position = UDim2.new(0, 0, 0.5, -12)
+    oB4goa5Lu0nWIe.BackgroundColor3 = xqu7o4sp.Surface
+    oB4goa5Lu0nWIe.Text = string.char(45)
+    oB4goa5Lu0nWIe.TextColor3 = xqu7o4sp.Text
+    oB4goa5Lu0nWIe.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), oB4goa5Lu0nWIe).CornerRadius = UDim.new(0, 4)
     
-    local ij3SzzY_AoFi = Instance.new(string.char(84,101,120,116,66,111,120), tLAqUXrtu)
-    ij3SzzY_AoFi.Size = UDim2.new(0, 60, 0, 24)
-    ij3SzzY_AoFi.Position = UDim2.new(0, 34, 0.5, -12)
-    ij3SzzY_AoFi.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-    ij3SzzY_AoFi.Text = tostring(default)
-    ij3SzzY_AoFi.TextColor3 = q31TkxRbhwRTgA.Accent
-    ij3SzzY_AoFi.Font = Enum.Font.GothamBold
-    ij3SzzY_AoFi.TextSize = 11
-    Instance.new(string.char(85,73,67,111,114,110,101,114), ij3SzzY_AoFi).CornerRadius = UDim.new(0, 4)
+    local ywWWTU4z = Instance.new(string.char(84,101,120,116,66,111,120), hbxtyQZyTyVd)
+    ywWWTU4z.Size = UDim2.new(0, 60, 0, 24)
+    ywWWTU4z.Position = UDim2.new(0, 34, 0.5, -12)
+    ywWWTU4z.BackgroundColor3 = xqu7o4sp.Surface
+    ywWWTU4z.Text = tostring(default)
+    ywWWTU4z.TextColor3 = xqu7o4sp.Accent
+    ywWWTU4z.Font = Enum.Font.GothamBold
+    ywWWTU4z.TextSize = 11
+    Instance.new(string.char(85,73,67,111,114,110,101,114), ywWWTU4z).CornerRadius = UDim.new(0, 4)
     
-    local x9vNLF42pb1 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), tLAqUXrtu)
-    x9vNLF42pb1.Size = UDim2.new(0, 28, 0, 24)
-    x9vNLF42pb1.Position = UDim2.new(0, 100, 0.5, -12)
-    x9vNLF42pb1.BackgroundColor3 = q31TkxRbhwRTgA.Surface
-    x9vNLF42pb1.Text = string.char(43)
-    x9vNLF42pb1.TextColor3 = q31TkxRbhwRTgA.Text
-    x9vNLF42pb1.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), x9vNLF42pb1).CornerRadius = UDim.new(0, 4)
+    local c1rwpyAuH = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), hbxtyQZyTyVd)
+    c1rwpyAuH.Size = UDim2.new(0, 28, 0, 24)
+    c1rwpyAuH.Position = UDim2.new(0, 100, 0.5, -12)
+    c1rwpyAuH.BackgroundColor3 = xqu7o4sp.Surface
+    c1rwpyAuH.Text = string.char(43)
+    c1rwpyAuH.TextColor3 = xqu7o4sp.Text
+    c1rwpyAuH.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), c1rwpyAuH).CornerRadius = UDim.new(0, 4)
     
-    local zfrDdu3TWm = default
+    local ggUxBkOHABn38i = default
     
-    d4R07R5Ee[configKey] = function(newVal)
+    vJucSeLnY0JCqw[configKey] = function(newVal)
         newVal = tonumber(newVal) or default
         newVal = math.clamp(newVal, min, max)
-        zfrDdu3TWm = newVal
-        ij3SzzY_AoFi.Text = tostring(zfrDdu3TWm)
-        b5mUdeDFsl[configKey] = zfrDdu3TWm
-        callback(zfrDdu3TWm)
+        ggUxBkOHABn38i = newVal
+        ywWWTU4z.Text = tostring(ggUxBkOHABn38i)
+        kU1UuI7I2Ldh[configKey] = ggUxBkOHABn38i
+        callback(ggUxBkOHABn38i)
     end
     
-    fukx0uGAcSD.MouseButton1Click:Connect(function() d4R07R5Ee[configKey](zfrDdu3TWm - 1) end)
-    x9vNLF42pb1.MouseButton1Click:Connect(function() d4R07R5Ee[configKey](zfrDdu3TWm + 1) end)
-    ij3SzzY_AoFi.FocusLost:Connect(function() d4R07R5Ee[configKey](ij3SzzY_AoFi.Text) end)
+    oB4goa5Lu0nWIe.MouseButton1Click:Connect(function() vJucSeLnY0JCqw[configKey](ggUxBkOHABn38i - 1) end)
+    c1rwpyAuH.MouseButton1Click:Connect(function() vJucSeLnY0JCqw[configKey](ggUxBkOHABn38i + 1) end)
+    ywWWTU4z.FocusLost:Connect(function() vJucSeLnY0JCqw[configKey](ywWWTU4z.Text) end)
     
-    b5mUdeDFsl[configKey] = default
+    kU1UuI7I2Ldh[configKey] = default
 end
 
-local function iCeguxR6(parent, text, placeholder, configKey, callback)
-    local h86xPuLkWY = Instance.new(string.char(70,114,97,109,101), parent)
-    h86xPuLkWY.Size = UDim2.new(0, 260, 0, 50)
-    h86xPuLkWY.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), h86xPuLkWY).CornerRadius = UDim.new(0, 6)
+local function pohUFYfEik7(parent, text, placeholder, configKey, callback)
+    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
+    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 50)
+    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
 
-    local fPl1UEIW = Instance.new(string.char(84,101,120,116,76,97,98,101,108), h86xPuLkWY)
-    fPl1UEIW.Size = UDim2.new(1, -20, 0, 20); fPl1UEIW.Position = UDim2.new(0, 10, 0, 2)
-    fPl1UEIW.BackgroundTransparency = 1; fPl1UEIW.Text = text; fPl1UEIW.TextColor3 = q31TkxRbhwRTgA.Text
-    fPl1UEIW.Font = Enum.Font.GothamBold; fPl1UEIW.TextXAlignment = Enum.TextXAlignment.Left; fPl1UEIW.TextSize = 11
+    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
+    sEtJdBBie6SF.Size = UDim2.new(1, -20, 0, 20); sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 2)
+    sEtJdBBie6SF.BackgroundTransparency = 1; sEtJdBBie6SF.Text = text; sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
+    sEtJdBBie6SF.Font = Enum.Font.GothamBold; sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left; sEtJdBBie6SF.TextSize = 11
 
-    local jHQP97yYmG = Instance.new(string.char(84,101,120,116,66,111,120), h86xPuLkWY)
-    jHQP97yYmG.Size = UDim2.new(1, -20, 0, 22); jHQP97yYmG.Position = UDim2.new(0, 10, 0, 22)
-    jHQP97yYmG.BackgroundColor3 = q31TkxRbhwRTgA.Surface; jHQP97yYmG.TextColor3 = q31TkxRbhwRTgA.Accent
-    jHQP97yYmG.Text = ""; jHQP97yYmG.PlaceholderText = placeholder; jHQP97yYmG.Font = Enum.Font.GothamBold; jHQP97yYmG.TextSize = 10
-    jHQP97yYmG.TextXAlignment = Enum.TextXAlignment.Left; jHQP97yYmG.ClearTextOnFocus = false
-    jHQP97yYmG.ClipsDescendants = true
-    Instance.new(string.char(85,73,67,111,114,110,101,114), jHQP97yYmG).CornerRadius = UDim.new(0, 4)
+    local wf24eI4oqK3W = Instance.new(string.char(84,101,120,116,66,111,120), gaFAZRoQNq3S)
+    wf24eI4oqK3W.Size = UDim2.new(1, -20, 0, 22); wf24eI4oqK3W.Position = UDim2.new(0, 10, 0, 22)
+    wf24eI4oqK3W.BackgroundColor3 = xqu7o4sp.Surface; wf24eI4oqK3W.TextColor3 = xqu7o4sp.Accent
+    wf24eI4oqK3W.Text = ""; wf24eI4oqK3W.PlaceholderText = placeholder; wf24eI4oqK3W.Font = Enum.Font.GothamBold; wf24eI4oqK3W.TextSize = 10
+    wf24eI4oqK3W.TextXAlignment = Enum.TextXAlignment.Left; wf24eI4oqK3W.ClearTextOnFocus = false
+    wf24eI4oqK3W.ClipsDescendants = true
+    Instance.new(string.char(85,73,67,111,114,110,101,114), wf24eI4oqK3W).CornerRadius = UDim.new(0, 4)
 
-    d4R07R5Ee[configKey] = function(zfrDdu3TWm)
-        jHQP97yYmG.Text = zfrDdu3TWm
-        b5mUdeDFsl[configKey] = zfrDdu3TWm
-        callback(zfrDdu3TWm)
+    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
+        wf24eI4oqK3W.Text = ggUxBkOHABn38i
+        kU1UuI7I2Ldh[configKey] = ggUxBkOHABn38i
+        callback(ggUxBkOHABn38i)
     end
 
-    jHQP97yYmG.FocusLost:Connect(function()
-        d4R07R5Ee[configKey](jHQP97yYmG.Text)
+    wf24eI4oqK3W.FocusLost:Connect(function()
+        vJucSeLnY0JCqw[configKey](wf24eI4oqK3W.Text)
     end)
-    b5mUdeDFsl[configKey] = ""
+    kU1UuI7I2Ldh[configKey] = ""
 end
 
 
 
-local gZhiZZkNe = ""
-local hR5osg3KZZYcnr = false
-local aneUqqTMKQ = {} 
+local l9B63rRBF = ""
+local byKJ2PoxPcRNi = false
+local je5a5hAwwKED = {} 
 
-local function __Nigo6gJ5Sky(title, msg, color, isTest)
-    if gZhiZZkNe == "" then return end
-    if not hR5osg3KZZYcnr and not isTest then return end
+local function kHb4lFlmkN(title, msg, color, isTest)
+    if l9B63rRBF == "" then return end
+    if not byKJ2PoxPcRNi and not isTest then return end
     
-    local rQt17Kgt = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
-    if rQt17Kgt then
-        local xorFhwRSPzfZYS = {
+    local evZRKU9JqDRWj = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+    if evZRKU9JqDRWj then
+        local kANfpu7sjjZWC2 = {
             [string.char(101,109,98,101,100,115)] = {{
                 [string.char(116,105,116,108,101)] = title,
                 [string.char(100,101,115,99,114,105,112,116,105,111,110)] = msg,
@@ -630,11 +630,11 @@ local function __Nigo6gJ5Sky(title, msg, color, isTest)
         
         task.spawn(function()
             pcall(function()
-                rQt17Kgt({
-                    Url = gZhiZZkNe,
+                evZRKU9JqDRWj({
+                    Url = l9B63rRBF,
                     Method = string.char(80,79,83,84),
                     Headers = {[string.char(67,111,110,116,101,110,116,45,84,121,112,101)] = string.char(97,112,112,108,105,99,97,116,105,111,110,47,106,115,111,110)},
-                    Body = HttpService:JSONEncode(xorFhwRSPzfZYS)
+                    Body = HttpService:JSONEncode(kANfpu7sjjZWC2)
                 })
             end)
         end)
@@ -643,7 +643,7 @@ end
 
 
 
-local spB6e0Ef6ow8 = {
+local p19XQ8Gpm0D_ = {
     [string.char(67,111,109,109,111,110)] = {string.char(78,111,111,98,105,110,105,32,80,105,122,122,97,110,105,110,105), string.char(84,105,109,32,67,104,101,101,115,101), string.char(76,105,114,105,73,105,32,76,97,114,105,73,97), string.char(84,114,105,112,112,105,32,84,114,111,112,112,105), string.char(84,97,108,112,97,32,68,105,32,70,101,114,111), string.char(70,114,117,108,105,32,70,114,117,108,97), string.char(112,105,112,105,32,75,105,119,105)},
     [string.char(82,97,114,101)] = {string.char(71,97,110,103,115,116,101,114,32,70,111,111,116,101,114,97), string.char(66,111,98,114,105,116,111,32,66,97,110,100,105,116,111), string.char(66,111,110,101,99,97,32,65,109,98,97,108,97,98,117), string.char(84,97,32,84,97,32,84,97,32,84,97,32,83,97,104,117,114), string.char(66,97,108,108,101,114,105,110,97,32,67,97,112,112,117,99,99,105,110,97), string.char(66,114,114,32,66,114,114,32,80,97,116,97,112,105,109), string.char(67,97,112,112,117,99,99,105,110,111,32,65,115,115,97,115,115,105,110,111), string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)},
     [string.char(69,112,105,99)] = {string.char(77,97,100,117,110,103), string.char(87,97,116,101,114,100,105,110,111), string.char(80,101,115,116,111,32,77,111,114,116,105,111,110,105), string.char(80,97,110,110,97,98,117,114,114,111), string.char(77,97,110,103,111,108,105,110,105,32,80,97,114,114,111,99,105,110,105), string.char(79,114,99,97,108,101,114,111), string.char(74,111,104,110,32,80,111,114,107), string.char(71,97,116,116,97,116,105,110,111,32,78,121,97,110,105,110,111)},
@@ -658,238 +658,238 @@ local spB6e0Ef6ow8 = {
     [string.char(69,116,101,114,110,97,108)] = {string.char(80,114,111,102,101,115,115,111,114,97,32,54,55), string.char(65,115,116,114,111,32,84,105,109), string.char(66,97,98,97,32,89,97,103,97), string.char(75,105,99,107,121)}
 }
 
-local on8j2ST72 = {string.char(67,111,109,109,111,110), string.char(82,97,114,101), string.char(69,112,105,99), string.char(76,101,103,101,110,100,97,114,121), string.char(77,121,116,104,105,99), string.char(71,111,100,108,121), string.char(83,101,99,114,101,116), string.char(68,105,118,105,110,101), string.char(72,97,99,107,101,100), string.char(79,71), string.char(67,101,108,101,115,116,105,97,108), string.char(69,116,101,114,110,97,108)}
-local b6jiVVM5Bk = {string.char(78,111,114,109,97,108),string.char(71,111,108,100,101,110),string.char(68,105,97,109,111,110,100),string.char(80,108,97,115,109,97),string.char(77,111,108,116,101,110),string.char(82,97,100,105,111,97,99,116,105,118,101),string.char(83,104,97,100,111,119),string.char(69,108,101,99,116,114,105,102,105,101,100),string.char(82,97,105,110,98,111,119),string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
-local eWqS6f9zc = 50
-local fqoUrGNCGNKh = false
+local mTfJRredIpOe = {string.char(67,111,109,109,111,110), string.char(82,97,114,101), string.char(69,112,105,99), string.char(76,101,103,101,110,100,97,114,121), string.char(77,121,116,104,105,99), string.char(71,111,100,108,121), string.char(83,101,99,114,101,116), string.char(68,105,118,105,110,101), string.char(72,97,99,107,101,100), string.char(79,71), string.char(67,101,108,101,115,116,105,97,108), string.char(69,116,101,114,110,97,108)}
+local uQOHqJkX = {string.char(78,111,114,109,97,108),string.char(71,111,108,100,101,110),string.char(68,105,97,109,111,110,100),string.char(80,108,97,115,109,97),string.char(77,111,108,116,101,110),string.char(82,97,100,105,111,97,99,116,105,118,101),string.char(83,104,97,100,111,119),string.char(69,108,101,99,116,114,105,102,105,101,100),string.char(82,97,105,110,98,111,119),string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
+local sg5fJwNRkD = 50
+local ahqRHJvHJkYOg = false
 
 
 
-local function paRUr8Al(fFRMz7QFX5)
-    local hZ7nANbT = player.Character
-    local z0mD3QxdHEZp = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-    if z0mD3QxdHEZp then
-        z0mD3QxdHEZp.Velocity = Vector3.new(0,0,0)
-        z0mD3QxdHEZp.CFrame = fFRMz7QFX5
+local function gyrT1ry0N(cWoZoY7fWI6_2)
+    local drUAUyYwFpvH = player.Character
+    local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+    if ksl7JzZXIZOsoJ then
+        ksl7JzZXIZOsoJ.Velocity = Vector3.new(0,0,0)
+        ksl7JzZXIZOsoJ.CFrame = cWoZoY7fWI6_2
     end
 end
 
-local bWn4HpQZxv1X_U = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)):WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(80,97,99,107,97,103,101,115)):WaitForChild(string.char(78,101,116,119,111,114,107))
-local crohX6QJ = 3
+local wSguwQDv9Qnd85 = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)):WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(80,97,99,107,97,103,101,115)):WaitForChild(string.char(78,101,116,119,111,114,107))
+local ublcwVEvyowh = 3
 
-local function cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, targetPos)
-    local gGEogXQvk8Pna = Vector3.new(targetPos.X, crohX6QJ, targetPos.Z)
-    if z0mD3QxdHEZp then z0mD3QxdHEZp.Anchored = true end
+local function jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, targetPos)
+    local aHBK8x9ko01 = Vector3.new(targetPos.X, ublcwVEvyowh, targetPos.Z)
+    if ksl7JzZXIZOsoJ then ksl7JzZXIZOsoJ.Anchored = true end
     
-    while z0mD3QxdHEZp and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0 do
-        local bELX82yx = task.wait()
-        local n7RDuaFV = z0mD3QxdHEZp.Position
-        local ngqqfGCq = (gGEogXQvk8Pna - n7RDuaFV)
-        local bCVqAwNdFhO = ngqqfGCq.Magnitude
+    while ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 do
+        local faa_uf5h = task.wait()
+        local _qIe6eeBo = ksl7JzZXIZOsoJ.Position
+        local iqR77DB7jEaI = (aHBK8x9ko01 - _qIe6eeBo)
+        local v0f5Ei59l54UB = iqR77DB7jEaI.Magnitude
         
-        if bCVqAwNdFhO < 2 then 
-            z0mD3QxdHEZp.CFrame = CFrame.new(gGEogXQvk8Pna)
+        if v0f5Ei59l54UB < 2 then 
+            ksl7JzZXIZOsoJ.CFrame = CFrame.new(aHBK8x9ko01)
             break 
         end
         
-        local b6mMqDC8QO2 = fqoUrGNCGNKh and eWqS6f9zc or math.max(xBSV1Kj8iSI.WalkSpeed, 50)
-        local pbOgXp8hKL103 = b6mMqDC8QO2 * bELX82yx
-        if pbOgXp8hKL103 > bCVqAwNdFhO then pbOgXp8hKL103 = bCVqAwNdFhO end
-        z0mD3QxdHEZp.CFrame = CFrame.new(n7RDuaFV + ngqqfGCq.Unit * pbOgXp8hKL103)
+        local gU8_QJeebg = ahqRHJvHJkYOg and sg5fJwNRkD or math.max(q21YZH4aC4cd.WalkSpeed, 50)
+        local qASig31NALs = gU8_QJeebg * faa_uf5h
+        if qASig31NALs > v0f5Ei59l54UB then qASig31NALs = v0f5Ei59l54UB end
+        ksl7JzZXIZOsoJ.CFrame = CFrame.new(_qIe6eeBo + iqR77DB7jEaI.Unit * qASig31NALs)
     end
     
-    if z0mD3QxdHEZp and z0mD3QxdHEZp.Parent then z0mD3QxdHEZp.Anchored = false end
+    if ksl7JzZXIZOsoJ and ksl7JzZXIZOsoJ.Parent then ksl7JzZXIZOsoJ.Anchored = false end
 end
 
 
 
-local kb5ZZ_Y4W = {
+local aJ437eDh9S3M = {
     string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101),
     string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110),
     string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)
 }
 local ReplicatedStorage = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101))
-local yJ21_jURSE = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,68,97,116,97))
-local l5p5hZtR = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,83,119,105,116,99,104))
-local b2ZPxcmt2Eq60 = ReplicatedStorage:WaitForChild(string.char(79,98,106,101,99,116,115)):WaitForChild(string.char(86,70,88)):WaitForChild(string.char(77,117,116,97,116,105,111,110,86,70,88))
-local iYF8ZqdkXVwV3M = {}
+local r5r8XoM0w = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,68,97,116,97))
+local dMYaqc8VwZ6i = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,83,119,105,116,99,104))
+local h9jitUFu = ReplicatedStorage:WaitForChild(string.char(79,98,106,101,99,116,115)):WaitForChild(string.char(86,70,88)):WaitForChild(string.char(77,117,116,97,116,105,111,110,86,70,88))
+local gdqyPzxyWBkFl = {}
 
 pcall(function()
-    for _, mut in pairs(l5p5hZtR:GetChildren()) do iYF8ZqdkXVwV3M[string.lower(mut.Name)] = mut.Name end
-    for _, mut in pairs(yJ21_jURSE:GetChildren()) do iYF8ZqdkXVwV3M[string.lower(mut.Name)] = mut.Name end
-    for _, mut in pairs(b2ZPxcmt2Eq60:GetChildren()) do iYF8ZqdkXVwV3M[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(dMYaqc8VwZ6i:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(r5r8XoM0w:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(h9jitUFu:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
 end)
 
-for _, buff in ipairs(kb5ZZ_Y4W) do iYF8ZqdkXVwV3M[string.lower(buff)] = buff end
+for _, buff in ipairs(aJ437eDh9S3M) do gdqyPzxyWBkFl[string.lower(buff)] = buff end
 
-local xLJJ2UWPog = {
+local lnMompe6ChpF = {
     [string.char(101,121,101)] = string.char(65,108,105,101,110), [string.char(104,97,110,100,108,101)] = string.char(66,97,99,111,110), [string.char(119,97,116,101,114)] = string.char(87,101,116), [string.char(115,112,108,97,115,104)] = string.char(87,101,116), [string.char(100,114,111,112,108,101,116)] = string.char(87,101,116),
     [string.char(97,117,114,97)] = string.char(86,111,105,100), [string.char(98,108,97,99,107,104,111,108,101)] = string.char(86,111,105,100), [string.char(118,111,105,100)] = string.char(86,111,105,100), [string.char(103,108,105,116,99,104)] = string.char(86,105,114,117,115), [string.char(118,105,114,117,115)] = string.char(86,105,114,117,115),
     [string.char(115,112,97,114,107)] = string.char(69,108,101,99,116,114,105,102,105,101,100), [string.char(101,108,101,99,116,114,105,99)] = string.char(69,108,101,99,116,114,105,102,105,101,100), [string.char(102,105,114,101)] = string.char(77,111,108,116,101,110), [string.char(108,97,118,97)] = string.char(77,111,108,116,101,110),
     [string.char(112,104,97,110,116,111,109)] = string.char(80,104,97,110,116,111,109), [string.char(115,104,97,100,111,119)] = string.char(83,104,97,100,111,119), [string.char(114,97,105,110,98,111,119)] = string.char(82,97,105,110,98,111,119), [string.char(103,111,108,100)] = string.char(71,111,108,100,101,110), [string.char(100,105,97,109,111,110,100)] = string.char(68,105,97,109,111,110,100)
 }
-for ruIFxzWq, mutation in pairs(xLJJ2UWPog) do iYF8ZqdkXVwV3M[string.lower(ruIFxzWq)] = mutation end
+for elXDlruN, mutation in pairs(lnMompe6ChpF) do gdqyPzxyWBkFl[string.lower(elXDlruN)] = mutation end
 
-local function b1lR6149QHnZC(petModel)
-    local u4BrLgyPvkzQ = {}
-    if not petModel then return u4BrLgyPvkzQ end
+local function tYPd3eEBLtXYzc(petModel)
+    local hKt37h5cqIC2 = {}
+    if not petModel then return hKt37h5cqIC2 end
 
-    local yHiwH6sn = string.lower(petModel.Name)
-    for _, buff in ipairs(kb5ZZ_Y4W) do
-        if string.find(yHiwH6sn, string.lower(buff)) then u4BrLgyPvkzQ[buff] = true end
+    local tkaHI7CMy = string.lower(petModel.Name)
+    for _, buff in ipairs(aJ437eDh9S3M) do
+        if string.find(tkaHI7CMy, string.lower(buff)) then hKt37h5cqIC2[buff] = true end
     end
 
     for attrName, attrValue in pairs(petModel:GetAttributes()) do
-        local cB3_I66kZmy = string.lower(attrName)
-        if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and iYF8ZqdkXVwV3M[cB3_I66kZmy] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[cB3_I66kZmy]] = true end
-        if type(attrValue) == string.char(115,116,114,105,110,103) and iYF8ZqdkXVwV3M[string.lower(attrValue)] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[string.lower(attrValue)]] = true end
+        local _BbuN3i5 = string.lower(attrName)
+        if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and gdqyPzxyWBkFl[_BbuN3i5] then hKt37h5cqIC2[gdqyPzxyWBkFl[_BbuN3i5]] = true end
+        if type(attrValue) == string.char(115,116,114,105,110,103) and gdqyPzxyWBkFl[string.lower(attrValue)] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(attrValue)]] = true end
     end
 
     for _, obj in pairs(petModel:GetDescendants()) do
-        local ruIFxzWq = string.lower(obj.Name)
-        if iYF8ZqdkXVwV3M[ruIFxzWq] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[ruIFxzWq]] = true end
+        local elXDlruN = string.lower(obj.Name)
+        if gdqyPzxyWBkFl[elXDlruN] then hKt37h5cqIC2[gdqyPzxyWBkFl[elXDlruN]] = true end
 
-        if obj:IsA(string.char(83,116,114,105,110,103,86,97,108,117,101)) and iYF8ZqdkXVwV3M[string.lower(tostring(obj.Value))] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[string.lower(tostring(obj.Value))]] = true end
+        if obj:IsA(string.char(83,116,114,105,110,103,86,97,108,117,101)) and gdqyPzxyWBkFl[string.lower(tostring(obj.Value))] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(tostring(obj.Value))]] = true end
         for attrName, attrValue in pairs(obj:GetAttributes()) do
-            local cB3_I66kZmy = string.lower(attrName)
-            if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and iYF8ZqdkXVwV3M[cB3_I66kZmy] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[cB3_I66kZmy]] = true end
-            if type(attrValue) == string.char(115,116,114,105,110,103) and iYF8ZqdkXVwV3M[string.lower(attrValue)] then u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[string.lower(attrValue)]] = true end
+            local _BbuN3i5 = string.lower(attrName)
+            if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and gdqyPzxyWBkFl[_BbuN3i5] then hKt37h5cqIC2[gdqyPzxyWBkFl[_BbuN3i5]] = true end
+            if type(attrValue) == string.char(115,116,114,105,110,103) and gdqyPzxyWBkFl[string.lower(attrValue)] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(attrValue)]] = true end
         end
         if obj:IsA(string.char(84,101,120,116,76,97,98,101,108)) then
-            local umOKELhEiWtD = string.lower(obj.Text)
-            for _, buff in ipairs(kb5ZZ_Y4W) do if string.find(umOKELhEiWtD, string.lower(buff)) then u4BrLgyPvkzQ[buff] = true end end
+            local go_R7U0m77Y = string.lower(obj.Text)
+            for _, buff in ipairs(aJ437eDh9S3M) do if string.find(go_R7U0m77Y, string.lower(buff)) then hKt37h5cqIC2[buff] = true end end
         end
-        if (obj:IsA(string.char(80,97,114,116,105,99,108,101,69,109,105,116,116,101,114)) or obj:IsA(string.char(84,114,97,105,108)) or obj:IsA(string.char(66,101,97,109))) and iYF8ZqdkXVwV3M[string.lower(obj.Name)] then
-            u4BrLgyPvkzQ[iYF8ZqdkXVwV3M[string.lower(obj.Name)]] = true
+        if (obj:IsA(string.char(80,97,114,116,105,99,108,101,69,109,105,116,116,101,114)) or obj:IsA(string.char(84,114,97,105,108)) or obj:IsA(string.char(66,101,97,109))) and gdqyPzxyWBkFl[string.lower(obj.Name)] then
+            hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(obj.Name)]] = true
         end
     end
-    return u4BrLgyPvkzQ
+    return hKt37h5cqIC2
 end
 
 
 
-local rDSiRlwEb = {}
-local tWOa1VzujB = {}
-local s3SYytRMR = {}
+local mRh_y2DF = {}
+local i_wZ7i7xnPZX = {}
+local lFyJrHIxuP82Gr = {}
 
-fOKEnTN5n(wJrx8i95a, string.char(70,105,108,116,101,114,32,82,97,114,105,116,121), on8j2ST72, string.char(77,97,105,110,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    for r, v2vaALANuo in pairs(tWOa1VzujB) do v2vaALANuo.Visible = (r == selectedRarity) end
+eVr1G2hv8fFHrr(qwTS26gRIdcX, string.char(70,105,108,116,101,114,32,82,97,114,105,116,121), mTfJRredIpOe, string.char(77,97,105,110,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    for r, e76oOuDp in pairs(i_wZ7i7xnPZX) do e76oOuDp.Visible = (r == selectedRarity) end
 end)
 
-for _, rarity in ipairs(on8j2ST72) do
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), wJrx8i95a)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32); v2vaALANuo.BackgroundTransparency = 1
-    v2vaALANuo.AutomaticSize = Enum.AutomaticSize.Y; v2vaALANuo.Visible = (rarity == string.char(67,111,109,109,111,110)) 
-    tWOa1VzujB[rarity] = v2vaALANuo
-    fcoLuXhU9H(v2vaALANuo, string.char(84,97,114,103,101,116,32,66,114,97,105,110,114,111,116,115), spB6e0Ef6ow8[rarity], string.char(77,97,105,110,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(77,97,105,110,75,105,99,107,80,101,116,115,83,121,110,99), rDSiRlwEb, function(sel) end)
+for _, rarity in ipairs(mTfJRredIpOe) do
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), qwTS26gRIdcX)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1
+    e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110)) 
+    i_wZ7i7xnPZX[rarity] = e76oOuDp
+    u50MEcoeYDZ(e76oOuDp, string.char(84,97,114,103,101,116,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(77,97,105,110,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(77,97,105,110,75,105,99,107,80,101,116,115,83,121,110,99), mRh_y2DF, function(sel) end)
 end
 
-dWtWqLsOZ89E(wJrx8i95a, string.char(84,97,114,103,101,116,32,77,117,116,97,116,105,111,110), b6jiVVM5Bk, string.char(77,97,105,110,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(t27DTx1us3) s3SYytRMR = t27DTx1us3 end)
+oWP4DMDYQn(qwTS26gRIdcX, string.char(84,97,114,103,101,116,32,77,117,116,97,116,105,111,110), uQOHqJkX, string.char(77,97,105,110,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) lFyJrHIxuP82Gr = rFmfPVqY end)
 
-local tA5qP_50 = false
-local _AcF6BPedDpm_b = 0
+local iZqaydNFf12F = false
+local nDycLVNyGTu = 0
 
-klxtQtuWk(wJrx8i95a, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97,114,112,32,38,32,82,117,110,32,66,97,99,107,41,32,10024), string.char(65,117,116,111,75,105,99,107), function(v)
-    tA5qP_50 = v; _AcF6BPedDpm_b += 1; local lrBy32WX5TQ = _AcF6BPedDpm_b
+nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97,114,112,32,38,32,82,117,110,32,66,97,99,107,41,32,10024), string.char(65,117,116,111,75,105,99,107), function(v)
+    iZqaydNFf12F = v; nDycLVNyGTu += 1; local ooNQS_zYs87FIG = nDycLVNyGTu
 
-    if tA5qP_50 then
+    if iZqaydNFf12F then
         task.spawn(function()
-            while tA5qP_50 and lrBy32WX5TQ == _AcF6BPedDpm_b do
+            while iZqaydNFf12F and ooNQS_zYs87FIG == nDycLVNyGTu do
                 pcall(function()
-                    local hZ7nANbT = player.Character; local z0mD3QxdHEZp = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-                    local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if not (z0mD3QxdHEZp and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0) then return end
+                    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                    local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
 
-                    local fQi5thL0y = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not fQi5thL0y then return end
-                    local ufpoDxNbl = fQi5thL0y:IsA(string.char(66,97,115,101,80,97,114,116)) and fQi5thL0y.CFrame or fQi5thL0y:GetPivot()
+                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not rEbPwOba then return end
+                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
                     
-                    if (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude > 5 then paRUr8Al(ufpoDxNbl + Vector3.new(0, 3, 0)) end
+                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0, 3, 0)) end
                     task.wait(0.5) 
-                    local mtjWJ98WLft2 = z0mD3QxdHEZp.Position; local fVT8GxQDm = false; local n4iKk8m0eADAL = fknxAS_jVRXg:FindFirstChild(string.char(72,85,68))
+                    local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position; local hsrSAZY8c = false; local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
                     
                     for i = 1, 150 do
                         task.wait(0.1)
-                        if not hZ7nANbT or not hZ7nANbT.Parent or xBSV1Kj8iSI.Health <= 0 then return end
-                        if (z0mD3QxdHEZp.Position - mtjWJ98WLft2).Magnitude > 40 then fVT8GxQDm = true; break end
+                        if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then return end
+                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then hsrSAZY8c = true; break end
                         
-                        local qPCF63y5TPEK8 = n4iKk8m0eADAL and n4iKk8m0eADAL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if qPCF63y5TPEK8 and qPCF63y5TPEK8.Visible then bWn4HpQZxv1X_U.rev_KickEvent:FireServer(1); task.wait(0.5) end
+                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then wSguwQDv9Qnd85.rev_KickEvent:FireServer(1); task.wait(0.5) end
                     end
 
-                    if not fVT8GxQDm then return end 
+                    if not hsrSAZY8c then return end 
                     task.wait(0.5)
 
-                    local qoJvg1f_gqaHTE = false; local nczaSDvCM = nil
+                    local vTYRcZ4so0h0 = false; local sqO0WXO7w = nil
                     for i = 1, 40 do 
-                        task.wait(0.2); local vIFktCd6Cl = 60 
+                        task.wait(0.2); local k4xQ6BNreu0mu = 60 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart then
-                                local bCVqAwNdFhO = (obj.PrimaryPart.Position - z0mD3QxdHEZp.Position).Magnitude
-                                if bCVqAwNdFhO < vIFktCd6Cl then vIFktCd6Cl = bCVqAwNdFhO; qoJvg1f_gqaHTE = true; nczaSDvCM = obj end
+                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
+                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; vTYRcZ4so0h0 = true; sqO0WXO7w = obj end
                             end
                         end
-                        if qoJvg1f_gqaHTE then break end
+                        if vTYRcZ4so0h0 then break end
                     end
 
-                    if qoJvg1f_gqaHTE and nczaSDvCM then
+                    if vTYRcZ4so0h0 and sqO0WXO7w then
                         task.wait(0.5) 
-                        local tSKh1fyOi33I = false; local nM3Gtjgc = false; local s7ixpLXSMys = b1lR6149QHnZC(nczaSDvCM)
+                        local sJ3mB9MGl6OZZ = false; local iNtp9WPzCK = false; local oYcVUbQI = tYPd3eEBLtXYzc(sqO0WXO7w)
                         
-                        for mut, isActive in pairs(s3SYytRMR) do
+                        for mut, isActive in pairs(lFyJrHIxuP82Gr) do
                             if isActive then
-                                nM3Gtjgc = true
+                                iNtp9WPzCK = true
                                 if mut == string.char(78,111,114,109,97,108) then
-                                    local iI4U60l9IUBU = false; for _, _ in pairs(s7ixpLXSMys) do iI4U60l9IUBU = true; break end
-                                    if not iI4U60l9IUBU then tSKh1fyOi33I = true; break end
-                                elseif s7ixpLXSMys[mut] then tSKh1fyOi33I = true; break end
+                                    local nqPpCvMBph = false; for _, _ in pairs(oYcVUbQI) do nqPpCvMBph = true; break end
+                                    if not nqPpCvMBph then sJ3mB9MGl6OZZ = true; break end
+                                elseif oYcVUbQI[mut] then sJ3mB9MGl6OZZ = true; break end
                             end
                         end
 
-                        local jJ8uc7ZwwXUO3 = false; local mmK6je80sQ = false
-                        for qNDgoTKv9UOh, isActive in pairs(rDSiRlwEb) do
+                        local sIKUfAgQ = false; local _WbOf28zQak = false
+                        for aGbsELnYIEk4, isActive in pairs(mRh_y2DF) do
                             if isActive then
-                                mmK6je80sQ = true
-                                if string.lower(nczaSDvCM.Name) == string.lower(qNDgoTKv9UOh) then jJ8uc7ZwwXUO3 = true; break end
+                                _WbOf28zQak = true
+                                if string.lower(sqO0WXO7w.Name) == string.lower(aGbsELnYIEk4) then sIKUfAgQ = true; break end
                             end
                         end
                         
-                        local j7x2u02Gq7S5Yg = false
-                        if nM3Gtjgc and not tSKh1fyOi33I then j7x2u02Gq7S5Yg = true end
-                        if mmK6je80sQ and not jJ8uc7ZwwXUO3 then j7x2u02Gq7S5Yg = true end
+                        local __jJq4UpG8fQoE = false
+                        if iNtp9WPzCK and not sJ3mB9MGl6OZZ then __jJq4UpG8fQoE = true end
+                        if _WbOf28zQak and not sIKUfAgQ then __jJq4UpG8fQoE = true end
 
-                        if j7x2u02Gq7S5Yg then
-                            local p7Sr9gvKHu = workspace:FindFirstChild(string.char(87,97,118,101,115)); local zIk95kRH = nil
-                            if p7Sr9gvKHu then
-                                if p7Sr9gvKHu:IsA(string.char(66,97,115,101,80,97,114,116)) then zIk95kRH = p7Sr9gvKHu.Position elseif p7Sr9gvKHu:IsA(string.char(77,111,100,101,108)) then zIk95kRH = p7Sr9gvKHu:GetPivot().Position
-                                else local bmxnmovFeVNTwW = p7Sr9gvKHu:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if bmxnmovFeVNTwW then zIk95kRH = bmxnmovFeVNTwW.Position end end
+                        if __jJq4UpG8fQoE then
+                            local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115)); local amF2FyJKrJVi = nil
+                            if mPFDjdo2u then
+                                if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then amF2FyJKrJVi = mPFDjdo2u.Position elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
+                                else local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end end
                             end
-                            if zIk95kRH then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, zIk95kRH) elseif fQi5thL0y then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position) end
+                            if amF2FyJKrJVi then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi) elseif rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end
                         else
-                            if nczaSDvCM and not nczaSDvCM:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
-                                nczaSDvCM:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
-                                local qNDgoTKv9UOh = nczaSDvCM.Name
-                                local h2UhcNAGb_ = {}; for b, _ in pairs(s7ixpLXSMys) do table.insert(h2UhcNAGb_, b) end
-                                local bN21tvKwL8 = #h2UhcNAGb_ > 0 and table.concat(h2UhcNAGb_, string.char(44,32)) or string.char(78,111,114,109,97,108)
-                                local tBYHV1jaqL = string.char(85,110,107,110,111,119,110)
-                                if spB6e0Ef6ow8 then
-                                    for r, pets in pairs(spB6e0Ef6ow8) do
-                                        for _, p in ipairs(pets) do if string.lower(qNDgoTKv9UOh) == string.lower(p) then tBYHV1jaqL = r; break end end
-                                        if tBYHV1jaqL ~= string.char(85,110,107,110,111,119,110) then break end
+                            if sqO0WXO7w and not sqO0WXO7w:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
+                                sqO0WXO7w:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
+                                local aGbsELnYIEk4 = sqO0WXO7w.Name
+                                local jBIc8hiDZz = {}; for b, _ in pairs(oYcVUbQI) do table.insert(jBIc8hiDZz, b) end
+                                local vxgIAL5etIqtu = #jBIc8hiDZz > 0 and table.concat(jBIc8hiDZz, string.char(44,32)) or string.char(78,111,114,109,97,108)
+                                local jt9RjbiwP = string.char(85,110,107,110,111,119,110)
+                                if p19XQ8Gpm0D_ then
+                                    for r, pets in pairs(p19XQ8Gpm0D_) do
+                                        for _, p in ipairs(pets) do if string.lower(aGbsELnYIEk4) == string.lower(p) then jt9RjbiwP = r; break end end
+                                        if jt9RjbiwP ~= string.char(85,110,107,110,111,119,110) then break end
                                     end
                                 end
-                                local u3VTTPvhaNh = (aneUqqTMKQ[qNDgoTKv9UOh] or 0) + 1
-                                __Nigo6gJ5Sky(string.char(128064,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. qNDgoTKv9UOh .. "\n**Rarity:** " .. tBYHV1jaqL .. "\n**Mutation:** " .. bN21tvKwL8 .. "\n**Count:** " .. u3VTTPvhaNh .. "\n**Player:** " .. player.Name, 0x3498DB, false)
+                                local uFFwFFset = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
+                                kHb4lFlmkN(string.char(128064,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. uFFwFFset .. "\n**Player:** " .. player.Name, 0x3498DB, false)
                                 
-                                if fQi5thL0y then
-                                    cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position); task.wait(1.5)
-                                    if hZ7nANbT and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0 and (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude < 20 then
-                                        aneUqqTMKQ[qNDgoTKv9UOh] = (aneUqqTMKQ[qNDgoTKv9UOh] or 0) + 1
-                                        local bpK3X6t38SkCy = aneUqqTMKQ[qNDgoTKv9UOh]
-                                        __Nigo6gJ5Sky(string.char(127881,32,84,97,114,103,101,116,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. qNDgoTKv9UOh .. "\n**Rarity:** " .. tBYHV1jaqL .. "\n**Mutation:** " .. bN21tvKwL8 .. "\n**Count:** " .. bpK3X6t38SkCy .. "\n**Player:** " .. player.Name, 0x04CB29, false)
+                                if rEbPwOba then
+                                    jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position); task.wait(1.5)
+                                    if drUAUyYwFpvH and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 and (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 20 then
+                                        je5a5hAwwKED[aGbsELnYIEk4] = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
+                                        local f5_LQxcVqLOh5 = je5a5hAwwKED[aGbsELnYIEk4]
+                                        kHb4lFlmkN(string.char(127881,32,84,97,114,103,101,116,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. f5_LQxcVqLOh5 .. "\n**Player:** " .. player.Name, 0x04CB29, false)
                                     end
                                 end
-                            else if fQi5thL0y then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position) end end
+                            else if rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end end
                         end
                     end
                 end)
@@ -899,29 +899,29 @@ klxtQtuWk(wJrx8i95a, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97,114
     end
 end)
 
-local bTSsQI2pv = false; local h_S8RigF = 0
-local uctKdYhqz1b = {
+local lLHPs_7Zmj = false; local xGk3y3_nv9Pthq = 0
+local lCTLnQ7L = {
     [string.char(87,111,111,100,101,110,32,83,116,105,99,107)] = true, [string.char(67,111,112,112,101,114,32,80,108,97,116,101)] = true, [string.char(83,116,111,110,101,32,66,108,111,99,107)] = true, [string.char(66,111,110,101,32,66,97,114,98,101,108,108)] = true, [string.char(68,111,110,117,116,32,66,97,114,98,101,108,108)] = true, [string.char(73,99,101,32,66,97,114,98,101,108,108)] = true,
     [string.char(73,114,111,110,32,80,108,97,116,101)] = true, [string.char(72,101,97,118,101,110,32,80,108,97,116,101)] = true, [string.char(71,111,108,100,32,66,97,114,98,101,108,108)] = true, [string.char(71,111,108,100,101,110,32,66,97,114,98,101,108,108)] = true, [string.char(71,105,97,110,116,32,71,111,108,100,32,83,116,97,114,32,66,97,114,98,101,108,108)] = true, 
     [string.char(78,101,111,110,32,80,117,108,115,101)] = true, [string.char(77,101,103,97,32,71,111,108,100,32,66,97,114,98,101,108,108)] = true, [string.char(77,101,103,97,32,71,111,108,100,101,110,32,66,97,114,98,101,108,108)] = true, [string.char(69,109,101,114,97,108,100,32,66,97,114,98,101,108,108)] = true 
 }
 
-klxtQtuWk(wJrx8i95a, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,120,50,32,124,124,8212,124,124), string.char(65,117,116,111,84,114,97,105,110), function(v)
-    bTSsQI2pv = v; h_S8RigF = h_S8RigF + 1; local toF8nQLmwnK6 = h_S8RigF
-    if bTSsQI2pv then
+nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,120,50,32,124,124,8212,124,124), string.char(65,117,116,111,84,114,97,105,110), function(v)
+    lLHPs_7Zmj = v; xGk3y3_nv9Pthq = xGk3y3_nv9Pthq + 1; local uPf204uKI = xGk3y3_nv9Pthq
+    if lLHPs_7Zmj then
         task.spawn(function()
-            while bTSsQI2pv and toF8nQLmwnK6 == h_S8RigF do
+            while lLHPs_7Zmj and uPf204uKI == xGk3y3_nv9Pthq do
                 pcall(function()
-                    local hZ7nANbT = player.Character; local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    local rMQMHQkYY1jy = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107)); local lNDkoueOIJ = hZ7nANbT and hZ7nANbT:FindFirstChildOfClass(string.char(84,111,111,108))
-                    local jwSkp0oyzW = lNDkoueOIJ and uctKdYhqz1b[lNDkoueOIJ.Name]
+                    local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    local a3H59gzPwLIJq = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107)); local oLKFiQdSa8Q = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChildOfClass(string.char(84,111,111,108))
+                    local dIRelcc79p3P = oLKFiQdSa8Q and lCTLnQ7L[oLKFiQdSa8Q.Name]
                     
-                    if not jwSkp0oyzW then
-                        if lNDkoueOIJ then xBSV1Kj8iSI:UnequipTools() end
-                        local ylNXTyzybr97 = fknxAS_jVRXg:FindFirstChild(string.char(66,97,99,107,112,97,99,107)) and fknxAS_jVRXg.Backpack:FindFirstChild(string.char(66,97,114)) and fknxAS_jVRXg.Backpack.Bar:FindFirstChild(string.char(83,108,111,116,49))
-                        if ylNXTyzybr97 and getconnections then
-                            local qKvscVdzTvQda8 = {ylNXTyzybr97, ylNXTyzybr97:FindFirstChild(string.char(84,111,111,108,73,109,97,103,101))}
-                            for _, t in pairs(qKvscVdzTvQda8) do
+                    if not dIRelcc79p3P then
+                        if oLKFiQdSa8Q then q21YZH4aC4cd:UnequipTools() end
+                        local oFSbGlLuiEWPcM = sE5J0gxQtz:FindFirstChild(string.char(66,97,99,107,112,97,99,107)) and sE5J0gxQtz.Backpack:FindFirstChild(string.char(66,97,114)) and sE5J0gxQtz.Backpack.Bar:FindFirstChild(string.char(83,108,111,116,49))
+                        if oFSbGlLuiEWPcM and getconnections then
+                            local fZZD5QPM2R = {oFSbGlLuiEWPcM, oFSbGlLuiEWPcM:FindFirstChild(string.char(84,111,111,108,73,109,97,103,101))}
+                            for _, t in pairs(fZZD5QPM2R) do
                                 if t then
                                     pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
                                     pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
@@ -932,33 +932,33 @@ klxtQtuWk(wJrx8i95a, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,12
                             end
                         end
                         task.wait(0.1)
-                        if not hZ7nANbT:FindFirstChildOfClass(string.char(84,111,111,108)) and rMQMHQkYY1jy and xBSV1Kj8iSI then
-                            for _, tool in pairs(rMQMHQkYY1jy:GetChildren()) do if tool:IsA(string.char(84,111,111,108)) and uctKdYhqz1b[tool.Name] then xBSV1Kj8iSI:EquipTool(tool); break end end
+                        if not drUAUyYwFpvH:FindFirstChildOfClass(string.char(84,111,111,108)) and a3H59gzPwLIJq and q21YZH4aC4cd then
+                            for _, tool in pairs(a3H59gzPwLIJq:GetChildren()) do if tool:IsA(string.char(84,111,111,108)) and lCTLnQ7L[tool.Name] then q21YZH4aC4cd:EquipTool(tool); break end end
                         end
                     else
-                        lNDkoueOIJ:Activate()
-                        if getconnections then for _, c in pairs(getconnections(lNDkoueOIJ.Activated)) do c:Fire() end end
+                        oLKFiQdSa8Q:Activate()
+                        if getconnections then for _, c in pairs(getconnections(oLKFiQdSa8Q.Activated)) do c:Fire() end end
                     end
                 end)
                 
                 pcall(function()
-                    local vVDUHHFTt = fknxAS_jVRXg:FindFirstChild(string.char(75,105,99,107,85,112,103,114,97,100,101,115))
-                    if vVDUHHFTt then
-                        for _, bonus in pairs(vVDUHHFTt:GetChildren()) do
+                    local qGsE9m9U1 = sE5J0gxQtz:FindFirstChild(string.char(75,105,99,107,85,112,103,114,97,100,101,115))
+                    if qGsE9m9U1 then
+                        for _, bonus in pairs(qGsE9m9U1:GetChildren()) do
                             if bonus.Name == string.char(66,111,110,117,115) or bonus.Name == string.char(80,111,112,66,111,110,117,115) then
                                 if bonus.Visible then
                                     if not bonus:GetAttribute(string.char(65,117,116,111,67,108,105,99,107,101,100)) then
                                         bonus:SetAttribute(string.char(65,117,116,111,67,108,105,99,107,101,100), true) 
                                         task.spawn(function()
-                                            task.wait(0.2); local ouKdkfuZRGXr = bonus:FindFirstChild(string.char(73,109,97,103,101,76,97,98,101,108))
-                                            local qKvscVdzTvQda8 = {bonus}; if ouKdkfuZRGXr then table.insert(qKvscVdzTvQda8, ouKdkfuZRGXr) end
+                                            task.wait(0.2); local seHVtOzY = bonus:FindFirstChild(string.char(73,109,97,103,101,76,97,98,101,108))
+                                            local fZZD5QPM2R = {bonus}; if seHVtOzY then table.insert(fZZD5QPM2R, seHVtOzY) end
                                             if getconnections then
-                                                for _, gGEogXQvk8Pna in pairs(qKvscVdzTvQda8) do
-                                                    pcall(function() for _, conn in pairs(getconnections(gGEogXQvk8Pna.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}); conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(gGEogXQvk8Pna.MouseButton1Down)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(gGEogXQvk8Pna.MouseButton1Up)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(gGEogXQvk8Pna.MouseButton1Click)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(gGEogXQvk8Pna.Activated)) do conn:Fire() end end)
+                                                for _, aHBK8x9ko01 in pairs(fZZD5QPM2R) do
+                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}); conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Down)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Up)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Click)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.Activated)) do conn:Fire() end end)
                                                 end
                                             end
                                         end)
@@ -974,49 +974,49 @@ klxtQtuWk(wJrx8i95a, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,12
     end
 end)
 
-klxtQtuWk(wJrx8i95a, string.char(69,110,97,98,108,101,32,67,117,115,116,111,109,32,83,112,101,101,100,32,127939), string.char(69,110,97,98,108,101,83,112,101,101,100), function(v)
-    fqoUrGNCGNKh = v
-    if fqoUrGNCGNKh then
+nP6QBDOPrq(qwTS26gRIdcX, string.char(69,110,97,98,108,101,32,67,117,115,116,111,109,32,83,112,101,101,100,32,127939), string.char(69,110,97,98,108,101,83,112,101,101,100), function(v)
+    ahqRHJvHJkYOg = v
+    if ahqRHJvHJkYOg then
         task.spawn(function()
-            while fqoUrGNCGNKh do
-                pcall(function() local hZ7nANbT = player.Character; local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100)); if xBSV1Kj8iSI then xBSV1Kj8iSI.WalkSpeed = eWqS6f9zc end end)
+            while ahqRHJvHJkYOg do
+                pcall(function() local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100)); if q21YZH4aC4cd then q21YZH4aC4cd.WalkSpeed = sg5fJwNRkD end end)
                 task.wait(0.1)
             end
         end)
     end
 end)
 
-hkbpFmKk7ZL8u(wJrx8i95a, string.char(83,101,116,32,83,112,101,101,100), 1, 1000, 50, string.char(83,112,101,101,100,86,97,108), function(zfrDdu3TWm) eWqS6f9zc = zfrDdu3TWm end)
-fdpZWAde(wJrx8i95a, string.char(84,80,32,75,105,99,107,82,101,97,100,121,32,9889), function() pcall(function() paRUr8Al(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end) end)
+iT3kon0TJeZgO(qwTS26gRIdcX, string.char(83,101,116,32,83,112,101,101,100), 1, 1000, 50, string.char(83,112,101,101,100,86,97,108), function(ggUxBkOHABn38i) sg5fJwNRkD = ggUxBkOHABn38i end)
+rWtsgIJWU(qwTS26gRIdcX, string.char(84,80,32,75,105,99,107,82,101,97,100,121,32,9889), function() pcall(function() gyrT1ry0N(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end) end)
 
 
 
-local tSHEx7bTXK9WC = false; local vKzKJzpQ1R = nil 
-klxtQtuWk(hd2APgoT, string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,77,111,110,101,121,32,40,104,111,109,101,41,32,129297), string.char(65,117,116,111,67,111,108,108,101,99,116), function(v)
-    tSHEx7bTXK9WC = v
-    local hZ7nANbT = player.Character; local z0mD3QxdHEZp = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-    if tSHEx7bTXK9WC then
-        if not vKzKJzpQ1R and z0mD3QxdHEZp then
-            local vIFktCd6Cl = math.huge
+local wh6IQMpRIbI9 = false; local oqZfZDrxHV = nil 
+nP6QBDOPrq(rVny5wJg3_aGBZ, string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,77,111,110,101,121,32,40,104,111,109,101,41,32,129297), string.char(65,117,116,111,67,111,108,108,101,99,116), function(v)
+    wh6IQMpRIbI9 = v
+    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+    if wh6IQMpRIbI9 then
+        if not oqZfZDrxHV and ksl7JzZXIZOsoJ then
+            local k4xQ6BNreu0mu = math.huge
             for _, plot in pairs(workspace:WaitForChild(string.char(80,108,111,116,115)):GetChildren()) do
                 if plot:IsA(string.char(77,111,100,101,108)) or plot:IsA(string.char(70,111,108,100,101,114)) then
-                    local bCVqAwNdFhO = (z0mD3QxdHEZp.Position - plot:GetPivot().Position).Magnitude
-                    if bCVqAwNdFhO < vIFktCd6Cl then vIFktCd6Cl = bCVqAwNdFhO; vKzKJzpQ1R = plot end
+                    local v0f5Ei59l54UB = (ksl7JzZXIZOsoJ.Position - plot:GetPivot().Position).Magnitude
+                    if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; oqZfZDrxHV = plot end
                 end
             end
         end
         task.spawn(function()
-            while tSHEx7bTXK9WC do
-                if vKzKJzpQ1R then
-                    local c1DHgxiSPO = vKzKJzpQ1R:FindFirstChild(string.char(66,117,116,116,111,110,115))
-                    if c1DHgxiSPO then
+            while wh6IQMpRIbI9 do
+                if oqZfZDrxHV then
+                    local eoN8HHiiKTnwT_ = oqZfZDrxHV:FindFirstChild(string.char(66,117,116,116,111,110,115))
+                    if eoN8HHiiKTnwT_ then
                         for i = 1, 30 do
-                            if not tSHEx7bTXK9WC then break end
-                            local r6ILlkSn = c1DHgxiSPO:FindFirstChild(string.char(83,108,111,116) .. i)
-                            if r6ILlkSn then
-                                local fFRMz7QFX5
-                                if r6ILlkSn:IsA(string.char(66,97,115,101,80,97,114,116)) then fFRMz7QFX5 = r6ILlkSn.CFrame elseif r6ILlkSn:IsA(string.char(77,111,100,101,108)) and r6ILlkSn.PrimaryPart then fFRMz7QFX5 = r6ILlkSn.PrimaryPart.CFrame elseif r6ILlkSn:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)) then fFRMz7QFX5 = r6ILlkSn:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)).CFrame end
-                                if fFRMz7QFX5 then pcall(function() paRUr8Al(fFRMz7QFX5 + Vector3.new(0, 1.5, 0)); task.wait(0.1); bWn4HpQZxv1X_U.rev_B_Collect:FireServer(i) end) end
+                            if not wh6IQMpRIbI9 then break end
+                            local u3VhQtqLG0AL = eoN8HHiiKTnwT_:FindFirstChild(string.char(83,108,111,116) .. i)
+                            if u3VhQtqLG0AL then
+                                local cWoZoY7fWI6_2
+                                if u3VhQtqLG0AL:IsA(string.char(66,97,115,101,80,97,114,116)) then cWoZoY7fWI6_2 = u3VhQtqLG0AL.CFrame elseif u3VhQtqLG0AL:IsA(string.char(77,111,100,101,108)) and u3VhQtqLG0AL.PrimaryPart then cWoZoY7fWI6_2 = u3VhQtqLG0AL.PrimaryPart.CFrame elseif u3VhQtqLG0AL:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)) then cWoZoY7fWI6_2 = u3VhQtqLG0AL:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)).CFrame end
+                                if cWoZoY7fWI6_2 then pcall(function() gyrT1ry0N(cWoZoY7fWI6_2 + Vector3.new(0, 1.5, 0)); task.wait(0.1); wSguwQDv9Qnd85.rev_B_Collect:FireServer(i) end) end
                             end
                         end
                     end
@@ -1027,85 +1027,85 @@ klxtQtuWk(hd2APgoT, string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,7
     end
 end)
 
-local tBUaa7c0mzV_mX = false
-klxtQtuWk(hd2APgoT, string.char(73,110,115,116,97,110,116,32,71,114,97,98,32,40,78,111,32,68,101,108,97,121,41,32,9889), string.char(73,110,115,116,97,110,116,71,114,97,98), function(v)
-    tBUaa7c0mzV_mX = v
-    if tBUaa7c0mzV_mX then
-        task.spawn(function() while tBUaa7c0mzV_mX do pcall(function() for _, obj in pairs(workspace:GetDescendants()) do if obj:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then obj.HoldDuration = 0 end end end); task.wait(1) end end)
+local xsmWaJ2Y_CwZD = false
+nP6QBDOPrq(rVny5wJg3_aGBZ, string.char(73,110,115,116,97,110,116,32,71,114,97,98,32,40,78,111,32,68,101,108,97,121,41,32,9889), string.char(73,110,115,116,97,110,116,71,114,97,98), function(v)
+    xsmWaJ2Y_CwZD = v
+    if xsmWaJ2Y_CwZD then
+        task.spawn(function() while xsmWaJ2Y_CwZD do pcall(function() for _, obj in pairs(workspace:GetDescendants()) do if obj:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then obj.HoldDuration = 0 end end end); task.wait(1) end end)
     end
 end)
-fdpZWAde(hd2APgoT, string.char(66,117,121,32,83,112,101,101,100,32,120,49,32,128095), function() bWn4HpQZxv1X_U.rev_SPEED_UPGRADE:FireServer(1) end)
-fdpZWAde(hd2APgoT, string.char(82,101,98,105,114,116,104,32,9851,65039), function() bWn4HpQZxv1X_U.rev_RebirthRequest:FireServer() end)
+rWtsgIJWU(rVny5wJg3_aGBZ, string.char(66,117,121,32,83,112,101,101,100,32,120,49,32,128095), function() wSguwQDv9Qnd85.rev_SPEED_UPGRADE:FireServer(1) end)
+rWtsgIJWU(rVny5wJg3_aGBZ, string.char(82,101,98,105,114,116,104,32,9851,65039), function() wSguwQDv9Qnd85.rev_RebirthRequest:FireServer() end)
 
 
 
-local iy9fx46xRtMm = {}; for i = 1, 30 do table.insert(iy9fx46xRtMm, tostring(i)) end
-local zmfh8rMpX = string.char(49)
-fOKEnTN5n(n3j3Wgm_OI, string.char(83,101,108,101,99,116,32,85,112,71), iy9fx46xRtMm, string.char(85,112,71,86,97,108), function(zfrDdu3TWm) zmfh8rMpX = zfrDdu3TWm end)
-local zBwCYkGtgkC8z = false
-klxtQtuWk(n3j3Wgm_OI, string.char(65,117,116,111,32,85,112,103,114,97,100,101,32,83,101,108,101,99,116,101,100,32,9889), string.char(65,117,116,111,85,112,71), function(v)
-    zBwCYkGtgkC8z = v
-    if zBwCYkGtgkC8z then task.spawn(function() while zBwCYkGtgkC8z do pcall(function() bWn4HpQZxv1X_U.rev_B_Upgrade:FireServer(tonumber(zmfh8rMpX)) end); task.wait(0.2) end end) end
+local p3RYiTB6 = {}; for i = 1, 30 do table.insert(p3RYiTB6, tostring(i)) end
+local _yYW2Myv61 = string.char(49)
+eVr1G2hv8fFHrr(tLxk0CWjxy, string.char(83,101,108,101,99,116,32,85,112,71), p3RYiTB6, string.char(85,112,71,86,97,108), function(ggUxBkOHABn38i) _yYW2Myv61 = ggUxBkOHABn38i end)
+local fREsI275i5_sn2 = false
+nP6QBDOPrq(tLxk0CWjxy, string.char(65,117,116,111,32,85,112,103,114,97,100,101,32,83,101,108,101,99,116,101,100,32,9889), string.char(65,117,116,111,85,112,71), function(v)
+    fREsI275i5_sn2 = v
+    if fREsI275i5_sn2 then task.spawn(function() while fREsI275i5_sn2 do pcall(function() wSguwQDv9Qnd85.rev_B_Upgrade:FireServer(tonumber(_yYW2Myv61)) end); task.wait(0.2) end end) end
 end)
 
 
 
-local cPerZXnShBZs = string.char(70,65,82,84,69,90,95,72,85,66,95,67,79,78,70,73,71,83)
-pcall(function() if isfolder and not isfolder(cPerZXnShBZs) then makefolder(cPerZXnShBZs) elseif makefolder and not isfolder then makefolder(cPerZXnShBZs) end end)
+local bNG9iutpQ04q7X = string.char(70,65,82,84,69,90,95,72,85,66,95,67,79,78,70,73,71,83)
+pcall(function() if isfolder and not isfolder(bNG9iutpQ04q7X) then makefolder(bNG9iutpQ04q7X) elseif makefolder and not isfolder then makefolder(bNG9iutpQ04q7X) end end)
 
-local nsyz29VXF5 = ""; local u0dkFguZb = string.char(45,45,45)
-local function pRtvyz53p()
-    local ecdLagOA3sb_va = {}
-    if listfiles then pcall(function() for _, file in pairs(listfiles(cPerZXnShBZs)) do local i0i08krVuX9 = file:match("([^/\\]+)%.json$"); if i0i08krVuX9 then table.insert(ecdLagOA3sb_va, i0i08krVuX9) end end end) end
-    if #ecdLagOA3sb_va == 0 then table.insert(ecdLagOA3sb_va, string.char(45,45,45)) end
-    return ecdLagOA3sb_va
+local q7PVZlxG_na = ""; local os8srRamT = string.char(45,45,45)
+local function _g9Dc5Qi2OAoA()
+    local wq40joSZqeh = {}
+    if listfiles then pcall(function() for _, file in pairs(listfiles(bNG9iutpQ04q7X)) do local z4KG2N5VPStsP = file:match("([^/\\]+)%.json$"); if z4KG2N5VPStsP then table.insert(wq40joSZqeh, z4KG2N5VPStsP) end end end) end
+    if #wq40joSZqeh == 0 then table.insert(wq40joSZqeh, string.char(45,45,45)) end
+    return wq40joSZqeh
 end
 
-iCeguxR6(wCBTVSpq1fl, string.char(67,111,110,102,105,103,32,110,97,109,101), string.char(69,110,116,101,114,32,99,111,110,102,105,103,32,110,97,109,101,46,46,46), string.char(85,73,95,73,110,112,117,116,78,97,109,101), function(zfrDdu3TWm) nsyz29VXF5 = zfrDdu3TWm end)
-fdpZWAde(wCBTVSpq1fl, string.char(67,114,101,97,116,101,32,99,111,110,102,105,103), function()
-    if nsyz29VXF5 == "" then print(string.char(9888,65039,32,3585,3619,3640,3603,3634,3651,3626,3656,3594,3639,3656,3629,32,67,111,110,102,105,103,33)); return end
-    local snO4DuVtvD = HttpService:JSONEncode(b5mUdeDFsl)
-    pcall(function() if writefile then writefile(cPerZXnShBZs .. string.char(47) .. nsyz29VXF5 .. string.char(46,106,115,111,110), snO4DuVtvD); print(string.char(9989,32,3626,3619,3657,3634,3591,32,67,111,110,102,105,103,58,32) .. nsyz29VXF5 .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
+pohUFYfEik7(uA8mQ_eTH, string.char(67,111,110,102,105,103,32,110,97,109,101), string.char(69,110,116,101,114,32,99,111,110,102,105,103,32,110,97,109,101,46,46,46), string.char(85,73,95,73,110,112,117,116,78,97,109,101), function(ggUxBkOHABn38i) q7PVZlxG_na = ggUxBkOHABn38i end)
+rWtsgIJWU(uA8mQ_eTH, string.char(67,114,101,97,116,101,32,99,111,110,102,105,103), function()
+    if q7PVZlxG_na == "" then print(string.char(9888,65039,32,3585,3619,3640,3603,3634,3651,3626,3656,3594,3639,3656,3629,32,67,111,110,102,105,103,33)); return end
+    local dVLDmFE3IXhq = HttpService:JSONEncode(kU1UuI7I2Ldh)
+    pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47) .. q7PVZlxG_na .. string.char(46,106,115,111,110), dVLDmFE3IXhq); print(string.char(9989,32,3626,3619,3657,3634,3591,32,67,111,110,102,105,103,58,32) .. q7PVZlxG_na .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
 end)
 
-local cSyYfw6fUFQM = Instance.new(string.char(70,114,97,109,101), wCBTVSpq1fl); cSyYfw6fUFQM.Size = UDim2.new(0, 260, 0, 32); cSyYfw6fUFQM.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight; cSyYfw6fUFQM.ClipsDescendants = true; Instance.new(string.char(85,73,67,111,114,110,101,114), cSyYfw6fUFQM).CornerRadius = UDim.new(0, 6)
-local fA7ay5nZ7iad5 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), cSyYfw6fUFQM); fA7ay5nZ7iad5.Size = UDim2.new(1, 0, 0, 32); fA7ay5nZ7iad5.BackgroundTransparency = 1; fA7ay5nZ7iad5.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32,45,45,45,32,32,9660); fA7ay5nZ7iad5.TextColor3 = q31TkxRbhwRTgA.Accent; fA7ay5nZ7iad5.Font = Enum.Font.GothamBold; fA7ay5nZ7iad5.TextSize = 11; fA7ay5nZ7iad5.TextXAlignment = Enum.TextXAlignment.Left
-local bJ0vbyxeMr = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), cSyYfw6fUFQM); bJ0vbyxeMr.Size = UDim2.new(1, 0, 1, -32); bJ0vbyxeMr.Position = UDim2.new(0, 0, 0, 32); bJ0vbyxeMr.BackgroundTransparency = 1; bJ0vbyxeMr.ScrollBarThickness = 2; bJ0vbyxeMr.AutomaticCanvasSize = Enum.AutomaticSize.Y; local z8DqhHvurkr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), bJ0vbyxeMr)
+local i2__ST_W7 = Instance.new(string.char(70,114,97,109,101), uA8mQ_eTH); i2__ST_W7.Size = UDim2.new(0, 260, 0, 32); i2__ST_W7.BackgroundColor3 = xqu7o4sp.SurfaceLight; i2__ST_W7.ClipsDescendants = true; Instance.new(string.char(85,73,67,111,114,110,101,114), i2__ST_W7).CornerRadius = UDim.new(0, 6)
+local hjjz4kU8 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), i2__ST_W7); hjjz4kU8.Size = UDim2.new(1, 0, 0, 32); hjjz4kU8.BackgroundTransparency = 1; hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32,45,45,45,32,32,9660); hjjz4kU8.TextColor3 = xqu7o4sp.Accent; hjjz4kU8.Font = Enum.Font.GothamBold; hjjz4kU8.TextSize = 11; hjjz4kU8.TextXAlignment = Enum.TextXAlignment.Left
+local e2sP65h9xz = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), i2__ST_W7); e2sP65h9xz.Size = UDim2.new(1, 0, 1, -32); e2sP65h9xz.Position = UDim2.new(0, 0, 0, 32); e2sP65h9xz.BackgroundTransparency = 1; e2sP65h9xz.ScrollBarThickness = 2; e2sP65h9xz.AutomaticCanvasSize = Enum.AutomaticSize.Y; local a1afdY_4DO = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), e2sP65h9xz)
 
-local bhUovDO7OQE6 = false
-local function blYVWvTl()
-    for _, child in pairs(bJ0vbyxeMr:GetChildren()) do if child:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then child:Destroy() end end
-    local ecdLagOA3sb_va = pRtvyz53p(); u0dkFguZb = ecdLagOA3sb_va[1] or string.char(45,45,45)
-    fA7ay5nZ7iad5.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. u0dkFguZb .. string.char(32,32,9660)
-    for _, cfg in ipairs(ecdLagOA3sb_va) do
-        local lz7yyjp6W_T = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), bJ0vbyxeMr); lz7yyjp6W_T.Size = UDim2.new(1, -10, 0, 30); lz7yyjp6W_T.BackgroundColor3 = q31TkxRbhwRTgA.Surface; lz7yyjp6W_T.Text = string.char(32,32,32,32) .. cfg; lz7yyjp6W_T.TextColor3 = q31TkxRbhwRTgA.TextDim; lz7yyjp6W_T.Font = Enum.Font.GothamBold; lz7yyjp6W_T.TextSize = 11; lz7yyjp6W_T.TextXAlignment = Enum.TextXAlignment.Left
-        lz7yyjp6W_T.MouseButton1Click:Connect(function() u0dkFguZb = cfg; bhUovDO7OQE6 = false; TweenService:Create(cSyYfw6fUFQM, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play(); fA7ay5nZ7iad5.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. u0dkFguZb .. string.char(32,32,9660) end)
+local x2S4LkvkAnK = false
+local function cWrQeKTC_()
+    for _, child in pairs(e2sP65h9xz:GetChildren()) do if child:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then child:Destroy() end end
+    local wq40joSZqeh = _g9Dc5Qi2OAoA(); os8srRamT = wq40joSZqeh[1] or string.char(45,45,45)
+    hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. os8srRamT .. string.char(32,32,9660)
+    for _, cfg in ipairs(wq40joSZqeh) do
+        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e2sP65h9xz); c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30); c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface; c0axBQ9dvit2.Text = string.char(32,32,32,32) .. cfg; c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim; c0axBQ9dvit2.Font = Enum.Font.GothamBold; c0axBQ9dvit2.TextSize = 11; c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
+        c0axBQ9dvit2.MouseButton1Click:Connect(function() os8srRamT = cfg; x2S4LkvkAnK = false; TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play(); hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. os8srRamT .. string.char(32,32,9660) end)
     end
 end
 
-fA7ay5nZ7iad5.MouseButton1Click:Connect(function()
-    bhUovDO7OQE6 = not bhUovDO7OQE6; local b39brK1An = math.min(#pRtvyz53p() * 30, 150)
-    if bhUovDO7OQE6 then blYVWvTl(); TweenService:Create(cSyYfw6fUFQM, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + b39brK1An)}):Play() else TweenService:Create(cSyYfw6fUFQM, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play() end
+hjjz4kU8.MouseButton1Click:Connect(function()
+    x2S4LkvkAnK = not x2S4LkvkAnK; local zdBsZs4j0cq = math.min(#_g9Dc5Qi2OAoA() * 30, 150)
+    if x2S4LkvkAnK then cWrQeKTC_(); TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play() else TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play() end
 end)
-blYVWvTl()
+cWrQeKTC_()
 
-fdpZWAde(wCBTVSpq1fl, string.char(76,111,97,100,32,99,111,110,102,105,103), function()
-    if u0dkFguZb == string.char(45,45,45) then return end
-    pcall(function() if isfile(cPerZXnShBZs .. string.char(47) .. u0dkFguZb .. string.char(46,106,115,111,110)) then local xorFhwRSPzfZYS = HttpService:JSONDecode(readfile(cPerZXnShBZs .. string.char(47) .. u0dkFguZb .. string.char(46,106,115,111,110))); for key, zfrDdu3TWm in pairs(xorFhwRSPzfZYS) do if d4R07R5Ee[key] then d4R07R5Ee[key](zfrDdu3TWm) end end; print(string.char(9989,32,3650,3627,3621,3604,32,67,111,110,102,105,103,58,32) .. u0dkFguZb .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
+rWtsgIJWU(uA8mQ_eTH, string.char(76,111,97,100,32,99,111,110,102,105,103), function()
+    if os8srRamT == string.char(45,45,45) then return end
+    pcall(function() if isfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)) then local kANfpu7sjjZWC2 = HttpService:JSONDecode(readfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110))); for key, ggUxBkOHABn38i in pairs(kANfpu7sjjZWC2) do if vJucSeLnY0JCqw[key] then vJucSeLnY0JCqw[key](ggUxBkOHABn38i) end end; print(string.char(9989,32,3650,3627,3621,3604,32,67,111,110,102,105,103,58,32) .. os8srRamT .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
 end)
-fdpZWAde(wCBTVSpq1fl, string.char(79,118,101,114,119,114,105,116,101,32,99,111,110,102,105,103), function() if u0dkFguZb ~= string.char(45,45,45) then pcall(function() if writefile then writefile(cPerZXnShBZs .. string.char(47) .. u0dkFguZb .. string.char(46,106,115,111,110), HttpService:JSONEncode(b5mUdeDFsl)); print(string.char(128190,32,3648,3595,3615,3607,3633,3610,32,67,111,110,102,105,103,32,3626,3635,3648,3619,3655,3592,33)) end end) end end)
-fdpZWAde(wCBTVSpq1fl, string.char(68,101,108,101,116,101,32,99,111,110,102,105,103), function() if u0dkFguZb ~= string.char(45,45,45) then pcall(function() if delfile and isfile(cPerZXnShBZs .. string.char(47) .. u0dkFguZb .. string.char(46,106,115,111,110)) then delfile(cPerZXnShBZs .. string.char(47) .. u0dkFguZb .. string.char(46,106,115,111,110)); blYVWvTl() end end) end end)
-fdpZWAde(wCBTVSpq1fl, string.char(82,101,102,114,101,115,104,32,108,105,115,116), function() blYVWvTl() end)
-fdpZWAde(wCBTVSpq1fl, string.char(83,101,116,32,97,115,32,97,117,116,111,108,111,97,100), function() if u0dkFguZb ~= string.char(45,45,45) then pcall(function() if writefile then writefile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), u0dkFguZb) end end) end end)
-fdpZWAde(wCBTVSpq1fl, string.char(82,101,115,101,116,32,97,117,116,111,108,111,97,100), function() pcall(function() if delfile and isfile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then delfile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) elseif writefile then writefile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), "") end end) end)
+rWtsgIJWU(uA8mQ_eTH, string.char(79,118,101,114,119,114,105,116,101,32,99,111,110,102,105,103), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110), HttpService:JSONEncode(kU1UuI7I2Ldh)); print(string.char(128190,32,3648,3595,3615,3607,3633,3610,32,67,111,110,102,105,103,32,3626,3635,3648,3619,3655,3592,33)) end end) end end)
+rWtsgIJWU(uA8mQ_eTH, string.char(68,101,108,101,116,101,32,99,111,110,102,105,103), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if delfile and isfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)) then delfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)); cWrQeKTC_() end end) end end)
+rWtsgIJWU(uA8mQ_eTH, string.char(82,101,102,114,101,115,104,32,108,105,115,116), function() cWrQeKTC_() end)
+rWtsgIJWU(uA8mQ_eTH, string.char(83,101,116,32,97,115,32,97,117,116,111,108,111,97,100), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), os8srRamT) end end) end end)
+rWtsgIJWU(uA8mQ_eTH, string.char(82,101,115,101,116,32,97,117,116,111,108,111,97,100), function() pcall(function() if delfile and isfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then delfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) elseif writefile then writefile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), "") end end) end)
 
 task.spawn(function()
     pcall(function()
-        if isfile and isfile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then
-            local _LFIArVr = readfile(cPerZXnShBZs .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116))
-            if _LFIArVr ~= "" and isfile(cPerZXnShBZs .. string.char(47) .. _LFIArVr .. string.char(46,106,115,111,110)) then
-                local xorFhwRSPzfZYS = HttpService:JSONDecode(readfile(cPerZXnShBZs .. string.char(47) .. _LFIArVr .. string.char(46,106,115,111,110)))
-                for key, zfrDdu3TWm in pairs(xorFhwRSPzfZYS) do if d4R07R5Ee[key] then d4R07R5Ee[key](zfrDdu3TWm) end end
+        if isfile and isfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then
+            local dylKUoHDL73 = readfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116))
+            if dylKUoHDL73 ~= "" and isfile(bNG9iutpQ04q7X .. string.char(47) .. dylKUoHDL73 .. string.char(46,106,115,111,110)) then
+                local kANfpu7sjjZWC2 = HttpService:JSONDecode(readfile(bNG9iutpQ04q7X .. string.char(47) .. dylKUoHDL73 .. string.char(46,106,115,111,110)))
+                for key, ggUxBkOHABn38i in pairs(kANfpu7sjjZWC2) do if vJucSeLnY0JCqw[key] then vJucSeLnY0JCqw[key](ggUxBkOHABn38i) end end
             end
         end
     end)
@@ -1113,130 +1113,130 @@ end)
 
 
 
-local mA7Y8wmG1pTQfc = {
+local heUovW7mX9TR = {
     [string.char(67,111,109,109,111,110)] = {1, 3.6448693618242994e-09}, [string.char(82,97,114,101)] = {1, 1.0934608085472897e-07}, [string.char(69,112,105,99)] = {1, 0.000003644869361824299}, [string.char(76,101,103,101,110,100,97,114,121)] = {0, 0.01},                 
     [string.char(77,121,116,104,105,99)] = {0.24994461610913277, 0.01}, [string.char(71,111,100,108,121)] = {1, 0.0006143887127431052}, [string.char(83,101,99,114,101,116)] = {1, 0.001917249739421627}, [string.char(68,105,118,105,110,101)] = {0.7800284549593925, 0.01},   
     [string.char(72,97,99,107,101,100)] = {0.7925464622676373, 0.02}, [string.char(79,71)] = {1, 0.06}, [string.char(67,101,108,101,115,116,105,97,108)] = {1, 0.11024213100273421}, [string.char(69,116,101,114,110,97,108)] = {1, 0.5212494498439454}
 }
 
-local ipkLPID1DgN_dQ = string.char(67,111,109,109,111,110); local dyBLDApH = {}; local di3p908Q = {}; local oKyGoe7gjLkEK = {}; local riMQyZfoMKHFoE = 1 
+local dfz8VJJKPaB = string.char(67,111,109,109,111,110); local rhwI9XkGC = {}; local a5hR6I6xZciTfc = {}; local pUg5WSWp4 = {}; local uLthu8I2TQ = 1 
 
-fOKEnTN5n(x4pxpzirqKi, string.char(83,101,108,101,99,116,32,90,111,110,101,32,38,32,82,97,114,105,116,121,32,127919), on8j2ST72, string.char(69,118,101,110,116,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    ipkLPID1DgN_dQ = selectedRarity
-    for r, v2vaALANuo in pairs(di3p908Q) do v2vaALANuo.Visible = (r == selectedRarity) end
+eVr1G2hv8fFHrr(uFjCQQnDJISp, string.char(83,101,108,101,99,116,32,90,111,110,101,32,38,32,82,97,114,105,116,121,32,127919), mTfJRredIpOe, string.char(69,118,101,110,116,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    dfz8VJJKPaB = selectedRarity
+    for r, e76oOuDp in pairs(a5hR6I6xZciTfc) do e76oOuDp.Visible = (r == selectedRarity) end
 end)
 
-hkbpFmKk7ZL8u(x4pxpzirqKi, string.char(65,100,106,117,115,116,32,68,105,115,116,32,40,77,117,108,116,105,112,108,105,101,114,41), 0.0001, 100, 1, string.char(69,118,101,110,116,68,105,115,116), function(v) riMQyZfoMKHFoE = v end)
+iT3kon0TJeZgO(uFjCQQnDJISp, string.char(65,100,106,117,115,116,32,68,105,115,116,32,40,77,117,108,116,105,112,108,105,101,114,41), 0.0001, 100, 1, string.char(69,118,101,110,116,68,105,115,116), function(v) uLthu8I2TQ = v end)
 
-for _, rarity in ipairs(on8j2ST72) do
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), x4pxpzirqKi)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32); v2vaALANuo.BackgroundTransparency = 1; v2vaALANuo.AutomaticSize = Enum.AutomaticSize.Y; v2vaALANuo.Visible = (rarity == string.char(67,111,109,109,111,110)) 
-    di3p908Q[rarity] = v2vaALANuo
-    fcoLuXhU9H(v2vaALANuo, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,66,114,97,105,110,114,111,116,115), spB6e0Ef6ow8[rarity], string.char(69,118,101,110,116,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(69,118,101,110,116,75,105,99,107,80,101,116,115,83,121,110,99), dyBLDApH, function(sel) end)
+for _, rarity in ipairs(mTfJRredIpOe) do
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), uFjCQQnDJISp)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1; e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110)) 
+    a5hR6I6xZciTfc[rarity] = e76oOuDp
+    u50MEcoeYDZ(e76oOuDp, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(69,118,101,110,116,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(69,118,101,110,116,75,105,99,107,80,101,116,115,83,121,110,99), rhwI9XkGC, function(sel) end)
 end
 
-dWtWqLsOZ89E(x4pxpzirqKi, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,77,117,116,97,116,105,111,110), b6jiVVM5Bk, string.char(69,118,101,110,116,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(t27DTx1us3) oKyGoe7gjLkEK = t27DTx1us3 end)
+oWP4DMDYQn(uFjCQQnDJISp, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,77,117,116,97,116,105,111,110), uQOHqJkX, string.char(69,118,101,110,116,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) pUg5WSWp4 = rFmfPVqY end)
 
-local r0EtOMJfcmu0k = false; local acbM0SrQ57 = 0
+local quCLVSIE = false; local kIMEtOAg274rlM = 0
 
-klxtQtuWk(x4pxpzirqKi, string.char(65,117,116,111,32,75,105,99,107,32,40,75,105,99,107,90,111,110,101,32,38,32,87,97,118,101,115,41,32,10024), string.char(65,117,116,111,69,118,101,110,116), function(v)
-    r0EtOMJfcmu0k = v; acbM0SrQ57 = acbM0SrQ57 + 1; local lrBy32WX5TQ = acbM0SrQ57
-    if r0EtOMJfcmu0k then
+nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,75,105,99,107,32,40,75,105,99,107,90,111,110,101,32,38,32,87,97,118,101,115,41,32,10024), string.char(65,117,116,111,69,118,101,110,116), function(v)
+    quCLVSIE = v; kIMEtOAg274rlM = kIMEtOAg274rlM + 1; local ooNQS_zYs87FIG = kIMEtOAg274rlM
+    if quCLVSIE then
         task.spawn(function()
-            while r0EtOMJfcmu0k and lrBy32WX5TQ == acbM0SrQ57 do
+            while quCLVSIE and ooNQS_zYs87FIG == kIMEtOAg274rlM do
                 pcall(function()
-                    local hZ7nANbT = player.Character; local z0mD3QxdHEZp = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)); local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if not (z0mD3QxdHEZp and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0) then return end
+                    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)); local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
 
-                    local fQi5thL0y = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not fQi5thL0y then return end
-                    local ufpoDxNbl = fQi5thL0y:IsA(string.char(66,97,115,101,80,97,114,116)) and fQi5thL0y.CFrame or fQi5thL0y:GetPivot()
-                    if (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude > 5 then paRUr8Al(ufpoDxNbl + Vector3.new(0, 3, 0)) end
-                    task.wait(0.5); local mtjWJ98WLft2 = z0mD3QxdHEZp.Position; local fVT8GxQDm = false; local n4iKk8m0eADAL = fknxAS_jVRXg:FindFirstChild(string.char(72,85,68))
+                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not rEbPwOba then return end
+                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
+                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0, 3, 0)) end
+                    task.wait(0.5); local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position; local hsrSAZY8c = false; local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
                     
                     for i = 1, 400 do 
-                        task.wait(0.1); if not hZ7nANbT or not hZ7nANbT.Parent or xBSV1Kj8iSI.Health <= 0 then return end
-                        if (z0mD3QxdHEZp.Position - mtjWJ98WLft2).Magnitude > 40 then fVT8GxQDm = true; break end
+                        task.wait(0.1); if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then return end
+                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then hsrSAZY8c = true; break end
                         
-                        local qPCF63y5TPEK8 = n4iKk8m0eADAL and n4iKk8m0eADAL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if qPCF63y5TPEK8 and qPCF63y5TPEK8.Visible then
-                            local _6Ktwi0rNTm9 = mA7Y8wmG1pTQfc[ipkLPID1DgN_dQ]
-                            if _6Ktwi0rNTm9 then bWn4HpQZxv1X_U.rev_KickEvent:FireServer(_6Ktwi0rNTm9[1], _6Ktwi0rNTm9[2] * riMQyZfoMKHFoE) else bWn4HpQZxv1X_U.rev_KickEvent:FireServer(1) end
+                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then
+                            local q39zyygR = heUovW7mX9TR[dfz8VJJKPaB]
+                            if q39zyygR then wSguwQDv9Qnd85.rev_KickEvent:FireServer(q39zyygR[1], q39zyygR[2] * uLthu8I2TQ) else wSguwQDv9Qnd85.rev_KickEvent:FireServer(1) end
                             task.wait(0.5) 
                         end
                     end
 
-                    if not fVT8GxQDm then return end 
+                    if not hsrSAZY8c then return end 
                     task.wait(0.5)
-                    local qoJvg1f_gqaHTE = false; local nczaSDvCM = nil
+                    local vTYRcZ4so0h0 = false; local sqO0WXO7w = nil
                     for i = 1, 40 do 
-                        task.wait(0.2); local vIFktCd6Cl = 2000 
+                        task.wait(0.2); local k4xQ6BNreu0mu = 2000 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart then
-                                local bCVqAwNdFhO = (obj.PrimaryPart.Position - z0mD3QxdHEZp.Position).Magnitude
-                                if bCVqAwNdFhO < vIFktCd6Cl then vIFktCd6Cl = bCVqAwNdFhO; qoJvg1f_gqaHTE = true; nczaSDvCM = obj end
+                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
+                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; vTYRcZ4so0h0 = true; sqO0WXO7w = obj end
                             end
                         end
-                        if qoJvg1f_gqaHTE then break end
+                        if vTYRcZ4so0h0 then break end
                     end
 
-                    if qoJvg1f_gqaHTE and nczaSDvCM then
-                        task.wait(0.5); local tSKh1fyOi33I = false; local nM3Gtjgc = false; local s7ixpLXSMys = b1lR6149QHnZC(nczaSDvCM)
+                    if vTYRcZ4so0h0 and sqO0WXO7w then
+                        task.wait(0.5); local sJ3mB9MGl6OZZ = false; local iNtp9WPzCK = false; local oYcVUbQI = tYPd3eEBLtXYzc(sqO0WXO7w)
                         
-                        for mut, isActive in pairs(oKyGoe7gjLkEK) do
+                        for mut, isActive in pairs(pUg5WSWp4) do
                             if isActive then
-                                nM3Gtjgc = true
+                                iNtp9WPzCK = true
                                 if mut == string.char(78,111,114,109,97,108) then
-                                    local iI4U60l9IUBU = false; for _, _ in pairs(s7ixpLXSMys) do iI4U60l9IUBU = true; break end
-                                    if not iI4U60l9IUBU then tSKh1fyOi33I = true; break end
-                                elseif s7ixpLXSMys[mut] then tSKh1fyOi33I = true; break end
+                                    local nqPpCvMBph = false; for _, _ in pairs(oYcVUbQI) do nqPpCvMBph = true; break end
+                                    if not nqPpCvMBph then sJ3mB9MGl6OZZ = true; break end
+                                elseif oYcVUbQI[mut] then sJ3mB9MGl6OZZ = true; break end
                             end
                         end
 
-                        local jJ8uc7ZwwXUO3 = false; local mmK6je80sQ = false
-                        for qNDgoTKv9UOh, isActive in pairs(dyBLDApH) do
+                        local sIKUfAgQ = false; local _WbOf28zQak = false
+                        for aGbsELnYIEk4, isActive in pairs(rhwI9XkGC) do
                             if isActive then
-                                mmK6je80sQ = true
-                                if string.lower(nczaSDvCM.Name) == string.lower(qNDgoTKv9UOh) then jJ8uc7ZwwXUO3 = true; break end
+                                _WbOf28zQak = true
+                                if string.lower(sqO0WXO7w.Name) == string.lower(aGbsELnYIEk4) then sIKUfAgQ = true; break end
                             end
                         end
                         
-                        local j7x2u02Gq7S5Yg = false
-                        if nM3Gtjgc and not tSKh1fyOi33I then j7x2u02Gq7S5Yg = true end
-                        if mmK6je80sQ and not jJ8uc7ZwwXUO3 then j7x2u02Gq7S5Yg = true end
+                        local __jJq4UpG8fQoE = false
+                        if iNtp9WPzCK and not sJ3mB9MGl6OZZ then __jJq4UpG8fQoE = true end
+                        if _WbOf28zQak and not sIKUfAgQ then __jJq4UpG8fQoE = true end
 
-                        if j7x2u02Gq7S5Yg then
-                            local p7Sr9gvKHu = workspace:FindFirstChild(string.char(87,97,118,101,115)); local zIk95kRH = nil
-                            if p7Sr9gvKHu then
-                                if p7Sr9gvKHu:IsA(string.char(66,97,115,101,80,97,114,116)) then zIk95kRH = p7Sr9gvKHu.Position elseif p7Sr9gvKHu:IsA(string.char(77,111,100,101,108)) then zIk95kRH = p7Sr9gvKHu:GetPivot().Position
-                                else local bmxnmovFeVNTwW = p7Sr9gvKHu:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if bmxnmovFeVNTwW then zIk95kRH = bmxnmovFeVNTwW.Position end end
+                        if __jJq4UpG8fQoE then
+                            local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115)); local amF2FyJKrJVi = nil
+                            if mPFDjdo2u then
+                                if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then amF2FyJKrJVi = mPFDjdo2u.Position elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
+                                else local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end end
                             end
-                            if zIk95kRH then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, zIk95kRH) elseif fQi5thL0y then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position) end
+                            if amF2FyJKrJVi then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi) elseif rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end
                         else
-                            if nczaSDvCM and not nczaSDvCM:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
-                                nczaSDvCM:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
-                                local qNDgoTKv9UOh = nczaSDvCM.Name
-                                local h2UhcNAGb_ = {}; for b, _ in pairs(s7ixpLXSMys) do table.insert(h2UhcNAGb_, b) end
-                                local bN21tvKwL8 = #h2UhcNAGb_ > 0 and table.concat(h2UhcNAGb_, string.char(44,32)) or string.char(78,111,114,109,97,108)
-                                local tBYHV1jaqL = string.char(85,110,107,110,111,119,110)
-                                if spB6e0Ef6ow8 then
-                                    for r, pets in pairs(spB6e0Ef6ow8) do
-                                        for _, p in ipairs(pets) do if string.lower(qNDgoTKv9UOh) == string.lower(p) then tBYHV1jaqL = r; break end end
-                                        if tBYHV1jaqL ~= string.char(85,110,107,110,111,119,110) then break end
+                            if sqO0WXO7w and not sqO0WXO7w:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
+                                sqO0WXO7w:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
+                                local aGbsELnYIEk4 = sqO0WXO7w.Name
+                                local jBIc8hiDZz = {}; for b, _ in pairs(oYcVUbQI) do table.insert(jBIc8hiDZz, b) end
+                                local vxgIAL5etIqtu = #jBIc8hiDZz > 0 and table.concat(jBIc8hiDZz, string.char(44,32)) or string.char(78,111,114,109,97,108)
+                                local jt9RjbiwP = string.char(85,110,107,110,111,119,110)
+                                if p19XQ8Gpm0D_ then
+                                    for r, pets in pairs(p19XQ8Gpm0D_) do
+                                        for _, p in ipairs(pets) do if string.lower(aGbsELnYIEk4) == string.lower(p) then jt9RjbiwP = r; break end end
+                                        if jt9RjbiwP ~= string.char(85,110,107,110,111,119,110) then break end
                                     end
                                 end
-                                local u3VTTPvhaNh = (aneUqqTMKQ[qNDgoTKv9UOh] or 0) + 1
-                                __Nigo6gJ5Sky(string.char(128064,32,75,105,99,107,90,111,110,101,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. qNDgoTKv9UOh .. "\n**Rarity:** " .. tBYHV1jaqL .. "\n**Mutation:** " .. bN21tvKwL8 .. "\n**Count:** " .. u3VTTPvhaNh .. "\n**Player:** " .. player.Name, 0x3498DB, false)
+                                local uFFwFFset = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
+                                kHb4lFlmkN(string.char(128064,32,75,105,99,107,90,111,110,101,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. uFFwFFset .. "\n**Player:** " .. player.Name, 0x3498DB, false)
                                 
-                                if fQi5thL0y then
-                                    cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position); task.wait(1.5)
-                                    if hZ7nANbT and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0 and (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude < 20 then
-                                        aneUqqTMKQ[qNDgoTKv9UOh] = (aneUqqTMKQ[qNDgoTKv9UOh] or 0) + 1
-                                        local bpK3X6t38SkCy = aneUqqTMKQ[qNDgoTKv9UOh]
-                                        __Nigo6gJ5Sky(string.char(127881,32,75,105,99,107,90,111,110,101,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. qNDgoTKv9UOh .. "\n**Rarity:** " .. tBYHV1jaqL .. "\n**Mutation:** " .. bN21tvKwL8 .. "\n**Count:** " .. bpK3X6t38SkCy .. "\n**Player:** " .. player.Name, 0x04CB29, false)
+                                if rEbPwOba then
+                                    jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position); task.wait(1.5)
+                                    if drUAUyYwFpvH and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 and (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 20 then
+                                        je5a5hAwwKED[aGbsELnYIEk4] = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
+                                        local f5_LQxcVqLOh5 = je5a5hAwwKED[aGbsELnYIEk4]
+                                        kHb4lFlmkN(string.char(127881,32,75,105,99,107,90,111,110,101,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. f5_LQxcVqLOh5 .. "\n**Player:** " .. player.Name, 0x04CB29, false)
                                     end
                                 end
-                            else if fQi5thL0y then cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position) end end
+                            else if rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end end
                         end
                     end
                 end)
@@ -1252,7 +1252,7 @@ end)
 
 
 
-local yWtC9Aae = {
+local bDZrAzIGn3_k = {
     UFO = {[string.char(71,105,114,97,102,97,32,67,101,108,101,115,116,101)] = string.char(68,105,118,105,110,101), [string.char(71,117,101,114,114,105,114,111,32,68,105,103,105,116,97,108,101)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(83,87,65,71,32,83,79,68,65)] = string.char(72,97,99,107,101,100), [string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)] = string.char(82,97,114,101)},
     WITCH = {[string.char(83,105,103,109,97,32,66,111,121)] = string.char(71,111,100,108,121), [string.char(67,104,101,102,32,67,114,97,98,114,97,99,97,100,97,98,114,97)] = string.char(77,121,116,104,105,99), [string.char(79,99,116,111,112,117,115,105,110,105,32,66,108,117,98,101,114,105,110,105)] = string.char(71,111,100,108,121), [string.char(79,114,99,97,108,101,114,111)] = string.char(69,112,105,99)},
     BACON = {[string.char(67,104,105,99,108,101,116,101,105,114,97,32,66,105,99,105,99,108,101,116,101,105,114,97)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(65,103,97,114,114,105,110,105,32,76,97,32,80,97,108,105,110,105)] = string.char(72,97,99,107,101,100), [string.char(84,114,105,112,112,105,32,84,114,111,112,112,105)] = string.char(67,111,109,109,111,110), [string.char(83,116,114,97,119,98,101,114,114,121,32,69,108,101,112,104,97,110,116)] = string.char(79,71)},
@@ -1260,7 +1260,7 @@ local yWtC9Aae = {
     PHANTOM = {[string.char(84,114,97,108,97,108,101,100,111,110)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(65,112,114,105,108,32,66,97,98,111,110)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(76,111,115,32,80,114,105,109,111,115)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(77,97,115,116,111,100,111,110,116,105,99,111,32,84,101,108,101,112,105,101,100,111,110,101)] = string.char(67,101,108,101,115,116,105,97,108)}
 }
 
-local twWO2tGeXkump = {
+local rCxiAlh3d = {
     {Event = string.char(85,70,79), Pet = string.char(71,105,114,97,102,97,32,67,101,108,101,115,116,101)}, {Event = string.char(85,70,79), Pet = string.char(71,117,101,114,114,105,114,111,32,68,105,103,105,116,97,108,101)}, {Event = string.char(85,70,79), Pet = string.char(83,87,65,71,32,83,79,68,65)}, {Event = string.char(85,70,79), Pet = string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)},
     {Event = string.char(87,73,84,67,72), Pet = string.char(83,105,103,109,97,32,66,111,121)}, {Event = string.char(87,73,84,67,72), Pet = string.char(67,104,101,102,32,67,114,97,98,114,97,99,97,100,97,98,114,97)}, {Event = string.char(87,73,84,67,72), Pet = string.char(79,99,116,111,112,117,115,105,110,105,32,66,108,117,98,101,114,105,110,105)}, {Event = string.char(87,73,84,67,72), Pet = string.char(79,114,99,97,108,101,114,111)},
     {Event = string.char(66,65,67,79,78), Pet = string.char(67,104,105,99,108,101,116,101,105,114,97,32,66,105,99,105,99,108,101,116,101,105,114,97)}, {Event = string.char(66,65,67,79,78), Pet = string.char(65,103,97,114,114,105,110,105,32,76,97,32,80,97,108,105,110,105)}, {Event = string.char(66,65,67,79,78), Pet = string.char(84,114,105,112,112,105,32,84,114,111,112,112,105)}, {Event = string.char(66,65,67,79,78), Pet = string.char(83,116,114,97,119,98,101,114,114,121,32,69,108,101,112,104,97,110,116)},
@@ -1268,150 +1268,150 @@ local twWO2tGeXkump = {
     {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(84,114,97,108,97,108,101,100,111,110)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(65,112,114,105,108,32,66,97,98,111,110)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(76,111,115,32,80,114,105,109,111,115)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(77,97,115,116,111,100,111,110,116,105,99,111,32,84,101,108,101,112,105,101,100,111,110,101)}
 }
 
-local kylgnXAcXCkBL = 1
-local tSXnhXXfz7JrFv = 0
-local mxnRWzfZ = 250
-local rfyS4Wx_mGkuC3 = string.char(70,65,82,84,69,90,95,84,97,114,103,101,116,80,114,111,103,114,101,115,115,46,116,120,116)
-local dxQJxPWY = string.char(65,108,108,32,83,101,113,117,101,110,99,101)
+local eGLS5Fuh4xhlr = 1
+local lSlSJA4gFudi9 = 0
+local r3dFaNqkr = 250
+local doLPZvaBZP = string.char(70,65,82,84,69,90,95,84,97,114,103,101,116,80,114,111,103,114,101,115,115,46,116,120,116)
+local cfE8rlEK = string.char(65,108,108,32,83,101,113,117,101,110,99,101)
 
-fOKEnTN5n(x4pxpzirqKi, string.char(83,101,108,101,99,116,32,70,111,99,117,115,32,69,118,101,110,116), {string.char(65,108,108,32,83,101,113,117,101,110,99,101), string.char(85,70,79), string.char(87,73,84,67,72), string.char(66,65,67,79,78), string.char(70,76,79,79,68), string.char(80,72,65,78,84,79,77)}, string.char(67,104,111,115,101,110,69,118,101,110,116,70,111,99,117,115), function(zfrDdu3TWm)
-    dxQJxPWY = zfrDdu3TWm
-    print(string.char(127919,32,70,111,99,117,115,32,69,118,101,110,116,32,67,104,97,110,103,101,100,32,116,111,58), dxQJxPWY)
+eVr1G2hv8fFHrr(uFjCQQnDJISp, string.char(83,101,108,101,99,116,32,70,111,99,117,115,32,69,118,101,110,116), {string.char(65,108,108,32,83,101,113,117,101,110,99,101), string.char(85,70,79), string.char(87,73,84,67,72), string.char(66,65,67,79,78), string.char(70,76,79,79,68), string.char(80,72,65,78,84,79,77)}, string.char(67,104,111,115,101,110,69,118,101,110,116,70,111,99,117,115), function(ggUxBkOHABn38i)
+    cfE8rlEK = ggUxBkOHABn38i
+    print(string.char(127919,32,70,111,99,117,115,32,69,118,101,110,116,32,67,104,97,110,103,101,100,32,116,111,58), cfE8rlEK)
 end)
 
 pcall(function()
-    if isfile and isfile(rfyS4Wx_mGkuC3) then
-        local wfFZig7ajuAVQ3 = tonumber(readfile(rfyS4Wx_mGkuC3))
-        if wfFZig7ajuAVQ3 then kylgnXAcXCkBL = wfFZig7ajuAVQ3 end
+    if isfile and isfile(doLPZvaBZP) then
+        local lsUufgjQp = tonumber(readfile(doLPZvaBZP))
+        if lsUufgjQp then eGLS5Fuh4xhlr = lsUufgjQp end
     end
 end)
 
-local function qsermEMN8InSG4() pcall(function() if writefile then writefile(rfyS4Wx_mGkuC3, tostring(kylgnXAcXCkBL)) end end) end
-local function zwPHz2ba() return twWO2tGeXkump[kylgnXAcXCkBL] end
-local function gDm61U5Aw7vW()
-    local gGEogXQvk8Pna = zwPHz2ba()
-    if not gGEogXQvk8Pna then return nil end
-    local hInu9jXY = yWtC9Aae[gGEogXQvk8Pna.Event] and yWtC9Aae[gGEogXQvk8Pna.Event][gGEogXQvk8Pna.Pet]
-    if hInu9jXY then return mA7Y8wmG1pTQfc[hInu9jXY] end
+local function wH2Q7n97J() pcall(function() if writefile then writefile(doLPZvaBZP, tostring(eGLS5Fuh4xhlr)) end end) end
+local function xzvEj3j5Ap() return rCxiAlh3d[eGLS5Fuh4xhlr] end
+local function g55KvK0mgm()
+    local aHBK8x9ko01 = xzvEj3j5Ap()
+    if not aHBK8x9ko01 then return nil end
+    local hXJzYd_SeO = bDZrAzIGn3_k[aHBK8x9ko01.Event] and bDZrAzIGn3_k[aHBK8x9ko01.Event][aHBK8x9ko01.Pet]
+    if hXJzYd_SeO then return heUovW7mX9TR[hXJzYd_SeO] end
     return nil
 end
 
-local function bhkoNaxF()
-    local fDGBX7Jxz8U = zwPHz2ba()
-    local mBEljozhDX9 = 0
-    local ekbaLfOp = #twWO2tGeXkump
+local function ndLAHY5cEdRM()
+    local nY3BDEQfdLAh06 = xzvEj3j5Ap()
+    local naowZdcUc = 0
+    local ySaY1JmvA = #rCxiAlh3d
 
     repeat
-        kylgnXAcXCkBL += 1
-        mBEljozhDX9 += 1
+        eGLS5Fuh4xhlr += 1
+        naowZdcUc += 1
 
-        if kylgnXAcXCkBL > #twWO2tGeXkump then
-            kylgnXAcXCkBL = 1
+        if eGLS5Fuh4xhlr > #rCxiAlh3d then
+            eGLS5Fuh4xhlr = 1
             print(string.char(128293,32,67,111,109,112,108,101,116,101,100,32,97,108,108,32,116,97,114,103,101,116,115,33,32,82,101,115,116,97,114,116,105,110,103,32,108,105,115,116,46,46,46))
         end
 
-        local qv76y6TBtOP = zwPHz2ba()
+        local bZmG8xKhwv_xu = xzvEj3j5Ap()
 
     
 
-    until mBEljozhDX9 >= ekbaLfOp or (
-        not fDGBX7Jxz8U or (
-            qv76y6TBtOP
-            and qv76y6TBtOP.Pet ~= fDGBX7Jxz8U.Pet
+    until naowZdcUc >= ySaY1JmvA or (
+        not nY3BDEQfdLAh06 or (
+            bZmG8xKhwv_xu
+            and bZmG8xKhwv_xu.Pet ~= nY3BDEQfdLAh06.Pet
             and (
-                dxQJxPWY == string.char(65,108,108,32,83,101,113,117,101,110,99,101)
-                or qv76y6TBtOP.Event == dxQJxPWY
+                cfE8rlEK == string.char(65,108,108,32,83,101,113,117,101,110,99,101)
+                or bZmG8xKhwv_xu.Event == cfE8rlEK
             )
         )
     )
 
-    tSXnhXXfz7JrFv = 0
-    qsermEMN8InSG4()
+    lSlSJA4gFudi9 = 0
+    wH2Q7n97J()
 
-    local gGEogXQvk8Pna = zwPHz2ba()
+    local aHBK8x9ko01 = xzvEj3j5Ap()
 
-    if gGEogXQvk8Pna then
-        print(string.char(127919,32,78,69,88,84,32,84,65,82,71,69,84,58), gGEogXQvk8Pna.Event, string.char(45), gGEogXQvk8Pna.Pet)
+    if aHBK8x9ko01 then
+        print(string.char(127919,32,78,69,88,84,32,84,65,82,71,69,84,58), aHBK8x9ko01.Event, string.char(45), aHBK8x9ko01.Pet)
     end
 end
 
-local h7J5cmr63mZW5g = false
-local chYfj65wZsGb = 0
-local cuPQjzoj7O3P = false
+local gyePqAlOo = false
+local h9CxxH_sDy = 0
+local hcyhHxTBdoxVrD = false
 
-klxtQtuWk(x4pxpzirqKi, string.char(65,117,116,111,32,69,118,101,110,116,32,128640), string.char(83,109,97,114,116,80,114,111,103,114,101,115,115,105,111,110), function(v)
-    h7J5cmr63mZW5g = v
-    chYfj65wZsGb += 1
-    local e5y9Flk_RLiW = chYfj65wZsGb
+nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,69,118,101,110,116,32,128640), string.char(83,109,97,114,116,80,114,111,103,114,101,115,115,105,111,110), function(v)
+    gyePqAlOo = v
+    h9CxxH_sDy += 1
+    local rLnx3FLvjW6L = h9CxxH_sDy
 
-    if h7J5cmr63mZW5g then
+    if gyePqAlOo then
         task.spawn(function()
-            while h7J5cmr63mZW5g and e5y9Flk_RLiW == chYfj65wZsGb do
+            while gyePqAlOo and rLnx3FLvjW6L == h9CxxH_sDy do
 
                 
 
-                if cuPQjzoj7O3P then
+                if hcyhHxTBdoxVrD then
                     task.wait(0.5)
                     continue
                 end
 
                 pcall(function()
-                    local kERVoxUu_NF2 = zwPHz2ba()
+                    local jWZDNy82VEMP54 = xzvEj3j5Ap()
 
-                    if kERVoxUu_NF2 and dxQJxPWY ~= string.char(65,108,108,32,83,101,113,117,101,110,99,101) and kERVoxUu_NF2.Event ~= dxQJxPWY then
-                        bhkoNaxF()
+                    if jWZDNy82VEMP54 and cfE8rlEK ~= string.char(65,108,108,32,83,101,113,117,101,110,99,101) and jWZDNy82VEMP54.Event ~= cfE8rlEK then
+                        ndLAHY5cEdRM()
                         return
                     end
 
-                    if not kERVoxUu_NF2 then return end
+                    if not jWZDNy82VEMP54 then return end
 
-                    local _6Ktwi0rNTm9 = gDm61U5Aw7vW()
-                    if not _6Ktwi0rNTm9 then return end
+                    local q39zyygR = g55KvK0mgm()
+                    if not q39zyygR then return end
 
-                    local hZ7nANbT = player.Character
-                    local z0mD3QxdHEZp = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-                    local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    local drUAUyYwFpvH = player.Character
+                    local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                    local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
 
-                    if not (z0mD3QxdHEZp and xBSV1Kj8iSI and xBSV1Kj8iSI.Health > 0) then return end
+                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
 
-                    local fQi5thL0y = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not fQi5thL0y then return end
+                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not rEbPwOba then return end
 
-                    local ufpoDxNbl = fQi5thL0y:IsA(string.char(66,97,115,101,80,97,114,116)) and fQi5thL0y.CFrame or fQi5thL0y:GetPivot()
+                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
 
                     
 
-                    if (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude > 5 then
-                        paRUr8Al(ufpoDxNbl + Vector3.new(0,3,0))
+                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then
+                        gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0,3,0))
                     end
 
                     task.wait(0.5)
 
-                    local n4iKk8m0eADAL = fknxAS_jVRXg:FindFirstChild(string.char(72,85,68))
-                    local mtjWJ98WLft2 = z0mD3QxdHEZp.Position
-                    local pC66KQ263H = false
+                    local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
+                    local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position
+                    local a5tiIAJZcAD4 = false
 
                     
 
                     for i = 1, 400 do
                         task.wait(0.1)
 
-                        if not hZ7nANbT or not hZ7nANbT.Parent or xBSV1Kj8iSI.Health <= 0 then
+                        if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then
                             return
                         end
 
-                        local qPCF63y5TPEK8 = n4iKk8m0eADAL and n4iKk8m0eADAL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if qPCF63y5TPEK8 and qPCF63y5TPEK8.Visible then
-                            bWn4HpQZxv1X_U.rev_KickEvent:FireServer(_6Ktwi0rNTm9[1], _6Ktwi0rNTm9[2])
+                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then
+                            wSguwQDv9Qnd85.rev_KickEvent:FireServer(q39zyygR[1], q39zyygR[2])
                         end
 
-                        if (z0mD3QxdHEZp.Position - mtjWJ98WLft2).Magnitude > 40 then
-                            pC66KQ263H = true
+                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then
+                            a5tiIAJZcAD4 = true
                             break
                         end
                     end
 
-                    if not pC66KQ263H then return end
+                    if not a5tiIAJZcAD4 then return end
 
                     
 
@@ -1419,79 +1419,79 @@ klxtQtuWk(x4pxpzirqKi, string.char(65,117,116,111,32,69,118,101,110,116,32,12864
 
                     
 
-                    local nczaSDvCM = nil
-                    local gcP8MWFokwXmiw = nil
-                    local vIFktCd6Cl = math.huge
+                    local sqO0WXO7w = nil
+                    local p9B5hMMPgfj = nil
+                    local k4xQ6BNreu0mu = math.huge
 
                     for i = 1, 40 do
                         task.wait(0.2)
 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart and not obj:GetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100)) then
-                                local bCVqAwNdFhO = (obj.PrimaryPart.Position - z0mD3QxdHEZp.Position).Magnitude
+                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
                                 
                                 
 
-                                local apEpK9fcmF = false
-                                for _, eventPets in pairs(yWtC9Aae) do
-                                    for qNDgoTKv9UOh, _ in pairs(eventPets) do
-                                        if string.find(string.lower(obj.Name), string.lower(qNDgoTKv9UOh)) then
-                                            apEpK9fcmF = true
+                                local nku7rf8V = false
+                                for _, eventPets in pairs(bDZrAzIGn3_k) do
+                                    for aGbsELnYIEk4, _ in pairs(eventPets) do
+                                        if string.find(string.lower(obj.Name), string.lower(aGbsELnYIEk4)) then
+                                            nku7rf8V = true
                                             break
                                         end
                                     end
-                                    if apEpK9fcmF then break end
+                                    if nku7rf8V then break end
                                 end
 
-                                if apEpK9fcmF then
-                                    nczaSDvCM = obj
+                                if nku7rf8V then
+                                    sqO0WXO7w = obj
                                     break 
 
                                 end
 
                                 
 
-                                if bCVqAwNdFhO < vIFktCd6Cl then
-                                    vIFktCd6Cl = bCVqAwNdFhO
-                                    gcP8MWFokwXmiw = obj
+                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then
+                                    k4xQ6BNreu0mu = v0f5Ei59l54UB
+                                    p9B5hMMPgfj = obj
                                 end
                             end
                         end
 
-                        if nczaSDvCM or gcP8MWFokwXmiw then
+                        if sqO0WXO7w or p9B5hMMPgfj then
                             break
                         end
                     end
 
-                    if not nczaSDvCM then
-                        nczaSDvCM = gcP8MWFokwXmiw
+                    if not sqO0WXO7w then
+                        sqO0WXO7w = p9B5hMMPgfj
                     end
 
-                    if not nczaSDvCM then return end
+                    if not sqO0WXO7w then return end
 
-                    tSXnhXXfz7JrFv += 1
-
-                    
+                    lSlSJA4gFudi9 += 1
 
                     
 
                     
 
-                    local qIOLRHB7Whcfa_ = string.find(string.lower(nczaSDvCM.Name), string.lower(kERVoxUu_NF2.Pet)) ~= nil
-                    local cwm4Bzy4glYiQH = false
-                    local sqy3KJGUv = kERVoxUu_NF2.Event
+                    
+
+                    local osF9WgrC5tH = string.find(string.lower(sqO0WXO7w.Name), string.lower(jWZDNy82VEMP54.Pet)) ~= nil
+                    local e7wdhQ9TK_W = false
+                    local mfTYcJoNlqNdu = jWZDNy82VEMP54.Event
 
                     
 
-                    for evName, evPets in pairs(yWtC9Aae) do
-                        for qNDgoTKv9UOh, _ in pairs(evPets) do
-                            if string.find(string.lower(nczaSDvCM.Name), string.lower(qNDgoTKv9UOh)) then
-                                cwm4Bzy4glYiQH = true
-                                sqy3KJGUv = evName
+                    for evName, evPets in pairs(bDZrAzIGn3_k) do
+                        for aGbsELnYIEk4, _ in pairs(evPets) do
+                            if string.find(string.lower(sqO0WXO7w.Name), string.lower(aGbsELnYIEk4)) then
+                                e7wdhQ9TK_W = true
+                                mfTYcJoNlqNdu = evName
                                 break
                             end
                         end
-                        if cwm4Bzy4glYiQH then break end
+                        if e7wdhQ9TK_W then break end
                     end
 
                     
@@ -1500,59 +1500,59 @@ klxtQtuWk(x4pxpzirqKi, string.char(65,117,116,111,32,69,118,101,110,116,32,12864
 
                     
 
-                    if qIOLRHB7Whcfa_ or cwm4Bzy4glYiQH then
+                    if osF9WgrC5tH or e7wdhQ9TK_W then
 
-                        cuPQjzoj7O3P = true
+                        hcyhHxTBdoxVrD = true
 
-                        print(string.char(127881,32,70,79,85,78,68,32,84,65,82,71,69,84,58), nczaSDvCM.Name)
+                        print(string.char(127881,32,70,79,85,78,68,32,84,65,82,71,69,84,58), sqO0WXO7w.Name)
 
-                        __Nigo6gJ5Sky(
+                        kHb4lFlmkN(
                             string.char(128064,32,84,65,82,71,69,84,32,70,79,85,78,68),
-                            string.char(42,42,80,101,116,58,42,42,32) .. nczaSDvCM.Name ..
-                            "\n**Event:** " .. sqy3KJGUv,
+                            string.char(42,42,80,101,116,58,42,42,32) .. sqO0WXO7w.Name ..
+                            "\n**Event:** " .. mfTYcJoNlqNdu,
                             0x3498DB,
                             false
                         )
 
                         
 
-                        cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, ufpoDxNbl.Position)
+                        jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position)
 
                         
 
                         repeat
                             task.wait(0.2)
-                        until not z0mD3QxdHEZp or not xBSV1Kj8iSI or xBSV1Kj8iSI.Health <= 0 or (z0mD3QxdHEZp.Position - ufpoDxNbl.Position).Magnitude < 10
+                        until not ksl7JzZXIZOsoJ or not q21YZH4aC4cd or q21YZH4aC4cd.Health <= 0 or (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 10
 
                         task.wait(1)
 
                         
 
-                        local htR0UGVpfp8qh4 = 0
-                        while nczaSDvCM and nczaSDvCM.Parent and htR0UGVpfp8qh4 < 20 do
+                        local xFIm2IN7tlOgbO = 0
+                        while sqO0WXO7w and sqO0WXO7w.Parent and xFIm2IN7tlOgbO < 20 do
                             task.wait(0.5)
-                            htR0UGVpfp8qh4 += 1
+                            xFIm2IN7tlOgbO += 1
                         end
 
-                        if nczaSDvCM then
-                            nczaSDvCM:SetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100), true)
+                        if sqO0WXO7w then
+                            sqO0WXO7w:SetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100), true)
                         end
 
-                        __Nigo6gJ5Sky(
+                        kHb4lFlmkN(
                             string.char(127881,32,84,65,82,71,69,84,32,67,79,76,76,69,67,84,69,68),
-                            string.char(42,42,80,101,116,58,42,42,32) .. nczaSDvCM.Name ..
-                            "\n**Event:** " .. sqy3KJGUv,
+                            string.char(42,42,80,101,116,58,42,42,32) .. sqO0WXO7w.Name ..
+                            "\n**Event:** " .. mfTYcJoNlqNdu,
                             0x04CB29,
                             false
                         )
 
                         
 
-                        if qIOLRHB7Whcfa_ then
-                            bhkoNaxF()
+                        if osF9WgrC5tH then
+                            ndLAHY5cEdRM()
                         end
 
-                        cuPQjzoj7O3P = false
+                        hcyhHxTBdoxVrD = false
 
                     else
                         
@@ -1561,32 +1561,32 @@ klxtQtuWk(x4pxpzirqKi, string.char(65,117,116,111,32,69,118,101,110,116,32,12864
 
                         
 
-                        print(string.char(10060,32,87,82,79,78,71,32,84,65,82,71,69,84,58), nczaSDvCM.Name, string.char(124,32,84,65,82,71,69,84,58), kERVoxUu_NF2.Pet)
+                        print(string.char(10060,32,87,82,79,78,71,32,84,65,82,71,69,84,58), sqO0WXO7w.Name, string.char(124,32,84,65,82,71,69,84,58), jWZDNy82VEMP54.Pet)
 
-                        local p7Sr9gvKHu = workspace:FindFirstChild(string.char(87,97,118,101,115))
-                        local zIk95kRH = nil
+                        local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115))
+                        local amF2FyJKrJVi = nil
 
-                        if p7Sr9gvKHu then
-                            if p7Sr9gvKHu:IsA(string.char(66,97,115,101,80,97,114,116)) then
-                                zIk95kRH = p7Sr9gvKHu.Position
-                            elseif p7Sr9gvKHu:IsA(string.char(77,111,100,101,108)) then
-                                zIk95kRH = p7Sr9gvKHu:GetPivot().Position
+                        if mPFDjdo2u then
+                            if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then
+                                amF2FyJKrJVi = mPFDjdo2u.Position
+                            elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then
+                                amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
                             else
-                                local bmxnmovFeVNTwW = p7Sr9gvKHu:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true)
-                                if bmxnmovFeVNTwW then zIk95kRH = bmxnmovFeVNTwW.Position end
+                                local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true)
+                                if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end
                             end
                         end
 
-                        if zIk95kRH then
-                            cJvUEGd1T(z0mD3QxdHEZp, xBSV1Kj8iSI, zIk95kRH)
+                        if amF2FyJKrJVi then
+                            jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi)
                         end
 
-                        if tSXnhXXfz7JrFv >= mxnRWzfZ then
+                        if lSlSJA4gFudi9 >= r3dFaNqkr then
                             print(string.char(9888,65039,32,84,79,79,32,77,65,78,89,32,65,84,84,69,77,80,84,83,44,32,83,75,73,80,80,73,78,71,46,46,46))
-                            bhkoNaxF()
+                            ndLAHY5cEdRM()
                         end
 
-                        cuPQjzoj7O3P = false
+                        hcyhHxTBdoxVrD = false
                     end
 
                 end)
@@ -1600,46 +1600,46 @@ end)
 
 
 
-local nooU9dUyJuCFj = {}
-local ujMN7Gx4ix1 = {}
-local oVrUpbjT = {}
+local mtHNaLqi8 = {}
+local phzag_ehD = {}
+local hUd0ufG1 = {}
 
-local nT6RWo5Mwu8aZ = {string.char(78,111,114,109,97,108), string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101), string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
+local rYsDZ6Rk33W9O9 = {string.char(78,111,114,109,97,108), string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101), string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
 
-fOKEnTN5n(laBcrNIc6lq, string.char(83,101,108,101,99,116,32,82,97,114,105,116,121), on8j2ST72, string.char(83,101,108,108,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    for r, v2vaALANuo in pairs(ujMN7Gx4ix1) do v2vaALANuo.Visible = (r == selectedRarity) end
+eVr1G2hv8fFHrr(xbOilyplB, string.char(83,101,108,101,99,116,32,82,97,114,105,116,121), mTfJRredIpOe, string.char(83,101,108,108,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    for r, e76oOuDp in pairs(phzag_ehD) do e76oOuDp.Visible = (r == selectedRarity) end
 end)
 
-for _, rarity in ipairs(on8j2ST72) do
-    local v2vaALANuo = Instance.new(string.char(70,114,97,109,101), laBcrNIc6lq)
-    v2vaALANuo.Size = UDim2.new(0, 260, 0, 32); v2vaALANuo.BackgroundTransparency = 1; v2vaALANuo.AutomaticSize = Enum.AutomaticSize.Y; v2vaALANuo.Visible = (rarity == string.char(67,111,109,109,111,110))
-    ujMN7Gx4ix1[rarity] = v2vaALANuo
-    fcoLuXhU9H(v2vaALANuo, string.char(83,101,108,101,99,116,32,66,114,97,105,110,114,111,116,115), spB6e0Ef6ow8[rarity], string.char(83,101,108,108,95,84,97,114,103,101,116,80,101,116,115,95) .. rarity, string.char(83,101,108,108,80,101,116,115,83,121,110,99), nooU9dUyJuCFj, function(sel) end)
+for _, rarity in ipairs(mTfJRredIpOe) do
+    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), xbOilyplB)
+    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1; e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110))
+    phzag_ehD[rarity] = e76oOuDp
+    u50MEcoeYDZ(e76oOuDp, string.char(83,101,108,101,99,116,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(83,101,108,108,95,84,97,114,103,101,116,80,101,116,115,95) .. rarity, string.char(83,101,108,108,80,101,116,115,83,121,110,99), mtHNaLqi8, function(sel) end)
 end
 
-dWtWqLsOZ89E(laBcrNIc6lq, string.char(83,101,108,101,99,116,32,77,117,116,97,116,105,111,110), nT6RWo5Mwu8aZ, string.char(83,101,108,108,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(t27DTx1us3) oVrUpbjT = t27DTx1us3 end)
+oWP4DMDYQn(xbOilyplB, string.char(83,101,108,101,99,116,32,77,117,116,97,116,105,111,110), rYsDZ6Rk33W9O9, string.char(83,101,108,108,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) hUd0ufG1 = rFmfPVqY end)
 
-local jA4Fd2Rr0G = false
-klxtQtuWk(laBcrNIc6lq, string.char(65,117,116,111,32,83,101,108,108,32,83,101,108,101,99,116,101,100,32,80,101,116,115,32,128184), string.char(65,117,116,111,83,101,108,108), function(v)
-    jA4Fd2Rr0G = v
-    if jA4Fd2Rr0G then
+local hzPqyuNJQ = false
+nP6QBDOPrq(xbOilyplB, string.char(65,117,116,111,32,83,101,108,108,32,83,101,108,101,99,116,101,100,32,80,101,116,115,32,128184), string.char(65,117,116,111,83,101,108,108), function(v)
+    hzPqyuNJQ = v
+    if hzPqyuNJQ then
         task.spawn(function()
-            while jA4Fd2Rr0G do
+            while hzPqyuNJQ do
                 pcall(function()
-                    local player = game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer; local rMQMHQkYY1jy = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107))
-                    local hZ7nANbT = player.Character; local xBSV1Kj8iSI = hZ7nANbT and hZ7nANbT:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if rMQMHQkYY1jy and xBSV1Kj8iSI then
-                        for _, item in pairs(rMQMHQkYY1jy:GetChildren()) do
-                            if not jA4Fd2Rr0G then break end
-                            if item:IsA(string.char(84,111,111,108)) and nooU9dUyJuCFj[item.Name] then
-                                local nX8x8GLnO = item:GetAttribute(string.char(77,117,116,97,116,105,111,110)) or string.char(78,111,110,101)
-                                if nX8x8GLnO == string.char(78,111,110,101) then nX8x8GLnO = string.char(78,111,114,109,97,108) end
+                    local player = game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer; local a3H59gzPwLIJq = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107))
+                    local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if a3H59gzPwLIJq and q21YZH4aC4cd then
+                        for _, item in pairs(a3H59gzPwLIJq:GetChildren()) do
+                            if not hzPqyuNJQ then break end
+                            if item:IsA(string.char(84,111,111,108)) and mtHNaLqi8[item.Name] then
+                                local xrvoN1b5l9d3C = item:GetAttribute(string.char(77,117,116,97,116,105,111,110)) or string.char(78,111,110,101)
+                                if xrvoN1b5l9d3C == string.char(78,111,110,101) then xrvoN1b5l9d3C = string.char(78,111,114,109,97,108) end
                                 
-                                local vuw9IpiFo7b = false
-                                if oVrUpbjT[nX8x8GLnO] then vuw9IpiFo7b = true end
+                                local iKiMnOQMjslPU6 = false
+                                if hUd0ufG1[xrvoN1b5l9d3C] then iKiMnOQMjslPU6 = true end
                                 
-                                if vuw9IpiFo7b then
-                                    xBSV1Kj8iSI:EquipTool(item); task.wait(0.15)
+                                if iKiMnOQMjslPU6 then
+                                    q21YZH4aC4cd:EquipTool(item); task.wait(0.15)
                                     game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)).Shared.Packages.Network.ref_B_Sell:InvokeServer()
                                     task.wait(0.2)
                                 end
@@ -1655,32 +1655,32 @@ end)
 
 
 
-local function toXkVbT6Dlo(umOKELhEiWtD, clr)
-    local wGgkhq3c8 = Instance.new(string.char(84,101,120,116,76,97,98,101,108), nmDSYdCljDV)
-    wGgkhq3c8.Size = UDim2.new(1, 0, 0, 25); wGgkhq3c8.BackgroundTransparency = 1
-    wGgkhq3c8.Text = umOKELhEiWtD; wGgkhq3c8.TextColor3 = clr; wGgkhq3c8.Font = Enum.Font.GothamBold; wGgkhq3c8.TextSize = 12
+local function hhXKZFZE9IW(go_R7U0m77Y, clr)
+    local hjJcn3IRPmcwj = Instance.new(string.char(84,101,120,116,76,97,98,101,108), eFITR7UYW0H6)
+    hjJcn3IRPmcwj.Size = UDim2.new(1, 0, 0, 25); hjJcn3IRPmcwj.BackgroundTransparency = 1
+    hjJcn3IRPmcwj.Text = go_R7U0m77Y; hjJcn3IRPmcwj.TextColor3 = clr; hjJcn3IRPmcwj.Font = Enum.Font.GothamBold; hjJcn3IRPmcwj.TextSize = 12
 end
-toXkVbT6Dlo(string.char(127808,32,75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107), q31TkxRbhwRTgA.Success)
-toXkVbT6Dlo(string.char(127807,32,98,121,32,70,65,82,84,69,90), q31TkxRbhwRTgA.Success)
-toXkVbT6Dlo(string.char(9654,65039,32,89,111,117,84,117,98,101,32,70,65,82,84,69,90,32,72,85,66), q31TkxRbhwRTgA.Success)
-toXkVbT6Dlo(string.char(128994,32,73,116,32,119,111,114,107,115), q31TkxRbhwRTgA.Success)
+hhXKZFZE9IW(string.char(127808,32,75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107), xqu7o4sp.Success)
+hhXKZFZE9IW(string.char(127807,32,98,121,32,70,65,82,84,69,90), xqu7o4sp.Success)
+hhXKZFZE9IW(string.char(9654,65039,32,89,111,117,84,117,98,101,32,70,65,82,84,69,90,32,72,85,66), xqu7o4sp.Success)
+hhXKZFZE9IW(string.char(128994,32,73,116,32,119,111,114,107,115), xqu7o4sp.Success)
 
-local lkw6WxjR = Instance.new(string.char(70,114,97,109,101), nmDSYdCljDV)
-lkw6WxjR.Size = UDim2.new(1, 0, 0, 2)
-lkw6WxjR.BackgroundColor3 = q31TkxRbhwRTgA.SurfaceLight
-lkw6WxjR.BorderSizePixel = 0
+local lpmhKSXCaEdt = Instance.new(string.char(70,114,97,109,101), eFITR7UYW0H6)
+lpmhKSXCaEdt.Size = UDim2.new(1, 0, 0, 2)
+lpmhKSXCaEdt.BackgroundColor3 = xqu7o4sp.SurfaceLight
+lpmhKSXCaEdt.BorderSizePixel = 0
 
-toXkVbT6Dlo(string.char(45,45,45,32,68,105,115,99,111,114,100,32,87,101,98,104,111,111,107,32,45,45,45), q31TkxRbhwRTgA.Accent)
+hhXKZFZE9IW(string.char(45,45,45,32,68,105,115,99,111,114,100,32,87,101,98,104,111,111,107,32,45,45,45), xqu7o4sp.Accent)
 
-klxtQtuWk(nmDSYdCljDV, string.char(69,110,97,98,108,101,32,87,101,98,104,111,111,107,32,128276), string.char(69,110,97,98,108,101,87,101,98,104,111,111,107), function(v) hR5osg3KZZYcnr = v end)
-iCeguxR6(nmDSYdCljDV, string.char(87,101,98,104,111,111,107,32,85,82,76,58), string.char(80,97,115,116,101,32,85,82,76,32,104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,46,46,46), string.char(87,101,98,104,111,111,107,85,82,76), function(zfrDdu3TWm) gZhiZZkNe = zfrDdu3TWm end)
-fdpZWAde(nmDSYdCljDV, string.char(84,101,115,116,32,87,101,98,104,111,111,107,32,129514), function()
-    __Nigo6gJ5Sky(string.char(129514,32,84,101,115,116,32,78,111,116,105,102,105,99,97,116,105,111,110), string.char(87,101,98,104,111,111,107,32,115,121,115,116,101,109,32,102,111,114,32,42,42,70,65,82,84,69,90,32,72,85,66,42,42,32,105,115,32,119,111,114,107,105,110,103,32,112,101,114,102,101,99,116,108,121,33), 0x04CB29, true)
+nP6QBDOPrq(eFITR7UYW0H6, string.char(69,110,97,98,108,101,32,87,101,98,104,111,111,107,32,128276), string.char(69,110,97,98,108,101,87,101,98,104,111,111,107), function(v) byKJ2PoxPcRNi = v end)
+pohUFYfEik7(eFITR7UYW0H6, string.char(87,101,98,104,111,111,107,32,85,82,76,58), string.char(80,97,115,116,101,32,85,82,76,32,104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,46,46,46), string.char(87,101,98,104,111,111,107,85,82,76), function(ggUxBkOHABn38i) l9B63rRBF = ggUxBkOHABn38i end)
+rWtsgIJWU(eFITR7UYW0H6, string.char(84,101,115,116,32,87,101,98,104,111,111,107,32,129514), function()
+    kHb4lFlmkN(string.char(129514,32,84,101,115,116,32,78,111,116,105,102,105,99,97,116,105,111,110), string.char(87,101,98,104,111,111,107,32,115,121,115,116,101,109,32,102,111,114,32,42,42,70,65,82,84,69,90,32,72,85,66,42,42,32,105,115,32,119,111,114,107,105,110,103,32,112,101,114,102,101,99,116,108,121,33), 0x04CB29, true)
 end)
 
 
 
-u6AgtPODfiMUzc[1].cOGTemfSP5z.Visible = true
-u6AgtPODfiMUzc[1].pfg9U_85978c.BackgroundColor3 = q31TkxRbhwRTgA.Accent
-u6AgtPODfiMUzc[1].pfg9U_85978c.TextColor3 = Color3.new(0,0,0)
-bzglilf6.MouseButton1Click:Connect(function() tFkeFYwYMW.Visible = not tFkeFYwYMW.Visible end)
+q6dioAfs0syG[1].eCHhSBQ7EAurKc.Visible = true
+q6dioAfs0syG[1].lzqLrt1K1psFN.BackgroundColor3 = xqu7o4sp.Accent
+q6dioAfs0syG[1].lzqLrt1K1psFN.TextColor3 = Color3.new(0,0,0)
+vp7q4Gss7.MouseButton1Click:Connect(function() tDBL1rqrKwF.Visible = not tDBL1rqrKwF.Visible end)
