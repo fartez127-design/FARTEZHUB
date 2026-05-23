@@ -1,45 +1,42 @@
 -- Protected by FARTEZ HUB
--- Light obfuscation | Roblox executor safe | Mobile friendly
+-- String hiding | Comment stripping | Roblox executor safe
 
-local mjWRYznEpfNwg = {
+local args = {
     [1] = 1 
 
 }
-
 
 
 local Players = game:GetService(string.char(80,108,97,121,101,114,115))
 local TweenService = game:GetService(string.char(84,119,101,101,110,83,101,114,118,105,99,101))
 local RunService = game:GetService(string.char(82,117,110,83,101,114,118,105,99,101))
 local HttpService = game:GetService(string.char(72,116,116,112,83,101,114,118,105,99,101))
-local _5QgcZ5N = game:GetService(string.char(86,105,114,116,117,97,108,85,115,101,114)) 
+local VirtualUser = game:GetService(string.char(86,105,114,116,117,97,108,85,115,101,114)) 
 
 local player = Players.LocalPlayer
-local sE5J0gxQtz = player:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))
-
+local PlayerGui = player:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))
 
 
 player.Idled:Connect(function()
     pcall(function()
-        _5QgcZ5N:CaptureController()
-        _5QgcZ5N:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        VirtualUser:CaptureController()
+        VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
         task.wait(1)
-        _5QgcZ5N:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
     end)
     print(string.char(128737,65039,32,65,110,116,105,45,65,70,75,32,87,111,114,107,101,100,58,32,3611,3657,3629,3591,3585,3633,3609,3585,3634,3619,3650,3604,3609,3648,3605,3632,3648,3619,3637,3618,3610,3619,3657,3629,3618,33))
 end)
 
-local xwO0m_95lhnm = sE5J0gxQtz
+local SafeParent = PlayerGui
 
-for _, v in pairs(xwO0m_95lhnm:GetChildren()) do
+for _, v in pairs(SafeParent:GetChildren()) do
     if v.Name == string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66) then
         v:Destroy()
     end
 end
 
 
-
-local xqu7o4sp = {
+local Theme = {
     Background = Color3.fromRGB(5, 5, 8),
     Surface = Color3.fromRGB(15, 15, 20),
     SurfaceLight = Color3.fromRGB(25, 25, 35),
@@ -50,575 +47,571 @@ local xqu7o4sp = {
 }
 
 
+local ScreenGui = Instance.new(string.char(83,99,114,101,101,110,71,117,105))
+ScreenGui.Name = string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66)
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = SafeParent
 
-local l6l1m2tQOHWfE = Instance.new(string.char(83,99,114,101,101,110,71,117,105))
-l6l1m2tQOHWfE.Name = string.char(70,65,82,84,69,90,95,76,85,67,75,89,95,72,85,66)
-l6l1m2tQOHWfE.ResetOnSpawn = false
-l6l1m2tQOHWfE.Parent = xwO0m_95lhnm
+local toggleBtn = Instance.new(string.char(73,109,97,103,101,66,117,116,116,111,110), ScreenGui)
+toggleBtn.Size = UDim2.new(0, 50, 0, 50)
+toggleBtn.Position = UDim2.new(0, 15, 0, 150)
+toggleBtn.BackgroundColor3 = Theme.Surface
+toggleBtn.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
+toggleBtn.Draggable = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), toggleBtn).CornerRadius = UDim.new(0.5, 0)
+local btnStroke = Instance.new(string.char(85,73,83,116,114,111,107,101), toggleBtn)
+btnStroke.Thickness = 2
+btnStroke.Color = Theme.Accent
 
-local vp7q4Gss7 = Instance.new(string.char(73,109,97,103,101,66,117,116,116,111,110), l6l1m2tQOHWfE)
-vp7q4Gss7.Size = UDim2.new(0, 50, 0, 50)
-vp7q4Gss7.Position = UDim2.new(0, 15, 0, 150)
-vp7q4Gss7.BackgroundColor3 = xqu7o4sp.Surface
-vp7q4Gss7.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
-vp7q4Gss7.Draggable = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), vp7q4Gss7).CornerRadius = UDim.new(0.5, 0)
-local il2MFTfKMR = Instance.new(string.char(85,73,83,116,114,111,107,101), vp7q4Gss7)
-il2MFTfKMR.Thickness = 2
-il2MFTfKMR.Color = xqu7o4sp.Accent
+local Main = Instance.new(string.char(70,114,97,109,101), ScreenGui)
+Main.Size = UDim2.new(0, 310, 0, 320) 
+Main.Position = UDim2.new(0.5, -155, 0.5, -210)
+Main.BackgroundColor3 = Theme.Background
+Main.BorderSizePixel = 0
+Main.Active = true
+Main.Draggable = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), Main).CornerRadius = UDim.new(0, 12)
 
-local tDBL1rqrKwF = Instance.new(string.char(70,114,97,109,101), l6l1m2tQOHWfE)
-tDBL1rqrKwF.Size = UDim2.new(0, 310, 0, 320) 
-tDBL1rqrKwF.Position = UDim2.new(0.5, -155, 0.5, -210)
-tDBL1rqrKwF.BackgroundColor3 = xqu7o4sp.Background
-tDBL1rqrKwF.BorderSizePixel = 0
-tDBL1rqrKwF.Active = true
-tDBL1rqrKwF.Draggable = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), tDBL1rqrKwF).CornerRadius = UDim.new(0, 12)
+local TopBar = Instance.new(string.char(70,114,97,109,101), Main)
+TopBar.Size = UDim2.new(1, 0, 0, 50)
+TopBar.BackgroundColor3 = Theme.Surface
+TopBar.BorderSizePixel = 0
 
-local aloGgZ8uG_0iy = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
-aloGgZ8uG_0iy.Size = UDim2.new(1, 0, 0, 50)
-aloGgZ8uG_0iy.BackgroundColor3 = xqu7o4sp.Surface
-aloGgZ8uG_0iy.BorderSizePixel = 0
+local Logo = Instance.new(string.char(73,109,97,103,101,76,97,98,101,108), TopBar)
+Logo.Size = UDim2.new(0, 36, 0, 36)
+Logo.Position = UDim2.new(0, 10, 0.5, -18)
+Logo.BackgroundTransparency = 1
+Logo.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
+Instance.new(string.char(85,73,67,111,114,110,101,114), Logo).CornerRadius = UDim.new(0.2, 0)
 
-local twg9Sd2zejL = Instance.new(string.char(73,109,97,103,101,76,97,98,101,108), aloGgZ8uG_0iy)
-twg9Sd2zejL.Size = UDim2.new(0, 36, 0, 36)
-twg9Sd2zejL.Position = UDim2.new(0, 10, 0.5, -18)
-twg9Sd2zejL.BackgroundTransparency = 1
-twg9Sd2zejL.Image = string.char(114,98,120,116,104,117,109,98,58,47,47,116,121,112,101,61,65,115,115,101,116,38,105,100,61,49,49,55,49,52,57,48,55,51,57,52,53,50,54,53,38,119,61,49,53,48,38,104,61,49,53,48)
-Instance.new(string.char(85,73,67,111,114,110,101,114), twg9Sd2zejL).CornerRadius = UDim.new(0.2, 0)
+local Title1 = Instance.new(string.char(84,101,120,116,76,97,98,101,108), TopBar) 
+Title1.Size = UDim2.new(0, 160, 0, 22) 
+Title1.Position = UDim2.new(0, 52, 0, 5) 
+Title1.BackgroundTransparency = 1 
+Title1.Text = string.char(32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,77,111,98,105,108,101,32,32,32,32,50,46,48,32,66,97,116,97) 
+Title1.TextColor3 = Theme.Text 
+Title1.TextSize = 10
+Title1.Font = Enum.Font.GothamBold 
+Title1.TextXAlignment = Enum.TextXAlignment.Left
 
-local tmPu9Mi77 = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
-tmPu9Mi77.Size = UDim2.new(0, 160, 0, 22) 
-tmPu9Mi77.Position = UDim2.new(0, 52, 0, 5) 
-tmPu9Mi77.BackgroundTransparency = 1 
-tmPu9Mi77.Text = string.char(32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,77,111,98,105,108,101,32,32,32,32,50,46,48,32,66,97,116,97) 
-tmPu9Mi77.TextColor3 = xqu7o4sp.Text 
-tmPu9Mi77.TextSize = 10
-tmPu9Mi77.Font = Enum.Font.GothamBold 
-tmPu9Mi77.TextXAlignment = Enum.TextXAlignment.Left
+local Title2 = Instance.new(string.char(84,101,120,116,76,97,98,101,108), TopBar) 
+Title2.Size = UDim2.new(0, 160, 0, 22) 
+Title2.Position = UDim2.new(0, 52, 0, 5) 
+Title2.BackgroundTransparency = 1 
+Title2.Text = string.char(70,65,82,84,69,90,32,72,85,66) 
+Title2.TextColor3 = Theme.Text 
+Title2.TextSize = 17 
+Title2.Font = Enum.Font.GothamBold 
+Title2.TextXAlignment = Enum.TextXAlignment.Left  
 
-local wQlrMWIbQ = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
-wQlrMWIbQ.Size = UDim2.new(0, 160, 0, 22) 
-wQlrMWIbQ.Position = UDim2.new(0, 52, 0, 5) 
-wQlrMWIbQ.BackgroundTransparency = 1 
-wQlrMWIbQ.Text = string.char(70,65,82,84,69,90,32,72,85,66) 
-wQlrMWIbQ.TextColor3 = xqu7o4sp.Text 
-wQlrMWIbQ.TextSize = 17 
-wQlrMWIbQ.Font = Enum.Font.GothamBold 
-wQlrMWIbQ.TextXAlignment = Enum.TextXAlignment.Left  
+local Subtitle = Instance.new(string.char(84,101,120,116,76,97,98,101,108), TopBar) 
+Subtitle.Size = UDim2.new(0, 160, 0, 16) 
+Subtitle.Position = UDim2.new(0, 52, 0, 26) 
+Subtitle.BackgroundTransparency = 1 
+Subtitle.Text = string.char(75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107) 
+Subtitle.TextColor3 = Theme.Accent 
+Subtitle.TextSize = 10 
+Subtitle.Font = Enum.Font.GothamSemibold 
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left 
 
-local pHaqsMEB = Instance.new(string.char(84,101,120,116,76,97,98,101,108), aloGgZ8uG_0iy) 
-pHaqsMEB.Size = UDim2.new(0, 160, 0, 16) 
-pHaqsMEB.Position = UDim2.new(0, 52, 0, 26) 
-pHaqsMEB.BackgroundTransparency = 1 
-pHaqsMEB.Text = string.char(75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107) 
-pHaqsMEB.TextColor3 = xqu7o4sp.Accent 
-pHaqsMEB.TextSize = 10 
-pHaqsMEB.Font = Enum.Font.GothamSemibold 
-pHaqsMEB.TextXAlignment = Enum.TextXAlignment.Left 
+local TabContainer = Instance.new(string.char(70,114,97,109,101), Main)
+TabContainer.Size = UDim2.new(1, -16, 0, 36)
+TabContainer.Position = UDim2.new(0, 8, 0, 56)
+TabContainer.BackgroundColor3 = Theme.Surface
+Instance.new(string.char(85,73,67,111,114,110,101,114), TabContainer).CornerRadius = UDim.new(0, 8)
 
-local rI_va2JDd = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
-rI_va2JDd.Size = UDim2.new(1, -16, 0, 36)
-rI_va2JDd.Position = UDim2.new(0, 8, 0, 56)
-rI_va2JDd.BackgroundColor3 = xqu7o4sp.Surface
-Instance.new(string.char(85,73,67,111,114,110,101,114), rI_va2JDd).CornerRadius = UDim.new(0, 8)
+local TabLayout = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), TabContainer)
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+TabLayout.Padding = UDim.new(0, 2)
 
-local wG4CdkhuB7zr4 = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), rI_va2JDd)
-wG4CdkhuB7zr4.FillDirection = Enum.FillDirection.Horizontal
-wG4CdkhuB7zr4.HorizontalAlignment = Enum.HorizontalAlignment.Center
-wG4CdkhuB7zr4.VerticalAlignment = Enum.VerticalAlignment.Center
-wG4CdkhuB7zr4.Padding = UDim.new(0, 2)
+local Content = Instance.new(string.char(70,114,97,109,101), Main)
+Content.Size = UDim2.new(1, -16, 1, -110)
+Content.Position = UDim2.new(0, 8, 0, 98)
+Content.BackgroundColor3 = Theme.Surface
+Content.ClipsDescendants = true
+Instance.new(string.char(85,73,67,111,114,110,101,114), Content).CornerRadius = UDim.new(0, 10)
 
-local uLMakShNn7eT = Instance.new(string.char(70,114,97,109,101), tDBL1rqrKwF)
-uLMakShNn7eT.Size = UDim2.new(1, -16, 1, -110)
-uLMakShNn7eT.Position = UDim2.new(0, 8, 0, 98)
-uLMakShNn7eT.BackgroundColor3 = xqu7o4sp.Surface
-uLMakShNn7eT.ClipsDescendants = true
-Instance.new(string.char(85,73,67,111,114,110,101,114), uLMakShNn7eT).CornerRadius = UDim.new(0, 10)
-
-local q6dioAfs0syG = {}
-local function ybErtvtn(name)
-    local lzqLrt1K1psFN = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), rI_va2JDd)
-    lzqLrt1K1psFN.Size = UDim2.new(0, 0, 0, 28) 
-    lzqLrt1K1psFN.AutomaticSize = Enum.AutomaticSize.X
-    lzqLrt1K1psFN.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    lzqLrt1K1psFN.Text = name
-    lzqLrt1K1psFN.TextColor3 = xqu7o4sp.TextDim
-    lzqLrt1K1psFN.TextSize = 9 
-    lzqLrt1K1psFN.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), lzqLrt1K1psFN).CornerRadius = UDim.new(0, 6)
+local Tabs = {}
+local function CreateTab(name)
+    local Btn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), TabContainer)
+    Btn.Size = UDim2.new(0, 0, 0, 28) 
+    Btn.AutomaticSize = Enum.AutomaticSize.X
+    Btn.BackgroundColor3 = Theme.SurfaceLight
+    Btn.Text = name
+    Btn.TextColor3 = Theme.TextDim
+    Btn.TextSize = 9 
+    Btn.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), Btn).CornerRadius = UDim.new(0, 6)
     
-    local xKX6Vy25VUPFF = Instance.new(string.char(85,73,80,97,100,100,105,110,103), lzqLrt1K1psFN)
-    xKX6Vy25VUPFF.PaddingLeft = UDim.new(0, 6)
-    xKX6Vy25VUPFF.PaddingRight = UDim.new(0, 6)
+    local pad = Instance.new(string.char(85,73,80,97,100,100,105,110,103), Btn)
+    pad.PaddingLeft = UDim.new(0, 6)
+    pad.PaddingRight = UDim.new(0, 6)
 
-    local eCHhSBQ7EAurKc = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), uLMakShNn7eT)
-    eCHhSBQ7EAurKc.Name = name .. string.char(80,97,103,101)
-    eCHhSBQ7EAurKc.Size = UDim2.new(1, 0, 1, 0)
-    eCHhSBQ7EAurKc.BackgroundTransparency = 1
-    eCHhSBQ7EAurKc.ScrollBarThickness = 2
-    eCHhSBQ7EAurKc.ScrollBarImageColor3 = xqu7o4sp.Accent
-    eCHhSBQ7EAurKc.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    eCHhSBQ7EAurKc.Visible = false
+    local Page = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), Content)
+    Page.Name = name .. string.char(80,97,103,101)
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Theme.Accent
+    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Page.Visible = false
     
-    local caOIHO4Qp7tCn = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), eCHhSBQ7EAurKc)
-    caOIHO4Qp7tCn.Padding = UDim.new(0, 10)
-    caOIHO4Qp7tCn.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    Instance.new(string.char(85,73,80,97,100,100,105,110,103), eCHhSBQ7EAurKc).PaddingTop = UDim.new(0, 12)
-    Instance.new(string.char(85,73,80,97,100,100,105,110,103), eCHhSBQ7EAurKc).PaddingBottom = UDim.new(0, 12)
+    local PL = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), Page)
+    PL.Padding = UDim.new(0, 10)
+    PL.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Instance.new(string.char(85,73,80,97,100,100,105,110,103), Page).PaddingTop = UDim.new(0, 12)
+    Instance.new(string.char(85,73,80,97,100,100,105,110,103), Page).PaddingBottom = UDim.new(0, 12)
 
-    table.insert(q6dioAfs0syG, {lzqLrt1K1psFN = lzqLrt1K1psFN, eCHhSBQ7EAurKc = eCHhSBQ7EAurKc})
+    table.insert(Tabs, {Btn = Btn, Page = Page})
 
-    lzqLrt1K1psFN.MouseButton1Click:Connect(function()
-        for _, t in pairs(q6dioAfs0syG) do
-            t.eCHhSBQ7EAurKc.Visible = false
-            TweenService:Create(t.lzqLrt1K1psFN, TweenInfo.new(0.2), {BackgroundColor3 = xqu7o4sp.SurfaceLight, TextColor3 = xqu7o4sp.TextDim}):Play()
+    Btn.MouseButton1Click:Connect(function()
+        for _, t in pairs(Tabs) do
+            t.Page.Visible = false
+            TweenService:Create(t.Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.SurfaceLight, TextColor3 = Theme.TextDim}):Play()
         end
-        eCHhSBQ7EAurKc.Visible = true
-        TweenService:Create(lzqLrt1K1psFN, TweenInfo.new(0.2), {BackgroundColor3 = xqu7o4sp.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
+        Page.Visible = true
+        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundColor3 = Theme.Accent, TextColor3 = Color3.new(0,0,0)}):Play()
     end)
-    return eCHhSBQ7EAurKc
+    return Page
 end
 
-local qwTS26gRIdcX = ybErtvtn(string.char(77,97,105,110))
-local rVny5wJg3_aGBZ = ybErtvtn(string.char(67,111,108,108,101,99,116))
-local tLxk0CWjxy = ybErtvtn(string.char(85,112,71)) 
-local uA8mQ_eTH = ybErtvtn(string.char(67,111,110,102,105,103,115)) 
-local uFjCQQnDJISp = ybErtvtn(string.char(75,105,99,107,90,111,110,101)) 
-local xbOilyplB = ybErtvtn(string.char(83,101,108,108)) 
-local eFITR7UYW0H6 = ybErtvtn(string.char(73,110,102,111))
+local MainTab = CreateTab(string.char(77,97,105,110))
+local CollectTab = CreateTab(string.char(67,111,108,108,101,99,116))
+local UpGTab = CreateTab(string.char(85,112,71)) 
+local ConfigsTab = CreateTab(string.char(67,111,110,102,105,103,115)) 
+local KickZoneTab = CreateTab(string.char(75,105,99,107,90,111,110,101)) 
+local SellTab = CreateTab(string.char(83,101,108,108)) 
+local DetailsTab = CreateTab(string.char(73,110,102,111))
 
 
-
-local kU1UuI7I2Ldh = {}
-local vJucSeLnY0JCqw = {}
-local czjJTHKqEyxX = {}
-
+local CurrentConfig = {}
+local UIControllers = {}
+local SharedDropdownUpdaters = {}
 
 
-local function rWtsgIJWU(parent, text, callback)
-    local zbBr8CrbM7Ko_ = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), parent)
-    zbBr8CrbM7Ko_.Size = UDim2.new(0, 260, 0, 32)
-    zbBr8CrbM7Ko_.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    zbBr8CrbM7Ko_.Text = text
-    zbBr8CrbM7Ko_.TextColor3 = xqu7o4sp.Text
-    zbBr8CrbM7Ko_.Font = Enum.Font.GothamBold
-    zbBr8CrbM7Ko_.TextSize = 12
-    Instance.new(string.char(85,73,67,111,114,110,101,114), zbBr8CrbM7Ko_).CornerRadius = UDim.new(0, 6)
-    zbBr8CrbM7Ko_.MouseButton1Click:Connect(callback)
+local function CreateButton(parent, text, callback)
+    local btn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), parent)
+    btn.Size = UDim2.new(0, 260, 0, 32)
+    btn.BackgroundColor3 = Theme.SurfaceLight
+    btn.Text = text
+    btn.TextColor3 = Theme.Text
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 12
+    Instance.new(string.char(85,73,67,111,114,110,101,114), btn).CornerRadius = UDim.new(0, 6)
+    btn.MouseButton1Click:Connect(callback)
 end
 
-local function nP6QBDOPrq(parent, text, configKey, callback)
-    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
-    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 32)
-    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
+local function CreateToggle(parent, text, configKey, callback)
+    local frame = Instance.new(string.char(70,114,97,109,101), parent)
+    frame.Size = UDim2.new(0, 260, 0, 32)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), frame).CornerRadius = UDim.new(0, 6)
     
-    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
-    sEtJdBBie6SF.Size = UDim2.new(1, -50, 1, 0)
-    sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 0)
-    sEtJdBBie6SF.BackgroundTransparency = 1
-    sEtJdBBie6SF.Text = text
-    sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
-    sEtJdBBie6SF.Font = Enum.Font.GothamBold
-    sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left
-    sEtJdBBie6SF.TextSize = 11
+    local label = Instance.new(string.char(84,101,120,116,76,97,98,101,108), frame)
+    label.Size = UDim2.new(1, -50, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = Theme.Text
+    label.Font = Enum.Font.GothamBold
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextSize = 11
     
-    local ffo9PjL5 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), gaFAZRoQNq3S)
-    ffo9PjL5.Size = UDim2.new(0, 20, 0, 20)
-    ffo9PjL5.Position = UDim2.new(1, -30, 0.5, -10)
-    ffo9PjL5.BackgroundColor3 = xqu7o4sp.Surface
-    ffo9PjL5.Text = ""
-    Instance.new(string.char(85,73,67,111,114,110,101,114), ffo9PjL5).CornerRadius = UDim.new(0, 4)
-    Instance.new(string.char(85,73,83,116,114,111,107,101), ffo9PjL5).Color = xqu7o4sp.Accent
+    local tBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), frame)
+    tBtn.Size = UDim2.new(0, 20, 0, 20)
+    tBtn.Position = UDim2.new(1, -30, 0.5, -10)
+    tBtn.BackgroundColor3 = Theme.Surface
+    tBtn.Text = ""
+    Instance.new(string.char(85,73,67,111,114,110,101,114), tBtn).CornerRadius = UDim.new(0, 4)
+    Instance.new(string.char(85,73,83,116,114,111,107,101), tBtn).Color = Theme.Accent
     
-    local jE2h6RdDbBwG = false
+    local s = false
     
-    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
-        jE2h6RdDbBwG = ggUxBkOHABn38i
-        ffo9PjL5.BackgroundColor3 = jE2h6RdDbBwG and xqu7o4sp.Accent or xqu7o4sp.Surface
-        kU1UuI7I2Ldh[configKey] = jE2h6RdDbBwG
-        callback(jE2h6RdDbBwG)
+    UIControllers[configKey] = function(val)
+        s = val
+        tBtn.BackgroundColor3 = s and Theme.Accent or Theme.Surface
+        CurrentConfig[configKey] = s
+        callback(s)
     end
 
-    ffo9PjL5.MouseButton1Click:Connect(function()
-        vJucSeLnY0JCqw[configKey](not jE2h6RdDbBwG)
+    tBtn.MouseButton1Click:Connect(function()
+        UIControllers[configKey](not s)
     end)
-    kU1UuI7I2Ldh[configKey] = false
+    CurrentConfig[configKey] = false
 end
 
-local function eVr1G2hv8fFHrr(parent, title, options, configKey, callback)
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
-    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    e76oOuDp.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
+local function CreateDropdown(parent, title, options, configKey, callback)
+    local container = Instance.new(string.char(70,114,97,109,101), parent)
+    container.Size = UDim2.new(0, 260, 0, 32)
+    container.BackgroundColor3 = Theme.SurfaceLight
+    container.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), container).CornerRadius = UDim.new(0, 6)
     
-    local rFmfPVqY = options[1]
+    local selected = options[1]
     
-    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
-    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
-    jpIDMVWwN8MN2f.BackgroundTransparency = 1
-    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. rFmfPVqY .. string.char(32,32,9660)
-    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
-    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
-    jpIDMVWwN8MN2f.TextSize = 11
-    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
+    local mainBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), container)
+    mainBtn.Size = UDim2.new(1, 0, 0, 32)
+    mainBtn.BackgroundTransparency = 1
+    mainBtn.Text = string.char(32,32) .. title .. string.char(58,32) .. selected .. string.char(32,32,9660)
+    mainBtn.TextColor3 = Theme.Accent
+    mainBtn.Font = Enum.Font.GothamBold
+    mainBtn.TextSize = 11
+    mainBtn.TextXAlignment = Enum.TextXAlignment.Left
     
-    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
-    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
-    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
-    fGBPF9eib.BackgroundTransparency = 1
-    fGBPF9eib.ScrollBarThickness = 2
-    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local scroll = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), container)
+    scroll.Size = UDim2.new(1, 0, 1, -32)
+    scroll.Position = UDim2.new(0, 0, 0, 32)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness = 2
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
-    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
+    local layout = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), scroll)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local yOPFO8csaM6c = false
-    local zdBsZs4j0cq = math.min(#options * 30, 150)
+    local isOpen = false
+    local maxDropHeight = math.min(#options * 30, 150)
     
-    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
-        if ggUxBkOHABn38i and table.find(options, ggUxBkOHABn38i) then
-            rFmfPVqY = ggUxBkOHABn38i
-            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. rFmfPVqY .. string.char(32,32,9660)
-            kU1UuI7I2Ldh[configKey] = rFmfPVqY
-            callback(rFmfPVqY)
+    UIControllers[configKey] = function(val)
+        if val and table.find(options, val) then
+            selected = val
+            mainBtn.Text = string.char(32,32) .. title .. string.char(58,32) .. selected .. string.char(32,32,9660)
+            CurrentConfig[configKey] = selected
+            callback(selected)
         end
     end
 
-    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
-        yOPFO8csaM6c = not yOPFO8csaM6c
-        if yOPFO8csaM6c then
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
+    mainBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play()
         else
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
     end)
     
     for i, option in ipairs(options) do
-        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
-        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
-        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
-        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
-        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
-        c0axBQ9dvit2.Font = Enum.Font.GothamBold
-        c0axBQ9dvit2.TextSize = 11
-        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
+        local optBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), scroll)
+        optBtn.Size = UDim2.new(1, -10, 0, 30)
+        optBtn.BackgroundColor3 = Theme.Surface
+        optBtn.Text = string.char(32,32,32,32) .. option
+        optBtn.TextColor3 = Theme.TextDim
+        optBtn.Font = Enum.Font.GothamBold
+        optBtn.TextSize = 11
+        optBtn.TextXAlignment = Enum.TextXAlignment.Left
         
-        c0axBQ9dvit2.MouseButton1Click:Connect(function()
-            yOPFO8csaM6c = false
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
-            vJucSeLnY0JCqw[configKey](option)
+        optBtn.MouseButton1Click:Connect(function()
+            isOpen = false
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            UIControllers[configKey](option)
         end)
     end
-    kU1UuI7I2Ldh[configKey] = options[1]
+    CurrentConfig[configKey] = options[1]
 end
 
-local function oWP4DMDYQn(parent, title, options, configKey, callback)
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
-    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    e76oOuDp.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
+local function CreateMultiDropdown(parent, title, options, configKey, callback)
+    local container = Instance.new(string.char(70,114,97,109,101), parent)
+    container.Size = UDim2.new(0, 260, 0, 32)
+    container.BackgroundColor3 = Theme.SurfaceLight
+    container.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), container).CornerRadius = UDim.new(0, 6)
     
-    local rFmfPVqY = {}
-    for _, opt in ipairs(options) do rFmfPVqY[opt] = false end
+    local selected = {}
+    for _, opt in ipairs(options) do selected[opt] = false end
     
-    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
-    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
-    jpIDMVWwN8MN2f.BackgroundTransparency = 1
-    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
-    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
-    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
-    jpIDMVWwN8MN2f.TextSize = 11
-    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
+    local mainBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), container)
+    mainBtn.Size = UDim2.new(1, 0, 0, 32)
+    mainBtn.BackgroundTransparency = 1
+    mainBtn.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
+    mainBtn.TextColor3 = Theme.Accent
+    mainBtn.Font = Enum.Font.GothamBold
+    mainBtn.TextSize = 11
+    mainBtn.TextXAlignment = Enum.TextXAlignment.Left
     
-    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
-    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
-    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
-    fGBPF9eib.BackgroundTransparency = 1
-    fGBPF9eib.ScrollBarThickness = 2
-    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local scroll = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), container)
+    scroll.Size = UDim2.new(1, 0, 1, -32)
+    scroll.Position = UDim2.new(0, 0, 0, 32)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness = 2
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
-    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
+    local layout = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), scroll)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local yOPFO8csaM6c = false
-    local zdBsZs4j0cq = math.min(#options * 30, 150)
-    local luw4Z2FQwcog = {}
+    local isOpen = false
+    local maxDropHeight = math.min(#options * 30, 150)
+    local optBtns = {}
     
-    local function hSMl9WRUIecPU3()
-        local _8Aa6c2UREbD = 0
-        for k, v in pairs(rFmfPVqY) do if v then _8Aa6c2UREbD = _8Aa6c2UREbD + 1 end end
-        if _8Aa6c2UREbD == 0 then
-            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
+    local function updateText()
+        local count = 0
+        for k, v in pairs(selected) do if v then count = count + 1 end end
+        if count == 0 then
+            mainBtn.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (isOpen and string.char(9650) or string.char(9660))
         else
-            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. _8Aa6c2UREbD .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
+            mainBtn.Text = string.char(32,32) .. title .. string.char(58,32) .. count .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (isOpen and string.char(9650) or string.char(9660))
         end
-        kU1UuI7I2Ldh[configKey] = rFmfPVqY
-        callback(rFmfPVqY)
+        CurrentConfig[configKey] = selected
+        callback(selected)
     end
 
-    vJucSeLnY0JCqw[configKey] = function(loadedTable)
+    UIControllers[configKey] = function(loadedTable)
         if type(loadedTable) == string.char(116,97,98,108,101) then
             for k, v in pairs(loadedTable) do
-                if rFmfPVqY[k] ~= nil then
-                    rFmfPVqY[k] = v
+                if selected[k] ~= nil then
+                    selected[k] = v
                 end
             end
-            for optName, zbBr8CrbM7Ko_ in pairs(luw4Z2FQwcog) do
-                zbBr8CrbM7Ko_.TextColor3 = rFmfPVqY[optName] and xqu7o4sp.Success or xqu7o4sp.TextDim
+            for optName, btn in pairs(optBtns) do
+                btn.TextColor3 = selected[optName] and Theme.Success or Theme.TextDim
             end
-            hSMl9WRUIecPU3()
+            updateText()
         end
     end
     
-    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
-        yOPFO8csaM6c = not yOPFO8csaM6c
-        if yOPFO8csaM6c then
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
+    mainBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play()
         else
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
-        hSMl9WRUIecPU3()
+        updateText()
     end)
     
     for i, option in ipairs(options) do
-        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
-        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
-        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
-        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
-        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
-        c0axBQ9dvit2.Font = Enum.Font.GothamBold
-        c0axBQ9dvit2.TextSize = 11
-        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
-        luw4Z2FQwcog[option] = c0axBQ9dvit2
+        local optBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), scroll)
+        optBtn.Size = UDim2.new(1, -10, 0, 30)
+        optBtn.BackgroundColor3 = Theme.Surface
+        optBtn.Text = string.char(32,32,32,32) .. option
+        optBtn.TextColor3 = Theme.TextDim
+        optBtn.Font = Enum.Font.GothamBold
+        optBtn.TextSize = 11
+        optBtn.TextXAlignment = Enum.TextXAlignment.Left
+        optBtns[option] = optBtn
         
-        c0axBQ9dvit2.MouseButton1Click:Connect(function()
-            rFmfPVqY[option] = not rFmfPVqY[option]
-            c0axBQ9dvit2.TextColor3 = rFmfPVqY[option] and xqu7o4sp.Success or xqu7o4sp.TextDim
-            hSMl9WRUIecPU3()
+        optBtn.MouseButton1Click:Connect(function()
+            selected[option] = not selected[option]
+            optBtn.TextColor3 = selected[option] and Theme.Success or Theme.TextDim
+            updateText()
         end)
     end
-    kU1UuI7I2Ldh[configKey] = rFmfPVqY
+    CurrentConfig[configKey] = selected
 end
 
-local function u50MEcoeYDZ(parent, title, options, configKey, syncGroupId, sharedTable, callback)
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), parent)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32)
-    e76oOuDp.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    e76oOuDp.ClipsDescendants = true 
-    Instance.new(string.char(85,73,67,111,114,110,101,114), e76oOuDp).CornerRadius = UDim.new(0, 6)
+local function CreateSharedMultiDropdown(parent, title, options, configKey, syncGroupId, sharedTable, callback)
+    local container = Instance.new(string.char(70,114,97,109,101), parent)
+    container.Size = UDim2.new(0, 260, 0, 32)
+    container.BackgroundColor3 = Theme.SurfaceLight
+    container.ClipsDescendants = true 
+    Instance.new(string.char(85,73,67,111,114,110,101,114), container).CornerRadius = UDim.new(0, 6)
     
-    local rFmfPVqY = {}
-    for _, opt in ipairs(options) do rFmfPVqY[opt] = false end
+    local selected = {}
+    for _, opt in ipairs(options) do selected[opt] = false end
     
-    local jpIDMVWwN8MN2f = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e76oOuDp)
-    jpIDMVWwN8MN2f.Size = UDim2.new(1, 0, 0, 32)
-    jpIDMVWwN8MN2f.BackgroundTransparency = 1
-    jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
-    jpIDMVWwN8MN2f.TextColor3 = xqu7o4sp.Accent
-    jpIDMVWwN8MN2f.Font = Enum.Font.GothamBold
-    jpIDMVWwN8MN2f.TextSize = 11
-    jpIDMVWwN8MN2f.TextXAlignment = Enum.TextXAlignment.Left
+    local mainBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), container)
+    mainBtn.Size = UDim2.new(1, 0, 0, 32)
+    mainBtn.BackgroundTransparency = 1
+    mainBtn.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32,9660)
+    mainBtn.TextColor3 = Theme.Accent
+    mainBtn.Font = Enum.Font.GothamBold
+    mainBtn.TextSize = 11
+    mainBtn.TextXAlignment = Enum.TextXAlignment.Left
     
-    local fGBPF9eib = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), e76oOuDp)
-    fGBPF9eib.Size = UDim2.new(1, 0, 1, -32)
-    fGBPF9eib.Position = UDim2.new(0, 0, 0, 32)
-    fGBPF9eib.BackgroundTransparency = 1
-    fGBPF9eib.ScrollBarThickness = 2
-    fGBPF9eib.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local scroll = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), container)
+    scroll.Size = UDim2.new(1, 0, 1, -32)
+    scroll.Position = UDim2.new(0, 0, 0, 32)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness = 2
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
     
-    local _IB2KHoAICOscr = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), fGBPF9eib)
-    _IB2KHoAICOscr.SortOrder = Enum.SortOrder.LayoutOrder
+    local layout = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), scroll)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
     
-    local yOPFO8csaM6c = false
-    local zdBsZs4j0cq = math.min(#options * 30, 150)
-    local luw4Z2FQwcog = {}
+    local isOpen = false
+    local maxDropHeight = math.min(#options * 30, 150)
+    local optBtns = {}
     
-    if not czjJTHKqEyxX[syncGroupId] then
-        czjJTHKqEyxX[syncGroupId] = {}
+    if not SharedDropdownUpdaters[syncGroupId] then
+        SharedDropdownUpdaters[syncGroupId] = {}
     end
     
-    local function sXcSZIVdtN()
-        local _8Aa6c2UREbD = 0
-        for k, v in pairs(sharedTable) do if v then _8Aa6c2UREbD = _8Aa6c2UREbD + 1 end end
-        if _8Aa6c2UREbD == 0 then
-            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
+    local function updateDisplayOnly()
+        local count = 0
+        for k, v in pairs(sharedTable) do if v then count = count + 1 end end
+        if count == 0 then
+            mainBtn.Text = string.char(32,32) .. title .. string.char(58,32,65,110,121,32,32) .. (isOpen and string.char(9650) or string.char(9660))
         else
-            jpIDMVWwN8MN2f.Text = string.char(32,32) .. title .. string.char(58,32) .. _8Aa6c2UREbD .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (yOPFO8csaM6c and string.char(9650) or string.char(9660))
+            mainBtn.Text = string.char(32,32) .. title .. string.char(58,32) .. count .. string.char(32,83,101,108,101,99,116,101,100,32,32) .. (isOpen and string.char(9650) or string.char(9660))
         end
     end
     
-    czjJTHKqEyxX[syncGroupId][configKey] = sXcSZIVdtN
+    SharedDropdownUpdaters[syncGroupId][configKey] = updateDisplayOnly
     
-    local function g5b9tNNXcuW9O()
-        for _, updateFunc in pairs(czjJTHKqEyxX[syncGroupId]) do
+    local function updateTextAndSave()
+        for _, updateFunc in pairs(SharedDropdownUpdaters[syncGroupId]) do
             updateFunc()
         end
-        kU1UuI7I2Ldh[configKey] = rFmfPVqY
-        callback(rFmfPVqY)
+        CurrentConfig[configKey] = selected
+        callback(selected)
     end
 
-    vJucSeLnY0JCqw[configKey] = function(loadedTable)
+    UIControllers[configKey] = function(loadedTable)
         if type(loadedTable) == string.char(116,97,98,108,101) then
             for k, v in pairs(loadedTable) do
-                if rFmfPVqY[k] ~= nil then
-                    rFmfPVqY[k] = v
+                if selected[k] ~= nil then
+                    selected[k] = v
                     sharedTable[k] = v 
                 end
             end
-            for optName, zbBr8CrbM7Ko_ in pairs(luw4Z2FQwcog) do
-                zbBr8CrbM7Ko_.TextColor3 = rFmfPVqY[optName] and xqu7o4sp.Success or xqu7o4sp.TextDim
+            for optName, btn in pairs(optBtns) do
+                btn.TextColor3 = selected[optName] and Theme.Success or Theme.TextDim
             end
-            g5b9tNNXcuW9O()
+            updateTextAndSave()
         end
     end
     
-    jpIDMVWwN8MN2f.MouseButton1Click:Connect(function()
-        yOPFO8csaM6c = not yOPFO8csaM6c
-        if yOPFO8csaM6c then
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play()
+    mainBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play()
         else
-            TweenService:Create(e76oOuDp, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
+            TweenService:Create(container, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play()
         end
-        sXcSZIVdtN()
+        updateDisplayOnly()
     end)
     
     for i, option in ipairs(options) do
-        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), fGBPF9eib)
-        c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30)
-        c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface
-        c0axBQ9dvit2.Text = string.char(32,32,32,32) .. option
-        c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim
-        c0axBQ9dvit2.Font = Enum.Font.GothamBold
-        c0axBQ9dvit2.TextSize = 11
-        c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
-        luw4Z2FQwcog[option] = c0axBQ9dvit2
+        local optBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), scroll)
+        optBtn.Size = UDim2.new(1, -10, 0, 30)
+        optBtn.BackgroundColor3 = Theme.Surface
+        optBtn.Text = string.char(32,32,32,32) .. option
+        optBtn.TextColor3 = Theme.TextDim
+        optBtn.Font = Enum.Font.GothamBold
+        optBtn.TextSize = 11
+        optBtn.TextXAlignment = Enum.TextXAlignment.Left
+        optBtns[option] = optBtn
         
-        c0axBQ9dvit2.MouseButton1Click:Connect(function()
-            rFmfPVqY[option] = not rFmfPVqY[option]
-            sharedTable[option] = rFmfPVqY[option] 
-            c0axBQ9dvit2.TextColor3 = rFmfPVqY[option] and xqu7o4sp.Success or xqu7o4sp.TextDim
-            g5b9tNNXcuW9O()
+        optBtn.MouseButton1Click:Connect(function()
+            selected[option] = not selected[option]
+            sharedTable[option] = selected[option] 
+            optBtn.TextColor3 = selected[option] and Theme.Success or Theme.TextDim
+            updateTextAndSave()
         end)
     end
-    kU1UuI7I2Ldh[configKey] = rFmfPVqY
+    CurrentConfig[configKey] = selected
 end
 
-local function iT3kon0TJeZgO(parent, title, min, max, default, configKey, callback)
-    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
-    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 32)
-    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
+local function CreateNumberPicker(parent, title, min, max, default, configKey, callback)
+    local frame = Instance.new(string.char(70,114,97,109,101), parent)
+    frame.Size = UDim2.new(0, 260, 0, 32)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), frame).CornerRadius = UDim.new(0, 6)
     
-    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
-    sEtJdBBie6SF.Size = UDim2.new(0, 110, 1, 0)
-    sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 0)
-    sEtJdBBie6SF.BackgroundTransparency = 1
-    sEtJdBBie6SF.Text = title
-    sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
-    sEtJdBBie6SF.Font = Enum.Font.GothamBold
-    sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left
-    sEtJdBBie6SF.TextSize = 11
+    local label = Instance.new(string.char(84,101,120,116,76,97,98,101,108), frame)
+    label.Size = UDim2.new(0, 110, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = title
+    label.TextColor3 = Theme.Text
+    label.Font = Enum.Font.GothamBold
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextSize = 11
     
-    local hbxtyQZyTyVd = Instance.new(string.char(70,114,97,109,101), gaFAZRoQNq3S)
-    hbxtyQZyTyVd.Size = UDim2.new(0, 130, 1, 0)
-    hbxtyQZyTyVd.Position = UDim2.new(1, -140, 0, 0)
-    hbxtyQZyTyVd.BackgroundTransparency = 1
+    local controls = Instance.new(string.char(70,114,97,109,101), frame)
+    controls.Size = UDim2.new(0, 130, 1, 0)
+    controls.Position = UDim2.new(1, -140, 0, 0)
+    controls.BackgroundTransparency = 1
     
-    local oB4goa5Lu0nWIe = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), hbxtyQZyTyVd)
-    oB4goa5Lu0nWIe.Size = UDim2.new(0, 28, 0, 24)
-    oB4goa5Lu0nWIe.Position = UDim2.new(0, 0, 0.5, -12)
-    oB4goa5Lu0nWIe.BackgroundColor3 = xqu7o4sp.Surface
-    oB4goa5Lu0nWIe.Text = string.char(45)
-    oB4goa5Lu0nWIe.TextColor3 = xqu7o4sp.Text
-    oB4goa5Lu0nWIe.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), oB4goa5Lu0nWIe).CornerRadius = UDim.new(0, 4)
+    local minusBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), controls)
+    minusBtn.Size = UDim2.new(0, 28, 0, 24)
+    minusBtn.Position = UDim2.new(0, 0, 0.5, -12)
+    minusBtn.BackgroundColor3 = Theme.Surface
+    minusBtn.Text = string.char(45)
+    minusBtn.TextColor3 = Theme.Text
+    minusBtn.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), minusBtn).CornerRadius = UDim.new(0, 4)
     
-    local ywWWTU4z = Instance.new(string.char(84,101,120,116,66,111,120), hbxtyQZyTyVd)
-    ywWWTU4z.Size = UDim2.new(0, 60, 0, 24)
-    ywWWTU4z.Position = UDim2.new(0, 34, 0.5, -12)
-    ywWWTU4z.BackgroundColor3 = xqu7o4sp.Surface
-    ywWWTU4z.Text = tostring(default)
-    ywWWTU4z.TextColor3 = xqu7o4sp.Accent
-    ywWWTU4z.Font = Enum.Font.GothamBold
-    ywWWTU4z.TextSize = 11
-    Instance.new(string.char(85,73,67,111,114,110,101,114), ywWWTU4z).CornerRadius = UDim.new(0, 4)
+    local textInput = Instance.new(string.char(84,101,120,116,66,111,120), controls)
+    textInput.Size = UDim2.new(0, 60, 0, 24)
+    textInput.Position = UDim2.new(0, 34, 0.5, -12)
+    textInput.BackgroundColor3 = Theme.Surface
+    textInput.Text = tostring(default)
+    textInput.TextColor3 = Theme.Accent
+    textInput.Font = Enum.Font.GothamBold
+    textInput.TextSize = 11
+    Instance.new(string.char(85,73,67,111,114,110,101,114), textInput).CornerRadius = UDim.new(0, 4)
     
-    local c1rwpyAuH = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), hbxtyQZyTyVd)
-    c1rwpyAuH.Size = UDim2.new(0, 28, 0, 24)
-    c1rwpyAuH.Position = UDim2.new(0, 100, 0.5, -12)
-    c1rwpyAuH.BackgroundColor3 = xqu7o4sp.Surface
-    c1rwpyAuH.Text = string.char(43)
-    c1rwpyAuH.TextColor3 = xqu7o4sp.Text
-    c1rwpyAuH.Font = Enum.Font.GothamBold
-    Instance.new(string.char(85,73,67,111,114,110,101,114), c1rwpyAuH).CornerRadius = UDim.new(0, 4)
+    local plusBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), controls)
+    plusBtn.Size = UDim2.new(0, 28, 0, 24)
+    plusBtn.Position = UDim2.new(0, 100, 0.5, -12)
+    plusBtn.BackgroundColor3 = Theme.Surface
+    plusBtn.Text = string.char(43)
+    plusBtn.TextColor3 = Theme.Text
+    plusBtn.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), plusBtn).CornerRadius = UDim.new(0, 4)
     
-    local ggUxBkOHABn38i = default
+    local val = default
     
-    vJucSeLnY0JCqw[configKey] = function(newVal)
+    UIControllers[configKey] = function(newVal)
         newVal = tonumber(newVal) or default
         newVal = math.clamp(newVal, min, max)
-        ggUxBkOHABn38i = newVal
-        ywWWTU4z.Text = tostring(ggUxBkOHABn38i)
-        kU1UuI7I2Ldh[configKey] = ggUxBkOHABn38i
-        callback(ggUxBkOHABn38i)
+        val = newVal
+        textInput.Text = tostring(val)
+        CurrentConfig[configKey] = val
+        callback(val)
     end
     
-    oB4goa5Lu0nWIe.MouseButton1Click:Connect(function() vJucSeLnY0JCqw[configKey](ggUxBkOHABn38i - 1) end)
-    c1rwpyAuH.MouseButton1Click:Connect(function() vJucSeLnY0JCqw[configKey](ggUxBkOHABn38i + 1) end)
-    ywWWTU4z.FocusLost:Connect(function() vJucSeLnY0JCqw[configKey](ywWWTU4z.Text) end)
+    minusBtn.MouseButton1Click:Connect(function() UIControllers[configKey](val - 1) end)
+    plusBtn.MouseButton1Click:Connect(function() UIControllers[configKey](val + 1) end)
+    textInput.FocusLost:Connect(function() UIControllers[configKey](textInput.Text) end)
     
-    kU1UuI7I2Ldh[configKey] = default
+    CurrentConfig[configKey] = default
 end
 
-local function pohUFYfEik7(parent, text, placeholder, configKey, callback)
-    local gaFAZRoQNq3S = Instance.new(string.char(70,114,97,109,101), parent)
-    gaFAZRoQNq3S.Size = UDim2.new(0, 260, 0, 50)
-    gaFAZRoQNq3S.BackgroundColor3 = xqu7o4sp.SurfaceLight
-    Instance.new(string.char(85,73,67,111,114,110,101,114), gaFAZRoQNq3S).CornerRadius = UDim.new(0, 6)
+local function CreateStringInput(parent, text, placeholder, configKey, callback)
+    local frame = Instance.new(string.char(70,114,97,109,101), parent)
+    frame.Size = UDim2.new(0, 260, 0, 50)
+    frame.BackgroundColor3 = Theme.SurfaceLight
+    Instance.new(string.char(85,73,67,111,114,110,101,114), frame).CornerRadius = UDim.new(0, 6)
 
-    local sEtJdBBie6SF = Instance.new(string.char(84,101,120,116,76,97,98,101,108), gaFAZRoQNq3S)
-    sEtJdBBie6SF.Size = UDim2.new(1, -20, 0, 20); sEtJdBBie6SF.Position = UDim2.new(0, 10, 0, 2)
-    sEtJdBBie6SF.BackgroundTransparency = 1; sEtJdBBie6SF.Text = text; sEtJdBBie6SF.TextColor3 = xqu7o4sp.Text
-    sEtJdBBie6SF.Font = Enum.Font.GothamBold; sEtJdBBie6SF.TextXAlignment = Enum.TextXAlignment.Left; sEtJdBBie6SF.TextSize = 11
+    local label = Instance.new(string.char(84,101,120,116,76,97,98,101,108), frame)
+    label.Size = UDim2.new(1, -20, 0, 20); label.Position = UDim2.new(0, 10, 0, 2)
+    label.BackgroundTransparency = 1; label.Text = text; label.TextColor3 = Theme.Text
+    label.Font = Enum.Font.GothamBold; label.TextXAlignment = Enum.TextXAlignment.Left; label.TextSize = 11
 
-    local wf24eI4oqK3W = Instance.new(string.char(84,101,120,116,66,111,120), gaFAZRoQNq3S)
-    wf24eI4oqK3W.Size = UDim2.new(1, -20, 0, 22); wf24eI4oqK3W.Position = UDim2.new(0, 10, 0, 22)
-    wf24eI4oqK3W.BackgroundColor3 = xqu7o4sp.Surface; wf24eI4oqK3W.TextColor3 = xqu7o4sp.Accent
-    wf24eI4oqK3W.Text = ""; wf24eI4oqK3W.PlaceholderText = placeholder; wf24eI4oqK3W.Font = Enum.Font.GothamBold; wf24eI4oqK3W.TextSize = 10
-    wf24eI4oqK3W.TextXAlignment = Enum.TextXAlignment.Left; wf24eI4oqK3W.ClearTextOnFocus = false
-    wf24eI4oqK3W.ClipsDescendants = true
-    Instance.new(string.char(85,73,67,111,114,110,101,114), wf24eI4oqK3W).CornerRadius = UDim.new(0, 4)
+    local input = Instance.new(string.char(84,101,120,116,66,111,120), frame)
+    input.Size = UDim2.new(1, -20, 0, 22); input.Position = UDim2.new(0, 10, 0, 22)
+    input.BackgroundColor3 = Theme.Surface; input.TextColor3 = Theme.Accent
+    input.Text = ""; input.PlaceholderText = placeholder; input.Font = Enum.Font.GothamBold; input.TextSize = 10
+    input.TextXAlignment = Enum.TextXAlignment.Left; input.ClearTextOnFocus = false
+    input.ClipsDescendants = true
+    Instance.new(string.char(85,73,67,111,114,110,101,114), input).CornerRadius = UDim.new(0, 4)
 
-    vJucSeLnY0JCqw[configKey] = function(ggUxBkOHABn38i)
-        wf24eI4oqK3W.Text = ggUxBkOHABn38i
-        kU1UuI7I2Ldh[configKey] = ggUxBkOHABn38i
-        callback(ggUxBkOHABn38i)
+    UIControllers[configKey] = function(val)
+        input.Text = val
+        CurrentConfig[configKey] = val
+        callback(val)
     end
 
-    wf24eI4oqK3W.FocusLost:Connect(function()
-        vJucSeLnY0JCqw[configKey](wf24eI4oqK3W.Text)
+    input.FocusLost:Connect(function()
+        UIControllers[configKey](input.Text)
     end)
-    kU1UuI7I2Ldh[configKey] = ""
+    CurrentConfig[configKey] = ""
 end
 
 
+local webhookURL = ""
+local enableWebhook = false
+local sessionPetCounts = {} 
 
-local l9B63rRBF = ""
-local byKJ2PoxPcRNi = false
-local je5a5hAwwKED = {} 
-
-local function kHb4lFlmkN(title, msg, color, isTest)
-    if l9B63rRBF == "" then return end
-    if not byKJ2PoxPcRNi and not isTest then return end
+local function SendDiscordWebhook(title, msg, color, isTest)
+    if webhookURL == "" then return end
+    if not enableWebhook and not isTest then return end
     
-    local evZRKU9JqDRWj = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
-    if evZRKU9JqDRWj then
-        local kANfpu7sjjZWC2 = {
+    local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+    if httprequest then
+        local data = {
             [string.char(101,109,98,101,100,115)] = {{
                 [string.char(116,105,116,108,101)] = title,
                 [string.char(100,101,115,99,114,105,112,116,105,111,110)] = msg,
@@ -630,11 +623,11 @@ local function kHb4lFlmkN(title, msg, color, isTest)
         
         task.spawn(function()
             pcall(function()
-                evZRKU9JqDRWj({
-                    Url = l9B63rRBF,
+                httprequest({
+                    Url = webhookURL,
                     Method = string.char(80,79,83,84),
                     Headers = {[string.char(67,111,110,116,101,110,116,45,84,121,112,101)] = string.char(97,112,112,108,105,99,97,116,105,111,110,47,106,115,111,110)},
-                    Body = HttpService:JSONEncode(kANfpu7sjjZWC2)
+                    Body = HttpService:JSONEncode(data)
                 })
             end)
         end)
@@ -642,8 +635,7 @@ local function kHb4lFlmkN(title, msg, color, isTest)
 end
 
 
-
-local p19XQ8Gpm0D_ = {
+local petData = {
     [string.char(67,111,109,109,111,110)] = {string.char(78,111,111,98,105,110,105,32,80,105,122,122,97,110,105,110,105), string.char(84,105,109,32,67,104,101,101,115,101), string.char(76,105,114,105,73,105,32,76,97,114,105,73,97), string.char(84,114,105,112,112,105,32,84,114,111,112,112,105), string.char(84,97,108,112,97,32,68,105,32,70,101,114,111), string.char(70,114,117,108,105,32,70,114,117,108,97), string.char(112,105,112,105,32,75,105,119,105)},
     [string.char(82,97,114,101)] = {string.char(71,97,110,103,115,116,101,114,32,70,111,111,116,101,114,97), string.char(66,111,98,114,105,116,111,32,66,97,110,100,105,116,111), string.char(66,111,110,101,99,97,32,65,109,98,97,108,97,98,117), string.char(84,97,32,84,97,32,84,97,32,84,97,32,83,97,104,117,114), string.char(66,97,108,108,101,114,105,110,97,32,67,97,112,112,117,99,99,105,110,97), string.char(66,114,114,32,66,114,114,32,80,97,116,97,112,105,109), string.char(67,97,112,112,117,99,99,105,110,111,32,65,115,115,97,115,115,105,110,111), string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)},
     [string.char(69,112,105,99)] = {string.char(77,97,100,117,110,103), string.char(87,97,116,101,114,100,105,110,111), string.char(80,101,115,116,111,32,77,111,114,116,105,111,110,105), string.char(80,97,110,110,97,98,117,114,114,111), string.char(77,97,110,103,111,108,105,110,105,32,80,97,114,114,111,99,105,110,105), string.char(79,114,99,97,108,101,114,111), string.char(74,111,104,110,32,80,111,114,107), string.char(71,97,116,116,97,116,105,110,111,32,78,121,97,110,105,110,111)},
@@ -658,238 +650,235 @@ local p19XQ8Gpm0D_ = {
     [string.char(69,116,101,114,110,97,108)] = {string.char(80,114,111,102,101,115,115,111,114,97,32,54,55), string.char(65,115,116,114,111,32,84,105,109), string.char(66,97,98,97,32,89,97,103,97), string.char(75,105,99,107,121)}
 }
 
-local mTfJRredIpOe = {string.char(67,111,109,109,111,110), string.char(82,97,114,101), string.char(69,112,105,99), string.char(76,101,103,101,110,100,97,114,121), string.char(77,121,116,104,105,99), string.char(71,111,100,108,121), string.char(83,101,99,114,101,116), string.char(68,105,118,105,110,101), string.char(72,97,99,107,101,100), string.char(79,71), string.char(67,101,108,101,115,116,105,97,108), string.char(69,116,101,114,110,97,108)}
-local uQOHqJkX = {string.char(78,111,114,109,97,108),string.char(71,111,108,100,101,110),string.char(68,105,97,109,111,110,100),string.char(80,108,97,115,109,97),string.char(77,111,108,116,101,110),string.char(82,97,100,105,111,97,99,116,105,118,101),string.char(83,104,97,100,111,119),string.char(69,108,101,99,116,114,105,102,105,101,100),string.char(82,97,105,110,98,111,119),string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
-local sg5fJwNRkD = 50
-local ahqRHJvHJkYOg = false
+local rarities = {string.char(67,111,109,109,111,110), string.char(82,97,114,101), string.char(69,112,105,99), string.char(76,101,103,101,110,100,97,114,121), string.char(77,121,116,104,105,99), string.char(71,111,100,108,121), string.char(83,101,99,114,101,116), string.char(68,105,118,105,110,101), string.char(72,97,99,107,101,100), string.char(79,71), string.char(67,101,108,101,115,116,105,97,108), string.char(69,116,101,114,110,97,108)}
+local mutationList = {string.char(78,111,114,109,97,108),string.char(71,111,108,100,101,110),string.char(68,105,97,109,111,110,100),string.char(80,108,97,115,109,97),string.char(77,111,108,116,101,110),string.char(82,97,100,105,111,97,99,116,105,118,101),string.char(83,104,97,100,111,119),string.char(69,108,101,99,116,114,105,102,105,101,100),string.char(82,97,105,110,98,111,119),string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
+local customWalkSpeed = 50
+local enableCustomSpeed = false
 
 
-
-local function gyrT1ry0N(cWoZoY7fWI6_2)
-    local drUAUyYwFpvH = player.Character
-    local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-    if ksl7JzZXIZOsoJ then
-        ksl7JzZXIZOsoJ.Velocity = Vector3.new(0,0,0)
-        ksl7JzZXIZOsoJ.CFrame = cWoZoY7fWI6_2
+local function ForcedTP(targetCFrame)
+    local char = player.Character
+    local hrp = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+    if hrp then
+        hrp.Velocity = Vector3.new(0,0,0)
+        hrp.CFrame = targetCFrame
     end
 end
 
-local wSguwQDv9Qnd85 = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)):WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(80,97,99,107,97,103,101,115)):WaitForChild(string.char(78,101,116,119,111,114,107))
-local ublcwVEvyowh = 3
+local Net = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)):WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(80,97,99,107,97,103,101,115)):WaitForChild(string.char(78,101,116,119,111,114,107))
+local FIXED_Y = 3
 
-local function jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, targetPos)
-    local aHBK8x9ko01 = Vector3.new(targetPos.X, ublcwVEvyowh, targetPos.Z)
-    if ksl7JzZXIZOsoJ then ksl7JzZXIZOsoJ.Anchored = true end
+local function smoothFlyTo(hrp, hum, targetPos)
+    local target = Vector3.new(targetPos.X, FIXED_Y, targetPos.Z)
+    if hrp then hrp.Anchored = true end
     
-    while ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 do
-        local faa_uf5h = task.wait()
-        local _qIe6eeBo = ksl7JzZXIZOsoJ.Position
-        local iqR77DB7jEaI = (aHBK8x9ko01 - _qIe6eeBo)
-        local v0f5Ei59l54UB = iqR77DB7jEaI.Magnitude
+    while hrp and hum and hum.Health > 0 do
+        local dt = task.wait()
+        local pos = hrp.Position
+        local dir = (target - pos)
+        local dist = dir.Magnitude
         
-        if v0f5Ei59l54UB < 2 then 
-            ksl7JzZXIZOsoJ.CFrame = CFrame.new(aHBK8x9ko01)
+        if dist < 2 then 
+            hrp.CFrame = CFrame.new(target)
             break 
         end
         
-        local gU8_QJeebg = ahqRHJvHJkYOg and sg5fJwNRkD or math.max(q21YZH4aC4cd.WalkSpeed, 50)
-        local qASig31NALs = gU8_QJeebg * faa_uf5h
-        if qASig31NALs > v0f5Ei59l54UB then qASig31NALs = v0f5Ei59l54UB end
-        ksl7JzZXIZOsoJ.CFrame = CFrame.new(_qIe6eeBo + iqR77DB7jEaI.Unit * qASig31NALs)
+        local flySpeed = enableCustomSpeed and customWalkSpeed or math.max(hum.WalkSpeed, 50)
+        local moveDist = flySpeed * dt
+        if moveDist > dist then moveDist = dist end
+        hrp.CFrame = CFrame.new(pos + dir.Unit * moveDist)
     end
     
-    if ksl7JzZXIZOsoJ and ksl7JzZXIZOsoJ.Parent then ksl7JzZXIZOsoJ.Anchored = false end
+    if hrp and hrp.Parent then hrp.Anchored = false end
 end
 
 
-
-local aJ437eDh9S3M = {
+local fullBuffsCheckList = {
     string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101),
     string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110),
     string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)
 }
 local ReplicatedStorage = game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101))
-local r5r8XoM0w = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,68,97,116,97))
-local dMYaqc8VwZ6i = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,83,119,105,116,99,104))
-local h9jitUFu = ReplicatedStorage:WaitForChild(string.char(79,98,106,101,99,116,115)):WaitForChild(string.char(86,70,88)):WaitForChild(string.char(77,117,116,97,116,105,111,110,86,70,88))
-local gdqyPzxyWBkFl = {}
+local MutationData = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,68,97,116,97))
+local MutationSwitch = ReplicatedStorage:WaitForChild(string.char(83,104,97,114,101,100)):WaitForChild(string.char(68,97,116,97)):WaitForChild(string.char(77,117,116,97,116,105,111,110,83,119,105,116,99,104))
+local MutationVFX = ReplicatedStorage:WaitForChild(string.char(79,98,106,101,99,116,115)):WaitForChild(string.char(86,70,88)):WaitForChild(string.char(77,117,116,97,116,105,111,110,86,70,88))
+local MutationCache = {}
 
 pcall(function()
-    for _, mut in pairs(dMYaqc8VwZ6i:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
-    for _, mut in pairs(r5r8XoM0w:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
-    for _, mut in pairs(h9jitUFu:GetChildren()) do gdqyPzxyWBkFl[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(MutationSwitch:GetChildren()) do MutationCache[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(MutationData:GetChildren()) do MutationCache[string.lower(mut.Name)] = mut.Name end
+    for _, mut in pairs(MutationVFX:GetChildren()) do MutationCache[string.lower(mut.Name)] = mut.Name end
 end)
 
-for _, buff in ipairs(aJ437eDh9S3M) do gdqyPzxyWBkFl[string.lower(buff)] = buff end
+for _, buff in ipairs(fullBuffsCheckList) do MutationCache[string.lower(buff)] = buff end
 
-local lnMompe6ChpF = {
+local SpecialMutationObjects = {
     [string.char(101,121,101)] = string.char(65,108,105,101,110), [string.char(104,97,110,100,108,101)] = string.char(66,97,99,111,110), [string.char(119,97,116,101,114)] = string.char(87,101,116), [string.char(115,112,108,97,115,104)] = string.char(87,101,116), [string.char(100,114,111,112,108,101,116)] = string.char(87,101,116),
     [string.char(97,117,114,97)] = string.char(86,111,105,100), [string.char(98,108,97,99,107,104,111,108,101)] = string.char(86,111,105,100), [string.char(118,111,105,100)] = string.char(86,111,105,100), [string.char(103,108,105,116,99,104)] = string.char(86,105,114,117,115), [string.char(118,105,114,117,115)] = string.char(86,105,114,117,115),
     [string.char(115,112,97,114,107)] = string.char(69,108,101,99,116,114,105,102,105,101,100), [string.char(101,108,101,99,116,114,105,99)] = string.char(69,108,101,99,116,114,105,102,105,101,100), [string.char(102,105,114,101)] = string.char(77,111,108,116,101,110), [string.char(108,97,118,97)] = string.char(77,111,108,116,101,110),
     [string.char(112,104,97,110,116,111,109)] = string.char(80,104,97,110,116,111,109), [string.char(115,104,97,100,111,119)] = string.char(83,104,97,100,111,119), [string.char(114,97,105,110,98,111,119)] = string.char(82,97,105,110,98,111,119), [string.char(103,111,108,100)] = string.char(71,111,108,100,101,110), [string.char(100,105,97,109,111,110,100)] = string.char(68,105,97,109,111,110,100)
 }
-for elXDlruN, mutation in pairs(lnMompe6ChpF) do gdqyPzxyWBkFl[string.lower(elXDlruN)] = mutation end
+for objName, mutation in pairs(SpecialMutationObjects) do MutationCache[string.lower(objName)] = mutation end
 
-local function tYPd3eEBLtXYzc(petModel)
-    local hKt37h5cqIC2 = {}
-    if not petModel then return hKt37h5cqIC2 end
+local function GetPetBuffs(petModel)
+    local detectedBuffs = {}
+    if not petModel then return detectedBuffs end
 
-    local tkaHI7CMy = string.lower(petModel.Name)
-    for _, buff in ipairs(aJ437eDh9S3M) do
-        if string.find(tkaHI7CMy, string.lower(buff)) then hKt37h5cqIC2[buff] = true end
+    local lowerMonsterName = string.lower(petModel.Name)
+    for _, buff in ipairs(fullBuffsCheckList) do
+        if string.find(lowerMonsterName, string.lower(buff)) then detectedBuffs[buff] = true end
     end
 
     for attrName, attrValue in pairs(petModel:GetAttributes()) do
-        local _BbuN3i5 = string.lower(attrName)
-        if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and gdqyPzxyWBkFl[_BbuN3i5] then hKt37h5cqIC2[gdqyPzxyWBkFl[_BbuN3i5]] = true end
-        if type(attrValue) == string.char(115,116,114,105,110,103) and gdqyPzxyWBkFl[string.lower(attrValue)] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(attrValue)]] = true end
+        local lowerAttr = string.lower(attrName)
+        if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and MutationCache[lowerAttr] then detectedBuffs[MutationCache[lowerAttr]] = true end
+        if type(attrValue) == string.char(115,116,114,105,110,103) and MutationCache[string.lower(attrValue)] then detectedBuffs[MutationCache[string.lower(attrValue)]] = true end
     end
 
     for _, obj in pairs(petModel:GetDescendants()) do
-        local elXDlruN = string.lower(obj.Name)
-        if gdqyPzxyWBkFl[elXDlruN] then hKt37h5cqIC2[gdqyPzxyWBkFl[elXDlruN]] = true end
+        local objName = string.lower(obj.Name)
+        if MutationCache[objName] then detectedBuffs[MutationCache[objName]] = true end
 
-        if obj:IsA(string.char(83,116,114,105,110,103,86,97,108,117,101)) and gdqyPzxyWBkFl[string.lower(tostring(obj.Value))] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(tostring(obj.Value))]] = true end
+        if obj:IsA(string.char(83,116,114,105,110,103,86,97,108,117,101)) and MutationCache[string.lower(tostring(obj.Value))] then detectedBuffs[MutationCache[string.lower(tostring(obj.Value))]] = true end
         for attrName, attrValue in pairs(obj:GetAttributes()) do
-            local _BbuN3i5 = string.lower(attrName)
-            if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and gdqyPzxyWBkFl[_BbuN3i5] then hKt37h5cqIC2[gdqyPzxyWBkFl[_BbuN3i5]] = true end
-            if type(attrValue) == string.char(115,116,114,105,110,103) and gdqyPzxyWBkFl[string.lower(attrValue)] then hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(attrValue)]] = true end
+            local lowerAttr = string.lower(attrName)
+            if type(attrValue) == string.char(98,111,111,108,101,97,110) and attrValue == true and MutationCache[lowerAttr] then detectedBuffs[MutationCache[lowerAttr]] = true end
+            if type(attrValue) == string.char(115,116,114,105,110,103) and MutationCache[string.lower(attrValue)] then detectedBuffs[MutationCache[string.lower(attrValue)]] = true end
         end
         if obj:IsA(string.char(84,101,120,116,76,97,98,101,108)) then
-            local go_R7U0m77Y = string.lower(obj.Text)
-            for _, buff in ipairs(aJ437eDh9S3M) do if string.find(go_R7U0m77Y, string.lower(buff)) then hKt37h5cqIC2[buff] = true end end
+            local txt = string.lower(obj.Text)
+            for _, buff in ipairs(fullBuffsCheckList) do if string.find(txt, string.lower(buff)) then detectedBuffs[buff] = true end end
         end
-        if (obj:IsA(string.char(80,97,114,116,105,99,108,101,69,109,105,116,116,101,114)) or obj:IsA(string.char(84,114,97,105,108)) or obj:IsA(string.char(66,101,97,109))) and gdqyPzxyWBkFl[string.lower(obj.Name)] then
-            hKt37h5cqIC2[gdqyPzxyWBkFl[string.lower(obj.Name)]] = true
+        if (obj:IsA(string.char(80,97,114,116,105,99,108,101,69,109,105,116,116,101,114)) or obj:IsA(string.char(84,114,97,105,108)) or obj:IsA(string.char(66,101,97,109))) and MutationCache[string.lower(obj.Name)] then
+            detectedBuffs[MutationCache[string.lower(obj.Name)]] = true
         end
     end
-    return hKt37h5cqIC2
+    return detectedBuffs
 end
 
 
+local targetKickPets = {}
+local kickPetDropdowns = {}
+local targetMutations = {}
 
-local mRh_y2DF = {}
-local i_wZ7i7xnPZX = {}
-local lFyJrHIxuP82Gr = {}
-
-eVr1G2hv8fFHrr(qwTS26gRIdcX, string.char(70,105,108,116,101,114,32,82,97,114,105,116,121), mTfJRredIpOe, string.char(77,97,105,110,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    for r, e76oOuDp in pairs(i_wZ7i7xnPZX) do e76oOuDp.Visible = (r == selectedRarity) end
+CreateDropdown(MainTab, string.char(70,105,108,116,101,114,32,82,97,114,105,116,121), rarities, string.char(77,97,105,110,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    for r, container in pairs(kickPetDropdowns) do container.Visible = (r == selectedRarity) end
 end)
 
-for _, rarity in ipairs(mTfJRredIpOe) do
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), qwTS26gRIdcX)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1
-    e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110)) 
-    i_wZ7i7xnPZX[rarity] = e76oOuDp
-    u50MEcoeYDZ(e76oOuDp, string.char(84,97,114,103,101,116,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(77,97,105,110,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(77,97,105,110,75,105,99,107,80,101,116,115,83,121,110,99), mRh_y2DF, function(sel) end)
+for _, rarity in ipairs(rarities) do
+    local container = Instance.new(string.char(70,114,97,109,101), MainTab)
+    container.Size = UDim2.new(0, 260, 0, 32); container.BackgroundTransparency = 1
+    container.AutomaticSize = Enum.AutomaticSize.Y; container.Visible = (rarity == string.char(67,111,109,109,111,110)) 
+    kickPetDropdowns[rarity] = container
+    CreateSharedMultiDropdown(container, string.char(84,97,114,103,101,116,32,66,114,97,105,110,114,111,116,115), petData[rarity], string.char(77,97,105,110,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(77,97,105,110,75,105,99,107,80,101,116,115,83,121,110,99), targetKickPets, function(sel) end)
 end
 
-oWP4DMDYQn(qwTS26gRIdcX, string.char(84,97,114,103,101,116,32,77,117,116,97,116,105,111,110), uQOHqJkX, string.char(77,97,105,110,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) lFyJrHIxuP82Gr = rFmfPVqY end)
+CreateMultiDropdown(MainTab, string.char(84,97,114,103,101,116,32,77,117,116,97,116,105,111,110), mutationList, string.char(77,97,105,110,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(selected) targetMutations = selected end)
 
-local iZqaydNFf12F = false
-local nDycLVNyGTu = 0
+local autoKick = false
+local tickID = 0
 
-nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97,114,112,32,38,32,82,117,110,32,66,97,99,107,41,32,10024), string.char(65,117,116,111,75,105,99,107), function(v)
-    iZqaydNFf12F = v; nDycLVNyGTu += 1; local ooNQS_zYs87FIG = nDycLVNyGTu
+CreateToggle(MainTab, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97,114,112,32,38,32,82,117,110,32,66,97,99,107,41,32,10024), string.char(65,117,116,111,75,105,99,107), function(v)
+    autoKick = v; tickID += 1; local id = tickID
 
-    if iZqaydNFf12F then
+    if autoKick then
         task.spawn(function()
-            while iZqaydNFf12F and ooNQS_zYs87FIG == nDycLVNyGTu do
+            while autoKick and id == tickID do
                 pcall(function()
-                    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-                    local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
+                    local char = player.Character; local hrp = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                    local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if not (hrp and hum and hum.Health > 0) then return end
 
-                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not rEbPwOba then return end
-                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
+                    local kickPos = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not kickPos then return end
+                    local targetCF = kickPos:IsA(string.char(66,97,115,101,80,97,114,116)) and kickPos.CFrame or kickPos:GetPivot()
                     
-                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0, 3, 0)) end
+                    if (hrp.Position - targetCF.Position).Magnitude > 5 then ForcedTP(targetCF + Vector3.new(0, 3, 0)) end
                     task.wait(0.5) 
-                    local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position; local hsrSAZY8c = false; local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
+                    local startPos = hrp.Position; local wasTeleported = false; local HUD = PlayerGui:FindFirstChild(string.char(72,85,68))
                     
                     for i = 1, 150 do
                         task.wait(0.1)
-                        if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then return end
-                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then hsrSAZY8c = true; break end
+                        if not char or not char.Parent or hum.Health <= 0 then return end
+                        if (hrp.Position - startPos).Magnitude > 40 then wasTeleported = true; break end
                         
-                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then wSguwQDv9Qnd85.rev_KickEvent:FireServer(1); task.wait(0.5) end
+                        local KickButton = HUD and HUD:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if KickButton and KickButton.Visible then Net.rev_KickEvent:FireServer(1); task.wait(0.5) end
                     end
 
-                    if not hsrSAZY8c then return end 
+                    if not wasTeleported then return end 
                     task.wait(0.5)
 
-                    local vTYRcZ4so0h0 = false; local sqO0WXO7w = nil
+                    local hasMonster = false; local spawnedMonster = nil
                     for i = 1, 40 do 
-                        task.wait(0.2); local k4xQ6BNreu0mu = 60 
+                        task.wait(0.2); local closestDist = 60 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart then
-                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
-                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; vTYRcZ4so0h0 = true; sqO0WXO7w = obj end
+                                local dist = (obj.PrimaryPart.Position - hrp.Position).Magnitude
+                                if dist < closestDist then closestDist = dist; hasMonster = true; spawnedMonster = obj end
                             end
                         end
-                        if vTYRcZ4so0h0 then break end
+                        if hasMonster then break end
                     end
 
-                    if vTYRcZ4so0h0 and sqO0WXO7w then
+                    if hasMonster and spawnedMonster then
                         task.wait(0.5) 
-                        local sJ3mB9MGl6OZZ = false; local iNtp9WPzCK = false; local oYcVUbQI = tYPd3eEBLtXYzc(sqO0WXO7w)
+                        local isDesiredMut = false; local hasMutSelection = false; local activeBuffs = GetPetBuffs(spawnedMonster)
                         
-                        for mut, isActive in pairs(lFyJrHIxuP82Gr) do
+                        for mut, isActive in pairs(targetMutations) do
                             if isActive then
-                                iNtp9WPzCK = true
+                                hasMutSelection = true
                                 if mut == string.char(78,111,114,109,97,108) then
-                                    local nqPpCvMBph = false; for _, _ in pairs(oYcVUbQI) do nqPpCvMBph = true; break end
-                                    if not nqPpCvMBph then sJ3mB9MGl6OZZ = true; break end
-                                elseif oYcVUbQI[mut] then sJ3mB9MGl6OZZ = true; break end
+                                    local hasAnyBuff = false; for _, _ in pairs(activeBuffs) do hasAnyBuff = true; break end
+                                    if not hasAnyBuff then isDesiredMut = true; break end
+                                elseif activeBuffs[mut] then isDesiredMut = true; break end
                             end
                         end
 
-                        local sIKUfAgQ = false; local _WbOf28zQak = false
-                        for aGbsELnYIEk4, isActive in pairs(mRh_y2DF) do
+                        local isDesiredName = false; local hasNameSelection = false
+                        for petName, isActive in pairs(targetKickPets) do
                             if isActive then
-                                _WbOf28zQak = true
-                                if string.lower(sqO0WXO7w.Name) == string.lower(aGbsELnYIEk4) then sIKUfAgQ = true; break end
+                                hasNameSelection = true
+                                if string.lower(spawnedMonster.Name) == string.lower(petName) then isDesiredName = true; break end
                             end
                         end
                         
-                        local __jJq4UpG8fQoE = false
-                        if iNtp9WPzCK and not sJ3mB9MGl6OZZ then __jJq4UpG8fQoE = true end
-                        if _WbOf28zQak and not sIKUfAgQ then __jJq4UpG8fQoE = true end
+                        local shouldKill = false
+                        if hasMutSelection and not isDesiredMut then shouldKill = true end
+                        if hasNameSelection and not isDesiredName then shouldKill = true end
 
-                        if __jJq4UpG8fQoE then
-                            local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115)); local amF2FyJKrJVi = nil
-                            if mPFDjdo2u then
-                                if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then amF2FyJKrJVi = mPFDjdo2u.Position elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
-                                else local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end end
+                        if shouldKill then
+                            local waves = workspace:FindFirstChild(string.char(87,97,118,101,115)); local wavePos = nil
+                            if waves then
+                                if waves:IsA(string.char(66,97,115,101,80,97,114,116)) then wavePos = waves.Position elseif waves:IsA(string.char(77,111,100,101,108)) then wavePos = waves:GetPivot().Position
+                                else local part = waves:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if part then wavePos = part.Position end end
                             end
-                            if amF2FyJKrJVi then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi) elseif rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end
+                            if wavePos then smoothFlyTo(hrp, hum, wavePos) elseif kickPos then smoothFlyTo(hrp, hum, targetCF.Position) end
                         else
-                            if sqO0WXO7w and not sqO0WXO7w:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
-                                sqO0WXO7w:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
-                                local aGbsELnYIEk4 = sqO0WXO7w.Name
-                                local jBIc8hiDZz = {}; for b, _ in pairs(oYcVUbQI) do table.insert(jBIc8hiDZz, b) end
-                                local vxgIAL5etIqtu = #jBIc8hiDZz > 0 and table.concat(jBIc8hiDZz, string.char(44,32)) or string.char(78,111,114,109,97,108)
-                                local jt9RjbiwP = string.char(85,110,107,110,111,119,110)
-                                if p19XQ8Gpm0D_ then
-                                    for r, pets in pairs(p19XQ8Gpm0D_) do
-                                        for _, p in ipairs(pets) do if string.lower(aGbsELnYIEk4) == string.lower(p) then jt9RjbiwP = r; break end end
-                                        if jt9RjbiwP ~= string.char(85,110,107,110,111,119,110) then break end
+                            if spawnedMonster and not spawnedMonster:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
+                                spawnedMonster:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
+                                local petName = spawnedMonster.Name
+                                local buffStrTbl = {}; for b, _ in pairs(activeBuffs) do table.insert(buffStrTbl, b) end
+                                local buffText = #buffStrTbl > 0 and table.concat(buffStrTbl, string.char(44,32)) or string.char(78,111,114,109,97,108)
+                                local petRarity = string.char(85,110,107,110,111,119,110)
+                                if petData then
+                                    for r, pets in pairs(petData) do
+                                        for _, p in ipairs(pets) do if string.lower(petName) == string.lower(p) then petRarity = r; break end end
+                                        if petRarity ~= string.char(85,110,107,110,111,119,110) then break end
                                     end
                                 end
-                                local uFFwFFset = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
-                                kHb4lFlmkN(string.char(128064,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. uFFwFFset .. "\n**Player:** " .. player.Name, 0x3498DB, false)
+                                local currentAttemptCount = (sessionPetCounts[petName] or 0) + 1
+                                SendDiscordWebhook(string.char(128064,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. petName .. "\n**Rarity:** " .. petRarity .. "\n**Mutation:** " .. buffText .. "\n**Count:** " .. currentAttemptCount .. "\n**Player:** " .. player.Name, 0x3498DB, false)
                                 
-                                if rEbPwOba then
-                                    jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position); task.wait(1.5)
-                                    if drUAUyYwFpvH and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 and (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 20 then
-                                        je5a5hAwwKED[aGbsELnYIEk4] = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
-                                        local f5_LQxcVqLOh5 = je5a5hAwwKED[aGbsELnYIEk4]
-                                        kHb4lFlmkN(string.char(127881,32,84,97,114,103,101,116,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. f5_LQxcVqLOh5 .. "\n**Player:** " .. player.Name, 0x04CB29, false)
+                                if kickPos then
+                                    smoothFlyTo(hrp, hum, targetCF.Position); task.wait(1.5)
+                                    if char and hum and hum.Health > 0 and (hrp.Position - targetCF.Position).Magnitude < 20 then
+                                        sessionPetCounts[petName] = (sessionPetCounts[petName] or 0) + 1
+                                        local actualCount = sessionPetCounts[petName]
+                                        SendDiscordWebhook(string.char(127881,32,84,97,114,103,101,116,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. petName .. "\n**Rarity:** " .. petRarity .. "\n**Mutation:** " .. buffText .. "\n**Count:** " .. actualCount .. "\n**Player:** " .. player.Name, 0x04CB29, false)
                                     end
                                 end
-                            else if rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end end
+                            else if kickPos then smoothFlyTo(hrp, hum, targetCF.Position) end end
                         end
                     end
                 end)
@@ -899,29 +888,29 @@ nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,75,105,99,107,32,40,87,97
     end
 end)
 
-local lLHPs_7Zmj = false; local xGk3y3_nv9Pthq = 0
-local lCTLnQ7L = {
+local autoTrain = false; local trainTick = 0
+local validWeights = {
     [string.char(87,111,111,100,101,110,32,83,116,105,99,107)] = true, [string.char(67,111,112,112,101,114,32,80,108,97,116,101)] = true, [string.char(83,116,111,110,101,32,66,108,111,99,107)] = true, [string.char(66,111,110,101,32,66,97,114,98,101,108,108)] = true, [string.char(68,111,110,117,116,32,66,97,114,98,101,108,108)] = true, [string.char(73,99,101,32,66,97,114,98,101,108,108)] = true,
     [string.char(73,114,111,110,32,80,108,97,116,101)] = true, [string.char(72,101,97,118,101,110,32,80,108,97,116,101)] = true, [string.char(71,111,108,100,32,66,97,114,98,101,108,108)] = true, [string.char(71,111,108,100,101,110,32,66,97,114,98,101,108,108)] = true, [string.char(71,105,97,110,116,32,71,111,108,100,32,83,116,97,114,32,66,97,114,98,101,108,108)] = true, 
     [string.char(78,101,111,110,32,80,117,108,115,101)] = true, [string.char(77,101,103,97,32,71,111,108,100,32,66,97,114,98,101,108,108)] = true, [string.char(77,101,103,97,32,71,111,108,100,101,110,32,66,97,114,98,101,108,108)] = true, [string.char(69,109,101,114,97,108,100,32,66,97,114,98,101,108,108)] = true 
 }
 
-nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,120,50,32,124,124,8212,124,124), string.char(65,117,116,111,84,114,97,105,110), function(v)
-    lLHPs_7Zmj = v; xGk3y3_nv9Pthq = xGk3y3_nv9Pthq + 1; local uPf204uKI = xGk3y3_nv9Pthq
-    if lLHPs_7Zmj then
+CreateToggle(MainTab, string.char(65,117,116,111,32,84,114,97,105,110,32,38,32,120,50,32,124,124,8212,124,124), string.char(65,117,116,111,84,114,97,105,110), function(v)
+    autoTrain = v; trainTick = trainTick + 1; local currentTick = trainTick
+    if autoTrain then
         task.spawn(function()
-            while lLHPs_7Zmj and uPf204uKI == xGk3y3_nv9Pthq do
+            while autoTrain and currentTick == trainTick do
                 pcall(function()
-                    local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    local a3H59gzPwLIJq = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107)); local oLKFiQdSa8Q = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChildOfClass(string.char(84,111,111,108))
-                    local dIRelcc79p3P = oLKFiQdSa8Q and lCTLnQ7L[oLKFiQdSa8Q.Name]
+                    local char = player.Character; local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    local backpack = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107)); local currentTool = char and char:FindFirstChildOfClass(string.char(84,111,111,108))
+                    local isHoldingValidWeight = currentTool and validWeights[currentTool.Name]
                     
-                    if not dIRelcc79p3P then
-                        if oLKFiQdSa8Q then q21YZH4aC4cd:UnequipTools() end
-                        local oFSbGlLuiEWPcM = sE5J0gxQtz:FindFirstChild(string.char(66,97,99,107,112,97,99,107)) and sE5J0gxQtz.Backpack:FindFirstChild(string.char(66,97,114)) and sE5J0gxQtz.Backpack.Bar:FindFirstChild(string.char(83,108,111,116,49))
-                        if oFSbGlLuiEWPcM and getconnections then
-                            local fZZD5QPM2R = {oFSbGlLuiEWPcM, oFSbGlLuiEWPcM:FindFirstChild(string.char(84,111,111,108,73,109,97,103,101))}
-                            for _, t in pairs(fZZD5QPM2R) do
+                    if not isHoldingValidWeight then
+                        if currentTool then hum:UnequipTools() end
+                        local slot1 = PlayerGui:FindFirstChild(string.char(66,97,99,107,112,97,99,107)) and PlayerGui.Backpack:FindFirstChild(string.char(66,97,114)) and PlayerGui.Backpack.Bar:FindFirstChild(string.char(83,108,111,116,49))
+                        if slot1 and getconnections then
+                            local targets = {slot1, slot1:FindFirstChild(string.char(84,111,111,108,73,109,97,103,101))}
+                            for _, t in pairs(targets) do
                                 if t then
                                     pcall(function() for _, c in pairs(getconnections(t.MouseButton1Down)) do c:Fire() end end)
                                     pcall(function() for _, c in pairs(getconnections(t.MouseButton1Click)) do c:Fire() end end)
@@ -932,33 +921,33 @@ nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,84,114,97,105,110,32,38,3
                             end
                         end
                         task.wait(0.1)
-                        if not drUAUyYwFpvH:FindFirstChildOfClass(string.char(84,111,111,108)) and a3H59gzPwLIJq and q21YZH4aC4cd then
-                            for _, tool in pairs(a3H59gzPwLIJq:GetChildren()) do if tool:IsA(string.char(84,111,111,108)) and lCTLnQ7L[tool.Name] then q21YZH4aC4cd:EquipTool(tool); break end end
+                        if not char:FindFirstChildOfClass(string.char(84,111,111,108)) and backpack and hum then
+                            for _, tool in pairs(backpack:GetChildren()) do if tool:IsA(string.char(84,111,111,108)) and validWeights[tool.Name] then hum:EquipTool(tool); break end end
                         end
                     else
-                        oLKFiQdSa8Q:Activate()
-                        if getconnections then for _, c in pairs(getconnections(oLKFiQdSa8Q.Activated)) do c:Fire() end end
+                        currentTool:Activate()
+                        if getconnections then for _, c in pairs(getconnections(currentTool.Activated)) do c:Fire() end end
                     end
                 end)
                 
                 pcall(function()
-                    local qGsE9m9U1 = sE5J0gxQtz:FindFirstChild(string.char(75,105,99,107,85,112,103,114,97,100,101,115))
-                    if qGsE9m9U1 then
-                        for _, bonus in pairs(qGsE9m9U1:GetChildren()) do
+                    local kickUpgrades = PlayerGui:FindFirstChild(string.char(75,105,99,107,85,112,103,114,97,100,101,115))
+                    if kickUpgrades then
+                        for _, bonus in pairs(kickUpgrades:GetChildren()) do
                             if bonus.Name == string.char(66,111,110,117,115) or bonus.Name == string.char(80,111,112,66,111,110,117,115) then
                                 if bonus.Visible then
                                     if not bonus:GetAttribute(string.char(65,117,116,111,67,108,105,99,107,101,100)) then
                                         bonus:SetAttribute(string.char(65,117,116,111,67,108,105,99,107,101,100), true) 
                                         task.spawn(function()
-                                            task.wait(0.2); local seHVtOzY = bonus:FindFirstChild(string.char(73,109,97,103,101,76,97,98,101,108))
-                                            local fZZD5QPM2R = {bonus}; if seHVtOzY then table.insert(fZZD5QPM2R, seHVtOzY) end
+                                            task.wait(0.2); local imgLabel = bonus:FindFirstChild(string.char(73,109,97,103,101,76,97,98,101,108))
+                                            local targets = {bonus}; if imgLabel then table.insert(targets, imgLabel) end
                                             if getconnections then
-                                                for _, aHBK8x9ko01 in pairs(fZZD5QPM2R) do
-                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}); conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Down)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Up)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.MouseButton1Click)) do conn:Fire() end end)
-                                                    pcall(function() for _, conn in pairs(getconnections(aHBK8x9ko01.Activated)) do conn:Fire() end end)
+                                                for _, target in pairs(targets) do
+                                                    pcall(function() for _, conn in pairs(getconnections(target.InputBegan)) do conn:Fire({UserInputType = Enum.UserInputType.MouseButton1, UserInputState = Enum.UserInputState.Begin}); conn:Fire({UserInputType = Enum.UserInputType.Touch, UserInputState = Enum.UserInputState.Begin}) end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Down)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Up)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.MouseButton1Click)) do conn:Fire() end end)
+                                                    pcall(function() for _, conn in pairs(getconnections(target.Activated)) do conn:Fire() end end)
                                                 end
                                             end
                                         end)
@@ -974,49 +963,48 @@ nP6QBDOPrq(qwTS26gRIdcX, string.char(65,117,116,111,32,84,114,97,105,110,32,38,3
     end
 end)
 
-nP6QBDOPrq(qwTS26gRIdcX, string.char(69,110,97,98,108,101,32,67,117,115,116,111,109,32,83,112,101,101,100,32,127939), string.char(69,110,97,98,108,101,83,112,101,101,100), function(v)
-    ahqRHJvHJkYOg = v
-    if ahqRHJvHJkYOg then
+CreateToggle(MainTab, string.char(69,110,97,98,108,101,32,67,117,115,116,111,109,32,83,112,101,101,100,32,127939), string.char(69,110,97,98,108,101,83,112,101,101,100), function(v)
+    enableCustomSpeed = v
+    if enableCustomSpeed then
         task.spawn(function()
-            while ahqRHJvHJkYOg do
-                pcall(function() local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100)); if q21YZH4aC4cd then q21YZH4aC4cd.WalkSpeed = sg5fJwNRkD end end)
+            while enableCustomSpeed do
+                pcall(function() local char = player.Character; local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100)); if hum then hum.WalkSpeed = customWalkSpeed end end)
                 task.wait(0.1)
             end
         end)
     end
 end)
 
-iT3kon0TJeZgO(qwTS26gRIdcX, string.char(83,101,116,32,83,112,101,101,100), 1, 1000, 50, string.char(83,112,101,101,100,86,97,108), function(ggUxBkOHABn38i) sg5fJwNRkD = ggUxBkOHABn38i end)
-rWtsgIJWU(qwTS26gRIdcX, string.char(84,80,32,75,105,99,107,82,101,97,100,121,32,9889), function() pcall(function() gyrT1ry0N(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end) end)
+CreateNumberPicker(MainTab, string.char(83,101,116,32,83,112,101,101,100), 1, 1000, 50, string.char(83,112,101,101,100,86,97,108), function(val) customWalkSpeed = val end)
+CreateButton(MainTab, string.char(84,80,32,75,105,99,107,82,101,97,100,121,32,9889), function() pcall(function() ForcedTP(workspace.Areas.KickReady.CFrame + Vector3.new(0, 5, 0)) end) end)
 
 
-
-local wh6IQMpRIbI9 = false; local oqZfZDrxHV = nil 
-nP6QBDOPrq(rVny5wJg3_aGBZ, string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,77,111,110,101,121,32,40,104,111,109,101,41,32,129297), string.char(65,117,116,111,67,111,108,108,101,99,116), function(v)
-    wh6IQMpRIbI9 = v
-    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-    if wh6IQMpRIbI9 then
-        if not oqZfZDrxHV and ksl7JzZXIZOsoJ then
-            local k4xQ6BNreu0mu = math.huge
+local autoCollect = false; local lockedPlot = nil 
+CreateToggle(CollectTab, string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,77,111,110,101,121,32,40,104,111,109,101,41,32,129297), string.char(65,117,116,111,67,111,108,108,101,99,116), function(v)
+    autoCollect = v
+    local char = player.Character; local hrp = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+    if autoCollect then
+        if not lockedPlot and hrp then
+            local closestDist = math.huge
             for _, plot in pairs(workspace:WaitForChild(string.char(80,108,111,116,115)):GetChildren()) do
                 if plot:IsA(string.char(77,111,100,101,108)) or plot:IsA(string.char(70,111,108,100,101,114)) then
-                    local v0f5Ei59l54UB = (ksl7JzZXIZOsoJ.Position - plot:GetPivot().Position).Magnitude
-                    if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; oqZfZDrxHV = plot end
+                    local dist = (hrp.Position - plot:GetPivot().Position).Magnitude
+                    if dist < closestDist then closestDist = dist; lockedPlot = plot end
                 end
             end
         end
         task.spawn(function()
-            while wh6IQMpRIbI9 do
-                if oqZfZDrxHV then
-                    local eoN8HHiiKTnwT_ = oqZfZDrxHV:FindFirstChild(string.char(66,117,116,116,111,110,115))
-                    if eoN8HHiiKTnwT_ then
+            while autoCollect do
+                if lockedPlot then
+                    local buttonsFolder = lockedPlot:FindFirstChild(string.char(66,117,116,116,111,110,115))
+                    if buttonsFolder then
                         for i = 1, 30 do
-                            if not wh6IQMpRIbI9 then break end
-                            local u3VhQtqLG0AL = eoN8HHiiKTnwT_:FindFirstChild(string.char(83,108,111,116) .. i)
-                            if u3VhQtqLG0AL then
-                                local cWoZoY7fWI6_2
-                                if u3VhQtqLG0AL:IsA(string.char(66,97,115,101,80,97,114,116)) then cWoZoY7fWI6_2 = u3VhQtqLG0AL.CFrame elseif u3VhQtqLG0AL:IsA(string.char(77,111,100,101,108)) and u3VhQtqLG0AL.PrimaryPart then cWoZoY7fWI6_2 = u3VhQtqLG0AL.PrimaryPart.CFrame elseif u3VhQtqLG0AL:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)) then cWoZoY7fWI6_2 = u3VhQtqLG0AL:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)).CFrame end
-                                if cWoZoY7fWI6_2 then pcall(function() gyrT1ry0N(cWoZoY7fWI6_2 + Vector3.new(0, 1.5, 0)); task.wait(0.1); wSguwQDv9Qnd85.rev_B_Collect:FireServer(i) end) end
+                            if not autoCollect then break end
+                            local slotPart = buttonsFolder:FindFirstChild(string.char(83,108,111,116) .. i)
+                            if slotPart then
+                                local targetCFrame
+                                if slotPart:IsA(string.char(66,97,115,101,80,97,114,116)) then targetCFrame = slotPart.CFrame elseif slotPart:IsA(string.char(77,111,100,101,108)) and slotPart.PrimaryPart then targetCFrame = slotPart.PrimaryPart.CFrame elseif slotPart:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)) then targetCFrame = slotPart:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116)).CFrame end
+                                if targetCFrame then pcall(function() ForcedTP(targetCFrame + Vector3.new(0, 1.5, 0)); task.wait(0.1); Net.rev_B_Collect:FireServer(i) end) end
                             end
                         end
                     end
@@ -1027,216 +1015,213 @@ nP6QBDOPrq(rVny5wJg3_aGBZ, string.char(65,117,116,111,32,67,111,108,108,101,99,1
     end
 end)
 
-local xsmWaJ2Y_CwZD = false
-nP6QBDOPrq(rVny5wJg3_aGBZ, string.char(73,110,115,116,97,110,116,32,71,114,97,98,32,40,78,111,32,68,101,108,97,121,41,32,9889), string.char(73,110,115,116,97,110,116,71,114,97,98), function(v)
-    xsmWaJ2Y_CwZD = v
-    if xsmWaJ2Y_CwZD then
-        task.spawn(function() while xsmWaJ2Y_CwZD do pcall(function() for _, obj in pairs(workspace:GetDescendants()) do if obj:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then obj.HoldDuration = 0 end end end); task.wait(1) end end)
+local instantInteract = false
+CreateToggle(CollectTab, string.char(73,110,115,116,97,110,116,32,71,114,97,98,32,40,78,111,32,68,101,108,97,121,41,32,9889), string.char(73,110,115,116,97,110,116,71,114,97,98), function(v)
+    instantInteract = v
+    if instantInteract then
+        task.spawn(function() while instantInteract do pcall(function() for _, obj in pairs(workspace:GetDescendants()) do if obj:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then obj.HoldDuration = 0 end end end); task.wait(1) end end)
     end
 end)
-rWtsgIJWU(rVny5wJg3_aGBZ, string.char(66,117,121,32,83,112,101,101,100,32,120,49,32,128095), function() wSguwQDv9Qnd85.rev_SPEED_UPGRADE:FireServer(1) end)
-rWtsgIJWU(rVny5wJg3_aGBZ, string.char(82,101,98,105,114,116,104,32,9851,65039), function() wSguwQDv9Qnd85.rev_RebirthRequest:FireServer() end)
+CreateButton(CollectTab, string.char(66,117,121,32,83,112,101,101,100,32,120,49,32,128095), function() Net.rev_SPEED_UPGRADE:FireServer(1) end)
+CreateButton(CollectTab, string.char(82,101,98,105,114,116,104,32,9851,65039), function() Net.rev_RebirthRequest:FireServer() end)
 
 
-
-local p3RYiTB6 = {}; for i = 1, 30 do table.insert(p3RYiTB6, tostring(i)) end
-local _yYW2Myv61 = string.char(49)
-eVr1G2hv8fFHrr(tLxk0CWjxy, string.char(83,101,108,101,99,116,32,85,112,71), p3RYiTB6, string.char(85,112,71,86,97,108), function(ggUxBkOHABn38i) _yYW2Myv61 = ggUxBkOHABn38i end)
-local fREsI275i5_sn2 = false
-nP6QBDOPrq(tLxk0CWjxy, string.char(65,117,116,111,32,85,112,103,114,97,100,101,32,83,101,108,101,99,116,101,100,32,9889), string.char(65,117,116,111,85,112,71), function(v)
-    fREsI275i5_sn2 = v
-    if fREsI275i5_sn2 then task.spawn(function() while fREsI275i5_sn2 do pcall(function() wSguwQDv9Qnd85.rev_B_Upgrade:FireServer(tonumber(_yYW2Myv61)) end); task.wait(0.2) end end) end
+local upList = {}; for i = 1, 30 do table.insert(upList, tostring(i)) end
+local targetUpgrade = string.char(49)
+CreateDropdown(UpGTab, string.char(83,101,108,101,99,116,32,85,112,71), upList, string.char(85,112,71,86,97,108), function(val) targetUpgrade = val end)
+local autoUpSel = false
+CreateToggle(UpGTab, string.char(65,117,116,111,32,85,112,103,114,97,100,101,32,83,101,108,101,99,116,101,100,32,9889), string.char(65,117,116,111,85,112,71), function(v)
+    autoUpSel = v
+    if autoUpSel then task.spawn(function() while autoUpSel do pcall(function() Net.rev_B_Upgrade:FireServer(tonumber(targetUpgrade)) end); task.wait(0.2) end end) end
 end)
 
 
+local ConfigFolder = string.char(70,65,82,84,69,90,95,72,85,66,95,67,79,78,70,73,71,83)
+pcall(function() if isfolder and not isfolder(ConfigFolder) then makefolder(ConfigFolder) elseif makefolder and not isfolder then makefolder(ConfigFolder) end end)
 
-local bNG9iutpQ04q7X = string.char(70,65,82,84,69,90,95,72,85,66,95,67,79,78,70,73,71,83)
-pcall(function() if isfolder and not isfolder(bNG9iutpQ04q7X) then makefolder(bNG9iutpQ04q7X) elseif makefolder and not isfolder then makefolder(bNG9iutpQ04q7X) end end)
-
-local q7PVZlxG_na = ""; local os8srRamT = string.char(45,45,45)
-local function _g9Dc5Qi2OAoA()
-    local wq40joSZqeh = {}
-    if listfiles then pcall(function() for _, file in pairs(listfiles(bNG9iutpQ04q7X)) do local z4KG2N5VPStsP = file:match("([^/\\]+)%.json$"); if z4KG2N5VPStsP then table.insert(wq40joSZqeh, z4KG2N5VPStsP) end end end) end
-    if #wq40joSZqeh == 0 then table.insert(wq40joSZqeh, string.char(45,45,45)) end
-    return wq40joSZqeh
+local inputConfigName = ""; local selectedConfigName = string.char(45,45,45)
+local function GetConfigList()
+    local list = {}
+    if listfiles then pcall(function() for _, file in pairs(listfiles(ConfigFolder)) do local fileName = file:match("([^/\\]+)%.json$"); if fileName then table.insert(list, fileName) end end end) end
+    if #list == 0 then table.insert(list, string.char(45,45,45)) end
+    return list
 end
 
-pohUFYfEik7(uA8mQ_eTH, string.char(67,111,110,102,105,103,32,110,97,109,101), string.char(69,110,116,101,114,32,99,111,110,102,105,103,32,110,97,109,101,46,46,46), string.char(85,73,95,73,110,112,117,116,78,97,109,101), function(ggUxBkOHABn38i) q7PVZlxG_na = ggUxBkOHABn38i end)
-rWtsgIJWU(uA8mQ_eTH, string.char(67,114,101,97,116,101,32,99,111,110,102,105,103), function()
-    if q7PVZlxG_na == "" then print(string.char(9888,65039,32,3585,3619,3640,3603,3634,3651,3626,3656,3594,3639,3656,3629,32,67,111,110,102,105,103,33)); return end
-    local dVLDmFE3IXhq = HttpService:JSONEncode(kU1UuI7I2Ldh)
-    pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47) .. q7PVZlxG_na .. string.char(46,106,115,111,110), dVLDmFE3IXhq); print(string.char(9989,32,3626,3619,3657,3634,3591,32,67,111,110,102,105,103,58,32) .. q7PVZlxG_na .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
+CreateStringInput(ConfigsTab, string.char(67,111,110,102,105,103,32,110,97,109,101), string.char(69,110,116,101,114,32,99,111,110,102,105,103,32,110,97,109,101,46,46,46), string.char(85,73,95,73,110,112,117,116,78,97,109,101), function(val) inputConfigName = val end)
+CreateButton(ConfigsTab, string.char(67,114,101,97,116,101,32,99,111,110,102,105,103), function()
+    if inputConfigName == "" then print(string.char(9888,65039,32,3585,3619,3640,3603,3634,3651,3626,3656,3594,3639,3656,3629,32,67,111,110,102,105,103,33)); return end
+    local json = HttpService:JSONEncode(CurrentConfig)
+    pcall(function() if writefile then writefile(ConfigFolder .. string.char(47) .. inputConfigName .. string.char(46,106,115,111,110), json); print(string.char(9989,32,3626,3619,3657,3634,3591,32,67,111,110,102,105,103,58,32) .. inputConfigName .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
 end)
 
-local i2__ST_W7 = Instance.new(string.char(70,114,97,109,101), uA8mQ_eTH); i2__ST_W7.Size = UDim2.new(0, 260, 0, 32); i2__ST_W7.BackgroundColor3 = xqu7o4sp.SurfaceLight; i2__ST_W7.ClipsDescendants = true; Instance.new(string.char(85,73,67,111,114,110,101,114), i2__ST_W7).CornerRadius = UDim.new(0, 6)
-local hjjz4kU8 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), i2__ST_W7); hjjz4kU8.Size = UDim2.new(1, 0, 0, 32); hjjz4kU8.BackgroundTransparency = 1; hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32,45,45,45,32,32,9660); hjjz4kU8.TextColor3 = xqu7o4sp.Accent; hjjz4kU8.Font = Enum.Font.GothamBold; hjjz4kU8.TextSize = 11; hjjz4kU8.TextXAlignment = Enum.TextXAlignment.Left
-local e2sP65h9xz = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), i2__ST_W7); e2sP65h9xz.Size = UDim2.new(1, 0, 1, -32); e2sP65h9xz.Position = UDim2.new(0, 0, 0, 32); e2sP65h9xz.BackgroundTransparency = 1; e2sP65h9xz.ScrollBarThickness = 2; e2sP65h9xz.AutomaticCanvasSize = Enum.AutomaticSize.Y; local a1afdY_4DO = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), e2sP65h9xz)
+local ConfigDropContainer = Instance.new(string.char(70,114,97,109,101), ConfigsTab); ConfigDropContainer.Size = UDim2.new(0, 260, 0, 32); ConfigDropContainer.BackgroundColor3 = Theme.SurfaceLight; ConfigDropContainer.ClipsDescendants = true; Instance.new(string.char(85,73,67,111,114,110,101,114), ConfigDropContainer).CornerRadius = UDim.new(0, 6)
+local ConfigMainBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), ConfigDropContainer); ConfigMainBtn.Size = UDim2.new(1, 0, 0, 32); ConfigMainBtn.BackgroundTransparency = 1; ConfigMainBtn.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32,45,45,45,32,32,9660); ConfigMainBtn.TextColor3 = Theme.Accent; ConfigMainBtn.Font = Enum.Font.GothamBold; ConfigMainBtn.TextSize = 11; ConfigMainBtn.TextXAlignment = Enum.TextXAlignment.Left
+local ConfigScroll = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), ConfigDropContainer); ConfigScroll.Size = UDim2.new(1, 0, 1, -32); ConfigScroll.Position = UDim2.new(0, 0, 0, 32); ConfigScroll.BackgroundTransparency = 1; ConfigScroll.ScrollBarThickness = 2; ConfigScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y; local ConfigLayout = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), ConfigScroll)
 
-local x2S4LkvkAnK = false
-local function cWrQeKTC_()
-    for _, child in pairs(e2sP65h9xz:GetChildren()) do if child:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then child:Destroy() end end
-    local wq40joSZqeh = _g9Dc5Qi2OAoA(); os8srRamT = wq40joSZqeh[1] or string.char(45,45,45)
-    hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. os8srRamT .. string.char(32,32,9660)
-    for _, cfg in ipairs(wq40joSZqeh) do
-        local c0axBQ9dvit2 = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), e2sP65h9xz); c0axBQ9dvit2.Size = UDim2.new(1, -10, 0, 30); c0axBQ9dvit2.BackgroundColor3 = xqu7o4sp.Surface; c0axBQ9dvit2.Text = string.char(32,32,32,32) .. cfg; c0axBQ9dvit2.TextColor3 = xqu7o4sp.TextDim; c0axBQ9dvit2.Font = Enum.Font.GothamBold; c0axBQ9dvit2.TextSize = 11; c0axBQ9dvit2.TextXAlignment = Enum.TextXAlignment.Left
-        c0axBQ9dvit2.MouseButton1Click:Connect(function() os8srRamT = cfg; x2S4LkvkAnK = false; TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play(); hjjz4kU8.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. os8srRamT .. string.char(32,32,9660) end)
+local isDropOpen = false
+local function RefreshDropdownUI()
+    for _, child in pairs(ConfigScroll:GetChildren()) do if child:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then child:Destroy() end end
+    local list = GetConfigList(); selectedConfigName = list[1] or string.char(45,45,45)
+    ConfigMainBtn.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. selectedConfigName .. string.char(32,32,9660)
+    for _, cfg in ipairs(list) do
+        local optBtn = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), ConfigScroll); optBtn.Size = UDim2.new(1, -10, 0, 30); optBtn.BackgroundColor3 = Theme.Surface; optBtn.Text = string.char(32,32,32,32) .. cfg; optBtn.TextColor3 = Theme.TextDim; optBtn.Font = Enum.Font.GothamBold; optBtn.TextSize = 11; optBtn.TextXAlignment = Enum.TextXAlignment.Left
+        optBtn.MouseButton1Click:Connect(function() selectedConfigName = cfg; isDropOpen = false; TweenService:Create(ConfigDropContainer, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play(); ConfigMainBtn.Text = string.char(32,32,67,111,110,102,105,103,32,108,105,115,116,58,32) .. selectedConfigName .. string.char(32,32,9660) end)
     end
 end
 
-hjjz4kU8.MouseButton1Click:Connect(function()
-    x2S4LkvkAnK = not x2S4LkvkAnK; local zdBsZs4j0cq = math.min(#_g9Dc5Qi2OAoA() * 30, 150)
-    if x2S4LkvkAnK then cWrQeKTC_(); TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + zdBsZs4j0cq)}):Play() else TweenService:Create(i2__ST_W7, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play() end
+ConfigMainBtn.MouseButton1Click:Connect(function()
+    isDropOpen = not isDropOpen; local maxDropHeight = math.min(#GetConfigList() * 30, 150)
+    if isDropOpen then RefreshDropdownUI(); TweenService:Create(ConfigDropContainer, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32 + maxDropHeight)}):Play() else TweenService:Create(ConfigDropContainer, TweenInfo.new(0.2), {Size = UDim2.new(0, 260, 0, 32)}):Play() end
 end)
-cWrQeKTC_()
+RefreshDropdownUI()
 
-rWtsgIJWU(uA8mQ_eTH, string.char(76,111,97,100,32,99,111,110,102,105,103), function()
-    if os8srRamT == string.char(45,45,45) then return end
-    pcall(function() if isfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)) then local kANfpu7sjjZWC2 = HttpService:JSONDecode(readfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110))); for key, ggUxBkOHABn38i in pairs(kANfpu7sjjZWC2) do if vJucSeLnY0JCqw[key] then vJucSeLnY0JCqw[key](ggUxBkOHABn38i) end end; print(string.char(9989,32,3650,3627,3621,3604,32,67,111,110,102,105,103,58,32) .. os8srRamT .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
+CreateButton(ConfigsTab, string.char(76,111,97,100,32,99,111,110,102,105,103), function()
+    if selectedConfigName == string.char(45,45,45) then return end
+    pcall(function() if isfile(ConfigFolder .. string.char(47) .. selectedConfigName .. string.char(46,106,115,111,110)) then local data = HttpService:JSONDecode(readfile(ConfigFolder .. string.char(47) .. selectedConfigName .. string.char(46,106,115,111,110))); for key, val in pairs(data) do if UIControllers[key] then UIControllers[key](val) end end; print(string.char(9989,32,3650,3627,3621,3604,32,67,111,110,102,105,103,58,32) .. selectedConfigName .. string.char(32,3626,3635,3648,3619,3655,3592,33)) end end)
 end)
-rWtsgIJWU(uA8mQ_eTH, string.char(79,118,101,114,119,114,105,116,101,32,99,111,110,102,105,103), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110), HttpService:JSONEncode(kU1UuI7I2Ldh)); print(string.char(128190,32,3648,3595,3615,3607,3633,3610,32,67,111,110,102,105,103,32,3626,3635,3648,3619,3655,3592,33)) end end) end end)
-rWtsgIJWU(uA8mQ_eTH, string.char(68,101,108,101,116,101,32,99,111,110,102,105,103), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if delfile and isfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)) then delfile(bNG9iutpQ04q7X .. string.char(47) .. os8srRamT .. string.char(46,106,115,111,110)); cWrQeKTC_() end end) end end)
-rWtsgIJWU(uA8mQ_eTH, string.char(82,101,102,114,101,115,104,32,108,105,115,116), function() cWrQeKTC_() end)
-rWtsgIJWU(uA8mQ_eTH, string.char(83,101,116,32,97,115,32,97,117,116,111,108,111,97,100), function() if os8srRamT ~= string.char(45,45,45) then pcall(function() if writefile then writefile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), os8srRamT) end end) end end)
-rWtsgIJWU(uA8mQ_eTH, string.char(82,101,115,101,116,32,97,117,116,111,108,111,97,100), function() pcall(function() if delfile and isfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then delfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) elseif writefile then writefile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), "") end end) end)
+CreateButton(ConfigsTab, string.char(79,118,101,114,119,114,105,116,101,32,99,111,110,102,105,103), function() if selectedConfigName ~= string.char(45,45,45) then pcall(function() if writefile then writefile(ConfigFolder .. string.char(47) .. selectedConfigName .. string.char(46,106,115,111,110), HttpService:JSONEncode(CurrentConfig)); print(string.char(128190,32,3648,3595,3615,3607,3633,3610,32,67,111,110,102,105,103,32,3626,3635,3648,3619,3655,3592,33)) end end) end end)
+CreateButton(ConfigsTab, string.char(68,101,108,101,116,101,32,99,111,110,102,105,103), function() if selectedConfigName ~= string.char(45,45,45) then pcall(function() if delfile and isfile(ConfigFolder .. string.char(47) .. selectedConfigName .. string.char(46,106,115,111,110)) then delfile(ConfigFolder .. string.char(47) .. selectedConfigName .. string.char(46,106,115,111,110)); RefreshDropdownUI() end end) end end)
+CreateButton(ConfigsTab, string.char(82,101,102,114,101,115,104,32,108,105,115,116), function() RefreshDropdownUI() end)
+CreateButton(ConfigsTab, string.char(83,101,116,32,97,115,32,97,117,116,111,108,111,97,100), function() if selectedConfigName ~= string.char(45,45,45) then pcall(function() if writefile then writefile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), selectedConfigName) end end) end end)
+CreateButton(ConfigsTab, string.char(82,101,115,101,116,32,97,117,116,111,108,111,97,100), function() pcall(function() if delfile and isfile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then delfile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) elseif writefile then writefile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116), "") end end) end)
 
 task.spawn(function()
     pcall(function()
-        if isfile and isfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then
-            local dylKUoHDL73 = readfile(bNG9iutpQ04q7X .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116))
-            if dylKUoHDL73 ~= "" and isfile(bNG9iutpQ04q7X .. string.char(47) .. dylKUoHDL73 .. string.char(46,106,115,111,110)) then
-                local kANfpu7sjjZWC2 = HttpService:JSONDecode(readfile(bNG9iutpQ04q7X .. string.char(47) .. dylKUoHDL73 .. string.char(46,106,115,111,110)))
-                for key, ggUxBkOHABn38i in pairs(kANfpu7sjjZWC2) do if vJucSeLnY0JCqw[key] then vJucSeLnY0JCqw[key](ggUxBkOHABn38i) end end
+        if isfile and isfile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116)) then
+            local autoloadName = readfile(ConfigFolder .. string.char(47,65,117,116,111,108,111,97,100,46,116,120,116))
+            if autoloadName ~= "" and isfile(ConfigFolder .. string.char(47) .. autoloadName .. string.char(46,106,115,111,110)) then
+                local data = HttpService:JSONDecode(readfile(ConfigFolder .. string.char(47) .. autoloadName .. string.char(46,106,115,111,110)))
+                for key, val in pairs(data) do if UIControllers[key] then UIControllers[key](val) end end
             end
         end
     end)
 end)
 
 
-
-local heUovW7mX9TR = {
+local eventPowers = {
     [string.char(67,111,109,109,111,110)] = {1, 3.6448693618242994e-09}, [string.char(82,97,114,101)] = {1, 1.0934608085472897e-07}, [string.char(69,112,105,99)] = {1, 0.000003644869361824299}, [string.char(76,101,103,101,110,100,97,114,121)] = {0, 0.01},                 
     [string.char(77,121,116,104,105,99)] = {0.24994461610913277, 0.01}, [string.char(71,111,100,108,121)] = {1, 0.0006143887127431052}, [string.char(83,101,99,114,101,116)] = {1, 0.001917249739421627}, [string.char(68,105,118,105,110,101)] = {0.7800284549593925, 0.01},   
     [string.char(72,97,99,107,101,100)] = {0.7925464622676373, 0.02}, [string.char(79,71)] = {1, 0.06}, [string.char(67,101,108,101,115,116,105,97,108)] = {1, 0.11024213100273421}, [string.char(69,116,101,114,110,97,108)] = {1, 0.5212494498439454}
 }
 
-local dfz8VJJKPaB = string.char(67,111,109,109,111,110); local rhwI9XkGC = {}; local a5hR6I6xZciTfc = {}; local pUg5WSWp4 = {}; local uLthu8I2TQ = 1 
+local selectedEventRarity = string.char(67,111,109,109,111,110); local targetEventPets = {}; local eventPetDropdowns = {}; local targetEventMutations = {}; local distMultiplier = 1 
 
-eVr1G2hv8fFHrr(uFjCQQnDJISp, string.char(83,101,108,101,99,116,32,90,111,110,101,32,38,32,82,97,114,105,116,121,32,127919), mTfJRredIpOe, string.char(69,118,101,110,116,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    dfz8VJJKPaB = selectedRarity
-    for r, e76oOuDp in pairs(a5hR6I6xZciTfc) do e76oOuDp.Visible = (r == selectedRarity) end
+CreateDropdown(KickZoneTab, string.char(83,101,108,101,99,116,32,90,111,110,101,32,38,32,82,97,114,105,116,121,32,127919), rarities, string.char(69,118,101,110,116,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    selectedEventRarity = selectedRarity
+    for r, container in pairs(eventPetDropdowns) do container.Visible = (r == selectedRarity) end
 end)
 
-iT3kon0TJeZgO(uFjCQQnDJISp, string.char(65,100,106,117,115,116,32,68,105,115,116,32,40,77,117,108,116,105,112,108,105,101,114,41), 0.0001, 100, 1, string.char(69,118,101,110,116,68,105,115,116), function(v) uLthu8I2TQ = v end)
+CreateNumberPicker(KickZoneTab, string.char(65,100,106,117,115,116,32,68,105,115,116,32,40,77,117,108,116,105,112,108,105,101,114,41), 0.0001, 100, 1, string.char(69,118,101,110,116,68,105,115,116), function(v) distMultiplier = v end)
 
-for _, rarity in ipairs(mTfJRredIpOe) do
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), uFjCQQnDJISp)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1; e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110)) 
-    a5hR6I6xZciTfc[rarity] = e76oOuDp
-    u50MEcoeYDZ(e76oOuDp, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(69,118,101,110,116,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(69,118,101,110,116,75,105,99,107,80,101,116,115,83,121,110,99), rhwI9XkGC, function(sel) end)
+for _, rarity in ipairs(rarities) do
+    local container = Instance.new(string.char(70,114,97,109,101), KickZoneTab)
+    container.Size = UDim2.new(0, 260, 0, 32); container.BackgroundTransparency = 1; container.AutomaticSize = Enum.AutomaticSize.Y; container.Visible = (rarity == string.char(67,111,109,109,111,110)) 
+    eventPetDropdowns[rarity] = container
+    CreateSharedMultiDropdown(container, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,66,114,97,105,110,114,111,116,115), petData[rarity], string.char(69,118,101,110,116,95,84,97,114,103,101,116,80,101,116,115,95)..rarity, string.char(69,118,101,110,116,75,105,99,107,80,101,116,115,83,121,110,99), targetEventPets, function(sel) end)
 end
 
-oWP4DMDYQn(uFjCQQnDJISp, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,77,117,116,97,116,105,111,110), uQOHqJkX, string.char(69,118,101,110,116,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) pUg5WSWp4 = rFmfPVqY end)
+CreateMultiDropdown(KickZoneTab, string.char(84,97,114,103,101,116,32,75,105,99,107,90,111,110,101,32,77,117,116,97,116,105,111,110), mutationList, string.char(69,118,101,110,116,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(selected) targetEventMutations = selected end)
 
-local quCLVSIE = false; local kIMEtOAg274rlM = 0
+local autoEventKick = false; local eventTickID = 0
 
-nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,75,105,99,107,32,40,75,105,99,107,90,111,110,101,32,38,32,87,97,118,101,115,41,32,10024), string.char(65,117,116,111,69,118,101,110,116), function(v)
-    quCLVSIE = v; kIMEtOAg274rlM = kIMEtOAg274rlM + 1; local ooNQS_zYs87FIG = kIMEtOAg274rlM
-    if quCLVSIE then
+CreateToggle(KickZoneTab, string.char(65,117,116,111,32,75,105,99,107,32,40,75,105,99,107,90,111,110,101,32,38,32,87,97,118,101,115,41,32,10024), string.char(65,117,116,111,69,118,101,110,116), function(v)
+    autoEventKick = v; eventTickID = eventTickID + 1; local id = eventTickID
+    if autoEventKick then
         task.spawn(function()
-            while quCLVSIE and ooNQS_zYs87FIG == kIMEtOAg274rlM do
+            while autoEventKick and id == eventTickID do
                 pcall(function()
-                    local drUAUyYwFpvH = player.Character; local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)); local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
+                    local char = player.Character; local hrp = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)); local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if not (hrp and hum and hum.Health > 0) then return end
 
-                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not rEbPwOba then return end
-                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
-                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0, 3, 0)) end
-                    task.wait(0.5); local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position; local hsrSAZY8c = false; local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
+                    local kickPos = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not kickPos then return end
+                    local targetCF = kickPos:IsA(string.char(66,97,115,101,80,97,114,116)) and kickPos.CFrame or kickPos:GetPivot()
+                    if (hrp.Position - targetCF.Position).Magnitude > 5 then ForcedTP(targetCF + Vector3.new(0, 3, 0)) end
+                    task.wait(0.5); local startPos = hrp.Position; local wasTeleported = false; local HUD = PlayerGui:FindFirstChild(string.char(72,85,68))
                     
                     for i = 1, 400 do 
-                        task.wait(0.1); if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then return end
-                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then hsrSAZY8c = true; break end
+                        task.wait(0.1); if not char or not char.Parent or hum.Health <= 0 then return end
+                        if (hrp.Position - startPos).Magnitude > 40 then wasTeleported = true; break end
                         
-                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then
-                            local q39zyygR = heUovW7mX9TR[dfz8VJJKPaB]
-                            if q39zyygR then wSguwQDv9Qnd85.rev_KickEvent:FireServer(q39zyygR[1], q39zyygR[2] * uLthu8I2TQ) else wSguwQDv9Qnd85.rev_KickEvent:FireServer(1) end
+                        local KickButton = HUD and HUD:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if KickButton and KickButton.Visible then
+                            local powerArgs = eventPowers[selectedEventRarity]
+                            if powerArgs then Net.rev_KickEvent:FireServer(powerArgs[1], powerArgs[2] * distMultiplier) else Net.rev_KickEvent:FireServer(1) end
                             task.wait(0.5) 
                         end
                     end
 
-                    if not hsrSAZY8c then return end 
+                    if not wasTeleported then return end 
                     task.wait(0.5)
-                    local vTYRcZ4so0h0 = false; local sqO0WXO7w = nil
+                    local hasMonster = false; local spawnedMonster = nil
                     for i = 1, 40 do 
-                        task.wait(0.2); local k4xQ6BNreu0mu = 2000 
+                        task.wait(0.2); local closestDist = 2000 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart then
-                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
-                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then k4xQ6BNreu0mu = v0f5Ei59l54UB; vTYRcZ4so0h0 = true; sqO0WXO7w = obj end
+                                local dist = (obj.PrimaryPart.Position - hrp.Position).Magnitude
+                                if dist < closestDist then closestDist = dist; hasMonster = true; spawnedMonster = obj end
                             end
                         end
-                        if vTYRcZ4so0h0 then break end
+                        if hasMonster then break end
                     end
 
-                    if vTYRcZ4so0h0 and sqO0WXO7w then
-                        task.wait(0.5); local sJ3mB9MGl6OZZ = false; local iNtp9WPzCK = false; local oYcVUbQI = tYPd3eEBLtXYzc(sqO0WXO7w)
+                    if hasMonster and spawnedMonster then
+                        task.wait(0.5); local isDesiredMut = false; local hasMutSelection = false; local activeBuffs = GetPetBuffs(spawnedMonster)
                         
-                        for mut, isActive in pairs(pUg5WSWp4) do
+                        for mut, isActive in pairs(targetEventMutations) do
                             if isActive then
-                                iNtp9WPzCK = true
+                                hasMutSelection = true
                                 if mut == string.char(78,111,114,109,97,108) then
-                                    local nqPpCvMBph = false; for _, _ in pairs(oYcVUbQI) do nqPpCvMBph = true; break end
-                                    if not nqPpCvMBph then sJ3mB9MGl6OZZ = true; break end
-                                elseif oYcVUbQI[mut] then sJ3mB9MGl6OZZ = true; break end
+                                    local hasAnyBuff = false; for _, _ in pairs(activeBuffs) do hasAnyBuff = true; break end
+                                    if not hasAnyBuff then isDesiredMut = true; break end
+                                elseif activeBuffs[mut] then isDesiredMut = true; break end
                             end
                         end
 
-                        local sIKUfAgQ = false; local _WbOf28zQak = false
-                        for aGbsELnYIEk4, isActive in pairs(rhwI9XkGC) do
+                        local isDesiredName = false; local hasNameSelection = false
+                        for petName, isActive in pairs(targetEventPets) do
                             if isActive then
-                                _WbOf28zQak = true
-                                if string.lower(sqO0WXO7w.Name) == string.lower(aGbsELnYIEk4) then sIKUfAgQ = true; break end
+                                hasNameSelection = true
+                                if string.lower(spawnedMonster.Name) == string.lower(petName) then isDesiredName = true; break end
                             end
                         end
                         
-                        local __jJq4UpG8fQoE = false
-                        if iNtp9WPzCK and not sJ3mB9MGl6OZZ then __jJq4UpG8fQoE = true end
-                        if _WbOf28zQak and not sIKUfAgQ then __jJq4UpG8fQoE = true end
+                        local shouldKill = false
+                        if hasMutSelection and not isDesiredMut then shouldKill = true end
+                        if hasNameSelection and not isDesiredName then shouldKill = true end
 
-                        if __jJq4UpG8fQoE then
-                            local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115)); local amF2FyJKrJVi = nil
-                            if mPFDjdo2u then
-                                if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then amF2FyJKrJVi = mPFDjdo2u.Position elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
-                                else local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end end
+                        if shouldKill then
+                            local waves = workspace:FindFirstChild(string.char(87,97,118,101,115)); local wavePos = nil
+                            if waves then
+                                if waves:IsA(string.char(66,97,115,101,80,97,114,116)) then wavePos = waves.Position elseif waves:IsA(string.char(77,111,100,101,108)) then wavePos = waves:GetPivot().Position
+                                else local part = waves:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true); if part then wavePos = part.Position end end
                             end
-                            if amF2FyJKrJVi then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi) elseif rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end
+                            if wavePos then smoothFlyTo(hrp, hum, wavePos) elseif kickPos then smoothFlyTo(hrp, hum, targetCF.Position) end
                         else
-                            if sqO0WXO7w and not sqO0WXO7w:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
-                                sqO0WXO7w:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
-                                local aGbsELnYIEk4 = sqO0WXO7w.Name
-                                local jBIc8hiDZz = {}; for b, _ in pairs(oYcVUbQI) do table.insert(jBIc8hiDZz, b) end
-                                local vxgIAL5etIqtu = #jBIc8hiDZz > 0 and table.concat(jBIc8hiDZz, string.char(44,32)) or string.char(78,111,114,109,97,108)
-                                local jt9RjbiwP = string.char(85,110,107,110,111,119,110)
-                                if p19XQ8Gpm0D_ then
-                                    for r, pets in pairs(p19XQ8Gpm0D_) do
-                                        for _, p in ipairs(pets) do if string.lower(aGbsELnYIEk4) == string.lower(p) then jt9RjbiwP = r; break end end
-                                        if jt9RjbiwP ~= string.char(85,110,107,110,111,119,110) then break end
+                            if spawnedMonster and not spawnedMonster:GetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116)) then
+                                spawnedMonster:SetAttribute(string.char(87,101,98,104,111,111,107,83,101,110,116), true)
+                                local petName = spawnedMonster.Name
+                                local buffStrTbl = {}; for b, _ in pairs(activeBuffs) do table.insert(buffStrTbl, b) end
+                                local buffText = #buffStrTbl > 0 and table.concat(buffStrTbl, string.char(44,32)) or string.char(78,111,114,109,97,108)
+                                local petRarity = string.char(85,110,107,110,111,119,110)
+                                if petData then
+                                    for r, pets in pairs(petData) do
+                                        for _, p in ipairs(pets) do if string.lower(petName) == string.lower(p) then petRarity = r; break end end
+                                        if petRarity ~= string.char(85,110,107,110,111,119,110) then break end
                                     end
                                 end
-                                local uFFwFFset = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
-                                kHb4lFlmkN(string.char(128064,32,75,105,99,107,90,111,110,101,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. uFFwFFset .. "\n**Player:** " .. player.Name, 0x3498DB, false)
+                                local currentAttemptCount = (sessionPetCounts[petName] or 0) + 1
+                                SendDiscordWebhook(string.char(128064,32,75,105,99,107,90,111,110,101,32,84,97,114,103,101,116,32,70,111,117,110,100,33), string.char(42,42,80,101,116,58,42,42,32) .. petName .. "\n**Rarity:** " .. petRarity .. "\n**Mutation:** " .. buffText .. "\n**Count:** " .. currentAttemptCount .. "\n**Player:** " .. player.Name, 0x3498DB, false)
                                 
-                                if rEbPwOba then
-                                    jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position); task.wait(1.5)
-                                    if drUAUyYwFpvH and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0 and (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 20 then
-                                        je5a5hAwwKED[aGbsELnYIEk4] = (je5a5hAwwKED[aGbsELnYIEk4] or 0) + 1
-                                        local f5_LQxcVqLOh5 = je5a5hAwwKED[aGbsELnYIEk4]
-                                        kHb4lFlmkN(string.char(127881,32,75,105,99,107,90,111,110,101,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. aGbsELnYIEk4 .. "\n**Rarity:** " .. jt9RjbiwP .. "\n**Mutation:** " .. vxgIAL5etIqtu .. "\n**Count:** " .. f5_LQxcVqLOh5 .. "\n**Player:** " .. player.Name, 0x04CB29, false)
+                                if kickPos then
+                                    smoothFlyTo(hrp, hum, targetCF.Position); task.wait(1.5)
+                                    if char and hum and hum.Health > 0 and (hrp.Position - targetCF.Position).Magnitude < 20 then
+                                        sessionPetCounts[petName] = (sessionPetCounts[petName] or 0) + 1
+                                        local actualCount = sessionPetCounts[petName]
+                                        SendDiscordWebhook(string.char(127881,32,75,105,99,107,90,111,110,101,32,67,111,108,108,101,99,116,101,100,33), string.char(42,42,80,101,116,58,42,42,32) .. petName .. "\n**Rarity:** " .. petRarity .. "\n**Mutation:** " .. buffText .. "\n**Count:** " .. actualCount .. "\n**Player:** " .. player.Name, 0x04CB29, false)
                                     end
                                 end
-                            else if rEbPwOba then jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position) end end
+                            else if kickPos then smoothFlyTo(hrp, hum, targetCF.Position) end end
                         end
                     end
                 end)
@@ -1247,12 +1232,7 @@ nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,75,105,99,107,32,40,75,10
 end)
 
 
-
-
-
-
-
-local bDZrAzIGn3_k = {
+local EventKickMap = {
     UFO = {[string.char(71,105,114,97,102,97,32,67,101,108,101,115,116,101)] = string.char(68,105,118,105,110,101), [string.char(71,117,101,114,114,105,114,111,32,68,105,103,105,116,97,108,101)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(83,87,65,71,32,83,79,68,65)] = string.char(72,97,99,107,101,100), [string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)] = string.char(82,97,114,101)},
     WITCH = {[string.char(83,105,103,109,97,32,66,111,121)] = string.char(71,111,100,108,121), [string.char(67,104,101,102,32,67,114,97,98,114,97,99,97,100,97,98,114,97)] = string.char(77,121,116,104,105,99), [string.char(79,99,116,111,112,117,115,105,110,105,32,66,108,117,98,101,114,105,110,105)] = string.char(71,111,100,108,121), [string.char(79,114,99,97,108,101,114,111)] = string.char(69,112,105,99)},
     BACON = {[string.char(67,104,105,99,108,101,116,101,105,114,97,32,66,105,99,105,99,108,101,116,101,105,114,97)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(65,103,97,114,114,105,110,105,32,76,97,32,80,97,108,105,110,105)] = string.char(72,97,99,107,101,100), [string.char(84,114,105,112,112,105,32,84,114,111,112,112,105)] = string.char(67,111,109,109,111,110), [string.char(83,116,114,97,119,98,101,114,114,121,32,69,108,101,112,104,97,110,116)] = string.char(79,71)},
@@ -1260,7 +1240,7 @@ local bDZrAzIGn3_k = {
     PHANTOM = {[string.char(84,114,97,108,97,108,101,100,111,110)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(65,112,114,105,108,32,66,97,98,111,110)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(76,111,115,32,80,114,105,109,111,115)] = string.char(67,101,108,101,115,116,105,97,108), [string.char(77,97,115,116,111,100,111,110,116,105,99,111,32,84,101,108,101,112,105,101,100,111,110,101)] = string.char(67,101,108,101,115,116,105,97,108)}
 }
 
-local rCxiAlh3d = {
+local TargetSequence = {
     {Event = string.char(85,70,79), Pet = string.char(71,105,114,97,102,97,32,67,101,108,101,115,116,101)}, {Event = string.char(85,70,79), Pet = string.char(71,117,101,114,114,105,114,111,32,68,105,103,105,116,97,108,101)}, {Event = string.char(85,70,79), Pet = string.char(83,87,65,71,32,83,79,68,65)}, {Event = string.char(85,70,79), Pet = string.char(67,97,99,116,111,32,72,105,112,111,112,111,116,97,109,111)},
     {Event = string.char(87,73,84,67,72), Pet = string.char(83,105,103,109,97,32,66,111,121)}, {Event = string.char(87,73,84,67,72), Pet = string.char(67,104,101,102,32,67,114,97,98,114,97,99,97,100,97,98,114,97)}, {Event = string.char(87,73,84,67,72), Pet = string.char(79,99,116,111,112,117,115,105,110,105,32,66,108,117,98,101,114,105,110,105)}, {Event = string.char(87,73,84,67,72), Pet = string.char(79,114,99,97,108,101,114,111)},
     {Event = string.char(66,65,67,79,78), Pet = string.char(67,104,105,99,108,101,116,101,105,114,97,32,66,105,99,105,99,108,101,116,101,105,114,97)}, {Event = string.char(66,65,67,79,78), Pet = string.char(65,103,97,114,114,105,110,105,32,76,97,32,80,97,108,105,110,105)}, {Event = string.char(66,65,67,79,78), Pet = string.char(84,114,105,112,112,105,32,84,114,111,112,112,105)}, {Event = string.char(66,65,67,79,78), Pet = string.char(83,116,114,97,119,98,101,114,114,121,32,69,108,101,112,104,97,110,116)},
@@ -1268,150 +1248,150 @@ local rCxiAlh3d = {
     {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(84,114,97,108,97,108,101,100,111,110)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(65,112,114,105,108,32,66,97,98,111,110)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(76,111,115,32,80,114,105,109,111,115)}, {Event = string.char(80,72,65,78,84,79,77), Pet = string.char(77,97,115,116,111,100,111,110,116,105,99,111,32,84,101,108,101,112,105,101,100,111,110,101)}
 }
 
-local eGLS5Fuh4xhlr = 1
-local lSlSJA4gFudi9 = 0
-local r3dFaNqkr = 250
-local doLPZvaBZP = string.char(70,65,82,84,69,90,95,84,97,114,103,101,116,80,114,111,103,114,101,115,115,46,116,120,116)
-local cfE8rlEK = string.char(65,108,108,32,83,101,113,117,101,110,99,101)
+local CurrentTargetIndex = 1
+local progressionAttempts = 0
+local MAX_ATTEMPTS = 250
+local ProgressFile = string.char(70,65,82,84,69,90,95,84,97,114,103,101,116,80,114,111,103,114,101,115,115,46,116,120,116)
+local chosenEventFocus = string.char(65,108,108,32,83,101,113,117,101,110,99,101)
 
-eVr1G2hv8fFHrr(uFjCQQnDJISp, string.char(83,101,108,101,99,116,32,70,111,99,117,115,32,69,118,101,110,116), {string.char(65,108,108,32,83,101,113,117,101,110,99,101), string.char(85,70,79), string.char(87,73,84,67,72), string.char(66,65,67,79,78), string.char(70,76,79,79,68), string.char(80,72,65,78,84,79,77)}, string.char(67,104,111,115,101,110,69,118,101,110,116,70,111,99,117,115), function(ggUxBkOHABn38i)
-    cfE8rlEK = ggUxBkOHABn38i
-    print(string.char(127919,32,70,111,99,117,115,32,69,118,101,110,116,32,67,104,97,110,103,101,100,32,116,111,58), cfE8rlEK)
+CreateDropdown(KickZoneTab, string.char(83,101,108,101,99,116,32,70,111,99,117,115,32,69,118,101,110,116), {string.char(65,108,108,32,83,101,113,117,101,110,99,101), string.char(85,70,79), string.char(87,73,84,67,72), string.char(66,65,67,79,78), string.char(70,76,79,79,68), string.char(80,72,65,78,84,79,77)}, string.char(67,104,111,115,101,110,69,118,101,110,116,70,111,99,117,115), function(val)
+    chosenEventFocus = val
+    print(string.char(127919,32,70,111,99,117,115,32,69,118,101,110,116,32,67,104,97,110,103,101,100,32,116,111,58), chosenEventFocus)
 end)
 
 pcall(function()
-    if isfile and isfile(doLPZvaBZP) then
-        local lsUufgjQp = tonumber(readfile(doLPZvaBZP))
-        if lsUufgjQp then eGLS5Fuh4xhlr = lsUufgjQp end
+    if isfile and isfile(ProgressFile) then
+        local saved = tonumber(readfile(ProgressFile))
+        if saved then CurrentTargetIndex = saved end
     end
 end)
 
-local function wH2Q7n97J() pcall(function() if writefile then writefile(doLPZvaBZP, tostring(eGLS5Fuh4xhlr)) end end) end
-local function xzvEj3j5Ap() return rCxiAlh3d[eGLS5Fuh4xhlr] end
-local function g55KvK0mgm()
-    local aHBK8x9ko01 = xzvEj3j5Ap()
-    if not aHBK8x9ko01 then return nil end
-    local hXJzYd_SeO = bDZrAzIGn3_k[aHBK8x9ko01.Event] and bDZrAzIGn3_k[aHBK8x9ko01.Event][aHBK8x9ko01.Pet]
-    if hXJzYd_SeO then return heUovW7mX9TR[hXJzYd_SeO] end
+local function SaveProgress() pcall(function() if writefile then writefile(ProgressFile, tostring(CurrentTargetIndex)) end end) end
+local function GetCurrentTarget() return TargetSequence[CurrentTargetIndex] end
+local function GetCurrentPower()
+    local target = GetCurrentTarget()
+    if not target then return nil end
+    local rarityName = EventKickMap[target.Event] and EventKickMap[target.Event][target.Pet]
+    if rarityName then return eventPowers[rarityName] end
     return nil
 end
 
-local function ndLAHY5cEdRM()
-    local nY3BDEQfdLAh06 = xzvEj3j5Ap()
-    local naowZdcUc = 0
-    local ySaY1JmvA = #rCxiAlh3d
+local function GoNextTarget()
+    local oldTarget = GetCurrentTarget()
+    local attempts = 0
+    local maxAttempts = #TargetSequence
 
     repeat
-        eGLS5Fuh4xhlr += 1
-        naowZdcUc += 1
+        CurrentTargetIndex += 1
+        attempts += 1
 
-        if eGLS5Fuh4xhlr > #rCxiAlh3d then
-            eGLS5Fuh4xhlr = 1
+        if CurrentTargetIndex > #TargetSequence then
+            CurrentTargetIndex = 1
             print(string.char(128293,32,67,111,109,112,108,101,116,101,100,32,97,108,108,32,116,97,114,103,101,116,115,33,32,82,101,115,116,97,114,116,105,110,103,32,108,105,115,116,46,46,46))
         end
 
-        local bZmG8xKhwv_xu = xzvEj3j5Ap()
+        local newTarget = GetCurrentTarget()
 
     
 
-    until naowZdcUc >= ySaY1JmvA or (
-        not nY3BDEQfdLAh06 or (
-            bZmG8xKhwv_xu
-            and bZmG8xKhwv_xu.Pet ~= nY3BDEQfdLAh06.Pet
+    until attempts >= maxAttempts or (
+        not oldTarget or (
+            newTarget
+            and newTarget.Pet ~= oldTarget.Pet
             and (
-                cfE8rlEK == string.char(65,108,108,32,83,101,113,117,101,110,99,101)
-                or bZmG8xKhwv_xu.Event == cfE8rlEK
+                chosenEventFocus == string.char(65,108,108,32,83,101,113,117,101,110,99,101)
+                or newTarget.Event == chosenEventFocus
             )
         )
     )
 
-    lSlSJA4gFudi9 = 0
-    wH2Q7n97J()
+    progressionAttempts = 0
+    SaveProgress()
 
-    local aHBK8x9ko01 = xzvEj3j5Ap()
+    local target = GetCurrentTarget()
 
-    if aHBK8x9ko01 then
-        print(string.char(127919,32,78,69,88,84,32,84,65,82,71,69,84,58), aHBK8x9ko01.Event, string.char(45), aHBK8x9ko01.Pet)
+    if target then
+        print(string.char(127919,32,78,69,88,84,32,84,65,82,71,69,84,58), target.Event, string.char(45), target.Pet)
     end
 end
 
-local gyePqAlOo = false
-local h9CxxH_sDy = 0
-local hcyhHxTBdoxVrD = false
+local autoProgression = false
+local progressionTick = 0
+local collectingTarget = false
 
-nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,69,118,101,110,116,32,128640), string.char(83,109,97,114,116,80,114,111,103,114,101,115,115,105,111,110), function(v)
-    gyePqAlOo = v
-    h9CxxH_sDy += 1
-    local rLnx3FLvjW6L = h9CxxH_sDy
+CreateToggle(KickZoneTab, string.char(65,117,116,111,32,69,118,101,110,116,32,128640), string.char(83,109,97,114,116,80,114,111,103,114,101,115,115,105,111,110), function(v)
+    autoProgression = v
+    progressionTick += 1
+    local myTick = progressionTick
 
-    if gyePqAlOo then
+    if autoProgression then
         task.spawn(function()
-            while gyePqAlOo and rLnx3FLvjW6L == h9CxxH_sDy do
+            while autoProgression and myTick == progressionTick do
 
                 
 
-                if hcyhHxTBdoxVrD then
+                if collectingTarget then
                     task.wait(0.5)
                     continue
                 end
 
                 pcall(function()
-                    local jWZDNy82VEMP54 = xzvEj3j5Ap()
+                    local currentTarget = GetCurrentTarget()
 
-                    if jWZDNy82VEMP54 and cfE8rlEK ~= string.char(65,108,108,32,83,101,113,117,101,110,99,101) and jWZDNy82VEMP54.Event ~= cfE8rlEK then
-                        ndLAHY5cEdRM()
+                    if currentTarget and chosenEventFocus ~= string.char(65,108,108,32,83,101,113,117,101,110,99,101) and currentTarget.Event ~= chosenEventFocus then
+                        GoNextTarget()
                         return
                     end
 
-                    if not jWZDNy82VEMP54 then return end
+                    if not currentTarget then return end
 
-                    local q39zyygR = g55KvK0mgm()
-                    if not q39zyygR then return end
+                    local powerArgs = GetCurrentPower()
+                    if not powerArgs then return end
 
-                    local drUAUyYwFpvH = player.Character
-                    local ksl7JzZXIZOsoJ = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
-                    local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    local char = player.Character
+                    local hrp = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                    local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
 
-                    if not (ksl7JzZXIZOsoJ and q21YZH4aC4cd and q21YZH4aC4cd.Health > 0) then return end
+                    if not (hrp and hum and hum.Health > 0) then return end
 
-                    local rEbPwOba = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
-                    if not rEbPwOba then return end
+                    local kickPos = workspace:FindFirstChild(string.char(65,114,101,97,115)) and workspace.Areas:FindFirstChild(string.char(75,105,99,107,82,101,97,100,121))
+                    if not kickPos then return end
 
-                    local bqbTrGz7PKDPZ = rEbPwOba:IsA(string.char(66,97,115,101,80,97,114,116)) and rEbPwOba.CFrame or rEbPwOba:GetPivot()
+                    local targetCF = kickPos:IsA(string.char(66,97,115,101,80,97,114,116)) and kickPos.CFrame or kickPos:GetPivot()
 
                     
 
-                    if (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude > 5 then
-                        gyrT1ry0N(bqbTrGz7PKDPZ + Vector3.new(0,3,0))
+                    if (hrp.Position - targetCF.Position).Magnitude > 5 then
+                        ForcedTP(targetCF + Vector3.new(0,3,0))
                     end
 
                     task.wait(0.5)
 
-                    local msnUYSOX7GL = sE5J0gxQtz:FindFirstChild(string.char(72,85,68))
-                    local x0SVVBog7D1 = ksl7JzZXIZOsoJ.Position
-                    local a5tiIAJZcAD4 = false
+                    local HUD = PlayerGui:FindFirstChild(string.char(72,85,68))
+                    local startPos = hrp.Position
+                    local teleported = false
 
                     
 
                     for i = 1, 400 do
                         task.wait(0.1)
 
-                        if not drUAUyYwFpvH or not drUAUyYwFpvH.Parent or q21YZH4aC4cd.Health <= 0 then
+                        if not char or not char.Parent or hum.Health <= 0 then
                             return
                         end
 
-                        local uz8ROSRJGW2pU5 = msnUYSOX7GL and msnUYSOX7GL:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
-                        if uz8ROSRJGW2pU5 and uz8ROSRJGW2pU5.Visible then
-                            wSguwQDv9Qnd85.rev_KickEvent:FireServer(q39zyygR[1], q39zyygR[2])
+                        local KickButton = HUD and HUD:FindFirstChild(string.char(75,105,99,107,66,117,116,116,111,110))
+                        if KickButton and KickButton.Visible then
+                            Net.rev_KickEvent:FireServer(powerArgs[1], powerArgs[2])
                         end
 
-                        if (ksl7JzZXIZOsoJ.Position - x0SVVBog7D1).Magnitude > 40 then
-                            a5tiIAJZcAD4 = true
+                        if (hrp.Position - startPos).Magnitude > 40 then
+                            teleported = true
                             break
                         end
                     end
 
-                    if not a5tiIAJZcAD4 then return end
+                    if not teleported then return end
 
                     
 
@@ -1419,79 +1399,79 @@ nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,69,118,101,110,116,32,128
 
                     
 
-                    local sqO0WXO7w = nil
-                    local p9B5hMMPgfj = nil
-                    local k4xQ6BNreu0mu = math.huge
+                    local spawnedMonster = nil
+                    local closestNormalMonster = nil
+                    local closestDist = math.huge
 
                     for i = 1, 40 do
                         task.wait(0.2)
 
                         for _, obj in pairs(workspace.Debris:GetChildren()) do
                             if obj:IsA(string.char(77,111,100,101,108)) and obj.PrimaryPart and not obj:GetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100)) then
-                                local v0f5Ei59l54UB = (obj.PrimaryPart.Position - ksl7JzZXIZOsoJ.Position).Magnitude
+                                local dist = (obj.PrimaryPart.Position - hrp.Position).Magnitude
                                 
                                 
 
-                                local nku7rf8V = false
-                                for _, eventPets in pairs(bDZrAzIGn3_k) do
-                                    for aGbsELnYIEk4, _ in pairs(eventPets) do
-                                        if string.find(string.lower(obj.Name), string.lower(aGbsELnYIEk4)) then
-                                            nku7rf8V = true
+                                local isEventPet = false
+                                for _, eventPets in pairs(EventKickMap) do
+                                    for petName, _ in pairs(eventPets) do
+                                        if string.find(string.lower(obj.Name), string.lower(petName)) then
+                                            isEventPet = true
                                             break
                                         end
                                     end
-                                    if nku7rf8V then break end
+                                    if isEventPet then break end
                                 end
 
-                                if nku7rf8V then
-                                    sqO0WXO7w = obj
+                                if isEventPet then
+                                    spawnedMonster = obj
                                     break 
 
                                 end
 
                                 
 
-                                if v0f5Ei59l54UB < k4xQ6BNreu0mu then
-                                    k4xQ6BNreu0mu = v0f5Ei59l54UB
-                                    p9B5hMMPgfj = obj
+                                if dist < closestDist then
+                                    closestDist = dist
+                                    closestNormalMonster = obj
                                 end
                             end
                         end
 
-                        if sqO0WXO7w or p9B5hMMPgfj then
+                        if spawnedMonster or closestNormalMonster then
                             break
                         end
                     end
 
-                    if not sqO0WXO7w then
-                        sqO0WXO7w = p9B5hMMPgfj
+                    if not spawnedMonster then
+                        spawnedMonster = closestNormalMonster
                     end
 
-                    if not sqO0WXO7w then return end
+                    if not spawnedMonster then return end
 
-                    lSlSJA4gFudi9 += 1
-
-                    
+                    progressionAttempts += 1
 
                     
 
                     
 
-                    local osF9WgrC5tH = string.find(string.lower(sqO0WXO7w.Name), string.lower(jWZDNy82VEMP54.Pet)) ~= nil
-                    local e7wdhQ9TK_W = false
-                    local mfTYcJoNlqNdu = jWZDNy82VEMP54.Event
+                    
+
+                    local isCorrectPet = string.find(string.lower(spawnedMonster.Name), string.lower(currentTarget.Pet)) ~= nil
+                    local isEventMatch = false
+                    local matchedEventName = currentTarget.Event
 
                     
 
-                    for evName, evPets in pairs(bDZrAzIGn3_k) do
-                        for aGbsELnYIEk4, _ in pairs(evPets) do
-                            if string.find(string.lower(sqO0WXO7w.Name), string.lower(aGbsELnYIEk4)) then
-                                e7wdhQ9TK_W = true
-                                mfTYcJoNlqNdu = evName
+                    for evName, evPets in pairs(EventKickMap) do
+                        for petName, _ in pairs(evPets) do
+                            if string.find(string.lower(spawnedMonster.Name), string.lower(petName)) then
+                                isEventMatch = true
+                                matchedEventName = evName
                                 break
                             end
                         end
-                        if e7wdhQ9TK_W then break end
+                        if isEventMatch then break end
                     end
 
                     
@@ -1500,59 +1480,59 @@ nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,69,118,101,110,116,32,128
 
                     
 
-                    if osF9WgrC5tH or e7wdhQ9TK_W then
+                    if isCorrectPet or isEventMatch then
 
-                        hcyhHxTBdoxVrD = true
+                        collectingTarget = true
 
-                        print(string.char(127881,32,70,79,85,78,68,32,84,65,82,71,69,84,58), sqO0WXO7w.Name)
+                        print(string.char(127881,32,70,79,85,78,68,32,84,65,82,71,69,84,58), spawnedMonster.Name)
 
-                        kHb4lFlmkN(
+                        SendDiscordWebhook(
                             string.char(128064,32,84,65,82,71,69,84,32,70,79,85,78,68),
-                            string.char(42,42,80,101,116,58,42,42,32) .. sqO0WXO7w.Name ..
-                            "\n**Event:** " .. mfTYcJoNlqNdu,
+                            string.char(42,42,80,101,116,58,42,42,32) .. spawnedMonster.Name ..
+                            "\n**Event:** " .. matchedEventName,
                             0x3498DB,
                             false
                         )
 
                         
 
-                        jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, bqbTrGz7PKDPZ.Position)
+                        smoothFlyTo(hrp, hum, targetCF.Position)
 
                         
 
                         repeat
                             task.wait(0.2)
-                        until not ksl7JzZXIZOsoJ or not q21YZH4aC4cd or q21YZH4aC4cd.Health <= 0 or (ksl7JzZXIZOsoJ.Position - bqbTrGz7PKDPZ.Position).Magnitude < 10
+                        until not hrp or not hum or hum.Health <= 0 or (hrp.Position - targetCF.Position).Magnitude < 10
 
                         task.wait(1)
 
                         
 
-                        local xFIm2IN7tlOgbO = 0
-                        while sqO0WXO7w and sqO0WXO7w.Parent and xFIm2IN7tlOgbO < 20 do
+                        local timeout = 0
+                        while spawnedMonster and spawnedMonster.Parent and timeout < 20 do
                             task.wait(0.5)
-                            xFIm2IN7tlOgbO += 1
+                            timeout += 1
                         end
 
-                        if sqO0WXO7w then
-                            sqO0WXO7w:SetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100), true)
+                        if spawnedMonster then
+                            spawnedMonster:SetAttribute(string.char(73,115,67,111,108,108,101,99,116,101,100), true)
                         end
 
-                        kHb4lFlmkN(
+                        SendDiscordWebhook(
                             string.char(127881,32,84,65,82,71,69,84,32,67,79,76,76,69,67,84,69,68),
-                            string.char(42,42,80,101,116,58,42,42,32) .. sqO0WXO7w.Name ..
-                            "\n**Event:** " .. mfTYcJoNlqNdu,
+                            string.char(42,42,80,101,116,58,42,42,32) .. spawnedMonster.Name ..
+                            "\n**Event:** " .. matchedEventName,
                             0x04CB29,
                             false
                         )
 
                         
 
-                        if osF9WgrC5tH then
-                            ndLAHY5cEdRM()
+                        if isCorrectPet then
+                            GoNextTarget()
                         end
 
-                        hcyhHxTBdoxVrD = false
+                        collectingTarget = false
 
                     else
                         
@@ -1561,32 +1541,32 @@ nP6QBDOPrq(uFjCQQnDJISp, string.char(65,117,116,111,32,69,118,101,110,116,32,128
 
                         
 
-                        print(string.char(10060,32,87,82,79,78,71,32,84,65,82,71,69,84,58), sqO0WXO7w.Name, string.char(124,32,84,65,82,71,69,84,58), jWZDNy82VEMP54.Pet)
+                        print(string.char(10060,32,87,82,79,78,71,32,84,65,82,71,69,84,58), spawnedMonster.Name, string.char(124,32,84,65,82,71,69,84,58), currentTarget.Pet)
 
-                        local mPFDjdo2u = workspace:FindFirstChild(string.char(87,97,118,101,115))
-                        local amF2FyJKrJVi = nil
+                        local waves = workspace:FindFirstChild(string.char(87,97,118,101,115))
+                        local wavePos = nil
 
-                        if mPFDjdo2u then
-                            if mPFDjdo2u:IsA(string.char(66,97,115,101,80,97,114,116)) then
-                                amF2FyJKrJVi = mPFDjdo2u.Position
-                            elseif mPFDjdo2u:IsA(string.char(77,111,100,101,108)) then
-                                amF2FyJKrJVi = mPFDjdo2u:GetPivot().Position
+                        if waves then
+                            if waves:IsA(string.char(66,97,115,101,80,97,114,116)) then
+                                wavePos = waves.Position
+                            elseif waves:IsA(string.char(77,111,100,101,108)) then
+                                wavePos = waves:GetPivot().Position
                             else
-                                local _cGGaypS9Qr = mPFDjdo2u:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true)
-                                if _cGGaypS9Qr then amF2FyJKrJVi = _cGGaypS9Qr.Position end
+                                local part = waves:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116), true)
+                                if part then wavePos = part.Position end
                             end
                         end
 
-                        if amF2FyJKrJVi then
-                            jg5f3R0Xu(ksl7JzZXIZOsoJ, q21YZH4aC4cd, amF2FyJKrJVi)
+                        if wavePos then
+                            smoothFlyTo(hrp, hum, wavePos)
                         end
 
-                        if lSlSJA4gFudi9 >= r3dFaNqkr then
+                        if progressionAttempts >= MAX_ATTEMPTS then
                             print(string.char(9888,65039,32,84,79,79,32,77,65,78,89,32,65,84,84,69,77,80,84,83,44,32,83,75,73,80,80,73,78,71,46,46,46))
-                            ndLAHY5cEdRM()
+                            GoNextTarget()
                         end
 
-                        hcyhHxTBdoxVrD = false
+                        collectingTarget = false
                     end
 
                 end)
@@ -1599,47 +1579,46 @@ end)
 
 
 
+local targetSellPets = {}
+local sellPetDropdowns = {}
+local targetSellBuffs = {}
 
-local mtHNaLqi8 = {}
-local phzag_ehD = {}
-local hUd0ufG1 = {}
+local buffList = {string.char(78,111,114,109,97,108), string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101), string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
 
-local rYsDZ6Rk33W9O9 = {string.char(78,111,114,109,97,108), string.char(71,111,108,100,101,110), string.char(68,105,97,109,111,110,100), string.char(80,108,97,115,109,97), string.char(77,111,108,116,101,110), string.char(82,97,100,105,111,97,99,116,105,118,101), string.char(83,104,97,100,111,119), string.char(69,108,101,99,116,114,105,102,105,101,100), string.char(82,97,105,110,98,111,119), string.char(86,105,114,117,115), string.char(65,108,105,101,110), string.char(86,111,105,100), string.char(66,97,99,111,110), string.char(69,110,99,104,97,110,116,101,100), string.char(80,104,97,110,116,111,109), string.char(65,115,116,114,97,108), string.char(87,101,116)}
-
-eVr1G2hv8fFHrr(xbOilyplB, string.char(83,101,108,101,99,116,32,82,97,114,105,116,121), mTfJRredIpOe, string.char(83,101,108,108,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
-    for r, e76oOuDp in pairs(phzag_ehD) do e76oOuDp.Visible = (r == selectedRarity) end
+CreateDropdown(SellTab, string.char(83,101,108,101,99,116,32,82,97,114,105,116,121), rarities, string.char(83,101,108,108,95,70,105,108,116,101,114,82,97,114,105,116,121), function(selectedRarity)
+    for r, container in pairs(sellPetDropdowns) do container.Visible = (r == selectedRarity) end
 end)
 
-for _, rarity in ipairs(mTfJRredIpOe) do
-    local e76oOuDp = Instance.new(string.char(70,114,97,109,101), xbOilyplB)
-    e76oOuDp.Size = UDim2.new(0, 260, 0, 32); e76oOuDp.BackgroundTransparency = 1; e76oOuDp.AutomaticSize = Enum.AutomaticSize.Y; e76oOuDp.Visible = (rarity == string.char(67,111,109,109,111,110))
-    phzag_ehD[rarity] = e76oOuDp
-    u50MEcoeYDZ(e76oOuDp, string.char(83,101,108,101,99,116,32,66,114,97,105,110,114,111,116,115), p19XQ8Gpm0D_[rarity], string.char(83,101,108,108,95,84,97,114,103,101,116,80,101,116,115,95) .. rarity, string.char(83,101,108,108,80,101,116,115,83,121,110,99), mtHNaLqi8, function(sel) end)
+for _, rarity in ipairs(rarities) do
+    local container = Instance.new(string.char(70,114,97,109,101), SellTab)
+    container.Size = UDim2.new(0, 260, 0, 32); container.BackgroundTransparency = 1; container.AutomaticSize = Enum.AutomaticSize.Y; container.Visible = (rarity == string.char(67,111,109,109,111,110))
+    sellPetDropdowns[rarity] = container
+    CreateSharedMultiDropdown(container, string.char(83,101,108,101,99,116,32,66,114,97,105,110,114,111,116,115), petData[rarity], string.char(83,101,108,108,95,84,97,114,103,101,116,80,101,116,115,95) .. rarity, string.char(83,101,108,108,80,101,116,115,83,121,110,99), targetSellPets, function(sel) end)
 end
 
-oWP4DMDYQn(xbOilyplB, string.char(83,101,108,101,99,116,32,77,117,116,97,116,105,111,110), rYsDZ6Rk33W9O9, string.char(83,101,108,108,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(rFmfPVqY) hUd0ufG1 = rFmfPVqY end)
+CreateMultiDropdown(SellTab, string.char(83,101,108,101,99,116,32,77,117,116,97,116,105,111,110), buffList, string.char(83,101,108,108,95,84,97,114,103,101,116,77,117,116,97,116,105,111,110,115), function(selected) targetSellBuffs = selected end)
 
-local hzPqyuNJQ = false
-nP6QBDOPrq(xbOilyplB, string.char(65,117,116,111,32,83,101,108,108,32,83,101,108,101,99,116,101,100,32,80,101,116,115,32,128184), string.char(65,117,116,111,83,101,108,108), function(v)
-    hzPqyuNJQ = v
-    if hzPqyuNJQ then
+local autoSellMode = false
+CreateToggle(SellTab, string.char(65,117,116,111,32,83,101,108,108,32,83,101,108,101,99,116,101,100,32,80,101,116,115,32,128184), string.char(65,117,116,111,83,101,108,108), function(v)
+    autoSellMode = v
+    if autoSellMode then
         task.spawn(function()
-            while hzPqyuNJQ do
+            while autoSellMode do
                 pcall(function()
-                    local player = game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer; local a3H59gzPwLIJq = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107))
-                    local drUAUyYwFpvH = player.Character; local q21YZH4aC4cd = drUAUyYwFpvH and drUAUyYwFpvH:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
-                    if a3H59gzPwLIJq and q21YZH4aC4cd then
-                        for _, item in pairs(a3H59gzPwLIJq:GetChildren()) do
-                            if not hzPqyuNJQ then break end
-                            if item:IsA(string.char(84,111,111,108)) and mtHNaLqi8[item.Name] then
-                                local xrvoN1b5l9d3C = item:GetAttribute(string.char(77,117,116,97,116,105,111,110)) or string.char(78,111,110,101)
-                                if xrvoN1b5l9d3C == string.char(78,111,110,101) then xrvoN1b5l9d3C = string.char(78,111,114,109,97,108) end
+                    local player = game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer; local backpack = player:FindFirstChild(string.char(66,97,99,107,112,97,99,107))
+                    local char = player.Character; local hum = char and char:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+                    if backpack and hum then
+                        for _, item in pairs(backpack:GetChildren()) do
+                            if not autoSellMode then break end
+                            if item:IsA(string.char(84,111,111,108)) and targetSellPets[item.Name] then
+                                local buffName = item:GetAttribute(string.char(77,117,116,97,116,105,111,110)) or string.char(78,111,110,101)
+                                if buffName == string.char(78,111,110,101) then buffName = string.char(78,111,114,109,97,108) end
                                 
-                                local iKiMnOQMjslPU6 = false
-                                if hUd0ufG1[xrvoN1b5l9d3C] then iKiMnOQMjslPU6 = true end
+                                local shouldSell = false
+                                if targetSellBuffs[buffName] then shouldSell = true end
                                 
-                                if iKiMnOQMjslPU6 then
-                                    q21YZH4aC4cd:EquipTool(item); task.wait(0.15)
+                                if shouldSell then
+                                    hum:EquipTool(item); task.wait(0.15)
                                     game:GetService(string.char(82,101,112,108,105,99,97,116,101,100,83,116,111,114,97,103,101)).Shared.Packages.Network.ref_B_Sell:InvokeServer()
                                     task.wait(0.2)
                                 end
@@ -1654,33 +1633,31 @@ nP6QBDOPrq(xbOilyplB, string.char(65,117,116,111,32,83,101,108,108,32,83,101,108
 end)
 
 
-
-local function hhXKZFZE9IW(go_R7U0m77Y, clr)
-    local hjJcn3IRPmcwj = Instance.new(string.char(84,101,120,116,76,97,98,101,108), eFITR7UYW0H6)
-    hjJcn3IRPmcwj.Size = UDim2.new(1, 0, 0, 25); hjJcn3IRPmcwj.BackgroundTransparency = 1
-    hjJcn3IRPmcwj.Text = go_R7U0m77Y; hjJcn3IRPmcwj.TextColor3 = clr; hjJcn3IRPmcwj.Font = Enum.Font.GothamBold; hjJcn3IRPmcwj.TextSize = 12
+local function addLabel(txt, clr)
+    local l = Instance.new(string.char(84,101,120,116,76,97,98,101,108), DetailsTab)
+    l.Size = UDim2.new(1, 0, 0, 25); l.BackgroundTransparency = 1
+    l.Text = txt; l.TextColor3 = clr; l.Font = Enum.Font.GothamBold; l.TextSize = 12
 end
-hhXKZFZE9IW(string.char(127808,32,75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107), xqu7o4sp.Success)
-hhXKZFZE9IW(string.char(127807,32,98,121,32,70,65,82,84,69,90), xqu7o4sp.Success)
-hhXKZFZE9IW(string.char(9654,65039,32,89,111,117,84,117,98,101,32,70,65,82,84,69,90,32,72,85,66), xqu7o4sp.Success)
-hhXKZFZE9IW(string.char(128994,32,73,116,32,119,111,114,107,115), xqu7o4sp.Success)
+addLabel(string.char(127808,32,75,105,99,107,32,97,32,76,117,99,107,121,32,66,108,111,99,107), Theme.Success)
+addLabel(string.char(127807,32,98,121,32,70,65,82,84,69,90), Theme.Success)
+addLabel(string.char(9654,65039,32,89,111,117,84,117,98,101,32,70,65,82,84,69,90,32,72,85,66), Theme.Success)
+addLabel(string.char(128994,32,73,116,32,119,111,114,107,115), Theme.Success)
 
-local lpmhKSXCaEdt = Instance.new(string.char(70,114,97,109,101), eFITR7UYW0H6)
-lpmhKSXCaEdt.Size = UDim2.new(1, 0, 0, 2)
-lpmhKSXCaEdt.BackgroundColor3 = xqu7o4sp.SurfaceLight
-lpmhKSXCaEdt.BorderSizePixel = 0
+local SettingDiv = Instance.new(string.char(70,114,97,109,101), DetailsTab)
+SettingDiv.Size = UDim2.new(1, 0, 0, 2)
+SettingDiv.BackgroundColor3 = Theme.SurfaceLight
+SettingDiv.BorderSizePixel = 0
 
-hhXKZFZE9IW(string.char(45,45,45,32,68,105,115,99,111,114,100,32,87,101,98,104,111,111,107,32,45,45,45), xqu7o4sp.Accent)
+addLabel(string.char(45,45,45,32,68,105,115,99,111,114,100,32,87,101,98,104,111,111,107,32,45,45,45), Theme.Accent)
 
-nP6QBDOPrq(eFITR7UYW0H6, string.char(69,110,97,98,108,101,32,87,101,98,104,111,111,107,32,128276), string.char(69,110,97,98,108,101,87,101,98,104,111,111,107), function(v) byKJ2PoxPcRNi = v end)
-pohUFYfEik7(eFITR7UYW0H6, string.char(87,101,98,104,111,111,107,32,85,82,76,58), string.char(80,97,115,116,101,32,85,82,76,32,104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,46,46,46), string.char(87,101,98,104,111,111,107,85,82,76), function(ggUxBkOHABn38i) l9B63rRBF = ggUxBkOHABn38i end)
-rWtsgIJWU(eFITR7UYW0H6, string.char(84,101,115,116,32,87,101,98,104,111,111,107,32,129514), function()
-    kHb4lFlmkN(string.char(129514,32,84,101,115,116,32,78,111,116,105,102,105,99,97,116,105,111,110), string.char(87,101,98,104,111,111,107,32,115,121,115,116,101,109,32,102,111,114,32,42,42,70,65,82,84,69,90,32,72,85,66,42,42,32,105,115,32,119,111,114,107,105,110,103,32,112,101,114,102,101,99,116,108,121,33), 0x04CB29, true)
+CreateToggle(DetailsTab, string.char(69,110,97,98,108,101,32,87,101,98,104,111,111,107,32,128276), string.char(69,110,97,98,108,101,87,101,98,104,111,111,107), function(v) enableWebhook = v end)
+CreateStringInput(DetailsTab, string.char(87,101,98,104,111,111,107,32,85,82,76,58), string.char(80,97,115,116,101,32,85,82,76,32,104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,46,46,46), string.char(87,101,98,104,111,111,107,85,82,76), function(val) webhookURL = val end)
+CreateButton(DetailsTab, string.char(84,101,115,116,32,87,101,98,104,111,111,107,32,129514), function()
+    SendDiscordWebhook(string.char(129514,32,84,101,115,116,32,78,111,116,105,102,105,99,97,116,105,111,110), string.char(87,101,98,104,111,111,107,32,115,121,115,116,101,109,32,102,111,114,32,42,42,70,65,82,84,69,90,32,72,85,66,42,42,32,105,115,32,119,111,114,107,105,110,103,32,112,101,114,102,101,99,116,108,121,33), 0x04CB29, true)
 end)
 
 
-
-q6dioAfs0syG[1].eCHhSBQ7EAurKc.Visible = true
-q6dioAfs0syG[1].lzqLrt1K1psFN.BackgroundColor3 = xqu7o4sp.Accent
-q6dioAfs0syG[1].lzqLrt1K1psFN.TextColor3 = Color3.new(0,0,0)
-vp7q4Gss7.MouseButton1Click:Connect(function() tDBL1rqrKwF.Visible = not tDBL1rqrKwF.Visible end)
+Tabs[1].Page.Visible = true
+Tabs[1].Btn.BackgroundColor3 = Theme.Accent
+Tabs[1].Btn.TextColor3 = Color3.new(0,0,0)
+toggleBtn.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
