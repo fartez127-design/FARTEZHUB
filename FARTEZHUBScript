@@ -274,6 +274,13 @@ end
 -- ==========================================
 
 CreateGameButton(
+    "Break-a-Brainrot-Egg!    🟢", 
+    "System: Mobile", 
+    9491545867,
+    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZ%20HUB%20X%20Break%20a%20Brainrot%20Egg"))()' 
+)
+
+CreateGameButton(
     "Steal A Pet And Ride It!     🟢🟠", 
     "System: Mobile", 
     10769315427, 
@@ -292,13 +299,6 @@ CreateGameButton(
     "System: PC", 
     10004244222, 
     'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZHUBPcXKickaLuckyBlock"))()'
-)
-
-CreateGameButton(
-    "Break-a-brainrot-egg!     🔴", 
-    "System: Mobile", 
-    9491545867,
-    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZ%20HUB%20X%20Break%20a%20Brainrot%20Egg"))()' 
 )
 
 CreateGameButton(
