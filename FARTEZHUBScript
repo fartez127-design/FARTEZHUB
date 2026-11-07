@@ -281,6 +281,13 @@ CreateGameButton(
 )
 
 CreateGameButton(
+    "Throw Food For Animals   🟢", 
+    "System: Mobile", 
+    10766972131,
+    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZHUBXThrowFoodForAnimals"))()' 
+)
+
+CreateGameButton(
     "Steal A Pet And Ride It!     🟢🟠", 
     "System: Mobile", 
     10769315427, 
