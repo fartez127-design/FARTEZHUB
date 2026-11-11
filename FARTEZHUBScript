@@ -281,6 +281,13 @@ CreateGameButton(
 )
 
 CreateGameButton(
+    "Break To Steal A Chicken   🟢", 
+    "System: Mobile", 
+    10771735082,
+    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZXBreakToStealAChicken"))()' 
+)
+
+CreateGameButton(
     "Throw Food For Animals   🟢", 
     "System: Mobile", 
     10766972131,
