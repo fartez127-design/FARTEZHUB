@@ -281,6 +281,13 @@ CreateGameButton(
 )
 
 CreateGameButton(
+    "Steal-A-Balut   🟢", 
+    "System: Mobile", 
+    10771643321,
+    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZHUBXStealABalut"))()' 
+)
+
+CreateGameButton(
     "Break To Steal A Chicken   🟢", 
     "System: Mobile", 
     10771735082,
