@@ -277,7 +277,7 @@ CreateGameButton(
     "Break-a-Brainrot-Egg!    🟢", 
     "System: Mobile", 
     9491545867,
-    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZHUBXBreakaBrainrotEgg"))() 
+    'loadstring(game:HttpGet("https://raw.githubusercontent.com/fartez127-design/FARTEZHUB/refs/heads/main/FARTEZHUBXBreakaBrainrotEgg"))()' 
 )
 
 CreateGameButton(
